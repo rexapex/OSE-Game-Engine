@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\entity">
+      <UniqueIdentifier>{afa4210a-bc28-4c15-8c1c-24baa338ee8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\entity">
+      <UniqueIdentifier>{8a33ebb7-ff6b-49f6-a540-7124690cb59d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\game">
+      <UniqueIdentifier>{a2a19348-4473-4bd6-a751-42e20644017f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\game">
+      <UniqueIdentifier>{d2853d6d-01db-4617-8d49-275fbc542777}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dependencies">
+      <UniqueIdentifier>{2b3a443d-3324-4ed8-8b2d-8510b8c21e7d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\project">
+      <UniqueIdentifier>{7d0c4837-45a0-4067-aa69-826736485237}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\project">
+      <UniqueIdentifier>{afce5c6b-0f40-40f3-bfb0-8877ea7e5c4e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\util">
+      <UniqueIdentifier>{4a410ba5-9d93-4407-b48c-847b8fdb15b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\util">
+      <UniqueIdentifier>{5dddd0f5-936d-41d7-af3b-ca1dea2d32ae}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="ProjectLoader.cpp">
+      <Filter>Source Files\project</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ProjectLoaderXML.cpp">
+      <Filter>Source Files\project</Filter>
+    </ClCompile>
+    <ClCompile Include="Project.cpp">
+      <Filter>Source Files\project</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\entity</Filter>
+    </ClCompile>
+    <ClCompile Include="Game.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\project</Filter>
+    </ClCompile>
+    <ClCompile Include="FileHandlingUtil.cpp">
+      <Filter>Source Files\util</Filter>
+    </ClCompile>
+    <ClCompile Include="Tag.cpp">
+      <Filter>Source Files\game</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ProjectLoader.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectLoaderXML.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml_iterators.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml_print.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Project.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml_utils.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Game.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshRenderer.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="ProjectInfo.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="FileHandlingUtil.h">
+      <Filter>Header Files\util</Filter>
+    </ClInclude>
+    <ClInclude Include="MeshFilter.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Tag.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ESceneSwitchMode.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
