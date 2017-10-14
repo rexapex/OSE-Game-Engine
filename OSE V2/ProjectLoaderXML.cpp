@@ -22,7 +22,7 @@ namespace origami_sheep_engine
 		{
 			FileHandlingUtil::loadTextFile(path, contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
 			std::cerr << "FileHandlingUtil::load_text_file -> " << e.what() << std::endl;
@@ -71,7 +71,7 @@ namespace origami_sheep_engine
 		{
 			doc = loadXMLFile(project_path + "/info.xml", contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			return std::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
 		}
@@ -119,7 +119,7 @@ namespace origami_sheep_engine
 		{
 			doc = loadXMLFile(project_path + "/scene_declerations.xml", contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			return name_to_path_map;
 		}
@@ -157,7 +157,7 @@ namespace origami_sheep_engine
 		{
 			doc = loadXMLFile(project_path + "/tags.xml", contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			return;
 		}
@@ -237,7 +237,7 @@ namespace origami_sheep_engine
 		{
 			doc = loadXMLFile(scene_path, contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			return nullptr;
 		}
@@ -292,7 +292,7 @@ namespace origami_sheep_engine
 		{
 			doc = loadXMLFile(prefab_path, contents);
 		}
-		catch(std::exception e)
+		catch(const std::exception & e)
 		{
 			return;
 		}
@@ -318,7 +318,18 @@ namespace origami_sheep_engine
 		const std::string & prefab = (prefab_attrib ? prefab_attrib->value(): "");
 
 		//add the entity to the entities list
-		entities.emplace_back(0, name, tag, prefab);
+		try
+		{
+			entities.emplace_back(0, name, tag, prefab);
+		}
+		catch(const std::exception & e)
+		{
+			//if adding the entity fails, exit the function to avoid overwriting previous entities
+			std::cerr << "ERROR: failed to load entity, " << name << std::endl;
+			return;
+		}
+
+		//get the newly added entity
 		auto & new_entity = entities.back();
 		auto & sub_list = new_entity.get_sub_entities();
 

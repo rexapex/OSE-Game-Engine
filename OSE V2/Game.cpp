@@ -52,7 +52,7 @@ namespace origami_sheep_engine
 		}
 		else
 		{
-			throw "Error: scene " + scene_name + " is already loaded";
+			throw std::invalid_argument("Error: scene " + scene_name + " is already loaded");
 		}
 	}
 
@@ -63,7 +63,7 @@ namespace origami_sheep_engine
 
 		if(iter == loaded_scenes_.end())
 		{
-			throw "Error: scene " + scene_name + " is NOT loaded";
+			throw std::invalid_argument("Error: scene " + scene_name + " is NOT loaded");
 		}
 		else
 		{
@@ -84,7 +84,7 @@ namespace origami_sheep_engine
 
 		if(iter == loaded_scenes_.end())
 		{
-			throw "Error: scene " + scene_name + " is NOT loaded";
+			throw std::invalid_argument("Error: scene " + scene_name + " is NOT loaded");
 		}
 		else
 		{

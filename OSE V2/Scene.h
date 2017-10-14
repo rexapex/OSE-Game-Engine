@@ -4,7 +4,7 @@
 
 namespace origami_sheep_engine
 {
-	class UNIT_TEST_EXPORT Scene
+	class Scene
 	{
 	public:
 		Scene(const std::string & name);

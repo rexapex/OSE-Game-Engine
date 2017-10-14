@@ -15,6 +15,6 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 	}
 	else
 	{
-		throw "ERROR: could not open file, " + path;
+		throw std::invalid_argument("ERROR: could not open file, " + path);
 	}
 }
