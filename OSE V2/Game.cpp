@@ -5,6 +5,7 @@ namespace origami_sheep_engine
 {
 	Game::Game()
 	{
+		std::cerr << "Hello from LUbuntu!" << std::endl;
 		this->project_loader_ = std::make_unique<ProjectLoaderXML>();
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 	}
