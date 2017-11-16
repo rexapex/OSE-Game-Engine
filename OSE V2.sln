@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2008
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSE V2", "OSE V2\OSE V2.vcxproj", "{0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4}"
 EndProject
@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		LICENCE.txt = LICENCE.txt
 		README.txt = README.txt
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSEV2Tests", "OSEV2Tests\OSEV2Tests.vcxproj", "{4E74448B-18DA-452B-BC48-9414BCA9D2E7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,19 @@ Global
 		{0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4}.Release|x64.Build.0 = Release|x64
 		{0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4}.Release|x86.ActiveCfg = Release|Win32
 		{0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4}.Release|x86.Build.0 = Release|Win32
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Debug|x64.ActiveCfg = Debug|x64
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Debug|x64.Build.0 = Debug|x64
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Debug|x86.ActiveCfg = Debug|Win32
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Debug|x86.Build.0 = Debug|Win32
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Release|x64.ActiveCfg = Release|x64
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Release|x64.Build.0 = Release|x64
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Release|x86.ActiveCfg = Release|Win32
+		{4E74448B-18DA-452B-BC48-9414BCA9D2E7}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F0D258E4-79DD-4294-AC67-20972FA2565C}
 	EndGlobalSection
 EndGlobal

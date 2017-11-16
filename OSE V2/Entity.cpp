@@ -12,7 +12,29 @@ namespace origami_sheep_engine
 
 	Entity::~Entity() noexcept
 	{
+		//nothing to be freed
+	}
 
+
+	Entity::Entity(const Entity & other) noexcept
+	{
+		this->name_ = other.name_;
+		this->unique_ID_ = 0;// other.get_unique_ID;				//TODO - NEED A GLOBAL ID COUNT TO INCREMENT
+		this->tag_ = other.tag_;
+		this->prefab_ = other.prefab_;
+		this->sub_entities_ = other.sub_entities_;
+	}
+
+
+	//Change (Entity & other) to (Entity other) if add pointers to Entity class
+	Entity & Entity::operator=(const Entity & other) noexcept
+	{
+		this->name_ = other.name_;
+		this->unique_ID_ = 0;// other.get_unique_ID;				//TODO - NEED A GLOBAL ID COUNT TO INCREMENT
+		this->tag_ = other.tag_;
+		this->prefab_ = other.prefab_;
+		this->sub_entities_ = other.sub_entities_;
+		return *this;
 	}
 
 

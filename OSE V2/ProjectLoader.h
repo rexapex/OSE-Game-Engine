@@ -7,7 +7,7 @@
 namespace origami_sheep_engine
 {
 	//Loads developer written project files into the engine
-	class ProjectLoader
+	class DEBUG_EXPORT ProjectLoader
 	{
 	public:
 		ProjectLoader();
@@ -23,8 +23,9 @@ namespace origami_sheep_engine
 		//Loads the scene decleration file (file is essentially just a map from scene_name to scene_path)
 		virtual std::unique_ptr<std::map<std::string, std::string>> loadSceneDeclerations(const std::string & project_path) = 0;
 
-		//Hierarchy of all tags in the game (entities specified in entity_prefab or scene file can be given tags)
-		virtual void loadTagDefinitions(const std::string & project_path) = 0;
+		//Loads the hierarchy of all tags in the game (entities specified in entity_prefab or scene file can be given tags)
+		//Returns the root tag of the hierarchy
+		virtual std::unique_ptr<Tag> loadTagDefinitions(const std::string & project_path) = 0;
 
 		//Loads settings including: physics & rendering engine default settings
 		virtual void loadProjectSettings(const std::string & project_path) = 0;
@@ -36,6 +37,6 @@ namespace origami_sheep_engine
 		virtual std::unique_ptr<Scene> loadScene(const Project & project, const std::string & scene_name) = 0;
 
 		//Loads an entity prefab which can be used multiple times
-		virtual void loadEntityPrefab(std::vector<Entity> & prefabs, const std::string & prefab_path, std::map<std::string, std::string> & prefab_names_to_path) = 0;
+		virtual void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_path) = 0;// , std::map<std::string, std::string> & prefab_names_to_path) = 0;
 	};
 }

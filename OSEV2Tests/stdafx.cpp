@@ -1,5 +1,5 @@
 // stdafx.cpp : source file that includes just the standard includes
-// OSE V2 Tests.pch will be the pre-compiled header
+// OSEV2Tests.pch will be the pre-compiled header
 // stdafx.obj will contain the pre-compiled type information
 
 #include "stdafx.h"

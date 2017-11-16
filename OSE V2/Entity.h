@@ -9,6 +9,8 @@ namespace origami_sheep_engine
 	public:
 		Entity(const uint32_t unique_ID, const std::string & name, const std::string & tag, const std::string & prefab);
 		~Entity() noexcept;
+		Entity(const Entity & other) noexcept;
+		Entity & operator=(const Entity & other) noexcept;
 		Entity(Entity && other) noexcept;
 		Entity & operator=(Entity && other) noexcept;
 

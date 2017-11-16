@@ -38,7 +38,7 @@ namespace origami_sheep_engine
 			indent += "    ";
 		}
 
-		std::cerr << indent << "entity -> name: " << e.get_name() << std::endl;
+		std::cerr << indent << "entity -> id: " << e.get_unique_ID() << ", name: " << e.get_name() << std::endl;
 
 		if(e.mesh_)
 			std::cerr << indent << "    " << "mesh -> name: " << e.mesh_->name << std::endl;

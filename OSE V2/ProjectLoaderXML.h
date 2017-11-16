@@ -8,7 +8,7 @@
 namespace origami_sheep_engine
 {
 	//Loads projects from xml text files
-	class ProjectLoaderXML : public origami_sheep_engine::ProjectLoader
+	class DEBUG_EXPORT ProjectLoaderXML : public ProjectLoader
 	{
 	public:
 		ProjectLoaderXML();
@@ -17,11 +17,11 @@ namespace origami_sheep_engine
 		std::unique_ptr<Project> loadProject(const std::string & project_name);
 		std::unique_ptr<ProjectInfo> loadProjectManifest(const std::string & project_path);
 		std::unique_ptr<std::map<std::string, std::string>> loadSceneDeclerations(const std::string & project_path);
-		void loadTagDefinitions(const std::string & project_path);
+		std::unique_ptr<Tag> loadTagDefinitions(const std::string & project_path);
 		void loadProjectSettings(const std::string & project_path);
 		void loadInputSettings(const std::string & project_path);
 		std::unique_ptr<Scene> loadScene(const Project & project, const std::string & scene_name);
-		void loadEntityPrefab(std::vector<Entity> & prefabs, const std::string & prefab_path, std::map<std::string, std::string> & prefab_names_to_path);
+		void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_path);// , std::map<std::string, std::string> & prefab_names_to_path);
 
 	private:
 		//Parse the XML file at 'path' and store the contents in 'content'
@@ -29,8 +29,9 @@ namespace origami_sheep_engine
 		//@returns {std::unique_ptr<rapidxml::xml_document<>>} Pointer to the parsed document
 		std::unique_ptr<rapidxml::xml_document<>> loadXMLFile(const std::string & path, std::string & contents);
 
-		void parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node);
+		void parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node, std::map<std::string, Entity> & prefab_paths_to_object);
 		void parseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);
+		void parseResources(rapidxml::xml_node<> * resources_node, std::map<std::string, Entity> & prefab_paths_to_object);
 	};
 }
 

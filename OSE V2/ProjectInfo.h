@@ -1,7 +1,7 @@
 #pragma once
 #include "stdafx.h"
 
-struct ProjectInfo			//maybe change date types if required
+struct DEBUG_EXPORT ProjectInfo			//maybe change date types if required
 {
 	std::string name;
 	std::string engine_version;
