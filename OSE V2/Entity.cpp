@@ -19,7 +19,8 @@ namespace origami_sheep_engine
 	Entity::Entity(const Entity & other) noexcept
 	{
 		this->name_ = other.name_;
-		this->unique_ID_ = 0;// other.get_unique_ID;				//TODO - NEED A GLOBAL ID COUNT TO INCREMENT
+		this->unique_ID_ = IDManager::next_entity_ID();
+		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;
@@ -30,7 +31,8 @@ namespace origami_sheep_engine
 	Entity & Entity::operator=(const Entity & other) noexcept
 	{
 		this->name_ = other.name_;
-		this->unique_ID_ = 0;// other.get_unique_ID;				//TODO - NEED A GLOBAL ID COUNT TO INCREMENT
+		this->unique_ID_ = IDManager::next_entity_ID();
+		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;

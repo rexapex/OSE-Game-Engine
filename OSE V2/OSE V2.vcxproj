@@ -158,6 +158,7 @@
     <ClInclude Include="ESceneSwitchMode.h" />
     <ClInclude Include="FileHandlingUtil.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="IDManager.h" />
     <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Project.h" />

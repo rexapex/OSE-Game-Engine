@@ -131,5 +131,8 @@
     <ClInclude Include="ESceneSwitchMode.h">
       <Filter>Header Files\game</Filter>
     </ClInclude>
+    <ClInclude Include="IDManager.h">
+      <Filter>Header Files\game</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 #pragma once
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
+#include "IDManager.h"
 
 namespace origami_sheep_engine
 {
@@ -18,6 +19,7 @@ namespace origami_sheep_engine
 		const uint32_t get_unique_ID() const {return this->unique_ID_;}
 
 		void set_name(const std::string & name) {this->name_ = name;}	//should only be called once named is confirmed as "unique" (see name_ definition)
+		void set_tag(const std::string & tag) { this->tag_ = tag; }
 
 		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
 

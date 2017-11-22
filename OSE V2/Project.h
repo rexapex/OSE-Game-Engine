@@ -9,7 +9,7 @@ namespace origami_sheep_engine
 	//Contains information about the path, the resources & the scenes available
 	//Also contains the default settings for the input and the engines
 	//Can be used to edit the project during engine runtime
-	class DEBUG_EXPORT Project
+	class Project
 	{
 	public:
 		Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path);

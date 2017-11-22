@@ -4,11 +4,12 @@
 #include "FileHandlingUtil.h"
 #include "Scene.h"
 #include "Tag.h"
+#include "IDManager.h"
 
 namespace origami_sheep_engine
 {
 	//Loads projects from xml text files
-	class DEBUG_EXPORT ProjectLoaderXML : public ProjectLoader
+	class ProjectLoaderXML : public ProjectLoader
 	{
 	public:
 		ProjectLoaderXML();
@@ -21,7 +22,8 @@ namespace origami_sheep_engine
 		void loadProjectSettings(const std::string & project_path);
 		void loadInputSettings(const std::string & project_path);
 		std::unique_ptr<Scene> loadScene(const Project & project, const std::string & scene_name);
-		void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_path);// , std::map<std::string, std::string> & prefab_names_to_path);
+		void loadEntityPrefab(std::map<std::string, Entity> & prefab_names_to_object, const std::string & prefab_name,
+													const std::string & prefab_path, const std::string & project_path);
 
 	private:
 		//Parse the XML file at 'path' and store the contents in 'content'
@@ -29,9 +31,11 @@ namespace origami_sheep_engine
 		//@returns {std::unique_ptr<rapidxml::xml_document<>>} Pointer to the parsed document
 		std::unique_ptr<rapidxml::xml_document<>> loadXMLFile(const std::string & path, std::string & contents);
 
-		void parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node, std::map<std::string, Entity> & prefab_paths_to_object);
+		void parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node, std::map<std::string, Entity> & prefab_names_to_object, const std::string & project_path);
 		void parseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);
-		void parseResources(rapidxml::xml_node<> * resources_node, std::map<std::string, Entity> & prefab_paths_to_object);
+		void parseResources(rapidxml::xml_node<> * resources_node, std::map<std::string, Entity> & prefab_names_to_object, const std::string & project_path);
+
+		const std::string file_extension = ".xml";
 	};
 }
 

@@ -7,7 +7,7 @@
 namespace origami_sheep_engine
 {
 	//Loads developer written project files into the engine
-	class DEBUG_EXPORT ProjectLoader
+	class ProjectLoader
 	{
 	public:
 		ProjectLoader();
@@ -37,6 +37,7 @@ namespace origami_sheep_engine
 		virtual std::unique_ptr<Scene> loadScene(const Project & project, const std::string & scene_name) = 0;
 
 		//Loads an entity prefab which can be used multiple times
-		virtual void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_path) = 0;// , std::map<std::string, std::string> & prefab_names_to_path) = 0;
+		virtual void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_name,
+															const std::string & prefab_path, const std::string & project_path) = 0;
 	};
 }

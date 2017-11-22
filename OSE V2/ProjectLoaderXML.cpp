@@ -47,6 +47,7 @@ namespace origami_sheep_engine
 		//TODO - FIND DOCUMENT DIRECTORY FOR MAC & LINUX
 		//TODO - CREATE DIRECTORIES IF THEY DON'T EXIST
 		std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + project_name;
+		std::cerr << "Loading Project Directory: " << project_path << std::endl << std::endl;
 		//std::string project_path = "D:/James/Documents/Origami_Sheep_Engine/Projects/" + project_name;
 
 		//first, load the manifest
@@ -132,7 +133,7 @@ namespace origami_sheep_engine
 
 		std::cerr << "**********  Scene Declerations  **********" << std::endl;
 
-		for(xml_node<> * scene_node = doc->first_node("scene"); scene_node; scene_node = scene_node->next_sibling())
+		for(xml_node<> * scene_node = doc->first_node("scene"); scene_node; scene_node = scene_node->next_sibling("scene"))
 		{
 			//for each scene decleration, add an entry to the map
 			xml_attribute<> * name_attrib = scene_node->first_attribute("name");
@@ -176,7 +177,7 @@ namespace origami_sheep_engine
 		//every tag hierarchy should be contained in a root_tag with name ""
 		std::unique_ptr<Tag> root_tag = std::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
 
-		for(auto tag_node = doc->first_node("tag"); tag_node; tag_node = tag_node->next_sibling())
+		for(auto tag_node = doc->first_node("tag"); tag_node; tag_node = tag_node->next_sibling("tag"))
 		{
 			parseTag(root_tag->get_sub_tags(), tag_node);
 		}
@@ -202,7 +203,7 @@ namespace origami_sheep_engine
 		auto & sub_list = new_tag.get_sub_tags();
 
 		//parse any sub-tags
-		for(auto sub_tag_node = tag_node->first_node("tag"); sub_tag_node; sub_tag_node = sub_tag_node->next_sibling())
+		for(auto sub_tag_node = tag_node->first_node("tag"); sub_tag_node; sub_tag_node = sub_tag_node->next_sibling("tag"))
 		{
 			parseTag(sub_list, sub_tag_node);
 		}
@@ -255,30 +256,24 @@ namespace origami_sheep_engine
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
 
-
-		//TODO - CALL LOAD RESOURCES FUNCTION TO LOAD RESOURCES GLOBALLY
-
-
 		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name);
 
 		//get the prefabs required for this scene
 		std::map<std::string, Entity> prefab_paths_to_object;
-		parseResources(resources_node, prefab_paths_to_object);
-		
-
-		
+		parseResources(resources_node, prefab_paths_to_object, project.get_project_path());
 		
 		//load the scene's entities
-		for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling())
+		for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 		{
-			parseEntity(scene->get_entities(), entity_node, prefab_paths_to_object);
+			parseEntity(scene->get_entities(), entity_node, prefab_paths_to_object, project.get_project_path());
 		}
 
 		return scene;
 	}
 
 
-	void ProjectLoaderXML::loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_path)//, std::map<std::string, std::string> & prefab_names_to_path)
+	void ProjectLoaderXML::loadEntityPrefab(std::map<std::string, Entity> & prefab_names_to_object, const std::string & prefab_name,
+																	const std::string & prefab_path, const std::string & project_path)
 	{
 		using namespace rapidxml;
 
@@ -287,7 +282,8 @@ namespace origami_sheep_engine
 
 		try
 		{
-			doc = loadXMLFile(prefab_path, contents);
+			//load the prefab from its xml file
+			doc = loadXMLFile(project_path + "/" + prefab_path + file_extension, contents);
 		}
 		catch(const std::exception &)
 		{
@@ -297,28 +293,31 @@ namespace origami_sheep_engine
 		auto resources_node = doc->first_node("resources");
 		auto entity_node = doc->first_node("entity");
 
+		//the prefab objects used by the current prefab object
+		//avoids name conflicts within the Entity_Prefabs dir arising from sub-dirs...
+		//...but means prefab which load another prefab could potentially load the same prefab twice...
+		//...this works but is inefficient if this situation ever arises
+		std::map<std::string, Entity> local_prefab_names_to_object;
 
-		//TODO - CALL PARSE RESOURCES FUNCTION TO LOAD RESOURCES GLOBALLY
-		//LOAD PREFABS
-		parseResources(resources_node, prefab_paths_to_object);
+		//Load the resources (including prefabs) used by the entity prefab
+		parseResources(resources_node, local_prefab_names_to_object, project_path);
 
+		//load the prefab entity as an Entity object
+		std::vector<Entity> output_entity;				//after parseEntity call, vector should have length 1
+		parseEntity(output_entity, entity_node, local_prefab_names_to_object, project_path);
 
+		auto & pos = prefab_names_to_object.find(prefab_name);
 
-		//load the prefab entity
-		std::vector<Entity> output_entity;			//after parseEntity call, vector should have length 1
-		parseEntity(output_entity, entity_node, prefab_paths_to_object);
-
-		auto pos = prefab_paths_to_object.find(prefab_path);
-
-		//add the prefab object to the prefab_paths_to_object map
-		if(output_entity.size() > 0 && pos == prefab_paths_to_object.end())
-			prefab_paths_to_object.insert({prefab_path, output_entity[0]});
+		//add the new prefab object to the global prefab_paths_to_object map
+		if(output_entity.size() > 0 && pos == prefab_names_to_object.end())
+			prefab_names_to_object.insert({prefab_name, std::move(output_entity[0])});
 		else
 			std::cerr << "ERROR: failed to load entity prefab " + prefab_path << std::endl;
 	}
 
 
-	void ProjectLoaderXML::parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node, std::map<std::string, Entity> & prefab_paths_to_object)
+	void ProjectLoaderXML::parseEntity(std::vector<Entity> & entities, rapidxml::xml_node<> * entity_node,
+										std::map<std::string, Entity> & prefab_names_to_object, const std::string & project_path)
 	{
 		using namespace rapidxml;
 
@@ -331,15 +330,13 @@ namespace origami_sheep_engine
 		auto prefab_attrib = entity_node->first_attribute("prefab");
 		const std::string & prefab = (prefab_attrib ? prefab_attrib->value(): "");
 
-		//TODO - USE PREFAB AS TEMPLATE
-
 		//if no prefab is specified, then create a new entity object
 		if(prefab == "")
 		{
 			//add the entity to the entities list
 			try
 			{
-				entities.emplace_back(0, name, tag, prefab);
+				entities.emplace_back(IDManager::next_entity_ID(), name, tag, prefab);
 			}
 			catch(const std::exception &)
 			{
@@ -351,8 +348,17 @@ namespace origami_sheep_engine
 		//else, use the existing prefab object as a template
 		else 
 		{
-			//TODO - prefab gives NAME and not PATH
-			//const auto & prefab_object = prefab_paths_to_object[];
+			auto & iter = prefab_names_to_object.find(prefab);
+			if(iter != prefab_names_to_object.end())
+			{
+				const auto & prefab_object = iter->second;
+				std::cerr << "Entity: " << name << " extends " << prefab_object.get_name() << std::endl << std::endl;
+				//copy the prefab object and place it into the entities list
+				entities.emplace_back(prefab_object);
+				//overwrite the default prefab values
+				entities.back().set_name(name);
+				entities.back().set_tag(tag);
+			}
 		}
 
 		//get the newly added entity
@@ -361,7 +367,7 @@ namespace origami_sheep_engine
 
 		//parse the components of the new entity
 		//mesh components
-		for(auto component_node = entity_node->first_node("mesh"); component_node; component_node = component_node->next_sibling())
+		for(auto component_node = entity_node->first_node("mesh"); component_node; component_node = component_node->next_sibling("mesh"))
 		{
 			//has name & path attributes
 			auto name_attrib = component_node->first_attribute("name");
@@ -370,32 +376,32 @@ namespace origami_sheep_engine
 		}
 
 		//parse any sub-entities
-		for(auto sub_entity_node = entity_node->first_node("entity"); sub_entity_node; sub_entity_node = sub_entity_node->next_sibling())
+		for(auto sub_entity_node = entity_node->first_node("entity"); sub_entity_node; sub_entity_node = sub_entity_node->next_sibling("entity"))
 		{
-			parseEntity(sub_list, sub_entity_node, prefab_paths_to_object);
+			parseEntity(sub_list, sub_entity_node, prefab_names_to_object, project_path);
 		}
 	}
 
 
-	void ProjectLoaderXML::parseResources(rapidxml::xml_node<> * resources_node, std::map<std::string, Entity> & prefab_paths_to_object)
+	void ProjectLoaderXML::parseResources(rapidxml::xml_node<> * resources_node, std::map<std::string, Entity> & prefab_names_to_object, const std::string & project_path)
 	{
 		//parse prefab nodes
-		for(auto prefab_node = resources_node->first_node("prefab"); prefab_node; prefab_node = prefab_node->next_sibling())
+		for(auto prefab_node = resources_node->first_node("prefab"); prefab_node; prefab_node = prefab_node->next_sibling("prefab"))
 		{
 			auto prefab_name_attrib = prefab_node->first_attribute("name");
 			auto prefab_path_attrib = prefab_node->first_attribute("path");
-
+			
 			if(prefab_name_attrib && prefab_path_attrib)
 			{
 				auto prefab_name = prefab_name_attrib->value();
 				auto prefab_path = prefab_path_attrib->value();
-				auto pos = prefab_paths_to_object.find(prefab_name);
+				auto pos = prefab_names_to_object.find(prefab_name);
 
 				//check if the prefab name has not been used
-				if(pos == prefab_paths_to_object.end() && prefab_name != "" && prefab_path != "")
+				if(pos == prefab_names_to_object.end() && prefab_name != "" && prefab_path != "")
 				{
 					//and if so, then load the corresponding prefab file and add it to the map
-					loadEntityPrefab(prefab_paths_to_object, prefab_path);
+					loadEntityPrefab(prefab_names_to_object, prefab_name, prefab_path, project_path);
 					//prefab_names_to_path.insert({prefab_name, prefab_path});
 				}
 			}
