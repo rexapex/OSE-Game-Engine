@@ -8,7 +8,7 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 	if(in)
 	{
 		in.seekg(0, std::ios::end);
-		text.resize(in.tellg());
+		text.resize(static_cast<size_t>(in.tellg()));
 		in.seekg(0, std::ios::beg);
 		in.read(&text[0], text.size());
 		in.close();

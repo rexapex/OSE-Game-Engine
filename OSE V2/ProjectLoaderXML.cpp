@@ -25,7 +25,7 @@ namespace origami_sheep_engine
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			std::cerr << "FileHandlingUtil::load_text_file -> " << e.what() << std::endl;
+			LOG("FileHandlingUtil::load_text_file -> " << e.what());
 			throw e;
 		}
 
@@ -47,7 +47,7 @@ namespace origami_sheep_engine
 		//TODO - FIND DOCUMENT DIRECTORY FOR MAC & LINUX
 		//TODO - CREATE DIRECTORIES IF THEY DON'T EXIST
 		std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + project_name;
-		std::cerr << "Loading Project Directory: " << project_path << std::endl << std::endl;
+		LOG("Loading Project Directory: " << project_path << std::endl);
 		//std::string project_path = "D:/James/Documents/Origami_Sheep_Engine/Projects/" + project_name;
 
 		//first, load the manifest
@@ -82,31 +82,31 @@ namespace origami_sheep_engine
 			return std::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
 		}
 
-		std::cerr << "**********  Project Manifest  **********" << std::endl;
+		DEBUG_LOG("**********  Project Manifest  **********");
 
 		//parse the xml
 		//valid project manifest file should contain: name, version, date_created, date_modified
 		xml_node<> * name_node = doc->first_node("name");
 		std::string name = (name_node ? name_node->value() : "UNKNOWN");
-		std::cerr << "name: " << name << std::endl;
+		DEBUG_LOG("name: " << name);
 
 		xml_node<> * engine_version_node = doc->first_node("engine_version");
 		std::string engine_version = (engine_version_node ? engine_version_node->value() : "UNKNOWN");
-		std::cerr << "engine_version: " << engine_version << std::endl;
+		DEBUG_LOG("engine_version: " << engine_version);
 
 		xml_node<> * game_version_node = doc->first_node("game_version");
 		std::string game_version = (game_version_node ? game_version_node->value() : "UNKNOWN");
-		std::cerr << "game_version: " << game_version << std::endl;
+		DEBUG_LOG("game_version: " << game_version);
 
 		xml_node<> * date_created_node = doc->first_node("date_created");
 		std::string date_created = (date_created_node ? date_created_node->value() : "UNKNOWN");
-		std::cerr << "date_created: " << date_created << std::endl;
+		DEBUG_LOG("date_created: " << date_created);
 
 		xml_node<> * date_modified_node = doc->first_node("date_modified");
 		std::string date_modified = (date_modified_node ? date_modified_node->value() : "UNKNOWN");
-		std::cerr << "date_modified: " << date_modified << std::endl;
+		DEBUG_LOG("date_modified: " << date_modified);
 
-		std::cerr << std::endl;
+		DEBUG_LOG("");
 
 		//construct and return a new ProjectInfo instance
 		return std::make_unique<ProjectInfo>(std::move(ProjectInfo {name, engine_version, game_version, date_created, date_modified}));
@@ -131,7 +131,7 @@ namespace origami_sheep_engine
 			return name_to_path_map;
 		}
 
-		std::cerr << "**********  Scene Declerations  **********" << std::endl;
+		DEBUG_LOG("**********  Scene Declerations  **********");
 
 		for(xml_node<> * scene_node = doc->first_node("scene"); scene_node; scene_node = scene_node->next_sibling("scene"))
 		{
@@ -143,11 +143,11 @@ namespace origami_sheep_engine
 			{
 				//map name to path
 				name_to_path_map->insert({name_attrib->value(), path_attrib->value()});
-				std::cerr << "Scene {name: " << name_attrib->value() << ", path: " << path_attrib->value() << "}" << std::endl;
+				DEBUG_LOG("Scene {name: " << name_attrib->value() << ", path: " << path_attrib->value() << "}");
 			}
 		}
 
-		std::cerr << std::endl;
+		DEBUG_LOG("");
 
 		return name_to_path_map;
 	}
@@ -169,7 +169,7 @@ namespace origami_sheep_engine
 			return nullptr;
 		}
 
-		std::cerr << "**********  Tag Definitions  **********" << std::endl;
+		DEBUG_LOG("**********  Tag Definitions  **********");
 
 		auto root_tag_node = doc->first_node("tag");
 		auto root_tag_name_attrib = (root_tag_node ? root_tag_node->first_attribute("name") : nullptr);
@@ -182,7 +182,7 @@ namespace origami_sheep_engine
 			parseTag(root_tag->get_sub_tags(), tag_node);
 		}
 
-		std::cerr << std::endl;
+		DEBUG_LOG("");
 
 		return root_tag;
 	}
@@ -195,7 +195,7 @@ namespace origami_sheep_engine
 		auto name_attrib = tag_node->first_attribute("name");
 		const std::string & name = (name_attrib ? name_attrib->value() : "");
 
-		std::cerr << "tag -> name: " << name << std::endl;
+		DEBUG_LOG("tag -> name: " << name);
 
 		//add the tags to the tags list
 		tags.emplace_back(name);
@@ -234,7 +234,7 @@ namespace origami_sheep_engine
 		auto pos = map.find(scene_name);
 		if(pos == map.end())
 		{
-			std::cerr << "ProjectLoaderXML::loadScene -> ERROR: " + scene_name + " does not exist" << std::endl;
+			LOG("ProjectLoaderXML::loadScene -> ERROR: " + scene_name + " does not exist");
 			return nullptr;
 		}
 		else
@@ -312,7 +312,7 @@ namespace origami_sheep_engine
 		if(output_entity.size() > 0 && pos == prefab_names_to_object.end())
 			prefab_names_to_object.insert({prefab_name, std::move(output_entity[0])});
 		else
-			std::cerr << "ERROR: failed to load entity prefab " + prefab_path << std::endl;
+			LOG("ERROR: failed to load entity prefab " + prefab_path);
 	}
 
 
@@ -341,7 +341,7 @@ namespace origami_sheep_engine
 			catch(const std::exception &)
 			{
 				//if adding the entity fails, exit the function to avoid overwriting previous entities
-				std::cerr << "ERROR: failed to load entity, " << name << std::endl;
+				LOG("ERROR: failed to load entity, " << name);
 				return;
 			}
 		}
@@ -352,7 +352,7 @@ namespace origami_sheep_engine
 			if(iter != prefab_names_to_object.end())
 			{
 				const auto & prefab_object = iter->second;
-				std::cerr << "Entity: " << name << " extends " << prefab_object.get_name() << std::endl << std::endl;
+				DEBUG_LOG("Entity: " << name << " extends " << prefab_object.get_name() << std::endl);
 				//copy the prefab object and place it into the entities list
 				entities.emplace_back(prefab_object);
 				//overwrite the default prefab values
