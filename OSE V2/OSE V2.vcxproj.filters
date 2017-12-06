@@ -40,6 +40,15 @@
     <Filter Include="Source Files\util">
       <UniqueIdentifier>{5dddd0f5-936d-41d7-af3b-ca1dea2d32ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\rendering">
+      <UniqueIdentifier>{d4630a4d-693a-4885-ade6-2c6fcccf694c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\multi-threading">
+      <UniqueIdentifier>{81e3da05-2135-42f8-9f60-90e756bc58e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\multi-threading">
+      <UniqueIdentifier>{596fb157-3e6d-4259-9eed-1384fb8c9f09}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProjectLoader.cpp">
@@ -74,6 +83,15 @@
     </ClCompile>
     <ClCompile Include="Tag.cpp">
       <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ThreadManager.cpp">
+      <Filter>Source Files\multi-threading</Filter>
+    </ClCompile>
+    <ClCompile Include="GameThread.cpp">
+      <Filter>Source Files\multi-threading</Filter>
+    </ClCompile>
+    <ClCompile Include="GameThreadSTD.cpp">
+      <Filter>Source Files\multi-threading</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -133,6 +151,18 @@
     </ClInclude>
     <ClInclude Include="IDManager.h">
       <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ThreadManager.h">
+      <Filter>Header Files\multi-threading</Filter>
+    </ClInclude>
+    <ClInclude Include="GameThread.h">
+      <Filter>Header Files\multi-threading</Filter>
+    </ClInclude>
+    <ClInclude Include="GameThreadSTD.h">
+      <Filter>Header Files\multi-threading</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineReferences.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

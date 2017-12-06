@@ -7,20 +7,15 @@ namespace origami_sheep_engine
 	{
 		this->project_loader_ = std::make_unique<ProjectLoaderXML>();
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
+		this->running_ = false;
 	}
 
 
-	Game::~Game() noexcept
-	{
-
-	}
+	Game::~Game() noexcept {}
 
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
-										 active_scene_(std::move(other.active_scene_))
-	{
-
-	}
+										 active_scene_(std::move(other.active_scene_)), running_(other.running_) {}
 
 
 	Game & Game::operator=(Game && other) noexcept
@@ -28,6 +23,7 @@ namespace origami_sheep_engine
 		this->project_ = std::move(other.project_);
 		this->project_loader_ = std::move(other.project_loader_);
 		this->active_scene_ = std::move(other.active_scene_);
+		this->running_ = other.running_;
 		return *this;
 	}
 
@@ -120,6 +116,27 @@ namespace origami_sheep_engine
 			}
 
 			this->active_scene_ = std::move(new_scene);		//finally, move the new_scene to the active_scene pointer
+		}
+	}
+
+	void Game::startGame()
+	{
+		if(!running_)
+		{
+			running_ = true;
+			runGame();
+		}
+		else
+		{
+			LOG("Error: cannot start game, game is already running");
+		}
+	}
+
+	void Game::runGame()
+	{
+		while(running_)
+		{
+			//TODO - do something here
 		}
 	}
 }
