@@ -162,6 +162,7 @@
     <ClInclude Include="GameThread.h" />
     <ClInclude Include="GameThreadSTD.h" />
     <ClInclude Include="IDManager.h" />
+    <ClInclude Include="Main.h" />
     <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="Project.h" />
