@@ -1,5 +1,5 @@
 #pragma once
-class DEBUG_EXPORT ResourceManager
+class ResourceManager
 {
 public:
 	ResourceManager();
