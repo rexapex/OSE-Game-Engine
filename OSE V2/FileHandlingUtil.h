@@ -1,6 +1,12 @@
 #pragma once
 #include <fstream>
 
+#ifdef __linux__
+#include <pwd.h>
+#include <unistd.h>
+#include <sys/types.h>
+#endif
+
 class FileHandlingUtil
 {
 public:
