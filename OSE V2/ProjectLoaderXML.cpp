@@ -306,7 +306,7 @@ namespace origami_sheep_engine
 		std::vector<Entity> output_entity;				//after parseEntity call, vector should have length 1
 		parseEntity(output_entity, entity_node, local_prefab_names_to_object, project_path);
 
-		auto & pos = prefab_names_to_object.find(prefab_name);
+		const auto & pos = prefab_names_to_object.find(prefab_name);
 
 		//add the new prefab object to the global prefab_paths_to_object map
 		if(output_entity.size() > 0 && pos == prefab_names_to_object.end())
@@ -348,7 +348,7 @@ namespace origami_sheep_engine
 		//else, use the existing prefab object as a template
 		else 
 		{
-			auto & iter = prefab_names_to_object.find(prefab);
+			const auto & iter = prefab_names_to_object.find(prefab);
 			if(iter != prefab_names_to_object.end())
 			{
 				const auto & prefab_object = iter->second;
