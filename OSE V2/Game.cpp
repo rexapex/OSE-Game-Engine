@@ -43,7 +43,7 @@ namespace origami_sheep_engine
 		
 		if(index == loaded_scenes_.end())
 		{
-			loaded_scenes_.insert({scene_name, std::move(scene)});
+			loaded_scenes_.emplace(scene_name, std::move(scene));
 			//scene unique_ptr is no longer usable since its pointer has been moved
 		}
 		else
@@ -102,13 +102,13 @@ namespace origami_sheep_engine
 				{
 					//remove all loaded scene then add the active scene to the loaded scenes list
 					this->loaded_scenes_.clear();
-					this->loaded_scenes_.insert({active_scene_->get_name(), std::move(active_scene_)});
+					this->loaded_scenes_.emplace(active_scene_->get_name(), std::move(active_scene_));
 					break;
 				}
 				case ESceneSwitchMode::REMOVE_NONE_ON_SWITCH:
 				{
 					//add the active scene to the loaded scenes list so all other scenes are now in loaded list
-					this->loaded_scenes_.insert({active_scene_->get_name(), std::move(active_scene_)});
+					this->loaded_scenes_.emplace(active_scene_->get_name(), std::move(active_scene_));
 					break;
 				}
 				//no case neeeded for -> ESceneSwitchMode::REMOVE_ACTIVE_ON_SWITCH

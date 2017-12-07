@@ -15,6 +15,8 @@ namespace origami_sheep_engine
 	public:
 		Game();
 		~Game() noexcept;
+		Game(Game &) = delete;
+		Game & operator=(Game &) = delete;
 		Game(Game && other) noexcept;
 		Game & operator=(Game && other) noexcept;
 		
