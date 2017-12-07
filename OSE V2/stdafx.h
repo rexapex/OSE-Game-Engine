@@ -27,4 +27,7 @@
 #		define DEBUG_EXPORT
 #		define DEBUG_LOG(x) do {} while(0)
 #	endif // DEBUG
+#else
+#		define DEBUG_EXPORT
+#		define DEBUG_LOG(x) do {} while(0)
 #endif
