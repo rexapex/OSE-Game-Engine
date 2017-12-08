@@ -21,22 +21,18 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 
 void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 {
-#ifdef __APPLE__
-	//get ...
-	//TODO...
-	home_dir_path = "";
-#elif __linux__
-	//get linux HOME environment variable
+#if defined(__APPLE__) || defined(__linux__)
+	//get linux/mac HOME environment variable
 	const char * home_dir = getenv("HOME");
 	if(home_dir == NULL)
 	{
 		std::cerr << "LINUX FileHandlingUtil::getHomeDirectory -> home_dir is NULL" << std::endl;
 		//not thread safe
-		home_dir = getpwuid(getuid())->pw_dir;
+		home_dir = getpwuid(getuid()) != NULL ? getpwuid(getuid())->pw_dir : "/";
 	}
 
 	home_dir_path = std::string(home_dir);
-#elif _WIN32
+#elif defined(_WIN32)
 	//get windows Documents folder
 	//https://stackoverflow.com/questions/15916695/can-anyone-give-me-example-code-of-dupenv-s
 	char * buffer;
