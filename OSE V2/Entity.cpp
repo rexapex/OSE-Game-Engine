@@ -23,7 +23,7 @@ namespace origami_sheep_engine
 		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
-		this->sub_entities_ = other.sub_entities_;
+		this->sub_entities_ = other.sub_entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
 	}
 
 

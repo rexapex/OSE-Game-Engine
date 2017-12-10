@@ -3,14 +3,23 @@
 
 namespace origami_sheep_engine
 {
-	Scene::Scene(const std::string & name) : name_(name)
+	Scene::Scene(const std::string & name) : name_(name) {}
+
+	Scene::~Scene() noexcept {}
+
+	Scene::Scene(const Scene & other) noexcept
 	{
+		this->name_ = other.name_;
+		this->entities_ = other.entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
 	}
 
-
-	Scene::~Scene()
+	Scene & Scene::operator=(const Scene & other) noexcept
 	{
+		this->name_ = other.name_;
+		this->entities_ = other.entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
+		return *this;
 	}
+
 
 
 

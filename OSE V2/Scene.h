@@ -8,7 +8,9 @@ namespace origami_sheep_engine
 	{
 	public:
 		Scene(const std::string & name);
-		~Scene();
+		~Scene() noexcept;
+		Scene(const Scene & other) noexcept;
+		Scene & operator=(const Scene & other) noexcept;
 
 		std::vector<Entity> & get_entities() { return this->entities_; }
 
