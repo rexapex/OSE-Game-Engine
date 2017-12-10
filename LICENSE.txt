@@ -3,7 +3,7 @@ OSE V2 is licensed under:
 The MIT License
 ===============================================================================
 
-Copyright (c) 2017 Origami Sheep, James Sugden
+Copyright (c) 2017 James Sugden
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
