@@ -9,9 +9,10 @@ namespace origami_sheep_engine
 
 	void GameThread::run()
 	{
-		while(true)
-		{
-			LOG("update");
-		}
+		
+		//while(true)
+		//{
+		//	LOG("update");
+		//}
 	}
 }

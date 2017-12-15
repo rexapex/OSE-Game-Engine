@@ -5,6 +5,7 @@
 #include "ProjectLoaderXML.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
+#include "ThreadManager.h"
 
 namespace origami_sheep_engine
 {
@@ -44,6 +45,9 @@ namespace origami_sheep_engine
 
 		//contains every scene which has been loaded but NOT the active scene
 		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;
+
+		//thread manager handles multithreading and updating of engines
+		std::unique_ptr<ThreadManager> thread_manager_;
 
 		//true iff the game is currently running (paused is a subset of running)
 		bool running_;

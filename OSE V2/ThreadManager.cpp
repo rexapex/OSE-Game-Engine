@@ -35,7 +35,16 @@ namespace origami_sheep_engine
 		//create the threads
 		for(size_t t = 0; t < num_threads; t++)
 		{
-			threads_.emplace_back(GameThreadImpl());
+			threads_.emplace_back(std::make_unique<GameThreadImpl>());
 		}
+
+		DEBUG_LOG("created " << num_threads << " threads");
+	}
+
+
+	//called by threads to get a new task
+	void ThreadManager::getNewTask()
+	{
+		
 	}
 }

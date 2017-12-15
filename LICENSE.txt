@@ -27,7 +27,7 @@ SOFTWARE.
 
 
 
-OSE V2/EngineDependencies/rapidxml-1.13 is licensed under:
+rapidxml (OSE V2/EngineDependencies/rapidxml-1.13) is licensed under:
 
 The MIT License
 ===============================================================================

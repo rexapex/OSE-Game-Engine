@@ -8,7 +8,11 @@ namespace origami_sheep_engine
 		this->t_ = std::thread(&GameThreadSTD::run, this);
 	}
 
-	GameThreadSTD::~GameThreadSTD() {}
+	GameThreadSTD::~GameThreadSTD()
+	{
+		DEBUG_LOG("DESTRUCTING");
+		this->t_.join();
+	}
 
 	//move constructors
 	GameThreadSTD::GameThreadSTD(GameThreadSTD && other) noexcept
@@ -21,5 +25,4 @@ namespace origami_sheep_engine
 		this->t_ = std::move(other.t_);
 		return *this;
 	}
-
 }

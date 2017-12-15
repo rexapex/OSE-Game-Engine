@@ -8,6 +8,7 @@ namespace origami_sheep_engine
 		this->project_loader_ = std::make_unique<ProjectLoaderXML>();
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
+		this->thread_manager_ = std::make_unique<ThreadManager>();
 	}
 
 
@@ -15,7 +16,7 @@ namespace origami_sheep_engine
 
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
-										 active_scene_(std::move(other.active_scene_)), running_(other.running_) {}
+										 active_scene_(std::move(other.active_scene_)), running_(other.running_), thread_manager_(std::move(other.thread_manager_)) {}
 
 
 	Game & Game::operator=(Game && other) noexcept
@@ -24,6 +25,7 @@ namespace origami_sheep_engine
 		this->project_loader_ = std::move(other.project_loader_);
 		this->active_scene_ = std::move(other.active_scene_);
 		this->running_ = other.running_;
+		this->thread_manager_ = std::move(other.thread_manager_);
 		return *this;
 	}
 
@@ -134,10 +136,10 @@ namespace origami_sheep_engine
 
 	void Game::runGame()
 	{
-		while(running_)
-		{
+		//while(running_)
+		//{
 			//TODO - do something here
-		}
+		//}
 	}
 }
 
