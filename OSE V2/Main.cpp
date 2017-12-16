@@ -6,6 +6,7 @@ int main()
 	std::unique_ptr<Game> game = std::make_unique<Game>();
 	game->loadProject("TestProject");
 	game->loadScene("scene1");
+	game->startGame();
 	getchar();
 	return 0;
 }

@@ -1,6 +1,8 @@
 #pragma once
 
 #include <thread>
+#include <functional>
+#include <mutex>
 #include "stdafx.h"
 
 namespace origami_sheep_engine
@@ -8,7 +10,7 @@ namespace origami_sheep_engine
 	class GameThread
 	{
 	public:
-		GameThread();
+		GameThread(const std::string & name, std::function<void(std::string &)> get_new_task, std::mutex & mu, std::condition_variable & work_to_do);
 		virtual ~GameThread() noexcept;
 
 		//copy constructors
@@ -16,10 +18,18 @@ namespace origami_sheep_engine
 		GameThread & operator=(const GameThread &) = delete;
 
 		//move constructors
-		GameThread(GameThread && other) noexcept = default;
-		GameThread & operator=(GameThread && other) noexcept = default;
+		GameThread(GameThread && other) noexcept;
+		GameThread & operator=(GameThread && other) noexcept;
+
+		std::string name_;
 
 	protected:
 		void run();
+
+		std::function<void(std::string &)> get_new_task_;
+
+		std::mutex & mu_;
+
+		std::condition_variable & work_to_do_;
 	};
 }

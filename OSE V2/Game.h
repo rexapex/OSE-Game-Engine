@@ -6,6 +6,7 @@
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"
+#include <ctime>
 
 namespace origami_sheep_engine
 {

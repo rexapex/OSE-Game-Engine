@@ -9,7 +9,7 @@ namespace origami_sheep_engine
 	class GameThreadSTD : public GameThread
 	{
 	public:
-		GameThreadSTD();
+		GameThreadSTD(const std::string & name, std::function<void(std::string &)> get_new_task_, std::mutex & mu, std::condition_variable & work_to_do);
 		~GameThreadSTD() noexcept;
 
 		//copy constructors

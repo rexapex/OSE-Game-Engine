@@ -1,14 +1,19 @@
 #include "stdafx.h"
 #include "ThreadManager.h"
 
-void runthread() {}
-
 namespace origami_sheep_engine
 {
 	ThreadManager::ThreadManager()
 	{
 		//only need to call in regular constructor
 		createThreads();
+		addNewTask("task1");
+		addNewTask("task2");
+		addNewTask("task3");
+		addNewTask("task4");
+		addNewTask("task5");
+		addNewTask("task6");
+		addNewTask("task7");
 	}
 
 	ThreadManager::~ThreadManager() noexcept {}
@@ -32,19 +37,46 @@ namespace origami_sheep_engine
 		//avoids unnecessary resizing later
 		threads_.reserve(num_threads);
 
+		auto callback = [this] (std::string & task) {
+			//mu.lock();
+			this->getNewTask(task);
+			//mu.unlock();
+		};
+
 		//create the threads
 		for(size_t t = 0; t < num_threads; t++)
 		{
-			threads_.emplace_back(std::make_unique<GameThreadImpl>());
+			threads_.emplace_back(std::make_unique<GameThreadImpl>(std::to_string(t), callback, mu_, work_to_do_));
 		}
 
 		DEBUG_LOG("created " << num_threads << " threads");
 	}
 
 
-	//called by threads to get a new task
-	void ThreadManager::getNewTask()
+	//called by a thread upon completing its task
+	void ThreadManager::getNewTask(std::string & task)
 	{
-		
+		//DEBUG_LOG(thread.name_);
+		if(tasks_.size() > 0)
+		{
+			//give the thread a new task if one exists
+			task.assign(tasks_.back());
+			tasks_.pop_back();
+		}
+		else
+		{
+			task.assign("");
+		}
+	}
+
+
+	void ThreadManager::addNewTask(const std::string & t)
+	{
+		{
+			std::unique_lock<std::mutex> lock(mu_);
+			tasks_.push_back(t);
+			LOG("added " << t);
+		}
+		work_to_do_.notify_one();
 	}
 }

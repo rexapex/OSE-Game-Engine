@@ -136,10 +136,27 @@ namespace origami_sheep_engine
 
 	void Game::runGame()
 	{
-		//while(running_)
-		//{
+		time_t t = time(0);	//get current time in seconds
+		while(running_)
+		{
 			//TODO - do something here
-		//}
+			time_t p = time(0);
+
+			//every 2 seconds, add a set of new tasks
+			if(p - t >= 2)
+			{
+				thread_manager_->addNewTask("task1-" + std::to_string(p));
+				thread_manager_->addNewTask("task2-" + std::to_string(p));
+				thread_manager_->addNewTask("task2-" + std::to_string(p));
+				thread_manager_->addNewTask("task3-" + std::to_string(p));
+				thread_manager_->addNewTask("task4-" + std::to_string(p));
+				thread_manager_->addNewTask("task5-" + std::to_string(p));
+				thread_manager_->addNewTask("task6-" + std::to_string(p));
+				thread_manager_->addNewTask("task7-" + std::to_string(p));
+				thread_manager_->addNewTask("task8-" + std::to_string(p));
+				t = p;
+			}
+		}
 	}
 }
 
