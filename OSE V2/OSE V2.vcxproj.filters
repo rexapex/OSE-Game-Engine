@@ -90,9 +90,6 @@
     <ClCompile Include="GameThread.cpp">
       <Filter>Source Files\multi-threading</Filter>
     </ClCompile>
-    <ClCompile Include="GameThreadSTD.cpp">
-      <Filter>Source Files\multi-threading</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectLoader.h">
@@ -156,9 +153,6 @@
       <Filter>Header Files\multi-threading</Filter>
     </ClInclude>
     <ClInclude Include="GameThread.h">
-      <Filter>Header Files\multi-threading</Filter>
-    </ClInclude>
-    <ClInclude Include="GameThreadSTD.h">
       <Filter>Header Files\multi-threading</Filter>
     </ClInclude>
     <ClInclude Include="EngineReferences.h">

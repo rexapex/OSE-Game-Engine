@@ -160,7 +160,6 @@
     <ClInclude Include="FileHandlingUtil.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameThread.h" />
-    <ClInclude Include="GameThreadSTD.h" />
     <ClInclude Include="IDManager.h" />
     <ClInclude Include="Main.h" />
     <ClInclude Include="MeshFilter.h" />
@@ -180,7 +179,6 @@
     <ClCompile Include="FileHandlingUtil.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameThread.cpp" />
-    <ClCompile Include="GameThreadSTD.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectLoader.cpp" />

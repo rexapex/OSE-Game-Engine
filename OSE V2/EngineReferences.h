@@ -8,5 +8,5 @@
 
 namespace origami_sheep_engine
 {
-	typedef GameThreadSTD GameThreadImpl;
+	typedef GameThread GameThreadImpl;
 }

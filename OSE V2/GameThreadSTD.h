@@ -21,6 +21,5 @@ namespace origami_sheep_engine
 		GameThreadSTD & operator=(GameThreadSTD && other) noexcept;
 
 	private:
-		std::thread t_;
 	};
 }

@@ -23,8 +23,10 @@ namespace origami_sheep_engine
 
 		std::string name_;
 
-	protected:
+	private:
 		void run();
+
+		std::thread t_;
 
 		std::function<void(std::string &)> get_new_task_;
 
