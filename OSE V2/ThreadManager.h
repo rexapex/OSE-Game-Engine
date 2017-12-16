@@ -19,6 +19,8 @@ namespace origami_sheep_engine
 		void addNewTask(const std::string &);
 
 	private:
+		uint32_t tasks_in_progress_;
+
 		//array of threads which will carry out expensive processing
 		std::vector<std::unique_ptr<GameThread>> threads_;
 
@@ -30,6 +32,8 @@ namespace origami_sheep_engine
 		void createThreads();
 
 		void getNewTask(std::string & task);
+
+		void onTaskCompleted(uint32_t thread_id);
 
 		std::mutex mu_;
 		std::condition_variable work_to_do_;

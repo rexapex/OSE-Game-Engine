@@ -10,7 +10,8 @@ namespace origami_sheep_engine
 	class GameThread
 	{
 	public:
-		GameThread(const std::string & name, std::function<void(std::string &)> get_new_task, std::mutex & mu, std::condition_variable & work_to_do);
+		GameThread(uint32_t thread_id, std::function<void(std::string &)> get_new_task, std::mutex & mu,
+					std::condition_variable & work_to_do, std::function<void(uint32_t thread_id)> on_task_completed);
 		virtual ~GameThread() noexcept;
 
 		//copy constructors
@@ -21,14 +22,16 @@ namespace origami_sheep_engine
 		GameThread(GameThread && other) noexcept;
 		GameThread & operator=(GameThread && other) noexcept;
 
-		std::string name_;
-
 	private:
 		void run();
 
 		std::thread t_;
 
+		uint32_t thread_id_;
+
 		std::function<void(std::string &)> get_new_task_;
+
+		std::function<void(uint32_t thread_id)> on_task_completed_;
 
 		std::mutex & mu_;
 
