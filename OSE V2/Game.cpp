@@ -147,7 +147,6 @@ namespace origami_sheep_engine
 			{
 				thread_manager_->addNewTask("task1-" + std::to_string(p));
 				thread_manager_->addNewTask("task2-" + std::to_string(p));
-				thread_manager_->addNewTask("task2-" + std::to_string(p));
 				thread_manager_->addNewTask("task3-" + std::to_string(p));
 				thread_manager_->addNewTask("task4-" + std::to_string(p));
 				thread_manager_->addNewTask("task5-" + std::to_string(p));

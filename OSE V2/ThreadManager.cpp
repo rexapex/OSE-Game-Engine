@@ -5,7 +5,6 @@ namespace origami_sheep_engine
 {
 	ThreadManager::ThreadManager()
 	{
-		tasks_in_progress_ = 0;
 		//only need to call in regular constructor
 		createThreads();
 	}
@@ -39,6 +38,8 @@ namespace origami_sheep_engine
 		auto on_task_completed = [this] (uint32_t thread_id) {
 			this->onTaskCompleted(thread_id);
 		};
+
+		tasks_in_progress_ = 0;
 
 		//create the threads
 		for(size_t t = 1; t <= num_threads; t++)

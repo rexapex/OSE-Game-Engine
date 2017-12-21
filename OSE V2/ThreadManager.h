@@ -3,9 +3,6 @@
 #include <mutex>
 #include "GameThread.h"
 
-//fixes cyclic dependency issue
-//class GameThread;
-
 namespace origami_sheep_engine
 {
 	class ThreadManager
