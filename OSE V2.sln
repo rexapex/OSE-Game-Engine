@@ -8,7 +8,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7271B87B-E784-4C90-B15B-9798AD1C15B7}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
-		README.txt = README.txt
+		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSE V2 Unit Tests", "OSE V2 Unit Tests\OSE V2 Unit Tests.vcxproj", "{A9495F6D-8873-4AF3-A268-E2AE33BB7AB6}"
