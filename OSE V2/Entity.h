@@ -1,6 +1,5 @@
 #pragma once
-#include "MeshFilter.h"
-#include "MeshRenderer.h"
+#include "Component.h"
 #include "IDManager.h"
 
 namespace origami_sheep_engine
@@ -23,9 +22,7 @@ namespace origami_sheep_engine
 
 		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
 
-		//TODO - These are just for testing purposes
-		std::unique_ptr<MeshFilter> mesh_;
-		std::unique_ptr<MeshRenderer> mesh_renderer_;
+		std::vector<Component> & get_components() { return this->components_; }
 
 	private:
 		std::string name_;		//name_ should be unique to a scene file
@@ -35,6 +32,8 @@ namespace origami_sheep_engine
 		std::string prefab_;	//the name of the prefab this entity inherits from (or "")
 
 		std::vector<Entity> sub_entities_;
+
+		std::vector<Component> components_;
 
 		//isVisible, isEnabled, ...
 	};

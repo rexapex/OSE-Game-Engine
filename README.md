@@ -1,6 +1,6 @@
-### Origami Sheep Engine V.2
+### Origami Sheep Engine
 
-A modular game engine project
+A modular game engine
 
 ### Dependencies
 
@@ -16,5 +16,6 @@ A modular game engine project
 ###### Alternatively, on Linux with g++
 
 - Clone the git repository
+- cd into OSE-V2-Game-Engine/OSE V2/
 - To build the precompiled header, run the following command: g++ -c stdafx.h -o ../../build/stdafx.h.gch
 - Then, run the following command: g++ -std=c++17 *.cpp -o ../../build/ose -pthread

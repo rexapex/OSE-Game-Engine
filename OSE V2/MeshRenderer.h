@@ -1,9 +1,9 @@
 #pragma once
 #include "stdafx.h"
+#include "Component.h"
 
-struct MeshRenderer
+struct MeshRenderer : public Component
 {
-	std::string name;
 	//shader reference ?
 	//pointer to material data ?
 };

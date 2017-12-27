@@ -161,5 +161,11 @@
     <ClInclude Include="Main.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.h">
+      <Filter>Header Files\entity</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

@@ -24,6 +24,7 @@ namespace origami_sheep_engine
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
+		this->components_ = other.components_;
 	}
 
 
@@ -36,14 +37,14 @@ namespace origami_sheep_engine
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;
+		this->components_ = other.components_;
 		return *this;
 	}
 
 
 	Entity::Entity(Entity && other) noexcept
 	{
-		this->mesh_ = std::move(other.mesh_);
-		this->mesh_renderer_ = std::move(other.mesh_renderer_);
+		this->components_ = std::move(other.components_);
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
@@ -52,8 +53,7 @@ namespace origami_sheep_engine
 
 	Entity & Entity::operator=(Entity && other) noexcept
 	{
-		this->mesh_ = std::move(other.mesh_);
-		this->mesh_renderer_ = std::move(other.mesh_renderer_);
+		this->components_ = std::move(other.components_);
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);

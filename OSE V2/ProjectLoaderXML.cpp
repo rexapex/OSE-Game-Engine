@@ -372,7 +372,7 @@ namespace origami_sheep_engine
 			//has name & path attributes
 			auto name_attrib = component_node->first_attribute("name");
 			auto path_attrib = component_node->first_attribute("path");
-			new_entity.mesh_ = std::make_unique<MeshFilter>(std::move(MeshFilter {(name_attrib ? name_attrib->value() : ""), (path_attrib ? path_attrib->value() : "")}));
+//			new_entity.mesh_ = std::make_unique<MeshFilter>((name_attrib ? name_attrib->value() : ""), (path_attrib ? path_attrib->value() : ""));
 		}
 
 		//parse any sub-entities

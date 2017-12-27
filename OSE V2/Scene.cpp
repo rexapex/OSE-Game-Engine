@@ -21,6 +21,23 @@ namespace origami_sheep_engine
 	}
 
 
+	//add a non-persistent entity to the scene
+	//will only be added if the unique_ID_ and name_ fields are not taken
+	void Scene::addEntity(const Entity & e)
+	{
+		//TODO - maybe making this a parallel for loop would be faster ????
+		for(const auto & other : entities_)
+		{
+			//if the name of id is taken, then return before adding the entity
+			if(other.get_name() == e.get_name() || other.get_unique_ID() == e.get_unique_ID())
+			{
+				return;
+			}
+		}
+
+		//name and id not taken, therefore, add the entity to the list
+		entities_.emplace_back(e);
+	}
 
 
 
@@ -48,9 +65,6 @@ namespace origami_sheep_engine
 		}
 
 		std::cerr << indent << "entity -> id: " << e.get_unique_ID() << ", name: " << e.get_name() << std::endl;
-
-		if(e.mesh_)
-			std::cerr << indent << "    " << "mesh -> name: " << e.mesh_->name << std::endl;
 
 		for(auto & subE : e.get_sub_entities())
 		{

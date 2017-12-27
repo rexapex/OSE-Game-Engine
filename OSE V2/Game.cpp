@@ -72,7 +72,7 @@ namespace origami_sheep_engine
 
 	void Game::unloadAllLoadedScenes()
 	{
-		this->loaded_scenes_.clear();		//easy
+		this->loaded_scenes_.clear();		//easy... I hope
 	}
 
 
@@ -143,7 +143,7 @@ namespace origami_sheep_engine
 			time_t p = time(0);
 
 			//every 2 seconds, add a set of new tasks
-			if(p - t >= 2)
+			/*if(p - t >= 2)
 			{
 				thread_manager_->addNewTask("task1-" + std::to_string(p));
 				thread_manager_->addNewTask("task2-" + std::to_string(p));
@@ -154,7 +154,7 @@ namespace origami_sheep_engine
 				thread_manager_->addNewTask("task7-" + std::to_string(p));
 				thread_manager_->addNewTask("task8-" + std::to_string(p));
 				t = p;
-			}
+			}*/
 		}
 	}
 }
