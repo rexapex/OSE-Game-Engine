@@ -4,14 +4,18 @@
 
 struct MeshFilter : public Component
 {
+	//data
 	std::string path;
-	//rendering engine data
+
+
 
 	//allocate rendering engine data
 	MeshFilter(const std::string & name, const std::string & path) : Component(name), path(path) {}
 
 	//de-allocate rendering engine data
 	virtual ~MeshFilter() {}
+
+
 
 	//copy constructor
 	MeshFilter(const MeshFilter & other) noexcept : Component(other), path(other.path) {}

@@ -49,6 +49,12 @@
     <Filter Include="Source Files\multi-threading">
       <UniqueIdentifier>{596fb157-3e6d-4259-9eed-1384fb8c9f09}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\windowing">
+      <UniqueIdentifier>{a1d53687-250a-4b61-80d9-c58865847a6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\windowing">
+      <UniqueIdentifier>{2b452770-a59d-4f93-a4ee-f2de9237cbb1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProjectLoader.cpp">
@@ -59,9 +65,6 @@
     </ClCompile>
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ProjectLoaderXML.cpp">
-      <Filter>Source Files\project</Filter>
     </ClCompile>
     <ClCompile Include="Project.cpp">
       <Filter>Source Files\project</Filter>
@@ -90,6 +93,15 @@
     <ClCompile Include="GameThread.cpp">
       <Filter>Source Files\multi-threading</Filter>
     </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>Source Files\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\ProjectLoaderXML.cpp">
+      <Filter>Source Files\project</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\WindowManagerGLFW.cpp">
+      <Filter>Source Files\windowing</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ProjectLoader.h">
@@ -97,9 +109,6 @@
     </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProjectLoaderXML.h">
-      <Filter>Header Files\project</Filter>
     </ClInclude>
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml.hpp">
       <Filter>Header Files\dependencies</Filter>
@@ -166,6 +175,15 @@
     </ClInclude>
     <ClInclude Include="Material.h">
       <Filter>Header Files\entity</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
+      <Filter>Header Files\windowing</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\ProjectLoaderXML.h">
+      <Filter>Header Files\project</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\WindowManagerGLFW.h">
+      <Filter>Header Files\windowing</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

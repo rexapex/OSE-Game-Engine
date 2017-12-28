@@ -26,7 +26,7 @@ namespace origami_sheep_engine
 	void ThreadManager::createThreads()
 	{
 		//set the number of threads to the number of CPU cores
-		size_t num_threads {std::thread::hardware_concurrency() == 0 ? 1 : std::thread::hardware_concurrency()};
+		uint32_t num_threads {std::thread::hardware_concurrency() == 0 ? 1 : std::thread::hardware_concurrency()};
 
 		//avoids unnecessary resizing later
 		threads_.reserve(num_threads);
@@ -42,9 +42,9 @@ namespace origami_sheep_engine
 		tasks_in_progress_ = 0;
 
 		//create the threads
-		for(size_t t = 1; t <= num_threads; t++)
+		for(uint32_t t = 1; t <= num_threads; t++)
 		{
-			threads_.emplace_back(std::make_unique<GameThreadImpl>(t, get_new_task, mu_, work_to_do_, on_task_completed));
+			threads_.emplace_back(std::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
 		}
 
 		DEBUG_LOG("created " << num_threads << " threads");

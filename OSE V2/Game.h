@@ -2,7 +2,6 @@
 
 #include "Project.h"
 #include "ProjectLoader.h"
-#include "ProjectLoaderXML.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"

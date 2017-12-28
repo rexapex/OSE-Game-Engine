@@ -4,14 +4,19 @@
 
 struct MeshRenderer : public Component
 {
+	//data
 	//shader reference ?
 	//pointer to material data ?
+
+
 
 	//allocate rendering engine data
 	MeshRenderer(const std::string & name) : Component(name) {}
 
 	//de-allocate rendering engine data
 	virtual ~MeshRenderer() {}
+
+
 
 	//copy constructor
 	MeshRenderer(const MeshRenderer & other) noexcept : Component(other) {}

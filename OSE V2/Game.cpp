@@ -5,7 +5,7 @@ namespace origami_sheep_engine
 {
 	Game::Game()
 	{
-		this->project_loader_ = std::make_unique<ProjectLoaderXML>();
+		this->project_loader_ = std::make_unique<ProjectLoaderImpl>();
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
 		this->thread_manager_ = std::make_unique<ThreadManager>();

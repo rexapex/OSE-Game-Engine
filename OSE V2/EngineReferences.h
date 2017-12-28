@@ -4,9 +4,9 @@
 
 #pragma once
 
-#include "GameThreadSTD.h"
+#include "OSE-V2-STD-Modules/ProjectLoaderXML.h"
 
 namespace origami_sheep_engine
 {
-	typedef GameThread GameThreadImpl;
+	typedef ProjectLoaderXML ProjectLoaderImpl;
 }

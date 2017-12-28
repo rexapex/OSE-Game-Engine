@@ -89,10 +89,13 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>EngineDependencies/glfw/include;EngineDependencies/glew/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>EngineDependencies\glfw\lib-vc2015;EngineDependencies\glew\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -103,12 +106,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>
-      </AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -169,12 +173,14 @@
     <ClInclude Include="Project.h" />
     <ClInclude Include="ProjectInfo.h" />
     <ClInclude Include="ProjectLoader.h" />
-    <ClInclude Include="ProjectLoaderXML.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\ProjectLoaderXML.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tag.h" />
     <ClInclude Include="ThreadManager.h" />
+    <ClInclude Include="WindowManager.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Entity.cpp" />
@@ -184,7 +190,7 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Project.cpp" />
     <ClCompile Include="ProjectLoader.cpp" />
-    <ClCompile Include="ProjectLoaderXML.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\ProjectLoaderXML.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -193,6 +199,8 @@
     </ClCompile>
     <ClCompile Include="Tag.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
+    <ClCompile Include="WindowManager.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\WindowManagerGLFW.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

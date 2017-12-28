@@ -6,11 +6,15 @@ struct Component
 	//fields shared by all component types
 	std::string name;
 
+
+
 	//constructor
 	Component(const std::string & n) : name(n) {}
 
 	//allow sub classes to implement destructors
 	virtual ~Component() {}
+
+
 
 	//copy constructor
 	Component(const Component & other) noexcept : name(other.name) {}
