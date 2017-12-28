@@ -4,6 +4,9 @@
 # Ignore STD Modules
 OSE-V2-STD-Modules/
 
+# Ignore Auto-Generated Files
+EngineReferences.h
+
 # User-specific files
 *.suo
 *.user
