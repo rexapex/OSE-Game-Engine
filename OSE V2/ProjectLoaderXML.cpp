@@ -367,12 +367,20 @@ namespace origami_sheep_engine
 
 		//parse the components of the new entity
 		//mesh components
-		for(auto component_node = entity_node->first_node("mesh"); component_node; component_node = component_node->next_sibling("mesh"))
+		for(auto component_node = entity_node->first_node("mesh_filter"); component_node; component_node = component_node->next_sibling("mesh_filter"))
 		{
 			//has name & path attributes
 			auto name_attrib = component_node->first_attribute("name");
 			auto path_attrib = component_node->first_attribute("path");
-//			new_entity.mesh_ = std::make_unique<MeshFilter>((name_attrib ? name_attrib->value() : ""), (path_attrib ? path_attrib->value() : ""));
+			new_entity.get_components().emplace_back(std::make_unique<MeshFilter>((name_attrib ? name_attrib->value() : ""), (path_attrib ? path_attrib->value() : "")));
+		}
+
+		for(auto component_node = entity_node->first_node("mesh_renderer"); component_node; component_node = component_node->next_sibling("mesh_renderer"))
+		{
+			//has name & path attributes
+			auto name_attrib = component_node->first_attribute("name");
+			auto path_attrib = component_node->first_attribute("path");
+			new_entity.get_components().emplace_back(std::make_unique<MeshRenderer>(name_attrib ? name_attrib->value() : ""));
 		}
 
 		//parse any sub-entities

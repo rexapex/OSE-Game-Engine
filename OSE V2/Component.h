@@ -12,9 +12,29 @@ struct Component
 	//allow sub classes to implement destructors
 	virtual ~Component() {}
 
-	//TODO - implement copy constructor and move constructor
-	//Component(const Component &) = delete;
-	//const Component & operator=(const Component &) = delete;
-	//Component(const Component &&) = delete;
-	//const Component & operator=(const Component &&) = delete;
+	//copy constructor
+	Component(const Component & other) noexcept : name(other.name) {}
+
+	//copy assignment constructor
+	Component & operator=(const Component & other) noexcept
+	{
+		name = other.name;
+		return *this;
+	}
+
+	//move constructor
+	Component(const Component && other) noexcept : name(std::move(other.name)) {}
+
+	//move assignment constructor
+	Component & operator=(const Component && other) noexcept
+	{
+		name = std::move(other.name);
+		return *this;
+	}
+
+	//clone method which can be overwritten by base classes
+	virtual std::unique_ptr<Component> clone() const
+	{
+		return std::make_unique<Component>(*this);
+	}
 };

@@ -5,6 +5,10 @@
 #include "Scene.h"
 #include "Tag.h"
 #include "IDManager.h"
+#include "Component.h"
+#include "MeshFilter.h"
+#include "MeshRenderer.h"
+#include "Material.h"
 
 namespace origami_sheep_engine
 {

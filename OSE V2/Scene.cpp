@@ -66,6 +66,11 @@ namespace origami_sheep_engine
 
 		std::cerr << indent << "entity -> id: " << e.get_unique_ID() << ", name: " << e.get_name() << std::endl;
 
+		for(auto & comp : e.get_components())
+		{
+			std::cerr << indent << "    comp -> " << comp->name << std::endl;
+		}
+
 		for(auto & subE : e.get_sub_entities())
 		{
 			printEntity(subE, level + 1);

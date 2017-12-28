@@ -24,7 +24,15 @@ namespace origami_sheep_engine
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
-		this->components_ = other.components_;
+
+		//remove any existing components
+		components_.clear();
+		//copy each component from other
+		for(const std::unique_ptr<Component> & comp : other.components_)
+		{
+			//using a clone method prevents slicing
+			components_.push_back(comp->clone());
+		}
 	}
 
 
@@ -37,26 +45,35 @@ namespace origami_sheep_engine
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;
-		this->components_ = other.components_;
+		
+		//remove any existing components
+		components_.clear();
+		//copy each component from other
+		for(const std::unique_ptr<Component> & comp : other.components_)
+		{
+			//using a clone method prevents slicing
+			components_.push_back(comp->clone());
+		}
+
 		return *this;
 	}
 
 
-	Entity::Entity(Entity && other) noexcept
+	/*Entity::Entity(Entity && other) noexcept
 	{
-		this->components_ = std::move(other.components_);
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
+		this->components_ = std::move(other.components_);
 	}
 
 
 	Entity & Entity::operator=(Entity && other) noexcept
 	{
-		this->components_ = std::move(other.components_);
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
+		this->components_ = std::move(other.components_);
 		return *this;
-	}
+	}*/
 }

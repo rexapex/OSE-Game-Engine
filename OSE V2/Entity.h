@@ -11,8 +11,8 @@ namespace origami_sheep_engine
 		~Entity() noexcept;
 		Entity(const Entity & other) noexcept;
 		Entity & operator=(const Entity & other) noexcept;
-		Entity(Entity && other) noexcept;
-		Entity & operator=(Entity && other) noexcept;
+		Entity(Entity && other) noexcept = default;
+		Entity & operator=(Entity && other) noexcept = default;
 
 		const std::string & get_name() const {return this->name_;}
 		const uint32_t get_unique_ID() const {return this->unique_ID_;}
@@ -22,7 +22,7 @@ namespace origami_sheep_engine
 
 		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
 
-		std::vector<Component> & get_components() { return this->components_; }
+		std::vector<std::unique_ptr<Component>> & get_components() { return this->components_; }
 
 	private:
 		std::string name_;		//name_ should be unique to a scene file
@@ -33,7 +33,7 @@ namespace origami_sheep_engine
 
 		std::vector<Entity> sub_entities_;
 
-		std::vector<Component> components_;
+		std::vector<std::unique_ptr<Component>> components_;
 
 		//isVisible, isEnabled, ...
 	};
