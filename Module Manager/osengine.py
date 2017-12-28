@@ -1,5 +1,6 @@
 import json
 import sys
+import re
 
 print("OSE Module Manager")
 
@@ -7,6 +8,8 @@ print("OSE Module Manager")
 settingsFile = open("settings.json", "r")
 contents = settingsFile.read()
 contentsObj = json.loads(contents)
+
+userDirsSpecified = False
 
 
 #TODO - check if version is up to date
@@ -20,6 +23,7 @@ def checkDirs():
         print("no user dir specified")
     else:
         print(str(len(contentsObj["user_dirs"])) +" user dirs specified")
+        userDirsSpecified = True
 
 
 def parseCommand(command):
@@ -27,6 +31,7 @@ def parseCommand(command):
         print("setudir <directory path>              add a directory to the list of user directories")
     elif command.startswith("setudir"):
         #TODO - use regex to split at whitespace unless in quotes
+        p = re.compile("")
         args = command.split(" ")
         if len(args) > 1:
             for i in range(1, len(args)):

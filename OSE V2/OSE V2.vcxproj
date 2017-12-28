@@ -159,7 +159,6 @@
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml_print.hpp" />
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml_utils.hpp" />
     <ClInclude Include="Component.h" />
-    <ClInclude Include="EngineReferences.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="ESceneSwitchMode.h" />
     <ClInclude Include="FileHandlingUtil.h" />
@@ -170,6 +169,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
+    <ClInclude Include="EngineReferences.h" />
     <ClInclude Include="Project.h" />
     <ClInclude Include="ProjectInfo.h" />
     <ClInclude Include="ProjectLoader.h" />
