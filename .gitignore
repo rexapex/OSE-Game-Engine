@@ -3,7 +3,6 @@
 
 # Ignore STD Modules
 OSE-V2-STD-Modules/
-OSE V2 Unit Tests/
 
 # User-specific files
 *.suo

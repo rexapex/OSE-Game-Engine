@@ -1,10 +1,6 @@
 ### Origami Sheep Engine
 
-A modular game engine
-
-### Dependencies
-
-- rapidxml (included in project)
+The shell of the Origami Sheep Engine
 
 ### Installation
 
@@ -19,3 +15,7 @@ A modular game engine
 - cd into OSE-V2-Game-Engine/OSE V2/
 - To build the precompiled header, run the following command: g++ -c stdafx.h -o ../../build/stdafx.h.gch
 - Then, run the following command: g++ -std=c++17 *.cpp -o ../../build/ose -pthread
+
+### Including the Standard Modules
+
+- TODO
