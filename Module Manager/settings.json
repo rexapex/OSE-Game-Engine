@@ -3,7 +3,29 @@
         "C:\\Users\\James/Documents/Origami_Sheep_Engine",
         "D:\\James\\Documents\\Origami_Sheep_Engine"
     ],
-    
     "engine_version": "0.0.1 in-dev",
+    "profiles": {
+        "std": {
+            "modules": {
+                "ProjectLoader": {
+                    "dependencies": {
+                        "rapidxml": {
+                            "download": "https://sourceforge.net/projects/rapidxml/files/latest/download"
+                        }
+                    },
+                    "name": "ProjectLoaderXML"
+                },
+                "WindowManager": {
+                    "dependencies": {
+                        "GLFW": {
+                            "repo": "https://github.com/glfw/glfw.git",
+                            "branch": "master"
+                        }
+                    },
+                    "name": "WindowManagerGLFW"
+                }
+            }
+        }
+    },
     "module_manager_version": "0.0.1 in-dev"
 }
