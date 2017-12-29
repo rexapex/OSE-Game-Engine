@@ -10,10 +10,11 @@
                 "ProjectLoader": {
                     "dependencies": {
                         "rapidxml": {
-                            "download": "https://sourceforge.net/projects/rapidxml/files/latest/download"
+                            "download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"
                         }
                     },
-                    "name": "ProjectLoaderXML"
+                    "name": "ProjectLoaderXML",
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git"
                 },
                 "WindowManager": {
                     "dependencies": {
@@ -22,7 +23,8 @@
                             "branch": "master"
                         }
                     },
-                    "name": "WindowManagerGLFW"
+                    "name": "WindowManagerGLFW",
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git"
                 }
             }
         }

@@ -2,8 +2,9 @@ import json
 import sys
 import re
 import subprocess
-import os.path
+import os
 import shlex
+import inspect
 
 print("OSE Module Manager")
 
@@ -63,9 +64,35 @@ def addudir(command):
 
 
 
+def updatemodule(module):
+    if "repo" in module:
+        cwd = os.path.dirname(os.path.abspath(inspect.stack()[0][1]))
+        localrepo = cwd + "/../OSE V2"
+        subprocess.call(["git", "clone", module["repo"], localrepo])
+        os.chdir(localrepo + "/OSE-V2-STD-Modules")
+        subprocess.call(["git", "pull", "origin", "master"])
+        os.chdir(cwd)
+
+
+
 #TODO - fetch code from remote repositories to update profiles' modules
 def updateprofile(command):
-    pass
+    try:
+        args = shlex.split(command, posix=False)        #TODO - test this on MACOS and Linux
+        if len(args) > 1:
+            name = args[1]
+            for modulekey in contentsObj["profiles"][name]["modules"]:
+                module = contentsObj["profiles"][name]["modules"][modulekey]
+                updatemodule(module)
+                for depkey in module["dependencies"]:
+                    dep = module["dependencies"][depkey]
+                    if "repo" in dep:
+                        print("cloning repo " + dep["repo"])
+                        subprocess.call(["git", "clone", dep["repo"], contentsObj["user_dirs"][0]+"/Profiles/"+name+"/dependencies/"+depkey])
+        else:
+            print("error: update requires 1 argument, <profile name>")
+    except ValueError:
+        print("error: command is corrupt")
 
 
 
@@ -84,7 +111,7 @@ def mkprofile(command):
                 blueprint = args[2]
                 #if the blueprint is std, then get from the standard module git repository
                 if blueprint == "std":
-                    contentsObj["profiles"][name]["modules"]["ProjectLoader"] = {"name": "ProjectLoaderXML", "dependencies": {"rapidxml": {"download": "https://sourceforge.net/projects/rapidxml/files/latest/download"}}}
+                    contentsObj["profiles"][name]["modules"]["ProjectLoader"] = {"name": "ProjectLoaderXML", "dependencies": {"rapidxml": {"download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"}}}
                     contentsObj["profiles"][name]["modules"]["WindowManager"] = {"name": "WindowManagerGLFW", "dependencies": {"GLFW": {"repo": "https://github.com/glfw/glfw.git", "branch": "master"}}}
                     updateprofile("update " + name)
             writeSettingsFile()
@@ -119,11 +146,11 @@ def parseCommand(command):
     elif command.startswith("addudir"):
         addudir(command)
     elif command == "lsprofiles":
-        if not ((not "profiles" in contentsObj) or (not isinstance(contentsObj["profiles"], list))):
+        if not ((not "profiles" in contentsObj)):
             for profile in contentsObj["profiles"]:
-                print("PROFILE " + profile["name"])
-                for module in profile["modules"]:
-                    print("    MODULE " + module + ": " + profile["modules"][module]["name"])
+                print("PROFILE " + profile)
+                for module in contentsObj["profiles"][profile]["modules"]:
+                    print("    MODULE " + module + ": " + contentsObj["profiles"][profile]["modules"][module]["name"])
     elif command.startswith("mkprofile"):
         mkprofile(command)
     elif command.startswith("update"):
@@ -135,6 +162,8 @@ def parseCommand(command):
         build(command)
     elif command == "quit" or command == "q":
         sys.exit()
+    else:
+        print("command not recognised")
 
 
 
