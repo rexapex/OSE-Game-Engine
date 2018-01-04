@@ -1,33 +1,127 @@
 {
-    "user_dirs": [
-        "C:\\Users\\James/Documents/Origami_Sheep_Engine",
-        "D:\\James\\Documents\\Origami_Sheep_Engine"
-    ],
-    "engine_version": "0.0.1 in-dev",
+    "user_dirs": {
+        "dir2": "D:\\James\\Documents\\Origami_Sheep_Engine", 
+        "dir1": "C:\\Users\\James/Documents/Origami_Sheep_Engine"
+    }, 
+    "engine_version": "0.0.1 in-dev", 
     "profiles": {
         "std": {
-            "modules": {
-                "ProjectLoader": {
-                    "dependencies": {
-                        "rapidxml": {
-                            "download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {
+                        "ProjectLoader": {
+                            "dependencies": {
+                                "rapidxml": {
+                                    "download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"
+                                }
+                            }, 
+                            "class": "ProjectLoaderXML"
+                        }, 
+                        "WindowManager": {
+                            "dependencies": {
+                                "GLFW": {
+                                    "repo": "https://github.com/glfw/glfw.git", 
+                                    "branch": "master"
+                                }
+                            }, 
+                            "class": "WindowManagerGLFW"
                         }
-                    },
-                    "name": "ProjectLoaderXML",
-                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git"
-                },
-                "WindowManager": {
-                    "dependencies": {
-                        "GLFW": {
-                            "repo": "https://github.com/glfw/glfw.git",
-                            "branch": "master"
-                        }
-                    },
-                    "name": "WindowManagerGLFW",
-                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git"
+                    }
                 }
-            }
+            }, 
+            "udir": "dir1"
+        }, 
+        "test3": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test2": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test4": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test7": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test6": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "n5435": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test8": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {
+                        "ProjectLoader": {
+                            "dependencies": {
+                                "rapidxml": {
+                                    "download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"
+                                }
+                            }, 
+                            "class": "ProjectLoaderXML"
+                        }, 
+                        "WindowManager": {
+                            "dependencies": {
+                                "GLFW": {
+                                    "repo": "https://github.com/glfw/glfw.git", 
+                                    "branch": "master"
+                                }
+                            }, 
+                            "class": "WindowManagerGLFW"
+                        }
+                    }
+                }
+            }, 
+            "udir": "dir2"
+        }, 
+        "test": {
+            "blueprints": {
+                "OSE-V2-STD-Modules": {
+                    "repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", 
+                    "modules": {}
+                }
+            }, 
+            "udir": "dir2"
         }
-    },
+    }, 
     "module_manager_version": "0.0.1 in-dev"
 }
