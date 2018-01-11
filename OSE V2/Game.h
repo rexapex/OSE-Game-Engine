@@ -1,10 +1,15 @@
 #pragma once
 
+#define GLEW_STATIC
+
 #include "Project.h"
 #include "ProjectLoader.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"
+#include "WindowManager.h"
+#include "RenderingEngine.h"
+#include <GL/glew.h>
 #include <ctime>
 
 namespace origami_sheep_engine
@@ -54,8 +59,14 @@ namespace origami_sheep_engine
 		//entities which will persist between scenes
 		std::vector<Entity> persistent_entities_;
 
+		//window manager handles window creation, events and input
+		std::unique_ptr<WindowManager> window_manager_;
+
 		//thread manager handles multithreading and updating of engines
 		std::unique_ptr<ThreadManager> thread_manager_;
+
+		//rendering engine handles all rendering of entity render objects
+		std::unique_ptr<RenderingEngine> rendering_engine_;
 
 		//true iff the game is currently running (paused is a subset of running)
 		bool running_;

@@ -9,6 +9,12 @@ namespace origami_sheep_engine
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
 		this->thread_manager_ = std::make_unique<ThreadManager>();
+		
+		this->window_manager_ = std::make_unique<WindowManagerImpl>();
+		this->window_manager_->getAvailableVideoModes();
+		this->window_manager_->createWindow(1);
+
+		this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
 	}
 
 
@@ -137,8 +143,15 @@ namespace origami_sheep_engine
 	void Game::runGame()
 	{
 		time_t t = time(0);	//get current time in seconds
+
+		glOrtho(-1920/2, 1920/2, -1080/2, 1080/2, 0, 100);
+		glViewport(0, 0, 1920, 1080);
+
 		while(running_)
 		{
+			window_manager_->update();		//renders previous frame to window and poll for new event
+			rendering_engine_->render();
+
 			//TODO - do something here
 			time_t p = time(0);
 
@@ -153,7 +166,7 @@ namespace origami_sheep_engine
 				thread_manager_->addNewTask("task6-" + std::to_string(p));
 				thread_manager_->addNewTask("task7-" + std::to_string(p));
 				thread_manager_->addNewTask("task8-" + std::to_string(p));
-				t = p;
+				t = p;	//set the last time to the current time
 			}*/
 		}
 	}

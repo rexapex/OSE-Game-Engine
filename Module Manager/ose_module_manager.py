@@ -185,8 +185,8 @@ def mkprofile(command):
                 blueprintag = args[3]
                 #if the blueprint is std, then get from the standard module git repository
                 if blueprintag == "std":
-                    #contentsObj["profiles"][name]["modules"]["ProjectLoader"] = {"name": "ProjectLoaderXML", "dependencies": {"rapidxml": {"download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"}}}
-                    #contentsObj["profiles"][name]["modules"]["WindowManager"] = {"name": "WindowManagerGLFW", "dependencies": {"GLFW": {"repo": "https://github.com/glfw/glfw.git", "branch": "master"}}}
+                    #contentsObj["profiles"][name]["modules"]["ProjectLoader"] = {"class": "ProjectLoaderXML", "dependencies": {"rapidxml": {"download": "https://sourceforge.net/projects/rapidxml/files/rapidxml/rapidxml%201.13/rapidxml-1.13.zip/download"}}}
+                    #contentsObj["profiles"][name]["modules"]["WindowManager"] = {"class": "WindowManagerGLFW", "dependencies": {"GLFW": {"repo": "https://github.com/glfw/glfw.git", "branch": "master"}}}
                     blueprints = contentsObj["profiles"][profilename]["blueprints"]
                     blueprints["OSE-V2-STD-Modules"] = {"repo": "https://github.com/rexapex/OSE-V2-STD-Modules.git", "modules": {}}
                     cloneblueprint(blueprints["OSE-V2-STD-Modules"], "OSE-V2-STD-Modules", profilename)
@@ -234,7 +234,7 @@ def lsprofiles():
                 print("    BLUEPRINT " + blueprintname)
                 blueprint = profile["blueprints"][blueprintname]
                 for modulename in blueprint["modules"]:
-                    print("        MODULE " + modulename + ": " + blueprint["modules"][modulename]["name"])
+                    print("        MODULE " + modulename + ": " + blueprint["modules"][modulename]["class"])
 
 
 

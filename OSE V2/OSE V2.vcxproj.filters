@@ -55,6 +55,15 @@
     <Filter Include="Source Files\windowing">
       <UniqueIdentifier>{2b452770-a59d-4f93-a4ee-f2de9237cbb1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\maths">
+      <UniqueIdentifier>{c7b331ec-b69d-4468-af01-1702cdd9a881}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\maths">
+      <UniqueIdentifier>{d82bcf9b-71d3-42ba-9bab-487ef1f938c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\rendering">
+      <UniqueIdentifier>{0227287f-c9bb-45c6-a999-8e522ceaf21e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProjectLoader.cpp">
@@ -101,6 +110,15 @@
     </ClCompile>
     <ClCompile Include="OSE-V2-STD-Modules\WindowManagerGLFW.cpp">
       <Filter>Source Files\windowing</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\maths</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\RenderingEngineGL.cpp">
+      <Filter>Source Files\rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderingEngine.cpp">
+      <Filter>Source Files\rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -185,5 +203,1525 @@
     <ClInclude Include="EngineReferences.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="RenderingEngine.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\setup.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_float.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_gentype.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_half.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_int.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec1.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_features.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_fixes.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_swizzle.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_swizzle_func.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\_vectorize.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\ext.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\fwd.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\glm.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\bitfield.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\constants.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\epsilon.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_access.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_inverse.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_transform.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\random.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\reciprocal.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\round.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\type_precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\type_ptr.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\ulp.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\vec1.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\associated_min_max.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\bit.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\closest_point.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\color_space.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\color_space_YCoCg.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\compatibility.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\component_wise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\dual_quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\euler_angles.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\extend.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\extented_min_max.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_square_root.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_trigonometry.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\gradient_paint.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\handed_coordinate_space.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\intersect.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\io.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\log_base.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_cross_product.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_decompose.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_interpolation.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_major_storage.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_operation.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_query.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_transform_2d.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\mixed_product.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\multiple.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\norm.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\normal.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\normalize_dot.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\number_precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\optimum_pow.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\orthonormalize.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\perpendicular.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\polar_coordinates.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\projection.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\range.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\raw_data.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\rotate_normalized_axis.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\rotate_vector.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\scalar_multiplication.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\scalar_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_mat4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_quat.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\spline.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\std_based_type.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\string_cast.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\transform.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\transform2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\type_aligned.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\vector_angle.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\vector_query.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\wrap.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat2x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat2x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat2x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat3x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat3x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat3x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat4x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat4x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\mat4x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\maths</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\func_vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\intrinsic_vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\setup.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_float.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_gentype.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_half.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_int.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat2x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat2x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat2x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat3x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat3x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat3x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat4x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat4x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_mat4x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_vec.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_vec1.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_vec2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_vec3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\type_vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_features.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_fixes.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_swizzle.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_swizzle_func.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\detail\_vectorize.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\ext.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\fwd.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\geometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\glm.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\bitfield.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\constants.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\epsilon.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\matrix_access.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\matrix_integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\matrix_inverse.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\matrix_transform.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\noise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\random.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\reciprocal.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\round.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\type_precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\type_ptr.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\ulp.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtc\vec1.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\associated_min_max.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\bit.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\closest_point.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\color_space.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\color_space_YCoCg.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\common.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\compatibility.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\component_wise.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\dual_quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\euler_angles.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\extend.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\extented_min_max.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\fast_exponential.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\fast_square_root.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\fast_trigonometry.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\gradient_paint.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\handed_coordinate_space.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\intersect.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\io.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\log_base.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_cross_product.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_decompose.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_interpolation.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_major_storage.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_operation.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_query.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\matrix_transform_2d.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\mixed_product.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\multiple.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\norm.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\normal.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\normalize_dot.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\number_precision.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\optimum_pow.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\orthonormalize.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\perpendicular.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\polar_coordinates.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\projection.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\quaternion.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\range.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\raw_data.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\rotate_normalized_axis.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\rotate_vector.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\scalar_multiplication.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\scalar_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\simd_mat4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\simd_quat.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\simd_vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\spline.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\std_based_type.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\string_cast.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\transform.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\transform2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\type_aligned.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\vector_angle.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\vector_query.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\gtx\wrap.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\integer.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat2x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat2x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat2x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat3x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat3x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat3x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat4x2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat4x3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\mat4x4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\matrix.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\packing.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\trigonometric.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\vec2.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\vec3.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\vec4.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineDependencies\glm\vector_relational.hpp">
+      <Filter>Header Files\dependencies</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\RenderingEngineGL.h">
+      <Filter>Header Files\rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="VideoMode.h">
+      <Filter>Header Files\windowing</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_geometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_matrix.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_noise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_packing.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_trigonometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_vector_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_geometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_matrix.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_trigonometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\intrinsic_vector_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_gentype.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_half.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat2x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat3x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_mat4x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec1.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec4_avx.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec4_avx2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\type_vec4_sse2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\bitfield.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\constants.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\epsilon.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_access.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_inverse.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\matrix_transform.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\noise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\packing.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\random.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\reciprocal.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\round.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\type_precision.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\type_ptr.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\ulp.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtc\vec1.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\associated_min_max.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\bit.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\closest_point.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\color_space.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\color_space_YCoCg.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\compatibility.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\component_wise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\dual_quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\euler_angles.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\extend.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\extented_min_max.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_square_root.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\fast_trigonometry.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\gradient_paint.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\handed_coordinate_space.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\intersect.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\io.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\log_base.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_cross_product.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_decompose.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_interpolation.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_major_storage.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_operation.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_query.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\matrix_transform_2d.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\mixed_product.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\multiple.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\norm.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\normal.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\normalize_dot.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\number_precision.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\optimum_pow.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\orthonormalize.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\perpendicular.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\polar_coordinates.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\projection.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\raw_data.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\rotate_normalized_axis.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\rotate_vector.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\scalar_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_mat4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_quat.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\simd_vec4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\spline.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\std_based_type.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\string_cast.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\transform.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\transform2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\type_aligned.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\vector_angle.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\vector_query.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\gtx\wrap.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_geometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_matrix.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_noise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_packing.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_trigonometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\func_vector_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_geometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_matrix.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_trigonometric.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\intrinsic_vector_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_gentype.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_half.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat2x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat2x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat2x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat3x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat3x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat3x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat4x2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat4x3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_mat4x4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec1.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec3.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec4_avx.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec4_avx2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\detail\type_vec4_sse2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\bitfield.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\constants.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\epsilon.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\matrix_access.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\matrix_inverse.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\matrix_transform.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\noise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\packing.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\random.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\reciprocal.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\round.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\type_precision.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\type_ptr.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\ulp.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtc\vec1.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\associated_min_max.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\bit.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\closest_point.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\color_space.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\color_space_YCoCg.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\common.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\compatibility.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\component_wise.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\dual_quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\euler_angles.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\extend.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\extented_min_max.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\fast_exponential.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\fast_square_root.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\fast_trigonometry.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\gradient_paint.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\handed_coordinate_space.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\integer.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\intersect.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\io.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\log_base.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_cross_product.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_decompose.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_interpolation.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_major_storage.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_operation.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_query.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\matrix_transform_2d.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\mixed_product.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\multiple.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\norm.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\normal.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\normalize_dot.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\number_precision.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\optimum_pow.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\orthonormalize.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\perpendicular.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\polar_coordinates.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\projection.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\quaternion.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\raw_data.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\rotate_normalized_axis.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\rotate_vector.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\scalar_relational.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\simd_mat4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\simd_quat.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\simd_vec4.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\spline.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\std_based_type.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\string_cast.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\transform.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\transform2.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\type_aligned.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\vector_angle.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\vector_query.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
+    <None Include="EngineDependencies\glm\gtx\wrap.inl">
+      <Filter>Header Files\dependencies</Filter>
+    </None>
   </ItemGroup>
 </Project>

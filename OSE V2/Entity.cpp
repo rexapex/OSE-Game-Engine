@@ -33,6 +33,9 @@ namespace origami_sheep_engine
 			//using a clone method prevents slicing
 			components_.push_back(comp->clone());
 		}
+
+		this->local_transform_ = other.local_transform_;
+		this->global_transform_ = other.global_transform_;
 	}
 
 
@@ -55,6 +58,9 @@ namespace origami_sheep_engine
 			components_.push_back(comp->clone());
 		}
 
+		this->local_transform_ = other.local_transform_;
+		this->global_transform_ = other.global_transform_;
+
 		return *this;
 	}
 
@@ -65,6 +71,8 @@ namespace origami_sheep_engine
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
 		this->components_ = std::move(other.components_);
+		this->local_transform_ = other.local_transform_;
+		this->global_transform_ = other.global_transform_;
 	}
 
 
@@ -74,6 +82,197 @@ namespace origami_sheep_engine
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
 		this->components_ = std::move(other.components_);
+		this->local_transform_ = other.local_transform_;
+		this->global_transform_ = other.global_transform_;
 		return *this;
 	}*/
+
+
+
+	/**
+	Entity transformation methods
+	Updates both the local and global transforms
+	*/
+
+	void Entity::translate(const glm::vec3 & translation)
+	{
+		local_transform_.translate(translation);
+		global_transform_.translate(translation);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.translateParent(translation);
+		}
+	}
+
+	void Entity::translate(const float x, const float y, const float z)
+	{
+		local_transform_.translate(x, y, z);
+		global_transform_.translate(x, y, z);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.translateParent(x, y, z);
+		}
+	}
+
+	//rotate by radians
+	void Entity::rotate(const glm::vec3 & change)
+	{
+		local_transform_.rotate(change);
+		global_transform_.rotate(change);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateParent(change);
+		}
+	}
+
+	void Entity::rotate(const float pitch, const float yaw, const float roll)
+	{
+		local_transform_.rotate(pitch, yaw, roll);
+		global_transform_.rotate(pitch, yaw, roll);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateParent(pitch, yaw, roll);
+		}
+	}
+
+	//rotate by degrees
+	void Entity::rotateDeg(const glm::vec3 & change)
+	{
+		local_transform_.rotateDeg(change);
+		global_transform_.rotateDeg(change);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateDegParent(change);
+		}
+	}
+
+	void Entity::rotateDeg(const float pitch, const float yaw, const float roll)
+	{
+		local_transform_.rotateDeg(pitch, yaw, roll);
+		global_transform_.rotateDeg(pitch, yaw, roll);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateDegParent(pitch, yaw, roll);
+		}
+	}
+
+	void Entity::scale(const float scalar)
+	{
+		local_transform_.scale(scalar);
+		global_transform_.scale(scalar);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(scalar);
+		}
+	}
+
+	void Entity::scale(const glm::vec3 & multiplier)
+	{
+		local_transform_.scale(multiplier);
+		global_transform_.scale(multiplier);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(multiplier);
+		}
+	}
+
+	void Entity::scale(const float x, const float y, const float z)
+	{
+		local_transform_.scale(x, y, z);
+		global_transform_.scale(x, y, z);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(x, y, z);
+		}
+	}
+
+
+
+	/**
+	Entity transformation methods
+	Updates just the global transform, i.e. for when parent entity has been transformed
+	*/
+
+	void Entity::translateParent(const glm::vec3 & translation)
+	{
+		global_transform_.translate(translation);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.translateParent(translation);
+		}
+	}
+
+	void Entity::translateParent(const float x, const float y, const float z)
+	{
+		global_transform_.translate(x, y, z);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.translateParent(x, y, z);
+		}
+	}
+
+	//rotate by radians
+	void Entity::rotateParent(const glm::vec3 & change)
+	{
+		global_transform_.rotate(change);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateParent(change);
+		}
+	}
+
+	void Entity::rotateParent(const float pitch, const float yaw, const float roll)
+	{
+		global_transform_.rotate(pitch, yaw, roll);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateParent(pitch, yaw, roll);
+		}
+	}
+
+	//rotate by degrees
+	void Entity::rotateDegParent(const glm::vec3 & change)
+	{
+		global_transform_.rotateDeg(change);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateDegParent(change);
+		}
+	}
+
+	void Entity::rotateDegParent(const float pitch, const float yaw, const float roll)
+	{
+		global_transform_.rotateDeg(pitch, yaw, roll);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.rotateDegParent(pitch, yaw, roll);
+		}
+	}
+
+	void Entity::scaleParent(const float scalar)
+	{
+		global_transform_.scale(scalar);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(scalar);
+		}
+	}
+
+	void Entity::scaleParent(const glm::vec3 & multiplier)
+	{
+		global_transform_.scale(multiplier);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(multiplier);
+		}
+	}
+
+	void Entity::scaleParent(const float x, const float y, const float z)
+	{
+		global_transform_.scale(x, y, z);
+		for(auto & sub_entity : sub_entities_)
+		{
+			sub_entity.scaleParent(x, y, z);
+		}
+	}
 }
