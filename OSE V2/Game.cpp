@@ -17,7 +17,7 @@ namespace origami_sheep_engine
 
 		this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
 		this->window_manager_->setEngineReferences(this->rendering_engine_.get());
-		this->rendering_engine_->set_framebuffer_size(fbwidth, fbheight);
+		this->rendering_engine_->set_projection_mode_and_fbsize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->time_.init(this->window_manager_->getTimeSeconds());
 	}

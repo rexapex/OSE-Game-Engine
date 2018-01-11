@@ -13,6 +13,9 @@ namespace origami_sheep_engine
 
 		virtual void render() = 0;
 
+		//saves having to resize framebuffers twice
+		void set_projection_mode_and_fbsize(const EProjectionMode & projection_mode, const int width, const int height);
+
 		void set_projection_mode(const EProjectionMode & projection_mode);
 
 		void set_framebuffer_size(const int width, const int height);

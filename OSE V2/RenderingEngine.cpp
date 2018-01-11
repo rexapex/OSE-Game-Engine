@@ -12,6 +12,18 @@ namespace origami_sheep_engine
 
 	}
 
+	//saves having to resize framebuffers twice
+	void RenderingEngine::set_projection_mode_and_fbsize(const EProjectionMode & projection_mode, const int width, const int height)
+	{
+		if(this->projection_mode_ != projection_mode)
+		{
+			this->projection_mode_ = projection_mode;
+		}
+		this->fbwidth_ = width;
+		this->fbheight_ = height;
+		this->updateProjectionMatrix();
+	}
+
 	void RenderingEngine::set_projection_mode(const EProjectionMode & projection_mode)
 	{
 		if(this->projection_mode_ != projection_mode)
