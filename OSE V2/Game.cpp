@@ -11,10 +11,15 @@ namespace origami_sheep_engine
 		this->thread_manager_ = std::make_unique<ThreadManager>();
 		
 		this->window_manager_ = std::make_unique<WindowManagerImpl>();
-		this->window_manager_->getAvailableVideoModes();
 		this->window_manager_->createWindow(1);
+		int fbwidth { this->window_manager_->getFramebufferWidth() };
+		int fbheight { this->window_manager_->getFramebufferHeight() };
 
 		this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
+		this->window_manager_->setEngineReferences(this->rendering_engine_.get());
+		this->rendering_engine_->set_framebuffer_size(fbwidth, fbheight);
+
+		this->time_.init(this->window_manager_->getTimeSeconds());
 	}
 
 
@@ -144,14 +149,14 @@ namespace origami_sheep_engine
 	{
 		time_t t = time(0);	//get current time in seconds
 
-		glOrtho(-1920/2, 1920/2, -1080/2, 1080/2, 0, 100);
-		glViewport(0, 0, 1920, 1080);
-
 		while(running_)
 		{
 			window_manager_->update();		//renders previous frame to window and poll for new event
+			time_.update(window_manager_->getTimeSeconds());
 			rendering_engine_->render();
 
+			//LOG("delta time: " << time_.get_delta_time() << ", fps: " << time_.get_fps());
+			
 			//TODO - do something here
 			time_t p = time(0);
 
@@ -170,5 +175,7 @@ namespace origami_sheep_engine
 			}*/
 		}
 	}
+
+	
 }
 

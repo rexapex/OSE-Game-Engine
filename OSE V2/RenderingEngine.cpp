@@ -2,7 +2,7 @@
 
 namespace origami_sheep_engine
 {
-	RenderingEngine::RenderingEngine()
+	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE)
 	{
 
 	}
@@ -10,5 +10,38 @@ namespace origami_sheep_engine
 	RenderingEngine::~RenderingEngine()
 	{
 
+	}
+
+	void RenderingEngine::set_projection_mode(const EProjectionMode & projection_mode)
+	{
+		if(this->projection_mode_ != projection_mode)
+		{
+			this->projection_mode_ = projection_mode;
+			this->updateProjectionMatrix();
+		}
+	}
+
+	void RenderingEngine::set_framebuffer_size(const int width, const int height)
+	{
+		this->fbwidth_ = width;
+		this->fbheight_ = height;
+		this->updateProjectionMatrix();
+	}
+
+	void RenderingEngine::updateProjectionMatrix()
+	{
+		switch(projection_mode_)
+		{
+		case EProjectionMode::ORTHOGRAPHIC:
+		{
+			this->updateOrthographicProjectionMatrix(fbwidth_, fbheight_);
+			break;
+		}
+		case EProjectionMode::PERSPECTIVE:
+		{
+			this->updatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
+			break;
+		}
+		}
 	}
 }

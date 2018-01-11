@@ -1,7 +1,5 @@
 #pragma once
 
-#define GLEW_STATIC
-
 #include "Project.h"
 #include "ProjectLoader.h"
 #include "Scene.h"
@@ -9,7 +7,7 @@
 #include "ThreadManager.h"
 #include "WindowManager.h"
 #include "RenderingEngine.h"
-#include <GL/glew.h>
+#include "Time.h"
 #include <ctime>
 
 namespace origami_sheep_engine
@@ -67,6 +65,9 @@ namespace origami_sheep_engine
 
 		//rendering engine handles all rendering of entity render objects
 		std::unique_ptr<RenderingEngine> rendering_engine_;
+
+		//time handles calculation of delta time, fps etc. and provides a way for scripts to get the timing variables
+		Time time_;
 
 		//true iff the game is currently running (paused is a subset of running)
 		bool running_;

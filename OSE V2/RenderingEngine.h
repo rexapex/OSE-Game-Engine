@@ -1,5 +1,8 @@
 #pragma once
 
+#include "stdafx.h"
+#include "EProjectionMode.h"
+
 namespace origami_sheep_engine
 {
 	class RenderingEngine
@@ -10,7 +13,18 @@ namespace origami_sheep_engine
 
 		virtual void render() = 0;
 
-		virtual void switchTo2DMode(const float left, const float right, const float bottom, const float top) = 0;
-		virtual void switchTo3DMode(const float fovyDeg, const float aspect_ratio, const float znear, const float zfar) = 0;
+		void set_projection_mode(const EProjectionMode & projection_mode);
+
+		void set_framebuffer_size(const int width, const int height);
+
+	private:
+		EProjectionMode projection_mode_;
+
+		int fbwidth_, fbheight_;
+
+		void updateProjectionMatrix();
+
+		virtual void updateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) = 0;
+		virtual void updatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar) = 0;
 	};
 }
