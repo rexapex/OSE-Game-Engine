@@ -6,7 +6,7 @@
 namespace origami_sheep_engine
 {
 	//for convenience
-	typedef const unsigned char * IMGDATA;
+	typedef unsigned char * IMGDATA;
 
 	class Texture
 	{
@@ -26,12 +26,12 @@ namespace origami_sheep_engine
 		void set_name(const std::string & name) { name_ = name; }
 		void set_path(const std::string & path) { path_ = path; }
 
-		const uint32_t get_width() const { return width_; }
-		const uint32_t get_height() const { return height_; }
+		const int32_t get_width() const { return width_; }
+		const int32_t get_height() const { return height_; }
 		IMGDATA const get_img_data() const { return img_data_; }
 
 		//set the img data, width and height after the texture has been loaded
-		void set_img_data(IMGDATA const img_data, uint32_t width, uint32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
+		void set_img_data(IMGDATA const img_data, int32_t width, int32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
 
 		const ETextureFilterMode get_mag_filter_mode() const { return mag_filter_mode_; }
 		const ETextureFilterMode get_min_filter_mode() const { return min_filter_mode_; }
@@ -54,7 +54,7 @@ namespace origami_sheep_engine
 		std::string path_;
 
 		IMGDATA img_data_ { nullptr };
-		uint32_t width_ { 0 }, height_ { 0 };
+		int32_t width_ { 0 }, height_ { 0 };
 
 		//magnification & minification texture filtering modes
 		ETextureFilterMode mag_filter_mode_ { ETextureFilterMode::LINEAR };
