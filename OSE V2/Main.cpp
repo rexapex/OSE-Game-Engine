@@ -12,7 +12,6 @@ int main()
 	DEBUG_LOG(t.get_forward().x << ", " << t.get_forward().y << ", " << t.get_forward().z);
 	DEBUG_LOG(t.get_right().x << ", " << t.get_right().y << ", " << t.get_right().z);
 
-
 	std::unique_ptr<Game> game = std::make_unique<Game>();
 	game->loadProject("OSE-V2-TestProject");
 	game->loadScene("scene1");

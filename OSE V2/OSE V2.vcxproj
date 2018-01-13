@@ -144,6 +144,7 @@
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -305,6 +306,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="EProjectionMode.h" />
     <ClInclude Include="ESceneSwitchMode.h" />
+    <ClInclude Include="ETextureEdgeSamplingMode.h" />
+    <ClInclude Include="ETextureFilterMode.h" />
     <ClInclude Include="FileHandlingUtil.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameThread.h" />
@@ -314,6 +317,7 @@
     <ClInclude Include="MeshFilter.h" />
     <ClInclude Include="MeshRenderer.h" />
     <ClInclude Include="EngineReferences.h" />
+    <ClInclude Include="ModelLoader.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.hpp" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_exponential.hpp" />
@@ -466,6 +470,9 @@
     <ClInclude Include="Scene.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Tag.h" />
+    <ClInclude Include="Texture.h" />
+    <ClInclude Include="TextureLoader.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\TextureLoaderSOIL.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />
@@ -491,6 +498,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Tag.cpp" />
+    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\TextureLoaderSOIL.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="ThreadManager.cpp" />
     <ClCompile Include="Time.cpp" />
     <ClCompile Include="Transform.cpp" />

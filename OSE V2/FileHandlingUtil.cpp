@@ -46,3 +46,55 @@ void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 	}
 #endif
 }
+
+//Copy the file at the from path to the to path
+void FileHandlingUtil::copyFile(const std::string & from, const std::string & to)
+{
+	try
+	{
+		//first, create the necessary directories
+		std::experimental::filesystem::create_directories(parentPathFromPath(to));
+
+		//then, copy the file
+		bool success = std::experimental::filesystem::copy_file(from, to);
+
+		if(success)
+		{
+			LOG("success: " + from + " copied successfully to " + to);
+		}
+		else
+		{
+			LOG("error: " + from + " could not be copied to " + to);
+		}
+	}
+	catch(std::experimental::filesystem::filesystem_error &)
+	{
+		LOG("error: invalid arguments");
+	}
+}
+
+//Creates directories given in path if they do not already exist
+void FileHandlingUtil::createDirs(const std::string & path)
+{
+	auto & p = std::experimental::filesystem::path(path);
+	if(p.has_filename())
+	{
+		std::experimental::filesystem::create_directories(parentPathFromPath(path));
+	}
+	else
+	{
+		std::experimental::filesystem::create_directories(path);
+	}
+}
+
+//Get the filename of a path
+std::string FileHandlingUtil::filenameFromPath(const std::string & path)
+{
+	return std::experimental::filesystem::path(path).filename().string();
+}
+
+//Get the parent path of a path
+std::string FileHandlingUtil::parentPathFromPath(const std::string & path)
+{
+	return std::experimental::filesystem::path(path).parent_path().string();
+}

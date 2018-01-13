@@ -42,18 +42,21 @@ namespace origami_sheep_engine
 
 	void RenderingEngine::updateProjectionMatrix()
 	{
-		switch(projection_mode_)
+		if(fbwidth_ != 0 && fbheight_ != 0)		//minimisation and tabbing out need not cause a frame buffer update
 		{
-		case EProjectionMode::ORTHOGRAPHIC:
-		{
-			this->updateOrthographicProjectionMatrix(fbwidth_, fbheight_);
-			break;
-		}
-		case EProjectionMode::PERSPECTIVE:
-		{
-			this->updatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
-			break;
-		}
+			switch(projection_mode_)
+			{
+			case EProjectionMode::ORTHOGRAPHIC:
+			{
+				this->updateOrthographicProjectionMatrix(fbwidth_, fbheight_);
+				break;
+			}
+			case EProjectionMode::PERSPECTIVE:
+			{
+				this->updatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
+				break;
+			}
+			}
 		}
 	}
 }

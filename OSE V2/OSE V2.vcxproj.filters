@@ -64,6 +64,12 @@
     <Filter Include="Source Files\rendering">
       <UniqueIdentifier>{0227287f-c9bb-45c6-a999-8e522ceaf21e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\resource-management">
+      <UniqueIdentifier>{3938cfff-eeee-4eb9-8216-c036bdf84e75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\resource-management">
+      <UniqueIdentifier>{6d119566-0947-40ae-ae90-eac2dfe45a1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ProjectLoader.cpp">
@@ -86,9 +92,6 @@
     </ClCompile>
     <ClCompile Include="Scene.cpp">
       <Filter>Source Files\game</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>Source Files\project</Filter>
     </ClCompile>
     <ClCompile Include="FileHandlingUtil.cpp">
       <Filter>Source Files\util</Filter>
@@ -122,6 +125,18 @@
     </ClCompile>
     <ClCompile Include="Time.cpp">
       <Filter>Source Files\game</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>Source Files\resource-management</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\resource-management</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\TextureLoaderSOIL.cpp">
+      <Filter>Source Files\resource-management</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\resource-management</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,9 +174,6 @@
       <Filter>Header Files\entity</Filter>
     </ClInclude>
     <ClInclude Include="ProjectInfo.h">
-      <Filter>Header Files\project</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
       <Filter>Header Files\project</Filter>
     </ClInclude>
     <ClInclude Include="FileHandlingUtil.h">
@@ -1075,6 +1087,27 @@
     </ClInclude>
     <ClInclude Include="Time.h">
       <Filter>Header Files\game</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="ModelLoader.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="ETextureFilterMode.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="ETextureEdgeSamplingMode.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\TextureLoaderSOIL.h">
+      <Filter>Header Files\resource-management</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

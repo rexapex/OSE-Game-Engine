@@ -1,5 +1,6 @@
 #pragma once
 #include <fstream>
+#include <filesystem>
 
 #if defined(__APPLE__) || defined(__linux__)
 #include <pwd.h>
@@ -23,5 +24,18 @@ public:
 	//Returns Documents folder on Windows
 	//WARNING: NOT THREAD SAFE
 	static void getHomeDirectory(std::string & home_dir_path);
+
+	//Copy the file at the from path to the to path
+	//Will create the necessary destination directories
+	static void copyFile(const std::string & from, const std::string & to);
+
+	//Creates directories given in path if they do not already exist
+	static void createDirs(const std::string & path);
+
+	//Get the filename of a path
+	static std::string filenameFromPath(const std::string & path);
+
+	//Get the parent path of a path
+	static std::string parentPathFromPath(const std::string & path);
 };
 
