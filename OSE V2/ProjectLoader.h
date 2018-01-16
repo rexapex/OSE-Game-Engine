@@ -38,6 +38,6 @@ namespace origami_sheep_engine
 
 		//Loads an entity prefab which can be used multiple times
 		virtual void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_name,
-															const std::string & prefab_path, const std::string & project_path) = 0;
+															const std::string & prefab_path, const Project & project) = 0;
 	};
 }

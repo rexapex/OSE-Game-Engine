@@ -87,6 +87,12 @@ void FileHandlingUtil::createDirs(const std::string & path)
 	}
 }
 
+//Returns true iff the path exists and is a file
+bool FileHandlingUtil::doesFileExist(const std::string & path)
+{
+	return std::experimental::filesystem::exists(path) && std::experimental::filesystem::is_regular_file(path);
+}
+
 //Get the filename of a path
 std::string FileHandlingUtil::filenameFromPath(const std::string & path)
 {

@@ -44,6 +44,10 @@ namespace origami_sheep_engine
 	void Game::loadProject(const std::string & proj_name)
 	{
 		this->project_ = this->project_loader_->loadProject(proj_name);
+		//TODO - remove test (works)
+		//resource_manager_->importFile("D:/James/Documents/Resources/2D Game Resources/rock.png", "sub");
+		//resource_manager_->addTexture("rock.png");
+		//resource_manager_->addTexture("sub/rock.png", "rock2.png");
 	}
 
 

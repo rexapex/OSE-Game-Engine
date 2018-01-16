@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "Texture.h"
+#include "TextureLoader.h"
 
 namespace origami_sheep_engine
 {
@@ -14,8 +15,8 @@ namespace origami_sheep_engine
 		ResourceManager(ResourceManager &) = delete;
 		ResourceManager & operator=(ResourceManager &) = delete;
 		//moving is allowed
-		ResourceManager(ResourceManager &&) noexcept = default;
-		ResourceManager & operator=(ResourceManager &&) noexcept = default;
+		ResourceManager(ResourceManager &&) noexcept;
+		ResourceManager & operator=(ResourceManager &&) noexcept;
 
 		//import a file into the project resources directory
 		//sub_dir is a sub directory within the resources directory
@@ -31,10 +32,17 @@ namespace origami_sheep_engine
 		void addTexture(const std::string & path, const std::string & name = "");
 
 		//remove the texture from the textures list and free the texture's resources
-		void removeTexture(const uint32_t index);	//remove by index
-		void removeTexture(const Texture & tex);	//remove by element
+		void removeTexture(const std::string & tex_name);	//remove by texture name
+		void removeTexture(const Texture & tex);			//remove by element
 
 	private:
+		//the root path of the currently loaded project
 		std::string project_path_;
+
+		//maps texture name to texture object
+		std::map<std::string, Texture> name_to_tex_map_;
+
+		//the TextureLoader object used for loading textures from image files
+		std::unique_ptr<TextureLoader> texture_loader_;
 	};
 }

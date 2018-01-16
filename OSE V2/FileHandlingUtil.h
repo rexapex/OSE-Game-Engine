@@ -32,6 +32,9 @@ public:
 	//Creates directories given in path if they do not already exist
 	static void createDirs(const std::string & path);
 
+	//Returns true iff the path exists and is a file
+	static bool doesFileExist(const std::string & path);
+
 	//Get the filename of a path
 	static std::string filenameFromPath(const std::string & path);
 

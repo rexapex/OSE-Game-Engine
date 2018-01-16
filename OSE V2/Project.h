@@ -20,6 +20,7 @@ namespace origami_sheep_engine
 		const ProjectInfo & get_project_info() const { return this->project_info_; }
 		const std::string & get_project_path() const { return this->project_path_; }
 		const std::map<std::string, std::string> & get_scene_names_to_path_map() const { return this->scene_names_to_path_; }
+		ResourceManager * const get_resource_manager() const { return resource_manager_.get(); }
 
 	private:
 		std::string project_path_;
