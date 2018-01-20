@@ -21,7 +21,7 @@ namespace origami_sheep_engine
 	void ResourceManager::importFile(const std::string & file_path, const std::string & sub_dir)
 	{
 		//TODO - don't accept .meta files
-		//TODO - auto generate a .meta file for the new resources if successfully imported
+		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't it's type here!!!)
 		FileHandlingUtil::copyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::filenameFromPath(file_path));
 	}
 
@@ -59,7 +59,36 @@ namespace origami_sheep_engine
 				
 				Texture & tex = name_to_tex_map_.at(name_to_use);	//get a references to the newly created texture
 
-				//TODO - do the loading multi-threading
+				//load or generate the texture's meta data
+				std::string meta_abs_path { abs_path + ".meta" };
+				bool success = false;
+				TextureMetaData meta_data;	//object will have default values
+				if(FileHandlingUtil::doesFileExist(meta_abs_path))
+				{
+					//load meta data file
+					try
+					{
+						loadTextureMetaFile(meta_abs_path, meta_data);
+						success = true;
+					}
+					catch(const std::exception &) {}	//success will be false, therefore, meta file will be created
+				}
+				else if(!success)
+				{
+					//create meta data file
+					//compiler auto concatenates adjacent string literals
+					FileHandlingUtil::writeTextFile(meta_abs_path,	"mag_filter_mode 0\n"
+																	"min_filter_mode 0\n"
+																	"mip_mapping_enabled 1\n"
+																	"min_LOD 0\n"
+																	"max_LOD 0\n"
+																	"LOD_bias 0");
+				}
+
+				//set the texture's meta data
+				tex.set_meta_data(meta_data);
+
+				//TODO - do the loading with multi-threading
 				int32_t w, h;
 				IMGDATA d;
 				texture_loader_->loadTexture(abs_path, &d, &w, &h);
@@ -93,5 +122,46 @@ namespace origami_sheep_engine
 		//defer processing to remove texture by name function
 		//assumes texture names are unique
 		removeTexture(tex.get_name());
+	}
+
+	//loads a meta file for some texture, meta files map properties to values
+	void ResourceManager::loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
+	{
+		//load the meta data string
+		std::string contents;
+		try
+		{
+			FileHandlingUtil::loadTextFile(abs_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			//error occurred, therefore, return an empty project info stub
+			LOG("FileHandlingUtil::load_text_file -> " << e.what());
+			throw e;
+		}
+
+		std::stringstream iss { contents };
+		//yucky solution but if it works it works
+		while(iss)
+		{
+			std::string property;
+			iss >> property;
+			uint32_t value;
+			iss >> value;
+
+			if(property == "mag_filter_mode") {
+				meta_data.mag_filter_mode_ = static_cast<ETextureFilterMode>(value);
+			} else if(property == "min_filter_mode") {
+				meta_data.min_filter_mode_ = static_cast<ETextureFilterMode>(value);
+			} else if(property == "mip_mapping_enabled") {
+				meta_data.mip_mapping_enabled_ = static_cast<bool>(value);
+			} else if(property == "min_LOD") {
+				meta_data.min_LOD_ = value;
+			} else if(property == "max_LOD") {
+				meta_data.max_LOD_ = value;
+			} else if(property == "LOD_bias") {
+				meta_data.LOD_bias_ = value;
+			}
+		}
 	}
 }

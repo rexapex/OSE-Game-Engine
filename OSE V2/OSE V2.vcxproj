@@ -473,6 +473,7 @@
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureLoader.h" />
     <ClInclude Include="OSE-V2-STD-Modules\TextureLoaderSOIL.h" />
+    <ClInclude Include="TextureMetaData.h" />
     <ClInclude Include="ThreadManager.h" />
     <ClInclude Include="Time.h" />
     <ClInclude Include="Transform.h" />

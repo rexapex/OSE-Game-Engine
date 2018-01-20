@@ -1109,6 +1109,9 @@
     <ClInclude Include="OSE-V2-STD-Modules\TextureLoaderSOIL.h">
       <Filter>Header Files\resource-management</Filter>
     </ClInclude>
+    <ClInclude Include="TextureMetaData.h">
+      <Filter>Header Files\resource-management</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">

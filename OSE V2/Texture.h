@@ -2,6 +2,7 @@
 
 #include "stdafx.h"
 #include "ETextureFilterMode.h"
+#include "TextureMetaData.h"
 
 namespace origami_sheep_engine
 {
@@ -33,21 +34,24 @@ namespace origami_sheep_engine
 		//set the img data, width and height after the texture has been loaded
 		void set_img_data(IMGDATA const img_data, int32_t width, int32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
 
-		const ETextureFilterMode get_mag_filter_mode() const { return mag_filter_mode_; }
-		const ETextureFilterMode get_min_filter_mode() const { return min_filter_mode_; }
+		const ETextureFilterMode get_mag_filter_mode() const { return meta_data_.mag_filter_mode_; }
+		const ETextureFilterMode get_min_filter_mode() const { return meta_data_.min_filter_mode_; }
 
-		void set_mag_filter_mode(const ETextureFilterMode & mode) { mag_filter_mode_ = mode; }
-		void set_min_filter_mode(const ETextureFilterMode & mode) { min_filter_mode_ = mode; }
+		void set_mag_filter_mode(const ETextureFilterMode & mode) { meta_data_.mag_filter_mode_ = mode; }
+		void set_min_filter_mode(const ETextureFilterMode & mode) { meta_data_.min_filter_mode_ = mode; }
 
-		const bool is_mip_mapping_enabled() const { return mip_mapping_enabled_; }
-		const uint32_t get_min_LOD() const { return min_LOD_; }
-		const uint32_t get_max_LOD() const { return max_LOD_; }
-		const uint32_t get_LOD_bias() const { return LOD_bias_; }
+		const bool is_mip_mapping_enabled() const { return meta_data_.mip_mapping_enabled_; }
+		const uint32_t get_min_LOD() const { return meta_data_.min_LOD_; }
+		const uint32_t get_max_LOD() const { return meta_data_.max_LOD_; }
+		const uint32_t get_LOD_bias() const { return meta_data_.LOD_bias_; }
 
-		void set_mip_mapping_enabled(const bool enabled) { mip_mapping_enabled_ = enabled; }
-		void set_min_LOD(const uint32_t LOD) { min_LOD_ = LOD; }
-		void set_max_LOD(const uint32_t LOD) { max_LOD_ = LOD; }
-		void set_LOD_bias(const uint32_t bias) { LOD_bias_ = bias; }
+		void set_mip_mapping_enabled(const bool enabled) { meta_data_.mip_mapping_enabled_ = enabled; }
+		void set_min_LOD(const uint32_t LOD) { meta_data_.min_LOD_ = LOD; }
+		void set_max_LOD(const uint32_t LOD) { meta_data_.max_LOD_ = LOD; }
+		void set_LOD_bias(const uint32_t bias) { meta_data_.LOD_bias_ = bias; }
+
+		//set all meta data in one go
+		void set_meta_data(const TextureMetaData & meta_data) { meta_data_ = meta_data; }
 
 	private:
 		std::string name_;
@@ -56,15 +60,7 @@ namespace origami_sheep_engine
 		IMGDATA img_data_ { nullptr };
 		int32_t width_ { 0 }, height_ { 0 };
 
-		//magnification & minification texture filtering modes
-		ETextureFilterMode mag_filter_mode_ { ETextureFilterMode::LINEAR };
-		ETextureFilterMode min_filter_mode_ { ETextureFilterMode::LINEAR };
-
-		//mip mapping settings
-		bool mip_mapping_enabled_ { true };
-		//look this up here: https://www.khronos.org/opengl/wiki/Sampler_Object
-		uint32_t min_LOD_;
-		uint32_t max_LOD_;
-		uint32_t LOD_bias_;
+		//meta data stored in a separate object for easier (and probably quicker) loading
+		TextureMetaData meta_data_;
 	};
 }

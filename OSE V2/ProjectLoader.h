@@ -3,6 +3,7 @@
 #include "Project.h"
 #include "Scene.h"
 #include "Tag.h"
+#include "TextureMetaData.h"
 
 namespace origami_sheep_engine
 {

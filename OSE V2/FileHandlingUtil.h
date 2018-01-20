@@ -19,6 +19,10 @@ public:
 	//@param {std::string &} text The string to be filled with the file's text
 	static void loadTextFile(const std::string & path, std::string & text);
 
+	//Writes text file at 'path' with the contents 'text'
+	//The file will be created if it does not already exist
+	static void writeTextFile(const std::string & path, const std::string & text);
+
 	//Get the users home directory
 	//Supports compile on Windows, Linux, (TODO MacOS) using ifdef
 	//Returns Documents folder on Windows

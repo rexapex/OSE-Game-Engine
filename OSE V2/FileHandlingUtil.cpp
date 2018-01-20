@@ -19,6 +19,16 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 	}
 }
 
+//Writes text file at 'path' with the contents 'text'
+//The file will be created if it does not already exist
+void FileHandlingUtil::writeTextFile(const std::string & path, const std::string & text)
+{
+	//https://stackoverflow.com/questions/478075/creating-files-in-c
+	std::ofstream out(path);
+	out << text << std::endl;
+	out.close();
+}
+
 void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 {
 #if defined(__APPLE__) || defined(__linux__)

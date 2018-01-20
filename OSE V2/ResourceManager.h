@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "Texture.h"
 #include "TextureLoader.h"
+#include <sstream>
 
 namespace origami_sheep_engine
 {
@@ -34,6 +35,9 @@ namespace origami_sheep_engine
 		//remove the texture from the textures list and free the texture's resources
 		void removeTexture(const std::string & tex_name);	//remove by texture name
 		void removeTexture(const Texture & tex);			//remove by element
+
+		//loads a meta file for some texture, meta files map properties to values
+		void loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data);
 
 	private:
 		//the root path of the currently loaded project
