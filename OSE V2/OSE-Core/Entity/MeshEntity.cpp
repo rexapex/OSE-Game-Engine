@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "MeshEntity.h"
 
-namespace origami_sheep_engine
+namespace ose::entity
 {
 	MeshEntity::MeshEntity(const uint32_t unique_ID, const std::string & name, const std::string & tag, const std::string & prefab)
 			: Entity(unique_ID, name, tag, prefab)

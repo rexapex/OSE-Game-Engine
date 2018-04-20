@@ -1,7 +1,7 @@
 #pragma once
 #include "SpriteRenderer.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
 	struct SpriteRendererGL : public SpriteRenderer
 	{

@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "RenderingEngine.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
 	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE)
 	{

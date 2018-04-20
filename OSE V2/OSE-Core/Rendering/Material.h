@@ -2,8 +2,11 @@
 #include "../../stdafx.h"
 #include "../Entity/Component.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
+	using namespace entity;
+	using namespace rendering;
+
 	struct Material : public Component
 	{
 		//data

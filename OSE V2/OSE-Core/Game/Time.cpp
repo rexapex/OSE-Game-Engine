@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "Time.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	Time::Time() {}
 

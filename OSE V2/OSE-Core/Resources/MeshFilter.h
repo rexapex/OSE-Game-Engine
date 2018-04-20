@@ -2,7 +2,7 @@
 #include "../../stdafx.h"
 #include "../Resources/ResourceFilter.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	class MeshFilter : public ResourceFilter
 	{

@@ -3,7 +3,7 @@
 #include "../../stdafx.h"
 #include "TextureLoader.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	TextureLoader::TextureLoader(const std::string & project_path) : project_path_(project_path)
 	{

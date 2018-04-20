@@ -3,7 +3,7 @@
 #include "../Resources/Texture.h"
 #include "Renderer.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
 	struct SpriteRenderer : public Renderer
 	{

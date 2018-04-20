@@ -4,7 +4,7 @@
 #include "ResourceFilter.h"
 #include "Texture.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	struct TextureFilter : public ResourceFilter
 	{

@@ -7,7 +7,7 @@
 #include "../EngineDependencies/glm/gtc/type_ptr.hpp"
 #include "../EngineDependencies/glm/gtc/matrix_transform.hpp"
 
-namespace origami_sheep_engine
+namespace ose::math
 {
 	class Transform
 	{

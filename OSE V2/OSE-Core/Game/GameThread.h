@@ -5,7 +5,7 @@
 #include <mutex>
 #include "../../stdafx.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	class GameThread
 	{

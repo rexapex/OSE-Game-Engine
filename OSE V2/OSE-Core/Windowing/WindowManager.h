@@ -4,8 +4,10 @@
 #include "../Rendering/VideoMode.h"
 #include "../Rendering/RenderingEngine.h"
 
-namespace origami_sheep_engine
+namespace ose::windowing
 {
+	using namespace rendering;
+
 	class WindowManager
 	{
 	public:

@@ -1,11 +1,14 @@
 #pragma once
 #include "../../stdafx.h"
 #include "Entity.h"
-#include "../Rendering/MeshFilter.h"
+#include "../Resources/MeshFilter.h"
 #include "../Rendering/MeshRenderer.h"
 
-namespace origami_sheep_engine
+namespace ose::entity
 {
+	using namespace rendering;
+	using namespace resources;
+
 	class MeshEntity : public Entity
 	{
 	public:

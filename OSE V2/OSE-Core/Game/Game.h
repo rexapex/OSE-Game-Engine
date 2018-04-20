@@ -12,8 +12,13 @@
 #include "Time.h"
 #include <ctime>
 
-namespace origami_sheep_engine
+namespace ose::game
 {
+	using namespace entity;
+	using namespace project;
+	using namespace rendering;
+	using namespace windowing;
+
 	//Represents a runtime object of a game
 	//Provides a simple way of interacting with the game
 	class Game

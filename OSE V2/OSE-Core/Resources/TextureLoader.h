@@ -3,7 +3,7 @@
 #include "../../stdafx.h"
 #include "Texture.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	class TextureLoader
 	{

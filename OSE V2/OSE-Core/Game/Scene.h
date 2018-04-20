@@ -2,8 +2,10 @@
 
 #include "../Entity/Entity.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
+	using namespace entity;
+
 	class Scene
 	{
 	public:

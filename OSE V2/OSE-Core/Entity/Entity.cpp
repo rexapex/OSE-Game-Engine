@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "Entity.h"
 
-namespace origami_sheep_engine
+namespace ose::entity
 {
 	Entity::Entity(const uint32_t unique_ID, const std::string & name, const std::string & tag = "", const std::string & prefab = "")
 				 : unique_ID_(unique_ID), name_(name), tag_(tag), prefab_(prefab)

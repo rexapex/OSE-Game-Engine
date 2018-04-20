@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "ProjectLoader.h"
 
-namespace origami_sheep_engine
+namespace ose::project
 {
 	ProjectLoader::ProjectLoader()
 	{

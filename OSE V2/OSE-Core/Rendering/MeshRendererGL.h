@@ -1,7 +1,7 @@
 #pragma once
 #include "MeshRenderer.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
 	struct MeshRendererGL : public MeshRenderer
 	{

@@ -5,8 +5,11 @@
 #include "../Game/Tag.h"
 #include "../Resources/TextureMetaData.h"
 
-namespace origami_sheep_engine
+namespace ose::project
 {
+	using namespace game;
+	using namespace entity;
+
 	//Loads developer written project files into the engine
 	class ProjectLoader
 	{

@@ -5,8 +5,10 @@
 #include "../Resources/ResourceFilter.h"
 #include "../Resources/TextureFilter.h"
 
-namespace origami_sheep_engine
+namespace ose::entity
 {
+	using namespace math;
+
 	class Entity
 	{
 	public:

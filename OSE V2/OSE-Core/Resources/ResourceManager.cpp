@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "ResourceManager.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path), texture_loader_(std::make_unique<TextureLoaderImpl>(project_path)) {}
 	ResourceManager::~ResourceManager() noexcept {}

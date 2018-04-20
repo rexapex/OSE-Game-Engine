@@ -4,8 +4,10 @@
 #include "EProjectionMode.h"
 #include "../Entity/Entity.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
+	using namespace resources;
+
 	class RenderingEngine
 	{
 	public:

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	class Time
 	{

@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "Scene.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	Scene::Scene(const std::string & name) : name_(name) {}
 

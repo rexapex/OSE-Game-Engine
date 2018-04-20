@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "Transform.h"
 
-namespace origami_sheep_engine
+namespace ose::math
 {
 	Transform::Transform() : position_(), orientation_(), scale_() {}
 

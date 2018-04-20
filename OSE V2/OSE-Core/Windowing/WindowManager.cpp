@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "WindowManager.h"
 
-namespace origami_sheep_engine
+namespace ose::windowing
 {
 	WindowManager::WindowManager() {}
 

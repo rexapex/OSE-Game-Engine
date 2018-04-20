@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "ThreadManager.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	ThreadManager::ThreadManager()
 	{

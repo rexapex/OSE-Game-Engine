@@ -90,6 +90,7 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>EngineDependencies/glfw/include;EngineDependencies/glew/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -107,6 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
       <AdditionalIncludeDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,6 +127,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -466,7 +469,7 @@
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
     <ClInclude Include="OSE-Core\Rendering\Material.h" />
     <ClInclude Include="OSE-Core\Entity\MeshEntity.h" />
-    <ClInclude Include="OSE-Core\Rendering\MeshFilter.h" />
+    <ClInclude Include="OSE-Core\Resources\MeshFilter.h" />
     <ClInclude Include="OSE-Core\Rendering\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\MeshRendererGL.h" />
     <ClInclude Include="OSE-Core\Rendering\Renderer.h" />

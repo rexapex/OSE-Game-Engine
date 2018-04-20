@@ -1,7 +1,7 @@
 #include "../../stdafx.h"
 #include "Tag.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	Tag::Tag(const std::string & name) : name_(name)
 	{

@@ -3,7 +3,7 @@
 #include <mutex>
 #include "GameThread.h"
 
-namespace origami_sheep_engine
+namespace ose::game
 {
 	class ThreadManager
 	{

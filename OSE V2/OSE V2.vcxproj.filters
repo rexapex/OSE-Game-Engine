@@ -1484,9 +1484,6 @@
     <ClInclude Include="OSE-Core\Rendering\Material.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Rendering\MeshFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Rendering\MeshRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1560,6 +1557,9 @@
       <Filter>Header Files\resource-management</Filter>
     </ClInclude>
     <ClInclude Include="stdafx.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\MeshFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

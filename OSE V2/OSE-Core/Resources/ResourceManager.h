@@ -7,7 +7,7 @@
 #include "TextureMetaData.h"
 #include <sstream>
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	class ResourceManager
 	{

@@ -3,7 +3,7 @@
 #include "../Entity/Component.h"
 #include "Renderer.h"
 
-namespace origami_sheep_engine
+namespace ose::rendering
 {
 	struct MeshRenderer : public Renderer
 	{

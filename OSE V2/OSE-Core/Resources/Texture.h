@@ -4,7 +4,7 @@
 #include "../Rendering/ETextureFilterMode.h"
 #include "TextureMetaData.h"
 
-namespace origami_sheep_engine
+namespace ose::resources
 {
 	//for convenience
 	typedef unsigned char * IMGDATA;

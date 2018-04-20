@@ -3,8 +3,10 @@
 #include "ProjectInfo.h"
 #include "../Resources/ResourceManager.h"
 
-namespace origami_sheep_engine
+namespace ose::project
 {
+	using namespace resources;
+
 	//A representation of a game project as a whole
 	//Contains information about the path, the resources & the scenes available
 	//Also contains the default settings for the input and the engines

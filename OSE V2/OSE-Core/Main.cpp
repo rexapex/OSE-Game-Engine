@@ -4,7 +4,8 @@
 
 int main()
 {
-	using namespace origami_sheep_engine;
+	using namespace ose::math;
+	using namespace ose::game;
 
 	Transform t { { 0, 832043982, -432098 }, { 0, 0, 0 }, { 1, 1, 1 } };
 	//t.rotate(3.14159265359, 0, 0);
