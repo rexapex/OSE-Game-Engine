@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "CppUnitTest.h"
-#include "../OSE V2/Tag.h"
+#include "../OSE V2/OSE-Core/Game/Tag.h"
 #pragma comment(lib, "../Debug/OSE V2.lib")
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;

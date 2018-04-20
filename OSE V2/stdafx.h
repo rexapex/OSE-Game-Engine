@@ -7,7 +7,7 @@
 #include <iostream>
 #include <memory>
 
-#include "EngineReferences.h"
+#include "OSE-Core/EngineReferences.h"
 
 //convenience method for output
 #define LOG(x) do {std::cerr << x << std::endl;} while(0)
