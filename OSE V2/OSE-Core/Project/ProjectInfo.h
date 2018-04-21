@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
-
 struct ProjectInfo			//maybe change date types if required
 {
 	std::string name;

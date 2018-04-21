@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
-
 namespace ose::rendering
 {
 	struct Renderer

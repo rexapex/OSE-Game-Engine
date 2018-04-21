@@ -1,5 +1,4 @@
 #pragma once
-#include "../../stdafx.h"
 #include "../Resources/ResourceFilter.h"
 
 namespace ose::resources

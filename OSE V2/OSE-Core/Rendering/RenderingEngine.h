@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
 #include "EProjectionMode.h"
 #include "../Entity/Entity.h"
 

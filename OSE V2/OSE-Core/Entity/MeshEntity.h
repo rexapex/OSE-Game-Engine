@@ -1,5 +1,4 @@
 #pragma once
-#include "../../stdafx.h"
 #include "Entity.h"
 #include "../Resources/MeshFilter.h"
 #include "../Rendering/MeshRenderer.h"

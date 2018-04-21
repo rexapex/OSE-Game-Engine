@@ -1,7 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
-
 namespace ose::entity
 {
 	class IDManager

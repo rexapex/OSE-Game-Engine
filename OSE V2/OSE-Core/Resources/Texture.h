@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
 #include "../Rendering/ETextureFilterMode.h"
 #include "TextureMetaData.h"
 

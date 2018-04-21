@@ -1,6 +1,5 @@
 #pragma once
 
-#include "../../stdafx.h"
 #include "FileHandlingUtil.h"
 #include "Texture.h"
 #include "TextureLoader.h"

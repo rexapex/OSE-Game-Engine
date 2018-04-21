@@ -3,7 +3,6 @@
 #include <thread>
 #include <functional>
 #include <mutex>
-#include "../../stdafx.h"
 
 namespace ose::game
 {
