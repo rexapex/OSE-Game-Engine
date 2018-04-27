@@ -141,6 +141,12 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml.hpp">
@@ -1505,9 +1511,6 @@
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\ModelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Resources\ResourceFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1560,6 +1563,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Resources\MeshFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

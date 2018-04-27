@@ -10,7 +10,7 @@
 #include "OSE-Core/EngineReferences.h"
 
 //convenience method for output
-#define LOG(x) do {std::cerr << x << std::endl;} while(0)
+#define LOG(x) do {std::cout << x << std::endl;} while(0)
 
 //export functions for testing iff building in debug mode
 #ifdef _WIN32

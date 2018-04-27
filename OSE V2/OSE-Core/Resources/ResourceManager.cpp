@@ -22,7 +22,7 @@ namespace ose::resources
 	void ResourceManager::importFile(const std::string & file_path, const std::string & sub_dir)
 	{
 		//TODO - don't accept .meta files
-		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't it's type here!!!)
+		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
 		FileHandlingUtil::copyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::filenameFromPath(file_path));
 	}
 
@@ -77,7 +77,7 @@ namespace ose::resources
 				else if(!success)
 				{
 					//create meta data file
-					//compiler auto concatenates adjacent string literals
+					//NOTE - compiler auto concatenates adjacent string literals
 					FileHandlingUtil::writeTextFile(meta_abs_path,	"mag_filter_mode 0\n"
 																	"min_filter_mode 0\n"
 																	"mip_mapping_enabled 1\n"

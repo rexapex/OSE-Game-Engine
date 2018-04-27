@@ -8,6 +8,7 @@ namespace ose::resources
 	struct TextureFilter : public ResourceFilter
 	{
 	private:
+		// NOTE !IMPORTANT! - can't take a pointer to this, it may be re-allocated by ResourceManager
 		Texture * texture_;	//pointer should not be de-allocated or re-allocated, resource belongs to ResourceManager
 
 	public:
