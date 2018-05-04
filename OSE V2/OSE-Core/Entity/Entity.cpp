@@ -101,7 +101,30 @@ namespace ose::entity
 	template<class ComponentType, typename... Args>
 	void Entity::addComponent(Args &&... params)
 	{
-		components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+		components.emplace_back(new ComponentType(std::forward<Args>(params)));
+		//components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+	}
+
+	//***************
+	// Entity::getComponent
+	// returns the first component that matches the template type
+	// or that is derived from the template type
+	// EG: if the template type is Component, and components[0] type is BoxCollider
+	// then components[0] will be returned because it derives from Component
+	//***************
+	template<class ComponentType>
+	ComponentType * Entity::getComponent()
+	{
+		// check whether the type matches of each component
+		for(auto && component : components)
+		{
+			// if the type is correct, return a pointer to the component
+			if(component->isClassType(ComponentType::Type)) {
+				return static_cast<ComponentType *>(component);
+			}
+		}
+
+		return nullptr;	// returns nullptr if no component of type given exists
 	}
 
 

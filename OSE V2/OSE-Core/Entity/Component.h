@@ -40,9 +40,7 @@ namespace ose::entity
 	{
 	public:
 		static const std::size_t Type;
-		virtual bool isClassType(const std::size_t classType) const {
-			return classType == Type; 
-		}
+		virtual bool isClassType(const std::size_t classType) const { return classType == Type; }
 
 		//fields shared by all component types
 		std::string name;
@@ -85,7 +83,7 @@ namespace ose::entity
 	};
 }
 
-// include component classes after defining component macros and declaring component class
+// include component classes after defining component macros and defining component class
 #include "TextureFilter.h"
 #include "MeshFilter.h"
 #include "MeshRenderer.h"

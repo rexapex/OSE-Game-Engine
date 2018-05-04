@@ -28,13 +28,21 @@ namespace ose::entity
 		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
 
 		// get a list of all components
-		std::vector<std::unique_ptr<Component>> & get_components() { return this->components_; }
+		std::vector<Component *> & get_components() { return this->components_; }
 
 		// add a component to the entity by component type
+		// method constructs a new object of the given component type
 		// template takes the type of component
 		// method takes an array of contructor arguments
 		template<class ComponentType, typename... Args>
 		void addComponent(Args &&... params);
+
+		// get the first component of specified type
+		// returns pointer to component if one exists
+		// entity class manages pointer, returned pointer should not be deleted (de-allocated)
+		// returns nullptr if no component of type given exists
+		template<class ComponentType>
+		ComponentType * getComponent();
 
 		//read-only transform relative the parent entity/world if no parent exists
 		const Transform & get_local_transform() const { return this->local_transform_; }
@@ -83,7 +91,7 @@ namespace ose::entity
 		std::vector<Entity> sub_entities_;
 
 		// list of all components attached to this entity, components need not be active
-		std::vector<std::unique_ptr<Component>> components_;
+		std::vector<Component *> components_;
 
 		Transform local_transform_;		//the transform of the entity relative to the parent
 		Transform global_transform_;	//the transform of the entity relative to the world
