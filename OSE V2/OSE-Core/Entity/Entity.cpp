@@ -87,21 +87,27 @@ namespace ose::entity
 		return *this;
 	}*/
 
+	/**
+		Entity component manipulation methods
+		Add & Remove components by component type
+	*/
 
-
-	//set the resource filter of the entity to a texture filter
-	/*void Entity::set_resource_filter(Texture * const texture)
+	//***************
+	// Entity::addComponent
+	// perfect-forwards all params to the ComponentType constructor with the matching parameter list
+	// DEBUG: be sure to compare the arguments of this fn to the desired constructor to avoid perfect-forwarding failure cases
+	// EG: deduced initializer lists, decl-only static const int members, 0|NULL instead of nullptr, overloaded fn names, and bitfields
+	//***************
+	template<class ComponentType, typename... Args>
+	void Entity::addComponent(Args &&... params)
 	{
-		auto tex_filter = std::make_shared<TextureFilter>("new_resource_filter");
-		tex_filter->set_texture(texture);
-		this->resource_filter_ = tex_filter;
-	}*/
-
+		components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+	}
 
 
 	/**
-	Entity transformation methods
-	Updates both the local and global transforms
+		Entity transformation methods
+		Updates both the local and global transforms
 	*/
 
 	void Entity::translate(const glm::vec3 & translation)

@@ -454,7 +454,7 @@
     <ClInclude Include="OSE-Core\Game\ESceneSwitchMode.h" />
     <ClInclude Include="OSE-Core\Game\Game.h" />
     <ClInclude Include="OSE-Core\Game\GameThread.h" />
-    <ClInclude Include="OSE-Core\Entity\IDManager.h" />
+    <ClInclude Include="OSE-Core\Game\IDManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene.h" />
     <ClInclude Include="OSE-Core\Game\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />
@@ -469,20 +469,14 @@
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
     <ClInclude Include="OSE-Core\Rendering\Material.h" />
-    <ClInclude Include="OSE-Core\Entity\MeshEntity.h" />
-    <ClInclude Include="OSE-Core\Resources\MeshFilter.h" />
-    <ClInclude Include="OSE-Core\Rendering\MeshRenderer.h" />
-    <ClInclude Include="OSE-Core\Rendering\MeshRendererGL.h" />
-    <ClInclude Include="OSE-Core\Rendering\Renderer.h" />
+    <ClInclude Include="OSE-Core\Entity\MeshFilter.h" />
+    <ClInclude Include="OSE-Core\Entity\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
-    <ClInclude Include="OSE-Core\Rendering\SpriteRenderer.h" />
-    <ClInclude Include="OSE-Core\Rendering\SpriteRendererGL.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
     <ClInclude Include="OSE-Core\Resources\ModelLoader.h" />
-    <ClInclude Include="OSE-Core\Resources\ResourceFilter.h" />
     <ClInclude Include="OSE-Core\Resources\ResourceManager.h" />
     <ClInclude Include="OSE-Core\Resources\Texture.h" />
-    <ClInclude Include="OSE-Core\Resources\TextureFilter.h" />
+    <ClInclude Include="OSE-Core\Entity\TextureFilter.h" />
     <ClInclude Include="OSE-Core\Resources\TextureLoader.h" />
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="stdafx.h" />
@@ -635,6 +629,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-Core\Entity\Component.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
@@ -648,7 +643,6 @@
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\FileHandlingUtil.cpp" />
-    <ClCompile Include="OSE-Core\Entity\MeshEntity.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Resources\ModelLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp" />

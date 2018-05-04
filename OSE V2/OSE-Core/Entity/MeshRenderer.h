@@ -1,11 +1,15 @@
 #pragma once
 #include "../Entity/Component.h"
-#include "Renderer.h"
 
-namespace ose::rendering
+namespace ose::entity
 {
-	struct MeshRenderer : public Renderer
+	class MeshRenderer : public Component
 	{
+		// declare MeshRenderer as an OSE Component
+		COMPONENT_DECLERATION(MeshRenderer)
+
+	public:
+
 		//data
 		//shader reference ?
 		//pointer to material data ?
@@ -13,7 +17,7 @@ namespace ose::rendering
 
 
 		//allocate rendering engine data
-		MeshRenderer(const std::string & name) : Renderer(name) {}
+		MeshRenderer(const std::string & name) : Component(name) {}
 
 		//de-allocate rendering engine data
 		virtual ~MeshRenderer() {}
@@ -21,22 +25,22 @@ namespace ose::rendering
 
 
 		//copy constructor
-		MeshRenderer(const MeshRenderer & other) noexcept : Renderer(other) {}
+		MeshRenderer(const MeshRenderer & other) noexcept : Component(other) {}
 
 		//copy assignment constructor
 		MeshRenderer & operator=(const MeshRenderer & other) noexcept
 		{
-			Renderer::operator=(other);
+			Component::operator=(other);
 			return *this;
 		}
 
 		//move constructor
-		MeshRenderer(const MeshRenderer && other) noexcept : Renderer(other) {}
+		MeshRenderer(const MeshRenderer && other) noexcept : Component(other) {}
 
 		//move assignment constructor
 		MeshRenderer & operator=(const MeshRenderer && other) noexcept
 		{
-			Renderer::operator=(other);
+			Component::operator=(other);
 			return *this;
 		}
 

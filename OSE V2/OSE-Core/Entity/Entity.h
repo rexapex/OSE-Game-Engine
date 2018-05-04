@@ -1,13 +1,12 @@
 #pragma once
 #include "Component.h"
-#include "IDManager.h"
+#include "../Game/IDManager.h"
 #include "../Math/Transform.h"
-#include "../Resources/ResourceFilter.h"
-#include "../Resources/TextureFilter.h"
 
 namespace ose::entity
 {
 	using namespace math;
+	using namespace game;
 
 	class Entity
 	{
@@ -28,16 +27,14 @@ namespace ose::entity
 		//non-const references allow for quicker loading by emplacing items directly into vectors
 		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
 
-		//virtual void addFilter() = 0;
-		//virtual void addRenderer(std::unique_ptr<Renderer> renderer) = 0;
+		// get a list of all components
+		std::vector<std::unique_ptr<Component>> & get_components() { return this->components_; }
 
-		//std::vector<std::unique_ptr<Component>> & get_components() { return this->components_; }
-
-		//get the entities resource filter
-		//std::shared_ptr<ResourceFilter> const get_resource_filter() const { return this->resource_filter_; }
-		
-		//set the resource filter of the entity to a texture filter
-		//void set_resource_filter(Texture * const texture);
+		// add a component to the entity by component type
+		// template takes the type of component
+		// method takes an array of contructor arguments
+		template<class ComponentType, typename... Args>
+		void addComponent(Args &&... params);
 
 		//read-only transform relative the parent entity/world if no parent exists
 		const Transform & get_local_transform() const { return this->local_transform_; }
@@ -82,15 +79,14 @@ namespace ose::entity
 		std::string tag_;		//the lowest level tag applied to this entity (or "")
 		std::string prefab_;	//the name of the prefab this entity inherits from (or "")
 
+		// list of all sub/child entities
 		std::vector<Entity> sub_entities_;
 
-		//std::vector<std::unique_ptr<Component>> components_;
+		// list of all components attached to this entity, components need not be active
+		std::vector<std::unique_ptr<Component>> components_;
 
 		Transform local_transform_;		//the transform of the entity relative to the parent
 		Transform global_transform_;	//the transform of the entity relative to the world
-
-		//each entity can control one resource filter, stored in a ResourceFilter object
-		//std::shared_ptr<ResourceFilter> resource_filter_;
 
 		//isVisible, isEnabled, ...
 	};

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::entity
+namespace ose::game
 {
 	class IDManager
 	{
@@ -11,5 +11,9 @@ namespace ose::entity
 			static uint32_t id = 0;
 			return id++;
 		}
+
+	private:
+		//private constructor so class can't be instantiated
+		IDManager() {}
 	};
 }

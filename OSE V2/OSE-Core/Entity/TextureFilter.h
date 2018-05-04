@@ -1,12 +1,17 @@
 #pragma once
 
-#include "ResourceFilter.h"
-#include "Texture.h"
+#include "Component.h"
+#include "../Resources/Texture.h"
 
-namespace ose::resources
+namespace ose::entity
 {
-	struct TextureFilter : public ResourceFilter
+	using namespace resources;
+
+	class TextureFilter : public Component
 	{
+		// declare TextureFilter as an OSE Component
+		COMPONENT_DECLERATION(TextureFilter)
+
 	private:
 		// NOTE !IMPORTANT! - can't take a pointer to this, it may be re-allocated by ResourceManager
 		Texture * texture_;	//pointer should not be de-allocated or re-allocated, resource belongs to ResourceManager
@@ -17,29 +22,29 @@ namespace ose::resources
 		void set_texture(Texture * texture) { this->texture_ = texture; }
 
 		//allocate rendering engine data
-		TextureFilter(const std::string & name) : ResourceFilter(name) {}
+		TextureFilter(const std::string & name) : Component(name) {}
 
 		//de-allocate rendering engine data
 		virtual ~TextureFilter() {}
 
 		//copy constructor
-		TextureFilter(const TextureFilter & other) noexcept : ResourceFilter(other), texture_(other.texture_) {}
+		TextureFilter(const TextureFilter & other) noexcept : Component(other), texture_(other.texture_) {}
 
 		//copy assignment constructor
 		TextureFilter & operator=(const TextureFilter & other) noexcept
 		{
-			ResourceFilter::operator=(other);
+			Component::operator=(other);
 			texture_ = other.texture_;
 			return *this;
 		}
 
 		//move constructor
-		TextureFilter(const TextureFilter && other) noexcept : ResourceFilter(other), texture_(other.texture_) {}
+		TextureFilter(const TextureFilter && other) noexcept : Component(other), texture_(other.texture_) {}
 
 		//move assignment constructor
 		TextureFilter & operator=(const TextureFilter && other) noexcept
 		{
-			TextureFilter::operator=(other);
+			Component::operator=(other);
 			texture_ = other.texture_;
 			return *this;
 		}
