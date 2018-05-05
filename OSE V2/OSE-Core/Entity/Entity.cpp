@@ -3,16 +3,18 @@
 
 namespace ose::entity
 {
-	Entity::Entity(const uint32_t unique_ID, const std::string & name, const std::string & tag = "", const std::string & prefab = "")
-				 : unique_ID_(unique_ID), name_(name), tag_(tag), prefab_(prefab)
+	Entity::Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "")
+				 : name_(name), tag_(tag), prefab_(prefab)
 	{
-
+		this->unique_ID_ = IDManager::next_entity_ID();
 	}
 
 
 	Entity::~Entity() noexcept
 	{
-		//nothing to be freed
+		// TODO - delete components from their respective engines
+		// delete all the components of this entity
+		this->deleteAllComponents();
 	}
 
 
@@ -25,14 +27,14 @@ namespace ose::entity
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
 
-		//remove any existing components
-		//components_.clear();
+		//TODO - remove any existing components
+		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
 		//copy each component from other
-		/*for(const std::unique_ptr<Component> & comp : other.components_)
+		for(const auto & comp : other.components_)
 		{
 			//using a clone method prevents slicing
-			components_.push_back(comp->clone());
-		}*/
+			this->components_.emplace_back(comp->clone());
+		}
 
 		this->local_transform_ = other.local_transform_;
 		this->global_transform_ = other.global_transform_;
@@ -49,14 +51,14 @@ namespace ose::entity
 		this->prefab_ = other.prefab_;
 		this->sub_entities_ = other.sub_entities_;
 		
-		//remove any existing components
-		/*components_.clear();
+		//TODO - remove any existing components
+		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
 		//copy each component from other
-		for(const std::unique_ptr<Component> & comp : other.components_)
+		for(const auto & comp : other.components_)
 		{
 			//using a clone method prevents slicing
-			components_.push_back(comp->clone());
-		}*/
+			this->components_.emplace_back(comp->clone());
+		}
 
 		this->local_transform_ = other.local_transform_;
 		this->global_transform_ = other.global_transform_;
@@ -87,6 +89,31 @@ namespace ose::entity
 		return *this;
 	}*/
 
+	// utility method for deleting all components
+	void Entity::deleteAllComponents() noexcept
+	{
+		// TODO - delete components from their respective engines
+		// delete all the components of this entity
+		/*for(Component * comp : this->components_)
+		{
+			delete comp;
+		}*/
+		this->components_.clear();
+	}
+
+	/*
+		Sub-Entity manipulation methods
+	*/
+
+	// add a sub entity to the entity
+	// method constructs a new object
+	// method takes an array of constructor arguments
+	template<typename... Args>
+	void Entity::addSubEntity(Args &&... params)
+	{
+		sub_entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
+	}
+
 	/**
 		Entity component manipulation methods
 		Add & Remove components by component type
@@ -101,8 +128,8 @@ namespace ose::entity
 	template<class ComponentType, typename... Args>
 	void Entity::addComponent(Args &&... params)
 	{
-		components.emplace_back(new ComponentType(std::forward<Args>(params)));
-		//components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+		//components.emplace_back(new ComponentType(std::forward<Args>(params)));
+		components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
 	}
 
 	//***************
@@ -113,14 +140,14 @@ namespace ose::entity
 	// then components[0] will be returned because it derives from Component
 	//***************
 	template<class ComponentType>
-	ComponentType * Entity::getComponent()
+	ComponentType * Entity::getComponent() const
 	{
 		// check whether the type matches of each component
 		for(auto && component : components)
 		{
 			// if the type is correct, return a pointer to the component
 			if(component->isClassType(ComponentType::Type)) {
-				return static_cast<ComponentType *>(component);
+				return static_cast<ComponentType *>(component->get());
 			}
 		}
 
@@ -139,7 +166,7 @@ namespace ose::entity
 		global_transform_.translate(translation);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.translateParent(translation);
+			sub_entity->translateParent(translation);
 		}
 	}
 
@@ -149,7 +176,7 @@ namespace ose::entity
 		global_transform_.translate(x, y, z);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.translateParent(x, y, z);
+			sub_entity->translateParent(x, y, z);
 		}
 	}
 
@@ -160,7 +187,7 @@ namespace ose::entity
 		global_transform_.rotate(change);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateParent(change);
+			sub_entity->rotateParent(change);
 		}
 	}
 
@@ -170,7 +197,7 @@ namespace ose::entity
 		global_transform_.rotate(pitch, yaw, roll);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateParent(pitch, yaw, roll);
+			sub_entity->rotateParent(pitch, yaw, roll);
 		}
 	}
 
@@ -181,7 +208,7 @@ namespace ose::entity
 		global_transform_.rotateDeg(change);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateDegParent(change);
+			sub_entity->rotateDegParent(change);
 		}
 	}
 
@@ -191,7 +218,7 @@ namespace ose::entity
 		global_transform_.rotateDeg(pitch, yaw, roll);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateDegParent(pitch, yaw, roll);
+			sub_entity->rotateDegParent(pitch, yaw, roll);
 		}
 	}
 
@@ -201,7 +228,7 @@ namespace ose::entity
 		global_transform_.scale(scalar);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(scalar);
+			sub_entity->scaleParent(scalar);
 		}
 	}
 
@@ -211,7 +238,7 @@ namespace ose::entity
 		global_transform_.scale(multiplier);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(multiplier);
+			sub_entity->scaleParent(multiplier);
 		}
 	}
 
@@ -221,7 +248,7 @@ namespace ose::entity
 		global_transform_.scale(x, y, z);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(x, y, z);
+			sub_entity->scaleParent(x, y, z);
 		}
 	}
 
@@ -237,7 +264,7 @@ namespace ose::entity
 		global_transform_.translate(translation);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.translateParent(translation);
+			sub_entity->translateParent(translation);
 		}
 	}
 
@@ -246,7 +273,7 @@ namespace ose::entity
 		global_transform_.translate(x, y, z);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.translateParent(x, y, z);
+			sub_entity->translateParent(x, y, z);
 		}
 	}
 
@@ -256,7 +283,7 @@ namespace ose::entity
 		global_transform_.rotate(change);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateParent(change);
+			sub_entity->rotateParent(change);
 		}
 	}
 
@@ -265,7 +292,7 @@ namespace ose::entity
 		global_transform_.rotate(pitch, yaw, roll);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateParent(pitch, yaw, roll);
+			sub_entity->rotateParent(pitch, yaw, roll);
 		}
 	}
 
@@ -275,7 +302,7 @@ namespace ose::entity
 		global_transform_.rotateDeg(change);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateDegParent(change);
+			sub_entity->rotateDegParent(change);
 		}
 	}
 
@@ -284,7 +311,7 @@ namespace ose::entity
 		global_transform_.rotateDeg(pitch, yaw, roll);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.rotateDegParent(pitch, yaw, roll);
+			sub_entity->rotateDegParent(pitch, yaw, roll);
 		}
 	}
 
@@ -293,7 +320,7 @@ namespace ose::entity
 		global_transform_.scale(scalar);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(scalar);
+			sub_entity->scaleParent(scalar);
 		}
 	}
 
@@ -302,7 +329,7 @@ namespace ose::entity
 		global_transform_.scale(multiplier);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(multiplier);
+			sub_entity->scaleParent(multiplier);
 		}
 	}
 
@@ -311,7 +338,7 @@ namespace ose::entity
 		global_transform_.scale(x, y, z);
 		for(auto & sub_entity : sub_entities_)
 		{
-			sub_entity.scaleParent(x, y, z);
+			sub_entity->scaleParent(x, y, z);
 		}
 	}
 }

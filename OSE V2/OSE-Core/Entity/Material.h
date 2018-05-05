@@ -1,16 +1,14 @@
 #pragma once
-#include "../Entity/Component.h"
+#include "Component.h"
 
-namespace ose::rendering
+namespace ose::entity
 {
-	using namespace entity;
-	using namespace rendering;
-
-	struct Material : public Component
+	class Material : public Component
 	{
-		//data
+		// declare MeshFilter as an OSE Component
+		COMPONENT_DECLERATION(Material)
 
-
+	public:
 
 		//allocate rendering engine data
 		Material(const std::string & name) : Component(name) {}
@@ -38,12 +36,6 @@ namespace ose::rendering
 		{
 			Component::operator=(other);
 			return *this;
-		}
-
-		//clone method which can be overwritten by base classes
-		virtual std::unique_ptr<Component> clone() const
-		{
-			return std::make_unique<Material>(*this);
 		}
 	};
 }

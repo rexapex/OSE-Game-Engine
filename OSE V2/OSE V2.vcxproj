@@ -468,7 +468,7 @@
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
-    <ClInclude Include="OSE-Core\Rendering\Material.h" />
+    <ClInclude Include="OSE-Core\Entity\Material.h" />
     <ClInclude Include="OSE-Core\Entity\MeshFilter.h" />
     <ClInclude Include="OSE-Core\Entity\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />

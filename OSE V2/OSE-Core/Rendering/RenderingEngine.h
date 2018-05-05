@@ -5,6 +5,7 @@
 
 namespace ose::rendering
 {
+	using namespace entity;
 	using namespace resources;
 
 	class RenderingEngine

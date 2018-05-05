@@ -11,7 +11,7 @@ namespace ose::entity
 	class Entity
 	{
 	public:
-		Entity(const uint32_t unique_ID, const std::string & name, const std::string & tag, const std::string & prefab);
+		Entity(const std::string & name, const std::string & tag, const std::string & prefab);
 		virtual ~Entity() noexcept;
 		Entity(const Entity & other) noexcept;
 		Entity & operator=(const Entity & other) noexcept;
@@ -25,10 +25,16 @@ namespace ose::entity
 		void set_tag(const std::string & tag) { this->tag_ = tag; }
 
 		//non-const references allow for quicker loading by emplacing items directly into vectors
-		std::vector<Entity> & get_sub_entities() { return this->sub_entities_; }
+		const std::vector<std::unique_ptr<Entity>> & get_sub_entities() const { return this->sub_entities_; }
+
+		// add a sub entity to the entity
+		// method constructs a new object
+		// method takes an array of constructor arguments
+		template<typename... Args>
+		void addSubEntity(Args &&... params);
 
 		// get a list of all components
-		std::vector<Component *> & get_components() { return this->components_; }
+		const std::vector<std::unique_ptr<Component>> & get_components() const { return this->components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -42,7 +48,7 @@ namespace ose::entity
 		// entity class manages pointer, returned pointer should not be deleted (de-allocated)
 		// returns nullptr if no component of type given exists
 		template<class ComponentType>
-		ComponentType * getComponent();
+		ComponentType * getComponent() const;
 
 		//read-only transform relative the parent entity/world if no parent exists
 		const Transform & get_local_transform() const { return this->local_transform_; }
@@ -88,15 +94,18 @@ namespace ose::entity
 		std::string prefab_;	//the name of the prefab this entity inherits from (or "")
 
 		// list of all sub/child entities
-		std::vector<Entity> sub_entities_;
+		std::vector<std::unique_ptr<Entity>> sub_entities_;
 
 		// list of all components attached to this entity, components need not be active
-		std::vector<Component *> components_;
+		std::vector<std::unique_ptr<Component>> components_;
 
 		Transform local_transform_;		//the transform of the entity relative to the parent
 		Transform global_transform_;	//the transform of the entity relative to the world
 
 		//isVisible, isEnabled, ...
+
+		// utility method for deleting all components
+		void deleteAllComponents() noexcept;
 	};
 }
 

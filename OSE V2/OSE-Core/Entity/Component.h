@@ -17,6 +17,12 @@
 public:                                                                                     \
     static const std::size_t Type;                                                          \
     virtual bool isClassType(const std::size_t classType) const override;                   \
+																							\
+	virtual Component * clone() const override												\
+	{																						\
+		return new classname(*this);														\
+	}
+
 
 //****************
 // COMPONENT_DEFINITION
@@ -76,9 +82,9 @@ namespace ose::entity
 		}
 
 		//clone method which can be overwritten by base classes
-		virtual std::unique_ptr<Component> clone() const
+		virtual Component * clone() const
 		{
-			return std::make_unique<Component>(*this);
+			return new Component(*this);
 		}
 	};
 }
@@ -87,3 +93,4 @@ namespace ose::entity
 #include "TextureFilter.h"
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
+#include "Material.h"
