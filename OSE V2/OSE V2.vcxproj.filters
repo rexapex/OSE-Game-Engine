@@ -147,6 +147,9 @@
     <ClCompile Include="OSE-Core\Entity\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml.hpp">
@@ -1551,6 +1554,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Entity\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\PrefabManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -40,7 +40,7 @@ namespace ose::project
 		virtual std::unique_ptr<Scene> loadScene(const Project & project, const std::string & scene_name) = 0;
 
 		//Loads an entity prefab which can be used multiple times
-		virtual void loadEntityPrefab(std::map<std::string, Entity> & prefab_paths_to_object, const std::string & prefab_name,
+		virtual void loadEntityPrefab(std::map<std::string, std::unique_ptr<Entity>> & prefab_paths_to_object, const std::string & prefab_name,
 															const std::string & prefab_path, const Project & project) = 0;
 	};
 }

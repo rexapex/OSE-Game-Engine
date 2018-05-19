@@ -23,8 +23,19 @@ namespace ose::game
 		// method constructs a new object
 		// method takes an array of constructor arguments
 		// params: name, tag, prefab
+		// returns: reference to newly created entity
 		template<typename... Args>
-		void addEntity(Args &&... params);
+		Entity & addEntity(Args &&... params);
+
+		// add a non-persistent entity to the scene
+		// method moves the object passed
+		void addEntity(std::unique_ptr<Entity> e);
+
+		// add a non-persistent entity to the scene
+		// new entity is a deep copy of the entity passed
+		// method constructs a new object
+		// returns: reference to newly created entity
+		Entity & addEntity(const Entity & other);
 
 		//get a list of all the entities in the scene (excludes persistent entities)
 		const std::vector<std::unique_ptr<Entity>> & get_entities() const { return this->entities_; }

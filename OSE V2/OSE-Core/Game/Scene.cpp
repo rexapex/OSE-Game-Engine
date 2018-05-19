@@ -10,13 +10,26 @@ namespace ose::game
 	Scene::Scene(const Scene & other) noexcept
 	{
 		this->name_ = other.name_;
-		this->entities_ = other.entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
+
+		// perform a deep copy of all entities
+		this->entities_.clear();	// vector should be empty
+		for(const auto & e : other.entities_)
+		{
+			this->entities_.push_back(std::make_unique<Entity>(*e));
+		}
 	}
 
 	Scene & Scene::operator=(const Scene & other) noexcept
 	{
 		this->name_ = other.name_;
-		this->entities_ = other.entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
+
+		// perform a deep copy of all entities
+		this->entities_.clear();	// vector should be empty
+		for(const auto & e : other.entities_)
+		{
+			this->entities_.push_back(std::make_unique<Entity>(*e));
+		}
+
 		return *this;
 	}
 
@@ -45,7 +58,7 @@ namespace ose::game
 	// method constructs a new object
 	// method takes an array of constructor arguments
 	template<typename... Args>
-	void Scene::addEntity(Args &&... params)
+	Entity & Scene::addEntity(Args &&... params)
 	{
 		//TODO - maybe making this a parallel for loop would be faster ????
 		/*for(const auto & other : entities_)
@@ -61,7 +74,40 @@ namespace ose::game
 		//entities_.emplace_back(e);
 
 		// construct a new entity object
-		entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
+		try {
+			entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
+			return *entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
+		} catch(std::exception & e) {
+			throw e;
+		}
+	}
+
+	// add a non-persistent entity to the scene
+	// method moves the object passed
+	void Scene::addEntity(std::unique_ptr<Entity> e)
+	{
+		try {
+			// move the entity pointer to the list of entities
+			entities_.emplace_back( std::move(e) );
+		} catch(std::exception & e) {
+			throw e;
+		}
+	}
+
+
+	// add a non-persistent entity to the scene
+	// new entity is a deep copy of the entity passed
+	// method constructs a new object
+	// returns: reference to newly created entity
+	Entity & Scene::addEntity(const Entity & other)
+	{
+		// construct a new entity object
+		try {
+			entities_.emplace_back( std::make_unique<Entity>(other) );
+			return *entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
+		} catch(std::exception & e) {
+			throw e;
+		}
 	}
 
 

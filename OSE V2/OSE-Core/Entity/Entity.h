@@ -30,8 +30,19 @@ namespace ose::entity
 		// add a sub entity to the entity
 		// method constructs a new object
 		// method takes an array of constructor arguments
+		// returns: reference to newly created entity
 		template<typename... Args>
-		void addSubEntity(Args &&... params);
+		Entity & addSubEntity(Args &&... params);
+
+		// add a sub entity to the entity
+		// method moves the object passed
+		void addSubEntity(std::unique_ptr<Entity> e);
+
+		// add a sub entity to the entity
+		// new entity is a deep copy of the entity passed
+		// method constructs a new object
+		// returns: reference to newly created entity
+		Entity & addSubEntity(const Entity & other);
 
 		// get a list of all components
 		const std::vector<std::unique_ptr<Component>> & get_components() const { return this->components_; }

@@ -25,7 +25,13 @@ namespace ose::entity
 		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
-		this->sub_entities_ = other.sub_entities_;	//NOTE - this does a deep copy of entity objects since they are stored by value in the vector
+
+		// perform a deep copy of all entities
+		this->sub_entities_.clear();	// vector should be empty
+		for(const auto & e : other.sub_entities_)
+		{
+			this->sub_entities_.push_back(std::make_unique<Entity>(*e));
+		}
 
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -49,7 +55,13 @@ namespace ose::entity
 		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
-		this->sub_entities_ = other.sub_entities_;
+
+		// perform a deep copy of all entities
+		this->sub_entities_.clear();	// vector should be empty
+		for(const auto & e : other.sub_entities_)
+		{
+			this->sub_entities_.push_back(std::make_unique<Entity>(*e));
+		}
 		
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -108,10 +120,44 @@ namespace ose::entity
 	// add a sub entity to the entity
 	// method constructs a new object
 	// method takes an array of constructor arguments
+	// returns: reference to newly created entity
 	template<typename... Args>
-	void Entity::addSubEntity(Args &&... params)
+	Entity & Entity::addSubEntity(Args &&... params)
 	{
-		sub_entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
+		// create the new entity object
+		try {
+			sub_entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
+			return *entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
+		} catch(std::exception & e) {
+			throw e;
+		}
+	}
+
+	// add a sub entity to the entity
+	// method moves the object passed
+	void Entity::addSubEntity(std::unique_ptr<Entity> e)
+	{
+		try {
+			// move the entity pointer to the list of entities
+			sub_entities_.emplace_back( std::move(e) );
+		} catch(std::exception & e) {
+			throw e;
+		}
+	}
+
+	// add a sub entity to the entity
+	// new entity is a deep copy of the entity passed
+	// method constructs a new object
+	// returns: reference to newly created entity
+	Entity & Entity::addSubEntity(const Entity & other)
+	{
+		// construct a new entity object
+		try {
+			sub_entities_.emplace_back( std::make_unique<Entity>(other) );
+			return *sub_entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
+		} catch(std::exception & e) {
+			throw e;
+		}
 	}
 
 	/**

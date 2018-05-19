@@ -7,6 +7,13 @@ OSE-V2-STD-Modules/
 # Ignore Auto-Generated Files
 EngineReferences.h
 
+# Ignore python virtualenv directories
+Launcher/Include/
+Launcher/Lib/
+Launcher/Scripts/
+Launcher/pip-selfcheck.json
+Launcher/pyvenv.cfg
+
 # User-specific files
 *.suo
 *.user
