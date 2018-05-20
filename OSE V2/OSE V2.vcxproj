@@ -107,13 +107,13 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -146,7 +146,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,7 +154,7 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Rendering/ETextureFilterMode.h"
+#include "OSE-Core/Rendering/ETextureFilterMode.h"
 #include "TextureMetaData.h"
 
 namespace ose::resources

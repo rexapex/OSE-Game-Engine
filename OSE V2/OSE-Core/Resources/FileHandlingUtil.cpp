@@ -1,4 +1,4 @@
-#include "../../stdafx.h"
+#include "stdafx.h"
 #include "FileHandlingUtil.h"
 
 void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text)

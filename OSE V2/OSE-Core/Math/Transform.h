@@ -1,11 +1,11 @@
 #pragma once
 
 #define GLM_FORCE_RADIANS
-#include "../EngineDependencies/glm/glm.hpp"
-#include "../EngineDependencies/glm/gtc/quaternion.hpp"
-#include "../EngineDependencies/glm/gtx/quaternion.hpp"
-#include "../EngineDependencies/glm/gtc/type_ptr.hpp"
-#include "../EngineDependencies/glm/gtc/matrix_transform.hpp"
+#include "OSE-Core/EngineDependencies/glm/glm.hpp"
+#include "OSE-Core/EngineDependencies/glm/gtc/quaternion.hpp"
+#include "OSE-Core/EngineDependencies/glm/gtx/quaternion.hpp"
+#include "OSE-Core/EngineDependencies/glm/gtc/type_ptr.hpp"
+#include "OSE-Core/EngineDependencies/glm/gtc/matrix_transform.hpp"
 
 namespace ose::math
 {

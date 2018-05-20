@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity/Component.h"
+#include "Component.h"
 
 namespace ose::entity
 {

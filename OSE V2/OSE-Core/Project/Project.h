@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProjectInfo.h"
-#include "../Resources/ResourceManager.h"
+#include "OSE-Core/Resources/ResourceManager.h"
 
 namespace ose::project
 {

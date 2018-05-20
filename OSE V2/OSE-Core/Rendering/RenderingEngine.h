@@ -1,7 +1,7 @@
 #pragma once
 
 #include "EProjectionMode.h"
-#include "../Entity/Entity.h"
+#include "OSE-Core/Entity/Entity.h"
 
 namespace ose::rendering
 {

@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Entity/Entity.h"
+#include "OSE-Core/Entity/Entity.h"
 
 namespace ose::resources
 {

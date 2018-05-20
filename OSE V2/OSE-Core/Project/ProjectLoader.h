@@ -1,8 +1,8 @@
 #pragma once
-#include "../Project/Project.h"
-#include "../Game/Scene.h"
-#include "../Game/Tag.h"
-#include "../Resources/TextureMetaData.h"
+#include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Game/Scene.h"
+#include "OSE-Core/Game/Tag.h"
+#include "OSE-Core/Resources/TextureMetaData.h"
 
 namespace ose::project
 {

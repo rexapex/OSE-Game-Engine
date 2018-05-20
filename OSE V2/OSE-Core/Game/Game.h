@@ -1,11 +1,11 @@
 #pragma once
 
-#include "../EngineReferences.h"
-#include "../Project/Project.h"
-#include "../Project/ProjectLoader.h"
-#include "../Windowing/WindowManager.h"
-#include "../Rendering/RenderingEngine.h"
-#include "../Entity/Entity.h"
+#include "OSE-Core/EngineReferences.h"
+#include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Project/ProjectLoader.h"
+#include "OSE-Core/Windowing/WindowManager.h"
+#include "OSE-Core/Rendering/RenderingEngine.h"
+#include "OSE-Core/Entity/Entity.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"

@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-#include "../Game/IDManager.h"
-#include "../Math/Transform.h"
+#include "OSE-Core/Game/IDManager.h"
+#include "OSE-Core/Math/Transform.h"
 
 namespace ose::entity
 {

@@ -1,5 +1,5 @@
 #pragma once
-#include "../../stdafx.h"
+#include "stdafx.h"
 #include <functional>
 
 // Thanks to StackOverflow answer https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work

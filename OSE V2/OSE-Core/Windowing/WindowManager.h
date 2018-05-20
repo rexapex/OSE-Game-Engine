@@ -1,6 +1,6 @@
 #pragma once
-#include "../Rendering/VideoMode.h"
-#include "../Rendering/RenderingEngine.h"
+#include "OSE-Core/Rendering/VideoMode.h"
+#include "OSE-Core/Rendering/RenderingEngine.h"
 
 namespace ose::windowing
 {
