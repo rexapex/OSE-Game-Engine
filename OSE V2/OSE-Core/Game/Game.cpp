@@ -41,9 +41,15 @@ namespace ose::game
 	}
 
 
+	// loads the project specified (does not load any scenes)
+	// throws std::exception if the project could not be loaded
 	void Game::loadProject(const std::string & proj_name)
 	{
 		this->project_ = this->project_loader_->loadProject(proj_name);
+		
+		if(this->project_ == nullptr) {
+			throw std::exception("Error: Could not load Project");
+		}
 		//TODO - remove test (works)
 		//resource_manager_->importFile("D:/James/Documents/Resources/2D Game Resources/rock.png", "sub");
 		//resource_manager_->addTexture("rock.png");
@@ -51,21 +57,46 @@ namespace ose::game
 	}
 
 
+	// loads the scene into memory
+	// throws std::exception if no project has been loaded
+	// throws std::invalid_argument exception if the scene does exist
+	// throws std::exception if the scene could not be loaded
 	void Game::loadScene(const std::string & scene_name)
 	{
-		auto scene = this->project_loader_->loadScene(*project_, scene_name);
-		scene->print();
+		if(project_ == nullptr) {
+			throw std::exception("Error: A Project must be loaded before a Scene can be loaded");
+		}
 
-		auto index = this->loaded_scenes_.find(scene_name);
-		
-		if(index == loaded_scenes_.end())
+		// first, check that the scene actually exists
+		auto map = project_->get_scene_names_to_path_map();
+		auto pos = map.find(scene_name);
+		if(pos == map.end()) {
+			throw std::invalid_argument("Error: The Scene " + scene_name + " does not exist in the current Project");
+		}
+
+		// load the scene using the project loader
+		auto scene = this->project_loader_->loadScene(*project_, scene_name);
+
+		// scene pointer will be nullptr if no scene exists with name scene_name or the scene file failed to load
+		if(scene != nullptr)
 		{
-			loaded_scenes_.emplace(scene_name, std::move(scene));
-			//scene unique_ptr is no longer usable since its pointer has been moved
+			scene->print();
+
+			auto index = this->loaded_scenes_.find(scene_name);
+		
+			if(index == loaded_scenes_.end())
+			{
+				loaded_scenes_.emplace(scene_name, std::move(scene));
+				//scene unique_ptr is no longer usable since its pointer has been moved
+			}
+			else
+			{
+				throw std::invalid_argument("Error: scene " + scene_name + " is already loaded");
+			}
 		}
 		else
 		{
-			throw std::invalid_argument("Error: scene " + scene_name + " is already loaded");
+			throw std::exception("Error: Failed to load scene");
 		}
 	}
 

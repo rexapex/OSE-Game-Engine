@@ -9,15 +9,16 @@
 
 #include "OSE-Core/EngineReferences.h"
 
-//convenience method for output
-#define LOG(x) do {std::cout << x << std::endl;} while(0)
+// convenience method for output
+// use \n instead of endl so the buffer isn't flushed with every log
+#define LOG(x) do {std::cout << x << "\n";} while(0)
 
 //export functions for testing iff building in debug mode
 #ifdef _WIN32
 #	ifdef _DEBUG
 		//output stream for debug mode only
 		//could possibly convert to inline function for type safety
-#		define DEBUG_LOG(x) do {std::cerr << x << std::endl;} while(0)
+#		define DEBUG_LOG(x) do {std::cout << x << std::endl;} while(0)
 
 		//define warning C4251 when debugging as DEBUG_EXPORT is only needed for unit tests
 		//hopefully unit tests still function correctly ?!?!?!?

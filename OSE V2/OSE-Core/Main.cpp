@@ -15,9 +15,25 @@ int main()
 	DEBUG_LOG(t.get_right().x << ", " << t.get_right().y << ", " << t.get_right().z);
 
 	std::unique_ptr<Game> game = std::make_unique<Game>();
-	game->loadProject("OSE-V2-TestProject");
-	game->loadScene("scene1");
+	
+	try {
+		game->loadProject("OSE-V2-TestProject");
+	} catch(const std::exception & e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
+	try {
+		game->loadScene("scene1");
+	} catch(const std::invalid_argument & e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	} catch(const std::exception & e) {
+		std::cerr << e.what() << std::endl;
+		return 1;
+	}
+
 	game->startGame();
-	getchar();
+
 	return 0;
 }
