@@ -43,12 +43,20 @@ namespace ose::game
 
 	// loads the project specified (does not load any scenes)
 	// throws std::exception if the project could not be loaded
+	// throws std::invalid_argument if the project FILE_FORMAT decleration file does not exist
 	void Game::loadProject(const std::string & proj_name)
 	{
-		this->project_ = this->project_loader_->loadProject(proj_name);
-		
-		if(this->project_ == nullptr) {
-			throw std::exception("Error: Could not load Project");
+		// before project can be loaded, the file format of the project files must de determined
+		std::string proj_file_format = ProjectLoader::getProjectFileFormat(proj_name);
+
+		if(proj_file_format == "XML") {
+			this->project_ = this->project_loader_->loadProject(proj_name);
+
+			if(this->project_ == nullptr) {
+				throw std::exception("Error: Could not load Project");
+			}
+		} else {
+			throw std::exception("Error: Unknown project file type");
 		}
 		//TODO - remove test (works)
 		//resource_manager_->importFile("D:/James/Documents/Resources/2D Game Resources/rock.png", "sub");

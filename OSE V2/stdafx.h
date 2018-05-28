@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <map>
+#include <unordered_map>
 
 #include <iostream>
 #include <memory>
@@ -12,6 +13,9 @@
 // convenience method for output
 // use \n instead of endl so the buffer isn't flushed with every log
 #define LOG(x) do {std::cout << x << "\n";} while(0)
+
+// convenience method for output of error messages
+#define ERROR_LOG(x) do {std::cerr << x << std::endl;} while(0)
 
 //export functions for testing iff building in debug mode
 #ifdef _WIN32

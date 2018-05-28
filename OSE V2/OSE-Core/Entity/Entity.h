@@ -59,7 +59,7 @@ namespace ose::entity
 		// entity class manages pointer, returned pointer should not be deleted (de-allocated)
 		// returns nullptr if no component of type given exists
 		template<class ComponentType>
-		ComponentType * getComponent() const;
+		ComponentType & getComponent() const;
 
 		//read-only transform relative the parent entity/world if no parent exists
 		const Transform & get_local_transform() const { return this->local_transform_; }
@@ -98,11 +98,11 @@ namespace ose::entity
 		void scaleParent(const float x, const float y, const float z);
 
 	private:
-		std::string name_;		//name_ should be unique to a scene file
-		uint32_t unique_ID_;	//unique_ID_ should be unique to a game engine execution
+		std::string name_;		// name_ should be unique to a scene file
+		uint32_t unique_ID_;	// unique_ID_ should be unique to a game engine execution
 
-		std::string tag_;		//the lowest level tag applied to this entity (or "")
-		std::string prefab_;	//the name of the prefab this entity inherits from (or "")
+		std::string tag_;		// the lowest level tag applied to this entity (or "")
+		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
 
 		// list of all sub/child entities
 		std::vector<std::unique_ptr<Entity>> sub_entities_;
@@ -110,10 +110,10 @@ namespace ose::entity
 		// list of all components attached to this entity, components need not be active
 		std::vector<std::unique_ptr<Component>> components_;
 
-		Transform local_transform_;		//the transform of the entity relative to the parent
-		Transform global_transform_;	//the transform of the entity relative to the world
+		Transform local_transform_;		// the transform of the entity relative to the parent
+		Transform global_transform_;	// the transform of the entity relative to the world
 
-		//isVisible, isEnabled, ...
+		// isVisible, isEnabled, ...
 
 		// utility method for deleting all components
 		void deleteAllComponents() noexcept;

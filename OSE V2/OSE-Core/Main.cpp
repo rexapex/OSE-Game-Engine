@@ -16,20 +16,25 @@ int main()
 
 	std::unique_ptr<Game> game = std::make_unique<Game>();
 	
+	// TODO - might need to destroy resources before returning error
+
 	try {
 		game->loadProject("OSE-V2-TestProject");
+	} catch(const std::invalid_argument & e) {
+		ERROR_LOG(e.what());
+		return 1;
 	} catch(const std::exception & e) {
-		std::cerr << e.what() << std::endl;
+		ERROR_LOG(e.what());
 		return 1;
 	}
 
 	try {
 		game->loadScene("scene1");
 	} catch(const std::invalid_argument & e) {
-		std::cerr << e.what() << std::endl;
+		ERROR_LOG(e.what());
 		return 1;
 	} catch(const std::exception & e) {
-		std::cerr << e.what() << std::endl;
+		ERROR_LOG(e.what());
 		return 1;
 	}
 

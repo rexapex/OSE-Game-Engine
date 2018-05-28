@@ -186,18 +186,18 @@ namespace ose::entity
 	// then components[0] will be returned because it derives from Component
 	//***************
 	template<class ComponentType>
-	ComponentType * Entity::getComponent() const
+	ComponentType & Entity::getComponent() const
 	{
 		// check whether the type matches of each component
 		for(auto && component : components)
 		{
 			// if the type is correct, return a pointer to the component
 			if(component->isClassType(ComponentType::Type)) {
-				return static_cast<ComponentType *>(component->get());
+				return static_cast<ComponentType>(*component);
 			}
 		}
 
-		return nullptr;	// returns nullptr if no component of type given exists
+		throw std::invalid_argument("Error: Component does not exist");	// returns nullptr if no component of type given exists
 	}
 
 

@@ -34,24 +34,6 @@ namespace ose::game
 	}
 
 
-	//add a non-persistent entity to the scene
-	//will only be added if the unique_ID_ and name_ fields are not taken
-	/*void Scene::addEntity(const Entity & e)
-	{
-		//TODO - maybe making this a parallel for loop would be faster ????
-		for(const auto & other : entities_)
-		{
-			//if the name of id is taken, then return before adding the entity
-			if(other.get_name() == e.get_name() || other.get_unique_ID() == e.get_unique_ID())
-			{
-				return;
-			}
-		}
-
-		//name and id not taken, therefore, add the entity to the list
-		entities_.emplace_back(e);
-	}*/
-
 
 	// add a non-persistent entity to the scene
 	// name must be unique
@@ -60,19 +42,6 @@ namespace ose::game
 	template<typename... Args>
 	Entity & Scene::addEntity(Args &&... params)
 	{
-		//TODO - maybe making this a parallel for loop would be faster ????
-		/*for(const auto & other : entities_)
-		{
-			//if the name or id is taken, then return before adding the entity
-			if(other.get_name() == e.get_name() || other.get_unique_ID() == e.get_unique_ID())
-			{
-				return;
-			}
-		}*/
-
-		//name and id not taken, therefore, add the entity to the list
-		//entities_.emplace_back(e);
-
 		// construct a new entity object
 		try {
 			entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );

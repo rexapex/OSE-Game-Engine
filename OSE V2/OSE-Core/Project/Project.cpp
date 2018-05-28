@@ -7,6 +7,7 @@ namespace ose::project
 					 project_path_(project_path), project_info_(project_info), scene_names_to_path_(scene_names_to_path)
 	{
 		this->resource_manager_ = std::make_unique<ResourceManager>(project_path);
+		this->prefab_manager_ = std::make_unique<PrefabManager>();
 	}
 
 
@@ -25,6 +26,7 @@ namespace ose::project
 	Project & Project::operator=(Project && other) noexcept
 	{
 		resource_manager_ = std::move(other.resource_manager_);
+		prefab_manager_ = std::move(other.prefab_manager_);
 		return *this;
 	}
 }
