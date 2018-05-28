@@ -14,10 +14,6 @@ namespace ose::game
 		Scene(const Scene & other) noexcept;
 		Scene & operator=(const Scene & other) noexcept;
 
-		//add a non-persistent entity to the scene
-		//will only be added if the unique_ID_ and name_ fields are not taken
-		//void addEntity(const Entity & e);
-
 		// add a non-persistent entity to the scene
 		// TODO - should name be unique ???
 		// method constructs a new object
@@ -36,6 +32,16 @@ namespace ose::game
 		// method constructs a new object
 		// returns: reference to newly created entity
 		Entity & addEntity(const Entity & other);
+
+		// remove entity by name
+		// return true if entity with given name is removed
+		// return false if no entity with given name exists
+		bool removeEntity(const std::string & name);
+
+		// remove entity by EntityID
+		// return true if entity with given EntityID is removed
+		// return false if no entity with given EntityID exists
+		bool removeEntity(const EntityID uid);
 
 		//get a list of all the entities in the scene (excludes persistent entities)
 		const std::vector<std::unique_ptr<Entity>> & get_entities() const { return this->entities_; }

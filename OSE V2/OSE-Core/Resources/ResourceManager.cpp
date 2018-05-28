@@ -36,9 +36,10 @@ namespace ose::resources
 		}
 	}
 
-	//adds the texture at path to the list of active textures, the texture must be in the project's resources directory
-	//path is relative to ProjectPath/Resources
-	//if no name is given, the filename will be used
+	// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
+	// path is relative to ProjectPath/Resources
+	// if no name is given, the filepath will be used
+	// TODO - either remove name altogether or come up with something clever
 	void ResourceManager::addTexture(const std::string & path, const std::string & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
@@ -49,7 +50,7 @@ namespace ose::resources
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
 			}
 
 			//only add the new texture if the name is not taken

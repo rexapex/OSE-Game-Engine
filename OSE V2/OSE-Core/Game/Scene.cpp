@@ -79,6 +79,60 @@ namespace ose::game
 		}
 	}
 
+	// remove entity by name
+	// return true if entity with given name is removed
+	// return false if no entity with given name exists
+	bool Scene::removeEntity(const std::string & name)
+	{
+		// no sub entity can be removed if there are no entities, therefore return false
+		if(entities_.empty()) {
+			return false;
+		}
+
+		// otherwise, find the entity with the given name
+		// search from beginning to end of list
+		// return first component to return true from lambda
+		auto & pos = std::find_if(entities_.begin(), entities_.end(), [name] (auto & entity) {
+			return entity->get_name() == name;
+		});
+
+		// if a matching entity is found, remove it then return true
+		if(pos != entities_.end()) {
+			entities_.erase(pos);
+			return true;
+		}
+
+		// else, return false
+		return false;
+	}
+
+	// remove entity by EntityID
+	// return true if entity with given EntityID is removed
+	// return false if no entity with given EntityID exists
+	bool Scene::removeEntity(const EntityID uid)
+	{
+		// no entity can be removed if there are no sub entities, therefore return false
+		if(entities_.empty()) {
+			return false;
+		}
+
+		// otherwise, find the entity with the given EntityID
+		// search from beginning to end of list
+		// return first component to return true from lambda
+		auto & pos = std::find_if(entities_.begin(), entities_.end(), [uid] (auto & entity) {
+			return entity->get_unique_ID() == uid;
+		});
+
+		// if a matching entity is found, remove it then return true
+		if(pos != entities_.end()) {
+			entities_.erase(pos);
+			return true;
+		}
+
+		// else, return false
+		return false;
+	}
+
 
 
 

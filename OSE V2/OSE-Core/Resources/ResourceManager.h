@@ -30,7 +30,7 @@ namespace ose::resources
 
 		//adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		//path is relative to ProjectPath/Resources
-		//if no name is given, the filename will be used
+		//if no name is given, the relative path will be used
 		void addTexture(const std::string & path, const std::string & name = "");
 
 		//remove the texture from the textures list and free the texture's resources

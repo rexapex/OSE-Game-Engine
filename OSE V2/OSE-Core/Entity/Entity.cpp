@@ -105,11 +105,6 @@ namespace ose::entity
 	void Entity::deleteAllComponents() noexcept
 	{
 		// TODO - delete components from their respective engines
-		// delete all the components of this entity
-		/*for(Component * comp : this->components_)
-		{
-			delete comp;
-		}*/
 		this->components_.clear();
 	}
 
@@ -160,17 +155,87 @@ namespace ose::entity
 		}
 	}
 
+	// remove sub entity
+	// return true if sub entity is removed
+	// return false if the sub entity does not belong to this entity
+	bool Entity::removeSubEntity(const Entity & entity)
+	{
+		// no sub entity can be removed if there are no sub entities, therefore return false
+		if(sub_entities_.empty()) {
+			return false;
+		}
+
+		// TODO - test whether this actually works
+		// NOTE - remove moves removed elements to end and returns the new end as an iterator
+		// NOTE - erase then deletes element between first arg and last arg from the vector
+		auto size_before { sub_entities_.size() };
+		auto new_end { sub_entities_.erase(std::remove(sub_entities_.begin(), sub_entities_.end(), &entity), sub_entities_.end()) };
+		return (size_before != sub_entities_.size());
+	}
+
+	// remove sub entity by name
+	// return true if sub entity with given name is removed
+	// return false if no sub entity with given name exists
+	bool Entity::removeSubEntity(const std::string & name)
+	{
+		// no sub entity can be removed if there are no sub entities, therefore return false
+		if(sub_entities_.empty()) {
+			return false;
+		}
+
+		// otherwise, find the sub entity with the given name
+		// search from beginning to end of list
+		// return first component to return true from lambda
+		auto & pos = std::find_if(sub_entities_.begin(), sub_entities_.end(), [name] (auto & entity) {
+			return entity->get_name() == name;
+		});
+
+		// if a matching sub entity is found, remove it then return true
+		if(pos != sub_entities_.end()) {
+			sub_entities_.erase(pos);
+			return true;
+		}
+
+		// else, return false
+		return false;
+	}
+
+	// remove sub entity by EntityID
+	// return true if sub entity with given EntityID is removed
+	// return false if no sub entity with given EntityID exists
+	bool Entity::removeSubEntity(const EntityID uid)
+	{
+		// no sub entity can be removed if there are no sub entities, therefore return false
+		if(sub_entities_.empty()) {
+			return false;
+		}
+
+		// otherwise, find the sub entity with the given EntityID
+		// search from beginning to end of list
+		// return first component to return true from lambda
+		auto & pos = std::find_if(sub_entities_.begin(), sub_entities_.end(), [uid] (auto & entity) {
+			return entity->get_unique_ID() == uid;
+		});
+
+		// if a matching sub entity is found, remove it then return true
+		if(pos != sub_entities_.end()) {
+			sub_entities_.erase(pos);
+			return true;
+		}
+
+		// else, return false
+		return false;
+	}
+
 	/**
 		Entity component manipulation methods
 		Add & Remove components by component type
 	*/
 
-	//***************
-	// Entity::addComponent
-	// perfect-forwards all params to the ComponentType constructor with the matching parameter list
-	// DEBUG: be sure to compare the arguments of this fn to the desired constructor to avoid perfect-forwarding failure cases
-	// EG: deduced initializer lists, decl-only static const int members, 0|NULL instead of nullptr, overloaded fn names, and bitfields
-	//***************
+	// add a component to the entity by component type
+	// method constructs a new object of the given component type
+	// template takes the type of component
+	// method takes an array of contructor arguments
 	template<class ComponentType, typename... Args>
 	void Entity::addComponent(Args &&... params)
 	{
@@ -178,13 +243,11 @@ namespace ose::entity
 		components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
 	}
 
-	//***************
-	// Entity::getComponent
-	// returns the first component that matches the template type
-	// or that is derived from the template type
-	// EG: if the template type is Component, and components[0] type is BoxCollider
-	// then components[0] will be returned because it derives from Component
-	//***************
+	// get the first component of specified type
+	// returns reference to component if one exists
+	// throws std::invalid_argument if component of given type does not exist
+	// entity class manages pointer, returned pointer should not be deleted (de-allocated)
+	// returns nullptr if no component of type given exists
 	template<class ComponentType>
 	ComponentType & Entity::getComponent() const
 	{
@@ -198,6 +261,92 @@ namespace ose::entity
 		}
 
 		throw std::invalid_argument("Error: Component does not exist");	// returns nullptr if no component of type given exists
+	}
+
+	// get a list of components of specified type
+	// returns list of references
+	// list will be empty if no component of given type exists
+	template<class ComponentType>
+	std::vector<ComponentType &> Entity::getComponents() const
+	{
+		std::vector<ComponentType &> matching_comps;
+
+		for(auto && comp : components_)
+		{
+			// add every component which is/derives from the type given
+			if(comp->isClassType(ComponentType::Type)) {
+				matching_comps.emplace_back(static_cast<ComponentType>(*comp));
+			}
+		}
+
+		return matching_comps;
+	}
+
+	// remove the first component of specified type
+	// returns true if component of given type is removed
+	// returns false if no component of given type exists
+	template<class ComponentType>
+	bool Entity::removeComponent()
+	{
+		// no component can be removed if there are no components therefore return false
+		if(components_.empty()) {
+			return false;
+		}
+
+		// otherwise, find the first component of given type
+		// search from beginning to end of list
+		// return first component to return true from lambda
+		auto & pos = std::find_if(components_.begin(), components_.end(), [type = ComponentType::Type] (auto & comp) {
+			return comp->isClassType(type);
+		});
+
+		// if a matching component is found, remove it then return true
+		if(pos != components_.end()) {
+			components_.erase(pos);
+			return true;
+		}
+
+		// else, return false
+		return false;
+	}
+
+	// remove the component pass from the entity
+	// returns true if the component is removed
+	// returns false if the component does not belong to this entity
+	bool Entity::removeComponent(const Component & comp)
+	{
+		// no component can be removed if there are no components therefore return false
+		if(components_.empty()) {
+			return false;
+		}
+
+		// TODO - test whether this actually works
+		// NOTE - remove moves removed elements to end and returns the new end as an iterator
+		// NOTE - erase then deletes element between first arg and last arg from the vector
+		auto size_before { components_.size() };
+		auto new_end { components_.erase(std::remove(components_.begin(), components_.end(), &comp), components_.end()) };
+		return (size_before != components_.size());
+	}
+
+	// remove all components which are of / are derived from given type
+	// returns the number of removals
+	template<class ComponentType>
+	int32_t Entity::removeComponents()
+	{
+		// no component can be removed if there are no components therefore return 0
+		if(components_.empty()) {
+			return 0;
+		}
+
+		int32_t num_removals = 0;
+
+		// use removeComponent method in a loop until no more components can be removed
+		do {
+			bool removed = this->removeComponent<ComponentType>();
+			if(removed) num_removals ++;
+		} while(removed);
+
+		return num_removals;
 	}
 
 

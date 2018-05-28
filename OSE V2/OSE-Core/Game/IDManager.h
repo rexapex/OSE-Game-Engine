@@ -2,13 +2,15 @@
 
 namespace ose::game
 {
+	typedef uint32_t EntityID;	// might change this to uint64_t later
+
 	class IDManager
 	{
 	public:
 		//get the next available entity ID
-		static uint32_t next_entity_ID()
+		static EntityID next_entity_ID()
 		{
-			static uint32_t id = 0;
+			static EntityID id = 0;
 			return id++;
 		}
 
