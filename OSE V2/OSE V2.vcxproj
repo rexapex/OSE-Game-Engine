@@ -305,6 +305,7 @@
     <ClInclude Include="EngineDependencies\glm\vec3.hpp" />
     <ClInclude Include="EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="EngineDependencies\glm\vector_relational.hpp" />
+    <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_common.hpp" />
@@ -630,6 +631,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />

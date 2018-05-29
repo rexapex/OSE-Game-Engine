@@ -3,7 +3,7 @@
 
 namespace ose::entity
 {
-	Entity::Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "")
+	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
 				 : name_(name), tag_(tag), prefab_(prefab)
 	{
 		this->unique_ID_ = IDManager::next_entity_ID();
@@ -27,11 +27,7 @@ namespace ose::entity
 		this->prefab_ = other.prefab_;
 
 		// perform a deep copy of all entities
-		this->sub_entities_.clear();	// vector should be empty
-		for(const auto & e : other.sub_entities_)
-		{
-			this->sub_entities_.push_back(std::make_unique<Entity>(*e));
-		}
+		this->sub_entities_ = other.sub_entities_;
 
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -57,11 +53,7 @@ namespace ose::entity
 		this->prefab_ = other.prefab_;
 
 		// perform a deep copy of all entities
-		this->sub_entities_.clear();	// vector should be empty
-		for(const auto & e : other.sub_entities_)
-		{
-			this->sub_entities_.push_back(std::make_unique<Entity>(*e));
-		}
+		this->sub_entities_ = other.sub_entities_;
 		
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -108,124 +100,6 @@ namespace ose::entity
 		this->components_.clear();
 	}
 
-	/*
-		Sub-Entity manipulation methods
-	*/
-
-	// add a sub entity to the entity
-	// method constructs a new object
-	// method takes an array of constructor arguments
-	// returns: reference to newly created entity
-	template<typename... Args>
-	Entity & Entity::addSubEntity(Args &&... params)
-	{
-		// create the new entity object
-		try {
-			sub_entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) );
-			return *entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
-		} catch(std::exception & e) {
-			throw e;
-		}
-	}
-
-	// add a sub entity to the entity
-	// method moves the object passed
-	void Entity::addSubEntity(std::unique_ptr<Entity> e)
-	{
-		try {
-			// move the entity pointer to the list of entities
-			sub_entities_.emplace_back( std::move(e) );
-		} catch(std::exception & e) {
-			throw e;
-		}
-	}
-
-	// add a sub entity to the entity
-	// new entity is a deep copy of the entity passed
-	// method constructs a new object
-	// returns: reference to newly created entity
-	Entity & Entity::addSubEntity(const Entity & other)
-	{
-		// construct a new entity object
-		try {
-			sub_entities_.emplace_back( std::make_unique<Entity>(other) );
-			return *sub_entities_.back();	// if emplace_back succeeds, the new entity will be the last entity
-		} catch(std::exception & e) {
-			throw e;
-		}
-	}
-
-	// remove sub entity
-	// return true if sub entity is removed
-	// return false if the sub entity does not belong to this entity
-	bool Entity::removeSubEntity(const Entity & entity)
-	{
-		// no sub entity can be removed if there are no sub entities, therefore return false
-		if(sub_entities_.empty()) {
-			return false;
-		}
-
-		// TODO - test whether this actually works
-		// NOTE - remove moves removed elements to end and returns the new end as an iterator
-		// NOTE - erase then deletes element between first arg and last arg from the vector
-		auto size_before { sub_entities_.size() };
-		auto new_end { sub_entities_.erase(std::remove(sub_entities_.begin(), sub_entities_.end(), &entity), sub_entities_.end()) };
-		return (size_before != sub_entities_.size());
-	}
-
-	// remove sub entity by name
-	// return true if sub entity with given name is removed
-	// return false if no sub entity with given name exists
-	bool Entity::removeSubEntity(const std::string & name)
-	{
-		// no sub entity can be removed if there are no sub entities, therefore return false
-		if(sub_entities_.empty()) {
-			return false;
-		}
-
-		// otherwise, find the sub entity with the given name
-		// search from beginning to end of list
-		// return first component to return true from lambda
-		auto & pos = std::find_if(sub_entities_.begin(), sub_entities_.end(), [name] (auto & entity) {
-			return entity->get_name() == name;
-		});
-
-		// if a matching sub entity is found, remove it then return true
-		if(pos != sub_entities_.end()) {
-			sub_entities_.erase(pos);
-			return true;
-		}
-
-		// else, return false
-		return false;
-	}
-
-	// remove sub entity by EntityID
-	// return true if sub entity with given EntityID is removed
-	// return false if no sub entity with given EntityID exists
-	bool Entity::removeSubEntity(const EntityID uid)
-	{
-		// no sub entity can be removed if there are no sub entities, therefore return false
-		if(sub_entities_.empty()) {
-			return false;
-		}
-
-		// otherwise, find the sub entity with the given EntityID
-		// search from beginning to end of list
-		// return first component to return true from lambda
-		auto & pos = std::find_if(sub_entities_.begin(), sub_entities_.end(), [uid] (auto & entity) {
-			return entity->get_unique_ID() == uid;
-		});
-
-		// if a matching sub entity is found, remove it then return true
-		if(pos != sub_entities_.end()) {
-			sub_entities_.erase(pos);
-			return true;
-		}
-
-		// else, return false
-		return false;
-	}
 
 	/**
 		Entity component manipulation methods
@@ -324,7 +198,9 @@ namespace ose::entity
 		// NOTE - remove moves removed elements to end and returns the new end as an iterator
 		// NOTE - erase then deletes element between first arg and last arg from the vector
 		auto size_before { components_.size() };
-		auto new_end { components_.erase(std::remove(components_.begin(), components_.end(), &comp), components_.end()) };
+		components_.erase(std::remove_if(components_.begin(), components_.end(), [this, comp] (auto & component) {
+			return component.get() == &comp;
+		}), components_.end());
 		return (size_before != components_.size());
 	}
 
@@ -359,7 +235,7 @@ namespace ose::entity
 	{
 		local_transform_.translate(translation);
 		global_transform_.translate(translation);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->translateParent(translation);
 		}
@@ -369,7 +245,7 @@ namespace ose::entity
 	{
 		local_transform_.translate(x, y, z);
 		global_transform_.translate(x, y, z);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->translateParent(x, y, z);
 		}
@@ -380,7 +256,7 @@ namespace ose::entity
 	{
 		local_transform_.rotate(change);
 		global_transform_.rotate(change);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateParent(change);
 		}
@@ -390,7 +266,7 @@ namespace ose::entity
 	{
 		local_transform_.rotate(pitch, yaw, roll);
 		global_transform_.rotate(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateParent(pitch, yaw, roll);
 		}
@@ -401,7 +277,7 @@ namespace ose::entity
 	{
 		local_transform_.rotateDeg(change);
 		global_transform_.rotateDeg(change);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateDegParent(change);
 		}
@@ -411,7 +287,7 @@ namespace ose::entity
 	{
 		local_transform_.rotateDeg(pitch, yaw, roll);
 		global_transform_.rotateDeg(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateDegParent(pitch, yaw, roll);
 		}
@@ -421,7 +297,7 @@ namespace ose::entity
 	{
 		local_transform_.scale(scalar);
 		global_transform_.scale(scalar);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(scalar);
 		}
@@ -431,7 +307,7 @@ namespace ose::entity
 	{
 		local_transform_.scale(multiplier);
 		global_transform_.scale(multiplier);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(multiplier);
 		}
@@ -441,7 +317,7 @@ namespace ose::entity
 	{
 		local_transform_.scale(x, y, z);
 		global_transform_.scale(x, y, z);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(x, y, z);
 		}
@@ -457,7 +333,7 @@ namespace ose::entity
 	void Entity::translateParent(const glm::vec3 & translation)
 	{
 		global_transform_.translate(translation);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->translateParent(translation);
 		}
@@ -466,7 +342,7 @@ namespace ose::entity
 	void Entity::translateParent(const float x, const float y, const float z)
 	{
 		global_transform_.translate(x, y, z);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->translateParent(x, y, z);
 		}
@@ -476,7 +352,7 @@ namespace ose::entity
 	void Entity::rotateParent(const glm::vec3 & change)
 	{
 		global_transform_.rotate(change);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateParent(change);
 		}
@@ -485,7 +361,7 @@ namespace ose::entity
 	void Entity::rotateParent(const float pitch, const float yaw, const float roll)
 	{
 		global_transform_.rotate(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateParent(pitch, yaw, roll);
 		}
@@ -495,7 +371,7 @@ namespace ose::entity
 	void Entity::rotateDegParent(const glm::vec3 & change)
 	{
 		global_transform_.rotateDeg(change);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateDegParent(change);
 		}
@@ -504,7 +380,7 @@ namespace ose::entity
 	void Entity::rotateDegParent(const float pitch, const float yaw, const float roll)
 	{
 		global_transform_.rotateDeg(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->rotateDegParent(pitch, yaw, roll);
 		}
@@ -513,7 +389,7 @@ namespace ose::entity
 	void Entity::scaleParent(const float scalar)
 	{
 		global_transform_.scale(scalar);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(scalar);
 		}
@@ -522,7 +398,7 @@ namespace ose::entity
 	void Entity::scaleParent(const glm::vec3 & multiplier)
 	{
 		global_transform_.scale(multiplier);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(multiplier);
 		}
@@ -531,7 +407,7 @@ namespace ose::entity
 	void Entity::scaleParent(const float x, const float y, const float z)
 	{
 		global_transform_.scale(x, y, z);
-		for(auto & sub_entity : sub_entities_)
+		for(auto & sub_entity : sub_entities_.get())
 		{
 			sub_entity->scaleParent(x, y, z);
 		}

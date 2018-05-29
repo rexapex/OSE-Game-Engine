@@ -150,6 +150,9 @@
     <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-Core\Entity\EntityList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\EngineDependencies\rapidxml-1.13\rapidxml.hpp">
@@ -1457,9 +1460,6 @@
     <ClInclude Include="OSE-Core\Game\GameThread.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Game\Scene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Game\Tag.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1557,6 +1557,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Game\Scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\EntityList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

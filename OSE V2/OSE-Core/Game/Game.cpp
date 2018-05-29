@@ -27,7 +27,8 @@ namespace ose::game
 
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
-										 active_scene_(std::move(other.active_scene_)), running_(other.running_), thread_manager_(std::move(other.thread_manager_)) {}
+										 active_scene_(std::move(other.active_scene_)), running_(other.running_),
+										 thread_manager_(std::move(other.thread_manager_)), persistent_entities_(std::move(other.persistent_entities_)) {}
 
 
 	Game & Game::operator=(Game && other) noexcept
@@ -37,6 +38,7 @@ namespace ose::game
 		this->active_scene_ = std::move(other.active_scene_);
 		this->running_ = other.running_;
 		this->thread_manager_ = std::move(other.thread_manager_);
+		this->persistent_entities_ = std::move(other.persistent_entities_);
 		return *this;
 	}
 
@@ -218,7 +220,5 @@ namespace ose::game
 			}*/
 		}
 	}
-
-	
 }
 

@@ -4,7 +4,7 @@
 #pragma comment(lib, "../Debug/OSE V2.lib")
 
 using namespace Microsoft::VisualStudio::CppUnitTestFramework;
-using namespace origami_sheep_engine;
+using namespace ose;
 
 namespace OSEV2UnitTests
 {

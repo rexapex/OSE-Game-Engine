@@ -18,9 +18,9 @@ public:                                                                         
     static const std::size_t Type;                                                          \
     virtual bool isClassType(const std::size_t classType) const override;                   \
 																							\
-	virtual Component * clone() const override												\
+	virtual std::unique_ptr<Component> clone() const override								\
 	{																						\
-		return new classname(*this);														\
+		return std::make_unique<classname>(*this);											\
 	}
 
 
@@ -47,45 +47,30 @@ namespace ose::entity
 	public:
 		static const std::size_t Type;
 		virtual bool isClassType(const std::size_t classType) const { return classType == Type; }
+		
+		Component(const std::string & name);
+		virtual ~Component();
+		Component(const Component & other) noexcept;
+		Component & operator=(const Component & other) noexcept;
+		Component(const Component && other) noexcept;
+		Component & operator=(const Component && other) noexcept;
 
-		//fields shared by all component types
-		std::string name;
+		// clone method which can be overwritten by base classes
+		virtual std::unique_ptr<Component> clone() const;
 
+		// disable the component (i.e. remove it from corresponding engine data pool
+		virtual void disable();
 
+		// enable the component (i.e. add it to its corresponding engine data pool)
+		virtual void enable();
 
-		//constructor
-		Component(const std::string & n) : name(n) {}
+	private:
+		// fields shared by all component types
+		std::string name_;
 
-		//allow sub classes to implement destructors
-		virtual ~Component() {}
+		// true iff the component has been added to some engine data pool
+		bool enabled_;
 
-
-
-		//copy constructor
-		Component(const Component & other) noexcept : name(other.name) {}
-
-		//copy assignment constructor
-		Component & operator=(const Component & other) noexcept
-		{
-			name = other.name;
-			return *this;
-		}
-
-		//move constructor
-		Component(const Component && other) noexcept : name(std::move(other.name)) {}
-
-		//move assignment constructor
-		Component & operator=(const Component && other) noexcept
-		{
-			name = std::move(other.name);
-			return *this;
-		}
-
-		//clone method which can be overwritten by base classes
-		virtual Component * clone() const
-		{
-			return new Component(*this);
-		}
 	};
 }
 

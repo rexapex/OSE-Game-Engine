@@ -1,8 +1,8 @@
 #pragma once
 #include "Component.h"
+#include "EntityList.h"
 #include "OSE-Core/Game/IDManager.h"
 #include "OSE-Core/Math/Transform.h"
-#include "OSE-Core/Game/IDManager.h"
 
 namespace ose::entity
 {
@@ -12,7 +12,7 @@ namespace ose::entity
 	class Entity
 	{
 	public:
-		Entity(const std::string & name, const std::string & tag, const std::string & prefab);
+		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
 		virtual ~Entity() noexcept;
 		Entity(const Entity & other) noexcept;
 		Entity & operator=(const Entity & other) noexcept;
@@ -26,43 +26,12 @@ namespace ose::entity
 		void set_tag(const std::string & tag) { this->tag_ = tag; }
 
 		// get a list of all sub entities
-		const std::vector<std::unique_ptr<Entity>> & get_sub_entities() const { return this->sub_entities_; }
+		// provide const and non-const versions
+		EntityList & sub_entities() { return sub_entities_; }
+		const EntityList & sub_entities() const { return sub_entities_; }
 
 		// get a list of all components
 		const std::vector<std::unique_ptr<Component>> & get_components() const { return this->components_; }
-
-		// add a sub entity to the entity
-		// method constructs a new object
-		// method takes an array of constructor arguments
-		// returns: reference to newly created entity
-		template<typename... Args>
-		Entity & addSubEntity(Args &&... params);
-
-		// add a sub entity to the entity
-		// method moves the object passed
-		void addSubEntity(std::unique_ptr<Entity> e);
-
-		// add a sub entity to the entity
-		// new entity is a deep copy of the entity passed
-		// method constructs a new object
-		// returns: reference to newly created entity
-		Entity & addSubEntity(const Entity & other);
-
-		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
-		// remove sub entity
-		// return true if sub entity is removed
-		// return false if the sub entity does not belong to this entity
-		bool removeSubEntity(const Entity & entity);
-
-		// remove sub entity by name
-		// return true if sub entity with given name is removed
-		// return false if no sub entity with given name exists
-		bool removeSubEntity(const std::string & name);
-
-		// remove sub entity by EntityID
-		// return true if sub entity with given EntityID is removed
-		// return false if no sub entity with given EntityID exists
-		bool removeSubEntity(const EntityID uid);
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -145,7 +114,8 @@ namespace ose::entity
 		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
 
 		// list of all sub/child entities
-		std::vector<std::unique_ptr<Entity>> sub_entities_;
+		//std::vector<std::unique_ptr<Entity>> sub_entities_;
+		EntityList sub_entities_;
 
 		// list of all components attached to this entity, components need not be active
 		std::vector<std::unique_ptr<Component>> components_;
