@@ -192,32 +192,20 @@ namespace ose::game
 
 	void Game::runGame()
 	{
-		time_t t = time(0);	//get current time in seconds
+		// get current time in seconds
+		// TODO - should I use this or window_manager_ timing
+		// time_t t = time(0);
 
 		while(running_)
 		{
-			window_manager_->update();		//renders previous frame to window and poll for new event
+			// renders previous frame to window and poll for new event
+			window_manager_->update();
+
+			// update all timing variables
 			time_.update(window_manager_->getTimeSeconds());
-			rendering_engine_->render();
 
-			//LOG("delta time: " << time_.get_delta_time() << ", fps: " << time_.get_fps());
-			
-			//TODO - do something here
-			time_t p = time(0);
-
-			//every 2 seconds, add a set of new tasks
-			/*if(p - t >= 2)
-			{
-				thread_manager_->addNewTask("task1-" + std::to_string(p));
-				thread_manager_->addNewTask("task2-" + std::to_string(p));
-				thread_manager_->addNewTask("task3-" + std::to_string(p));
-				thread_manager_->addNewTask("task4-" + std::to_string(p));
-				thread_manager_->addNewTask("task5-" + std::to_string(p));
-				thread_manager_->addNewTask("task6-" + std::to_string(p));
-				thread_manager_->addNewTask("task7-" + std::to_string(p));
-				thread_manager_->addNewTask("task8-" + std::to_string(p));
-				t = p;	//set the last time to the current time
-			}*/
+			// render the game
+			rendering_engine_->update();
 		}
 	}
 }

@@ -1,26 +1,23 @@
 #pragma once
 
 #include "EProjectionMode.h"
+#include "OSE-Core/Engine/Engine.h"
 #include "OSE-Core/Entity/Entity.h"
 
 namespace ose::rendering
 {
+	using namespace engine;
 	using namespace entity;
 	using namespace resources;
 
-	class RenderingEngine
+	class RenderingEngine : public Engine
 	{
 	public:
 		RenderingEngine();
 		virtual ~RenderingEngine();
 
-		virtual void render() = 0;
-
-		//add entities render components to render objects
-		virtual void addEntityRenderObject(std::vector<Entity> & entities) = 0;
-
-		//clear the list of entity render object
-		virtual void clearEntityRenderObjects(const Entity & entity) = 0;
+		// NOTE - replaced with update() method from Engine class
+		///virtual void render() = 0;
 
 		//saves having to resize framebuffers twice
 		void set_projection_mode_and_fbsize(const EProjectionMode & projection_mode, const int width, const int height);
@@ -28,6 +25,12 @@ namespace ose::rendering
 		void set_projection_mode(const EProjectionMode & projection_mode);
 
 		void set_framebuffer_size(const int width, const int height);
+
+		//create a rendering engine specific texture object for a ose texture object
+		virtual void createTexture(const Texture & texture) = 0;
+
+		//delete a rendering engine specific texture object
+		virtual void deleteTexture(const Texture & texture) = 0;
 
 	private:
 		//how the scene will be projected, e.g. ORTHOGRAPHIC, PERSPECTIVE
@@ -42,11 +45,5 @@ namespace ose::rendering
 		//child functions to update the projection matrix to either orthographic or perspective
 		virtual void updateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) = 0;
 		virtual void updatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar) = 0;
-
-		//create a rendering engine specific texture object for a ose texture object
-		virtual void createTexture(const Texture & texture) = 0;
-
-		//delete a rendering engine specific texture object
-		virtual void deleteTexture(const Texture & texture) = 0;
 	};
 }
