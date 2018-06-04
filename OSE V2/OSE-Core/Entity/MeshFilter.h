@@ -42,11 +42,5 @@ namespace ose::entity
 			path = std::move(other.path);
 			return *this;
 		}
-
-		//clone method which can be overwritten by base classes
-		/*virtual std::unique_ptr<Component> clone() const
-		{
-			return std::make_unique<MeshFilter>(*this);
-		}*/
 	};
 }

@@ -18,6 +18,7 @@ int main()
 	
 	// TODO - might need to destroy resources before returning error
 	
+	// load the project, giving access to all of its settings and scenes
 	try {
 		Env::game->loadProject("OSE-TestProject");
 	} catch(const std::invalid_argument & e) {
@@ -28,6 +29,7 @@ int main()
 		return 1;
 	}
 
+	// load a scene, giving access to all of its entities and resources
 	try {
 		Env::game->loadScene("scene1");
 	} catch(const std::invalid_argument & e) {
@@ -38,6 +40,10 @@ int main()
 		return 1;
 	}
 
+	// resources have been loaded, now engine specific data object must be created and added to engine data pools
+
+
+	// all resources have been loaded and entities initialised, therefore, start the game
 	Env::game->startGame();
 	
 	return 0;

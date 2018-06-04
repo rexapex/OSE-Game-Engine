@@ -5,13 +5,15 @@
 
 namespace ose::resources
 {
-	//for convenience
+	// for convenience
 	typedef unsigned char * IMGDATA;
 
 	class Texture
 	{
-	public:
+	protected:
+		// Texture is an abstract class, the full class will contain render library specific data
 		Texture(const std::string & name, const std::string & path);
+	public:
 		~Texture();
 		//copying is not allowed (same as ResourceManager)
 		Texture(Texture &) = delete;
@@ -19,6 +21,15 @@ namespace ose::resources
 		//moving is allowed (same as ResourceManager)
 		Texture(Texture &&) noexcept = default;
 		Texture & operator=(Texture &&) noexcept = default;
+
+		// in order to be useful, the texture must be bindable
+		virtual void bind() = 0;
+
+		// the texture can be created in the GPU memory
+		virtual void createTexture() = 0;
+
+		// the texture can be freed from the GPU memory
+		virtual void destroyTexture() = 0;
 
 		const std::string & get_name() const { return name_; }
 		const std::string & get_path() const { return path_; }

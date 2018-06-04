@@ -9,6 +9,7 @@ COMPONENT_DEFINITION(Component, TextureFilter)
 COMPONENT_DEFINITION(Component, MeshFilter)
 COMPONENT_DEFINITION(Component, MeshRenderer)
 COMPONENT_DEFINITION(Component, Material)
+COMPONENT_DEFINITION(Component, SpriteRenderer)
 
 namespace ose::entity
 {

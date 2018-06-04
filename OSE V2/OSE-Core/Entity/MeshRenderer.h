@@ -43,11 +43,5 @@ namespace ose::entity
 			Component::operator=(other);
 			return *this;
 		}
-
-		//clone method which can be overwritten by base classes
-		/*virtual std::unique_ptr<Component> clone() const
-		{
-			return std::make_unique<MeshRenderer>(*this);
-		}*/
 	};
 }

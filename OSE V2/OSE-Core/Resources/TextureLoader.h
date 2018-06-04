@@ -21,7 +21,7 @@ namespace ose::resources
 		virtual void loadTexture(const std::string & path, IMGDATA * img_data, int32_t * width, int32_t * height) = 0;
 
 		//free resources used by the texture (img_data)
-		virtual void freeTexture(const Texture & tex) = 0;
+		virtual void freeTexture(IMGDATA img_data) = 0;
 	private:
 		std::string project_path_;
 	};

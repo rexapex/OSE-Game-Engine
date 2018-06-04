@@ -7,6 +7,6 @@ namespace ose::resources
 
 	Texture::~Texture()
 	{
-		//this object did not allocated memory for img_data_, therefore, this object will not free it
+		// this object did not allocated memory for img_data_, therefore, this object will not free it
 	}
 }

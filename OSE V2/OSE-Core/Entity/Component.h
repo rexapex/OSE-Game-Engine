@@ -79,3 +79,4 @@ namespace ose::entity
 #include "MeshFilter.h"
 #include "MeshRenderer.h"
 #include "Material.h"
+#include "SpriteRenderer.h"
