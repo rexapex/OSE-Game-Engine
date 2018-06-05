@@ -6,6 +6,8 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Entity/Entity.h"
+#include "OSE-Core/Entity/Component.h"
+#include "OSE-Core/Entity/SpriteRenderer.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"
@@ -81,5 +83,8 @@ namespace ose::game
 
 		// called from startGame, runs a loop while running_ is true
 		void runGame();
+
+		// initialise components of an entity along with its sub-entities
+		void initEntity(const Entity & entity);
 	};
 }

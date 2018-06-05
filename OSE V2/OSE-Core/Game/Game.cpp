@@ -175,6 +175,19 @@ namespace ose::game
 
 			this->active_scene_ = std::move(new_scene);		//finally, move the new_scene to the active_scene pointer
 		}
+
+
+
+		// IMPORTANT - the following code can only be run on the same thread as the render context
+
+		// create GPU memory for the new resources
+		this->project_->get_resource_manager().createTextures();
+
+		// create GPU memory for the new render objects
+		for(auto const & entity : this->active_scene_->entities().get())
+		{
+			initEntity(*entity);
+		}
 	}
 
 	void Game::startGame()
@@ -206,6 +219,25 @@ namespace ose::game
 
 			// render the game
 			rendering_engine_->update();
+		}
+	}
+
+	// initialise components of an entity along with its sub-entities
+	void Game::initEntity(const Entity & entity)
+	{
+		// for each sprite renderer component of the entity		
+		for(auto const & comp : entity.getComponents<SpriteRenderer>())
+		{
+			// initialise the component
+			comp->init();
+
+			// then add the component to the render pool
+		}
+
+		// initialise all sub entities
+		for(auto const & sub_entity : entity.sub_entities().get())
+		{
+			initEntity(*sub_entity);
 		}
 	}
 }

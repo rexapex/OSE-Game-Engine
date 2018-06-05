@@ -14,43 +14,51 @@ namespace ose::entity
 		// declare SpriteRenderer as an OSE Component
 		COMPONENT_DECLERATION(SpriteRenderer)
 
-	public:
+	private:
 
 		// a sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
 		const Texture * texture_;
 
 		// provide a pointer to the render data (what is rendererd by OpenGL)
-		const RenderObject * render_object_;
+		RenderObject * render_object_;
+
+	public:
+
+		// initialise the component, should only be called from the main thread
+		// IMPORTANT - can only be called from the thread containing the render context
+		virtual void init() override;
+
+
+		// get the render object pointer
+		const RenderObject & get_render_object() const { return *render_object_; }
+
+		// set the texture displayed by the sprite renderer
+		void set_texture(const Texture * texture) { texture_ = texture; }
+
+		// get the texture displayed by the sprite renderer
+		const Texture * get_texture() const { return texture_; }
+
+
 
 		// initialise the sprite renderer
-		SpriteRenderer(const std::string & name, const Texture & t) : Component(name), texture_(&t) {}
+		SpriteRenderer(const std::string & name, const Texture & t);
 
-		// sprite renderer owns/manages no pointers, therefore, nothing to free
-		virtual ~SpriteRenderer() {}
+		// delete the render_object_ pointer
+		virtual ~SpriteRenderer() noexcept;
 
 
 
 		// copy constructor
-		SpriteRenderer(const SpriteRenderer & other) noexcept : Component(other), texture_(other.texture_) {}
+		SpriteRenderer(const SpriteRenderer & other) noexcept;
 
 		// copy assignment constructor
-		SpriteRenderer & operator=(const SpriteRenderer & other) noexcept
-		{
-			Component::operator=(other);
-			texture_ = other.texture_;
-			return *this;
-		}
+		SpriteRenderer & operator=(const SpriteRenderer & other) noexcept;
 
 		// move constructor
-		SpriteRenderer(const SpriteRenderer && other) noexcept : Component(other), texture_(other.texture_) {}
+		SpriteRenderer(const SpriteRenderer && other) noexcept;
 
 		// move assignment constructor
-		SpriteRenderer & operator=(const SpriteRenderer && other) noexcept
-		{
-			Component::operator=(other);
-			texture_ = other.texture_;
-			return *this;
-		}
+		SpriteRenderer & operator=(const SpriteRenderer && other) noexcept;
 	};
 }

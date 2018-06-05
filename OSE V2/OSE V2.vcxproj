@@ -307,6 +307,7 @@
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
     <ClInclude Include="OSE-Core\Engine\EngineDataPool.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderObject.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
@@ -633,9 +634,11 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />

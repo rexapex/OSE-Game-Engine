@@ -58,6 +58,9 @@ namespace ose::entity
 		// clone method which can be overwritten by base classes
 		virtual std::unique_ptr<Component> clone() const;
 
+		// initialise the component, should only be called from the main thread
+		virtual void init() {}
+
 		// disable the component (i.e. remove it from corresponding engine data pool
 		virtual void disable();
 

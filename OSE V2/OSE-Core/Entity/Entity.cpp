@@ -122,7 +122,7 @@ namespace ose::entity
 	// throws std::invalid_argument if component of given type does not exist
 	// entity class manages pointer, returned pointer should not be deleted (de-allocated)
 	// returns nullptr if no component of type given exists
-	template<class ComponentType>
+	/*template<class ComponentType>
 	ComponentType & Entity::getComponent() const
 	{
 		// check whether the type matches of each component
@@ -135,26 +135,26 @@ namespace ose::entity
 		}
 
 		throw std::invalid_argument("Error: Component does not exist");	// returns nullptr if no component of type given exists
-	}
+	}*/
 
 	// get a list of components of specified type
 	// returns list of references
 	// list will be empty if no component of given type exists
-	template<class ComponentType>
-	std::vector<ComponentType &> Entity::getComponents() const
+	/*template<class ComponentType>
+	std::vector<ComponentType *> Entity::getComponents() const
 	{
-		std::vector<ComponentType &> matching_comps;
+		std::vector<ComponentType *> matching_comps;
 
 		for(auto && comp : components_)
 		{
 			// add every component which is/derives from the type given
 			if(comp->isClassType(ComponentType::Type)) {
-				matching_comps.emplace_back(static_cast<ComponentType>(*comp));
+				matching_comps.emplace_back(static_cast<ComponentType*>(comp.get()));
 			}
 		}
-
+		
 		return matching_comps;
-	}
+	}*/
 
 	// remove the first component of specified type
 	// returns true if component of given type is removed

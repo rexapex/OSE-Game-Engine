@@ -172,6 +172,18 @@ namespace ose::resources
 		}
 	}
 
+	// create all textures which are currently lacking a GPU representation
+	// IMPORTANT - can only be called from the thread which contains the render context
+	void ResourceManager::createTextures()
+	{
+		// create a GPU texture for each texture without a GPU texture representation
+		for(const auto & x : textures_without_GPU_memory_)
+		{
+			// delegate to this method because why not
+			createTexture(x.first);
+		}
+	}
+
 	//loads a meta file for some texture, meta files map properties to values
 	void ResourceManager::loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
 	{

@@ -46,6 +46,10 @@ namespace ose::resources
 		// IMPORANT - can only be called from the thread which contains the render context
 		void destroyTexture(const std::string & tex_name);
 
+		// create all textures which are currently lacking a GPU representation
+		// IMPORTANT - can only be called from the thread which contains the render context
+		void createTextures();
+
 		// loads a meta file for some texture, meta files map properties to values
 		void loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data);
 

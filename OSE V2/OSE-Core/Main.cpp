@@ -40,8 +40,13 @@ int main()
 		return 1;
 	}
 
-	// resources have been loaded, now engine specific data object must be created and added to engine data pools
-
+	// set the new scene as the active scene
+	try {
+		Env::game->setActiveScene("scene1");
+	} catch(const std::invalid_argument & e) {
+		ERROR_LOG(e.what());
+		return 1;
+	}
 
 	// all resources have been loaded and entities initialised, therefore, start the game
 	Env::game->startGame();

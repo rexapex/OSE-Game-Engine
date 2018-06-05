@@ -28,6 +28,5 @@ namespace ose::engine
 		std::vector<DataObject> data_objects_;
 	};
 
-	// define the base types of engine data pool core to the engine
-	typedef EngineDataPool<RenderObject> RenderPool;
+	typedef EngineDataPool<RenderObjectImpl> RenderPool;
 }

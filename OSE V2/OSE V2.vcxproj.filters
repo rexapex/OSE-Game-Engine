@@ -159,6 +159,12 @@
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp">
@@ -1575,6 +1581,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
