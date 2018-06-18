@@ -28,6 +28,10 @@ namespace ose::resources
 		// sub_dir is a sub directory within the resources directory
 		void importFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir = "");
 
+		// get the texture from either map
+		// given the name of the texture, return the texture object
+		const Texture * getTexture(const std::string name);
+
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
 		// if no name is given, the relative path will be used
@@ -35,8 +39,9 @@ namespace ose::resources
 		void addTexture(const std::string & path, const std::string & name = "");
 
 		// create the GPU memory for an already loaded (added) texture
+		// returns an iterator to the next texture in the textures_without_GPU_memory map
 		// IMPORANT - can only be called from the thread which contains the render context
-		void createTexture(const std::string & tex_name);
+		std::map<std::string, std::unique_ptr<Texture>>::const_iterator createTexture(const std::string & tex_name);
 
 		// remove the texture from the textures list and free the texture's resources
 		// IMPORANT - can be called from any thread

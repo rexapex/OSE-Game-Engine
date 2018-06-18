@@ -1586,6 +1586,9 @@
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OSE-Core\Engine\DataObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">

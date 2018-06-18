@@ -49,7 +49,7 @@ namespace ose::windowing
 	private:
 		virtual int	initWindowingToolkit() const = 0;
 
-		//pointers should not be de-allocated by this class
+		// pointers should not be de-allocated by this class
 		RenderingEngine * rendering_engine_ { nullptr };
 	};
 }

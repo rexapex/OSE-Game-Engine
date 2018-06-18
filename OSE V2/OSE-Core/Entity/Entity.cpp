@@ -110,12 +110,12 @@ namespace ose::entity
 	// method constructs a new object of the given component type
 	// template takes the type of component
 	// method takes an array of contructor arguments
-	template<class ComponentType, typename... Args>
+	/*template<class ComponentType, typename... Args>
 	void Entity::addComponent(Args &&... params)
 	{
 		//components.emplace_back(new ComponentType(std::forward<Args>(params)));
 		components.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
-	}
+	}*/
 
 	// get the first component of specified type
 	// returns reference to component if one exists
@@ -159,7 +159,7 @@ namespace ose::entity
 	// remove the first component of specified type
 	// returns true if component of given type is removed
 	// returns false if no component of given type exists
-	template<class ComponentType>
+	/*template<class ComponentType>
 	bool Entity::removeComponent()
 	{
 		// no component can be removed if there are no components therefore return false
@@ -182,7 +182,7 @@ namespace ose::entity
 
 		// else, return false
 		return false;
-	}
+	}*/
 
 	// remove the component pass from the entity
 	// returns true if the component is removed
@@ -206,7 +206,7 @@ namespace ose::entity
 
 	// remove all components which are of / are derived from given type
 	// returns the number of removals
-	template<class ComponentType>
+	/*template<class ComponentType>
 	int32_t Entity::removeComponents()
 	{
 		// no component can be removed if there are no components therefore return 0
@@ -223,7 +223,7 @@ namespace ose::entity
 		} while(removed);
 
 		return num_removals;
-	}
+	}*/
 
 
 	/**

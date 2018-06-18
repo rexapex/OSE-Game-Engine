@@ -41,6 +41,25 @@ namespace ose::resources
 		}
 	}
 
+	// get the texture from either map
+	// given the name of the texture, return the texture object
+	const Texture * ResourceManager::getTexture(const std::string name)
+	{
+		// search the textures_with_GPU_memory_ list
+		auto const & tex_iter { textures_with_GPU_memory_.find(name) };
+		if(tex_iter != textures_with_GPU_memory_.end()) {
+			return tex_iter->second.get();
+		}
+
+		// then, if texture couldn't be found, search the textures_without_GPU_memory_ list
+		auto const & tex_iter2 { textures_without_GPU_memory_.find(name) };
+		if(tex_iter2 != textures_without_GPU_memory_.end()) {
+			return tex_iter2->second.get();
+		}
+
+		return nullptr;
+	}
+
 	// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 	// path is relative to ProjectPath/Resources
 	// if no name is given, the filepath will be used
@@ -64,6 +83,7 @@ namespace ose::resources
 			if(iter == textures_without_GPU_memory_.end() && iter2 == textures_with_GPU_memory_.end())
 			{
 				textures_without_GPU_memory_.emplace(name_to_use, std::make_unique<TextureImpl>(name_to_use, abs_path));
+				DEBUG_LOG("Added texture " << name_to_use << " to ResourceManager");
 				
 				// get a references to the newly created texture
 				auto & tex = textures_without_GPU_memory_.at(name_to_use);
@@ -111,8 +131,9 @@ namespace ose::resources
 	}
 
 	// create the GPU memory for an already loaded (added) texture
+		// returns an iterator to the next texture in the textures_without_GPU_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::createTexture(const std::string & tex_name)
+	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::createTexture(const std::string & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with no representation in GPU memory can be created
@@ -127,11 +148,13 @@ namespace ose::resources
 				// iff the creation succeeds, move the texture from one map to the other
 				textures_with_GPU_memory_.insert({ tex_name, std::move(tex_iter->second) });
 				// remove the texture from the original map
-				textures_without_GPU_memory_.erase(tex_iter);
+				return textures_without_GPU_memory_.erase(tex_iter);
 			} catch(const std::exception & e) {
 				ERROR_LOG(e.what());
 			}
 		}
+
+		return tex_iter;
 	}
 
 	// remove the texture from the textures list and free the texture's resources
@@ -176,11 +199,13 @@ namespace ose::resources
 	// IMPORTANT - can only be called from the thread which contains the render context
 	void ResourceManager::createTextures()
 	{
+		std::map<std::string, std::unique_ptr<Texture>>::const_iterator it;
+
 		// create a GPU texture for each texture without a GPU texture representation
-		for(const auto & x : textures_without_GPU_memory_)
+		for(it = textures_without_GPU_memory_.begin(); it != textures_without_GPU_memory_.end(); )
 		{
 			// delegate to this method because why not
-			createTexture(x.first);
+			it = createTexture(it->first);
 		}
 	}
 

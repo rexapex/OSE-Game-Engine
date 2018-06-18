@@ -8,6 +8,7 @@
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component.h"
 #include "OSE-Core/Entity/SpriteRenderer.h"
+#include "OSE-Core/Engine/EngineDataPool.h"
 #include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"
@@ -73,7 +74,9 @@ namespace ose::game
 		std::unique_ptr<ThreadManager> thread_manager_;
 
 		// rendering engine handles all rendering of entity render objects
-		std::unique_ptr<RenderingEngine> rendering_engine_;
+		std::unique_ptr<RenderingEngineImpl> rendering_engine_;
+
+		std::unique_ptr<RenderPool> render_pool_;
 
 		// time handles calculation of delta time, fps etc. and provides a way for scripts to get the timing variables
 		Time time_;

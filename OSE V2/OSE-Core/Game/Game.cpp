@@ -19,6 +19,8 @@ namespace ose::game
 		this->window_manager_->setEngineReferences(this->rendering_engine_.get());
 		this->rendering_engine_->set_projection_mode_and_fbsize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
+		this->render_pool_ = std::make_unique<RenderPool>();
+
 		this->time_.init(this->window_manager_->getTimeSeconds());
 	}
 
@@ -28,7 +30,8 @@ namespace ose::game
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
 										 active_scene_(std::move(other.active_scene_)), running_(other.running_),
-										 thread_manager_(std::move(other.thread_manager_)), persistent_entities_(std::move(other.persistent_entities_)) {}
+										 thread_manager_(std::move(other.thread_manager_)), persistent_entities_(std::move(other.persistent_entities_)),
+									     render_pool_(std::move(other.render_pool_)) {}
 
 
 	Game & Game::operator=(Game && other) noexcept
@@ -39,6 +42,7 @@ namespace ose::game
 		this->running_ = other.running_;
 		this->thread_manager_ = std::move(other.thread_manager_);
 		this->persistent_entities_ = std::move(other.persistent_entities_);
+		this->render_pool_ = std::move(other.render_pool_);
 		return *this;
 	}
 
@@ -218,7 +222,11 @@ namespace ose::game
 			time_.update(window_manager_->getTimeSeconds());
 
 			// render the game
-			rendering_engine_->update();
+			RenderObjectImpl * render_object = nullptr;
+			while((render_object = render_pool_->getNextDataObject()) != nullptr)
+			{
+				rendering_engine_->update(*render_object);
+			}
 		}
 	}
 
@@ -230,8 +238,10 @@ namespace ose::game
 		{
 			// initialise the component
 			comp->init();
+			DEBUG_LOG("Initialised SpriteRenderer");
 
 			// then add the component to the render pool
+			render_pool_->addEngineDataObject(static_cast<RenderObjectImpl *>(comp->get_render_object()));
 		}
 
 		// initialise all sub entities

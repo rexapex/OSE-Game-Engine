@@ -38,7 +38,11 @@ namespace ose::entity
 		// template takes the type of component
 		// method takes an array of contructor arguments
 		template<class ComponentType, typename... Args>
-		void addComponent(Args &&... params);
+		void addComponent(Args &&... params)
+		{
+			//components.emplace_back(new ComponentType(std::forward<Args>(params)));
+			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+		}
 
 		// get the first component of specified type
 		// returns raw pointer to component if one exists
@@ -84,18 +88,56 @@ namespace ose::entity
 		// returns true if component of given type is removed
 		// returns false if no component of given type exists
 		template<class ComponentType>
-		bool removeComponent();
+		bool removeComponent()
+		{
+			// no component can be removed if there are no components therefore return false
+			if(components_.empty()) {
+				return false;
+			}
+
+			// otherwise, find the first component of given type
+			// search from beginning to end of list
+			// return first component to return true from lambda
+			auto & pos = std::find_if(components_.begin(), components_.end(), [type = ComponentType::Type] (auto & comp) {
+				return comp->isClassType(type);
+			});
+
+			// if a matching component is found, remove it then return true
+			if(pos != components_.end()) {
+				components_.erase(pos);
+				return true;
+			}
+
+			// else, return false
+			return false;
+		}
+
+		// remove all components which are of / are derived from given type
+		// returns the number of removals
+		template<class ComponentType>
+		int32_t removeComponents()
+		{
+			// no component can be removed if there are no components therefore return 0
+			if(components_.empty()) {
+				return 0;
+			}
+
+			int32_t num_removals = 0;
+
+			// use removeComponent method in a loop until no more components can be removed
+			do {
+				bool removed = this->removeComponent<ComponentType>();
+				if(removed) num_removals ++;
+			} while(removed);
+
+			return num_removals;
+		}
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
 		// remove the component pass from the entity
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
 		bool removeComponent(const Component & comp);
-
-		// remove all components which are of / are derived from given type
-		// returns the number of removals
-		template<class ComponentType>
-		int32_t removeComponents();
 
 		// read-only transform relative the parent entity/world if no parent exists
 		const Transform & get_local_transform() const { return this->local_transform_; }

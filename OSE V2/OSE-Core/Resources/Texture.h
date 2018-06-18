@@ -63,7 +63,7 @@ namespace ose::resources
 		//set all meta data in one go
 		void set_meta_data(const TextureMetaData & meta_data) { meta_data_ = meta_data; }
 
-	private:
+	protected:
 		std::string name_;
 		std::string path_;
 

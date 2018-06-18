@@ -31,7 +31,7 @@ namespace ose::entity
 
 
 		// get the render object pointer
-		const RenderObject & get_render_object() const { return *render_object_; }
+		RenderObject * get_render_object() const { return render_object_; }
 
 		// set the texture displayed by the sprite renderer
 		void set_texture(const Texture * texture) { texture_ = texture; }
