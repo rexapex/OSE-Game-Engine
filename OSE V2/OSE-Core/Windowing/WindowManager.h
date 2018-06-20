@@ -31,6 +31,8 @@ namespace ose::windowing
 
 		virtual const int getFramebufferWidth() const = 0;
 		virtual const int getFramebufferHeight() const = 0;
+		virtual const int getWindowWidth() const = 0;
+		virtual const int getWindowHeight() const = 0;
 
 		virtual int	setMouseVisibility(int value) = 0;
 

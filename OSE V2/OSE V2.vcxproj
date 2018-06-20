@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
+    <ClInclude Include="OSE-Core\Editor\Editor.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_exponential.hpp" />
@@ -308,6 +310,12 @@
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
     <ClInclude Include="OSE-Core\Engine\EngineDataPool.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderObject.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_internal.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_rect_pack.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
@@ -635,10 +643,15 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
+    <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_demo.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
