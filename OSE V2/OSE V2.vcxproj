@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
     <ClInclude Include="OSE-Core\Editor\Editor.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
@@ -310,6 +311,7 @@
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
     <ClInclude Include="OSE-Core\Engine\EngineDataPool.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderObject.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_internal.h" />
@@ -643,6 +645,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp" />

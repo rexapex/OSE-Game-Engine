@@ -180,6 +180,9 @@
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp">
@@ -1626,6 +1629,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
