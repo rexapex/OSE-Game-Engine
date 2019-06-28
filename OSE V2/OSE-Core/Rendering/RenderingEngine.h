@@ -4,7 +4,6 @@
 #include "EProjectionMode.h"
 #include "OSE-Core/Engine/Engine.h"
 #include "OSE-Core/Entity/Entity.h"
-#include "OSE-Core/Rendering/RenderObject.h"
 #include "OSE-Core/Entity/SpriteRenderer.h"
 
 namespace ose::rendering
@@ -18,6 +17,11 @@ namespace ose::rendering
 	public:
 		RenderingEngine();
 		virtual ~RenderingEngine();
+
+		// called every game update for every data object in pool
+		// IMPORTANT - stub method should not be called...
+		// ...used to allow update method with RenderObject sub-class to be called
+	//	virtual void update(RenderObject &) {}
 
 		// saves having to resize framebuffers twice
 		void set_projection_mode_and_fbsize(const EProjectionMode & projection_mode, const int width, const int height);

@@ -1,12 +1,12 @@
 ### Origami Sheep Engine
 
-The shell of the Origami Sheep Engine
+Origami Sheep Engine Core Framework
 
 ### Installation
 
 ###### On Windows 10, with Visual Studio 2017
 
-- Clone the git repository
+- Clone / Download the git repository
 - Open the project file in VS2017 and build in release mode
 
 ###### Alternatively, on Linux with g++

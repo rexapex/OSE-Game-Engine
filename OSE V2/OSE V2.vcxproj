@@ -159,6 +159,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
+    <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
     <ClInclude Include="OSE-Core\Editor\Editor.h" />
@@ -304,13 +306,13 @@
     <ClInclude Include="EngineDependencies\glm\vec3.hpp" />
     <ClInclude Include="EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="EngineDependencies\glm\vector_relational.hpp" />
-    <ClInclude Include="OSE-Core\Engine\DataObject.h" />
+    <ClInclude Include="OSE-Core\Engine\EngineTask.h" />
     <ClInclude Include="OSE-Core\Entity\SpriteRenderer.h" />
     <ClInclude Include="OSE-Core\Env.h" />
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
-    <ClInclude Include="OSE-Core\Engine\EngineDataPool.h" />
-    <ClInclude Include="OSE-Core\Rendering\RenderObject.h" />
+    <ClInclude Include="OSE-Core\Engine\EngineTaskPool.h" />
+    <ClInclude Include="OSE-Core\Rendering\RenderTask.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h" />
@@ -318,7 +320,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_rect_pack.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
@@ -495,6 +497,9 @@
     <ClInclude Include="OSE-Core\Resources\TextureLoader.h" />
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h" />
+    <ClInclude Include="OSE-Core\Shader\Shader.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderBuilder.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -645,6 +650,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
@@ -655,7 +661,7 @@
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_demo.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
@@ -676,6 +682,9 @@
     <ClCompile Include="OSE-Core\Resources\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\TextureLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shader.cpp" />
+    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
+    <ClCompile Include="OSE-Core\Shader\ShaderBuiler.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -907,6 +916,7 @@
     <None Include="OSE-Core\EngineDependencies\glm\gtx\vector_angle.inl" />
     <None Include="OSE-Core\EngineDependencies\glm\gtx\vector_query.inl" />
     <None Include="OSE-Core\EngineDependencies\glm\gtx\wrap.inl" />
+    <None Include="OSE-Core\EngineSaveData\settings.ini" />
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl" />
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_exponential.inl" />
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_geometric.inl" />

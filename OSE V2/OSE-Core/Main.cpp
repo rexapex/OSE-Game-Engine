@@ -2,9 +2,20 @@
 #include "Main.h"
 ///#include "Math/Transform.h"
 
-int main()
+int main(int argc, char * argv[])
 {
 	using namespace ose;
+
+	// process each command-line argument
+	for(int i = 0; i < argc; i++)
+	{
+		std::string arg = argv[i];
+
+		// edit arg means the engine should be opened in editor mode
+		if(arg == "edit") {
+			
+		}
+	}
 
 	///using namespace ose::math;
 	///Transform t { { 0, 832043982, -432098 }, { 0, 0, 0 }, { 1, 1, 1 } };
@@ -26,6 +37,7 @@ int main()
 		return 1;
 	} catch(const std::exception & e) {
 		ERROR_LOG(e.what());
+		getchar();
 		return 1;
 	}
 
@@ -37,6 +49,7 @@ int main()
 		return 1;
 	} catch(const std::exception & e) {
 		ERROR_LOG(e.what());
+		getchar();
 		return 1;
 	}
 
@@ -45,6 +58,7 @@ int main()
 		Env::game->setActiveScene("scene1");
 	} catch(const std::invalid_argument & e) {
 		ERROR_LOG(e.what());
+		getchar();
 		return 1;
 	}
 

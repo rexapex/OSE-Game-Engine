@@ -8,12 +8,15 @@ namespace ose::game
 	class ThreadManager
 	{
 	public:
-		ThreadManager();
+		ThreadManager(const RenderPool & render_pool);
 		~ThreadManager() noexcept;
 		ThreadManager(ThreadManager && other) noexcept;
-		ThreadManager & operator=(ThreadManager && other) noexcept;
+		ThreadManager & operator=(ThreadManager && other) noexcept = delete;
 
 		void addNewTask(const std::string &);
+
+		// process all rendering tasks
+		void processRenderTasks();
 
 	private:
 		uint32_t tasks_in_progress_;
@@ -34,5 +37,8 @@ namespace ose::game
 
 		std::mutex mu_;
 		std::condition_variable work_to_do_;
+
+		// reference to the pool of render tasks
+		const RenderPool & render_pool_;
 	};
 }

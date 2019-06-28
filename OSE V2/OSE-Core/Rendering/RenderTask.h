@@ -1,5 +1,7 @@
 #pragma once
 
+#include "OSE-Core/Engine/EngineTask.h"
+
 namespace ose::entity
 {
 	class SpriteRenderer;
@@ -8,8 +10,9 @@ namespace ose::entity
 namespace ose::rendering
 {
 	using namespace entity;
+	using namespace engine;
 
-	class RenderObject
+	class RenderTask : public EngineTask
 	{
 	public:
 		// initialise the render object to render sprite renderer data

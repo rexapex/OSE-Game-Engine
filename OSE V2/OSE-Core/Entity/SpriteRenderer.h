@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "OSE-Core/Resources/Texture.h"
-#include "OSE-Core/Rendering/RenderObject.h"
+#include "OSE-Core/Rendering/RenderTask.h"
 
 namespace ose::entity
 {
@@ -21,7 +21,7 @@ namespace ose::entity
 		const Texture * texture_;
 
 		// provide a pointer to the render data (what is rendererd by OpenGL)
-		RenderObject * render_object_;
+		RenderTask * render_object_;
 
 	public:
 
@@ -31,7 +31,7 @@ namespace ose::entity
 
 
 		// get the render object pointer
-		RenderObject * get_render_object() const { return render_object_; }
+		RenderTask * get_render_object() const { return render_object_; }
 
 		// set the texture displayed by the sprite renderer
 		void set_texture(const Texture * texture) { texture_ = texture; }

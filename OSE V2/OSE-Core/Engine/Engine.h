@@ -1,5 +1,5 @@
 #pragma once
-#include "DataObject.h"
+#include "EngineTask.h"
 
 namespace ose::engine
 {
@@ -16,7 +16,7 @@ namespace ose::engine
 		// called every game update for every data object in pool
 		// IMPORTANT - stub method should not be called...
 		// ...used to allow update method with DataObject sub-class to be called
-		virtual void update(DataObject &) {}
+		///virtual void update(DataObject &) {}
 
 		// defaults to false
 		// override in subclass if the engine is multithreadable (threadsafe)

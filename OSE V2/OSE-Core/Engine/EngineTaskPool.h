@@ -1,5 +1,5 @@
 #pragma once
-#include "OSE-Core/Rendering/RenderObject.h"
+#include "OSE-Core/Rendering/RenderTask.h"
 #include <algorithm>
 
 namespace ose::engine
@@ -9,19 +9,19 @@ namespace ose::engine
 	// template based approach avoids the needs for dynamic_cast or any_cast on add and remove methods...
 	// ...also prevents writers of scripts from having to implement their own data pool subclass
 	template <typename DataObject>
-	class EngineDataPool
+	class EngineTaskPool
 	{
 	public:
-		EngineDataPool() {}
-		~EngineDataPool() {}
-		EngineDataPool(EngineDataPool &) = delete;
-		EngineDataPool & operator=(EngineDataPool &) = delete;
+		EngineTaskPool() {}
+		~EngineTaskPool() {}
+		EngineTaskPool(EngineTaskPool &) = delete;
+		EngineTaskPool & operator=(EngineTaskPool &) = delete;
 
 		// copy constructor
-		EngineDataPool(EngineDataPool && other) : data_objects_(std::move(other.data_objects_)) {}
+		EngineTaskPool(EngineTaskPool && other) : data_objects_(std::move(other.data_objects_)) {}
 
 		// copy assignment constructor
-		EngineDataPool & operator=(EngineDataPool && other)
+		EngineTaskPool & operator=(EngineTaskPool && other)
 		{
 			this->data_objects_ = std::move(other.data_objects_);
 			return *this;
@@ -42,7 +42,7 @@ namespace ose::engine
 		}
 
 		// get the next data object
-		DataObject * getNextDataObject()
+		DataObject * getNextDataObject() const
 		{
 			static int next_index = 0;
 			if(next_index < data_objects_.size()) {

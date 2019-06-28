@@ -19,11 +19,11 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 	}
 }
 
-//Writes text file at 'path' with the contents 'text'
-//The file will be created if it does not already exist
+// Writes text file at 'path' with the contents 'text'
+// The file will be created if it does not already exist
 void FileHandlingUtil::writeTextFile(const std::string & path, const std::string & text)
 {
-	//https://stackoverflow.com/questions/478075/creating-files-in-c
+	// https://stackoverflow.com/questions/478075/creating-files-in-c
 	std::ofstream out(path);
 	out << text << std::endl;
 	out.close();
@@ -43,9 +43,22 @@ void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 
 	home_dir_path = std::string(home_dir);
 #elif defined(_WIN32)
+	// Get windows Documents folder
+	CHAR docs_path[128];
+	HRESULT result = SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, docs_path);
+
+	if(result == S_OK)
+	{
+		home_dir_path = docs_path;
+	}
+	else
+	{
+		ERROR_LOG("Error: Could not find HOME directory");
+	}
+
 	//get windows Documents folder
 	//https://stackoverflow.com/questions/15916695/can-anyone-give-me-example-code-of-dupenv-s
-	char * buffer;
+	/*char * buffer;
 	size_t size;
 	if(_dupenv_s(&buffer, &size, "USERPROFILE") == 0 && buffer != nullptr)
 	{
@@ -53,7 +66,7 @@ void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 		path += "\\Documents";
 		home_dir_path = path;
 		free(buffer);
-	}
+	}*/
 #endif
 }
 
@@ -113,4 +126,19 @@ std::string FileHandlingUtil::filenameFromPath(const std::string & path)
 std::string FileHandlingUtil::parentPathFromPath(const std::string & path)
 {
 	return std::experimental::filesystem::path(path).parent_path().string();
+}
+
+// Get a field from the engine's settings ini file
+// The field must be of the type string
+std::string FileHandlingUtil::getEngineSettingsString(const std::string & section, const std::string & name, const std::string & default_value)
+{
+	// TODO - Make my own INI parse and manager, probably will be easier than this
+
+#ifdef WIN32
+	/*std::wstring ack = L"foo";
+	LPCTSTR section_, name_, default_value_;
+	swprintf(ack.c_str(), section.size(), L"%hs", section);
+	GetPrivateProfileString(section.c_str(), "server", "127.0.0.1", dbserver, sizeof(dbserver) / sizeof(dbserver[0]), ".\\dbsettings.ini");*/
+#endif
+	return "";
 }

@@ -159,9 +159,6 @@
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -181,6 +178,21 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\Shader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\ShaderBuiler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1589,22 +1601,10 @@
     <ClInclude Include="OSE-Core\Engine\Engine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Engine\EngineDataPool.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Rendering\RenderObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Entity\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Engine\DataObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Editor\Editor.h">
@@ -1635,6 +1635,33 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Engine\EEngineType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Engine\EngineTaskPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Engine\EngineTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Rendering\RenderTask.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\ShaderNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\NodeConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\ShaderBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -2620,5 +2647,6 @@
     <None Include="OSE-Core\EngineDependencies\glm\gtx\wrap.inl">
       <Filter>Header Files</Filter>
     </None>
+    <None Include="OSE-Core\EngineSaveData\settings.ini" />
   </ItemGroup>
 </Project>

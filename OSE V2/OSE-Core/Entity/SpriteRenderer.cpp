@@ -5,7 +5,7 @@ namespace ose::entity
 {
 	SpriteRenderer::SpriteRenderer(const std::string & name, const Texture & t) : Component(name), texture_(&t)
 	{
-		render_object_ = new RenderObjectImpl();
+		render_object_ = new RenderTaskImpl();
 	}
 
 	// delete the render_object_ pointer
@@ -21,7 +21,7 @@ namespace ose::entity
 	SpriteRenderer::SpriteRenderer(const SpriteRenderer & other) noexcept : Component(other), texture_(other.texture_)
 	{
 		// copy the render object
-		render_object_ = new RenderObjectImpl(*static_cast<RenderObjectImpl*>(other.render_object_));
+		render_object_ = new RenderTaskImpl(*static_cast<RenderTaskImpl*>(other.render_object_));
 	}
 
 	// copy assignment constructor
@@ -31,7 +31,7 @@ namespace ose::entity
 		texture_ = other.texture_;
 		render_object_ = other.render_object_;
 		// copy the render object
-		render_object_ = new RenderObjectImpl(*static_cast<RenderObjectImpl*>(other.render_object_));
+		render_object_ = new RenderTaskImpl(*static_cast<RenderTaskImpl*>(other.render_object_));
 		return *this;
 	}
 
@@ -40,7 +40,7 @@ namespace ose::entity
 		texture_(other.texture_), render_object_(other.render_object_)
 	{
 		// move the render object
-		render_object_ = std::move(static_cast<RenderObjectImpl*>(other.render_object_));
+		render_object_ = std::move(static_cast<RenderTaskImpl*>(other.render_object_));
 	}
 
 	// move assignment constructor
@@ -50,7 +50,7 @@ namespace ose::entity
 		texture_ = other.texture_;
 		render_object_ = other.render_object_;
 		// move the render object
-		render_object_ = std::move(static_cast<RenderObjectImpl*>(other.render_object_));
+		render_object_ = std::move(static_cast<RenderTaskImpl*>(other.render_object_));
 		return *this;
 	}
 

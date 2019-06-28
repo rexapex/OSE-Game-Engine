@@ -8,18 +8,20 @@ namespace ose::game
 		this->project_loader_ = std::make_unique<ProjectLoaderImpl>();
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
-		this->thread_manager_ = std::make_unique<ThreadManager>();
+
+		this->render_pool_ = std::make_unique<RenderPool>();
+		this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
 		
 		this->window_manager_ = std::make_unique<WindowManagerImpl>();
 		this->window_manager_->createWindow(1);
 		int fbwidth { this->window_manager_->getFramebufferWidth() };
 		int fbheight { this->window_manager_->getFramebufferHeight() };
 
-		this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
+		//this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
+		// Can I create unique ptr from released one ???
+		this->rendering_engine_ = uptr<RenderingEngine> { static_cast<RenderingEngine*>(RenderingEngineFactories[0]().release()) };
 		this->window_manager_->setEngineReferences(this->rendering_engine_.get());
 		this->rendering_engine_->set_projection_mode_and_fbsize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
-
-		this->render_pool_ = std::make_unique<RenderPool>();
 
 		this->time_.init(this->window_manager_->getTimeSeconds());
 	}
@@ -162,7 +164,7 @@ namespace ose::game
 				}
 				case ESceneSwitchMode::REMOVE_LOADED_ON_SWITCH:
 				{
-					//remove all loaded scene then add the active scene to the loaded scenes list
+					//remove all loaded scenes then add the active scene to the loaded scenes list
 					this->loaded_scenes_.clear();
 					this->loaded_scenes_.emplace(active_scene_->get_name(), std::move(active_scene_));
 					break;
@@ -212,8 +214,8 @@ namespace ose::game
 		// get current time in seconds
 		// TODO - should I use this or window_manager_ timing
 		// time_t t = time(0);
-		EditorImpl editor_temp (*this->window_manager_);
-		DataObject stub;
+		///EditorImpl editor_temp (*this->window_manager_);
+		///DataObject stub;
 
 		while(running_)
 		{
@@ -223,14 +225,9 @@ namespace ose::game
 			// update all timing variables
 			time_.update(window_manager_->getTimeSeconds());
 
-			// render the game
-			RenderObjectImpl * render_object = nullptr;
-			while((render_object = render_pool_->getNextDataObject()) != nullptr)
-			{
-				rendering_engine_->update(*render_object);
-			}
+			thread_manager_->processRenderTasks();
 
-			editor_temp.update(stub);
+			///editor_temp.update(stub);
 		}
 	}
 
@@ -245,7 +242,7 @@ namespace ose::game
 			DEBUG_LOG("Initialised SpriteRenderer");
 
 			// then add the component to the render pool
-			render_pool_->addEngineDataObject(static_cast<RenderObjectImpl *>(comp->get_render_object()));
+			render_pool_->addEngineDataObject(static_cast<RenderTaskImpl *>(comp->get_render_object()));
 		}
 
 		// initialise all sub entities
