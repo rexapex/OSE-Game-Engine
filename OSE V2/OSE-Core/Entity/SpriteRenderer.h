@@ -8,11 +8,11 @@ namespace ose::entity
 	using namespace resources;
 	using namespace rendering;
 
-	// renders a 2D texture at the entities transform
+	// Renders a 2D texture at the entities transform
 	class SpriteRenderer : public Component
 	{
-		// declare SpriteRenderer as an OSE Component
-		COMPONENT_DECLERATION(SpriteRenderer)
+	// Declare SpriteRenderer as an OSE Component
+	COMPONENT_DECLERATION(SpriteRenderer)
 
 	private:
 

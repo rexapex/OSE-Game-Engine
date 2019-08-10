@@ -1,15 +1,15 @@
 #pragma once
 #include "Component.h"
 #include "EntityList.h"
-#include "OSE-Core/Game/IDManager.h"
-#include "OSE-Core/Math/Transform.h"
+#include "OSE-Core/Math/Transformable.h"
 
 namespace ose::entity
 {
 	using namespace math;
-	using namespace game;
 
-	class Entity : public EntityList
+	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
+
+	class Entity : public EntityList, public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
@@ -134,57 +134,22 @@ namespace ose::entity
 		}
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
-		// remove the component pass from the entity
+		// remove the component passed from the entity
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
 		bool RemoveComponent(const Component & comp);
 
-		// read-only transform relative the parent entity/world if no parent exists
-		const Transform & GetLocalTransform() const { return this->local_transform_; }
-
-		// read-only transform relative to the world
-		const Transform & GetGlobalTransform() const { return this->global_transform_; }
-
-		// modify the local and global transform of the entity
-		void Translate(const glm::vec3 & translation);
-		void Translate(const float x, const float y, const float z);
-
-		// rotate by radians
-		void Rotate(const glm::vec3 & change);
-		void Rotate(const float pitch, const float yaw, const float roll);
-		// rotate by degrees
-		void RotateDeg(const glm::vec3 & change);
-		void RotateDeg(const float pitch, const float yaw, const float roll);
-
-		void Scale(const float scalar);
-		void Scale(const glm::vec3 & multiplier);
-		void Scale(const float x, const float y, const float z);
+		// Get a list of transformable elements
+		// Returns a list of child entities
+		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() override { return entities_; }
 
 	private:
-		// modify just the global transform of the entity
-		void TranslateParent(const glm::vec3 & translation);
-		void TranslateParent(const float x, const float y, const float z);
-
-		// rotate by radians
-		void RotateParent(const glm::vec3 & change);
-		void RotateParent(const float pitch, const float yaw, const float roll);
-		// rotate by degrees
-		void RotateDegParent(const glm::vec3 & change);
-		void RotateDegParent(const float pitch, const float yaw, const float roll);
-
-		void ScaleParent(const float scalar);
-		void ScaleParent(const glm::vec3 & multiplier);
-		void ScaleParent(const float x, const float y, const float z);
 
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 
 		std::string tag_;		// the lowest level tag applied to this entity (or "")
 		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
-
-		// list of all sub/child entities
-		//std::vector<std::unique_ptr<Entity>> sub_entities_;
-		//EntityList sub_entities_;
 
 		// list of all components attached to this entity, components need not be active
 		std::vector<std::unique_ptr<Component>> components_;
@@ -196,6 +161,13 @@ namespace ose::entity
 
 		// utility method for deleting all components
 		void DeleteAllComponents() noexcept;
+
+		// Get the next available entity ID
+		static EntityID NextEntityId()
+		{
+			static EntityID id { 0 };
+			return id++;
+		}
 	};
 }
 

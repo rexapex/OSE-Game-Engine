@@ -9,8 +9,14 @@
 
 namespace ose::math
 {
+	template <typename T>
+	class Transformable;
+
 	class Transform
 	{
+	template<typename T>
+	friend class Transformable;
+
 	public:
 		//constructors & destructor
 		Transform();
@@ -27,20 +33,6 @@ namespace ose::math
 		Transform(Transform && other) noexcept;
 		Transform & operator=(Transform && other) noexcept;
 
-		void Translate(const glm::vec3 & translation);
-		void Translate(const float x, const float y, const float z);
-
-		//rotate by radians
-		void Rotate(const glm::vec3 & change);
-		void Rotate(const float pitch, const float yaw, const float roll);
-		//rotate by degrees
-		void RotateDeg(const glm::vec3 & change);
-		void RotateDeg(const float pitch, const float yaw, const float roll);
-
-		void Scale(const float scalar);
-		void Scale(const glm::vec3 & multiplier);
-		void Scale(const float x, const float y, const float z);
-
 		const glm::vec3 & GetPosition() const { return position_; };
 		const glm::quat & GetOrientation() const { return orientation_; };
 		const glm::vec3 & GetScale() const { return scale_; };
@@ -56,6 +48,20 @@ namespace ose::math
 		const glm::vec3 GetRight() const;
 
 	private:
+		void Translate(const glm::vec3 & translation);
+		void Translate(const float x, const float y, const float z);
+
+		//rotate by radians
+		void Rotate(const glm::vec3 & change);
+		void Rotate(const float pitch, const float yaw, const float roll);
+		//rotate by degrees
+		void RotateDeg(const glm::vec3 & change);
+		void RotateDeg(const float pitch, const float yaw, const float roll);
+
+		void Scale(const float scalar);
+		void Scale(const glm::vec3 & multiplier);
+		void Scale(const float x, const float y, const float z);
+
 		glm::vec3 position_;
 		glm::quat orientation_;
 		glm::vec3 scale_;

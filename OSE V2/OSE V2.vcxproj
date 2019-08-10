@@ -159,6 +159,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
@@ -471,7 +472,6 @@
     <ClInclude Include="OSE-Core\Game\ESceneSwitchMode.h" />
     <ClInclude Include="OSE-Core\Game\Game.h" />
     <ClInclude Include="OSE-Core\Game\GameThread.h" />
-    <ClInclude Include="OSE-Core\Game\IDManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene.h" />
     <ClInclude Include="OSE-Core\Game\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />

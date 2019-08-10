@@ -1,12 +1,11 @@
 #pragma once
 #include "Entity.h"
-#include "OSE-Core/Game/IDManager.h"
 
 namespace ose::entity
 {
-	using namespace game;
-
+	// Forward declare Entity class and EntityID typedef
 	class Entity;
+	typedef uint32_t EntityID;
 
 	class EntityList
 	{
@@ -53,6 +52,7 @@ namespace ose::entity
 
 		// get a list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
+
 	protected:
 		std::vector<std::unique_ptr<Entity>> entities_;
 	};
