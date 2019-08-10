@@ -12,7 +12,7 @@ namespace ose::entity
 	class SpriteRenderer : public Component
 	{
 	// Declare SpriteRenderer as an OSE Component
-	COMPONENT_DECLERATION(SpriteRenderer)
+	COMPONENT(SpriteRenderer, Component)
 
 	private:
 

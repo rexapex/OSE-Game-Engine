@@ -2,52 +2,49 @@
 #include "stdafx.h"
 #include <functional>
 
-// Thanks to StackOverflow answer https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work
-
 // Convert any data into a null-terminated string
 #define TO_STRING(x) #x
 
-//****************
-// COMPONENT_DECLERATION
-//
-// This macro must be included in the declaration of any subclass of Component.
-// It declares variables used in type checking.
-//****************
-#define COMPONENT_DECLERATION( classname )                                                  \
+// Macro required for defining components
+// Macro should be the first line of the classes definition
+// IMPORTANT - Only works for single inheritance RTTI
+// Based on the StackOverflow answer https://stackoverflow.com/questions/44105058/how-does-unitys-getcomponent-work
+#define COMPONENT( ClassName, ParentClass )													\
 public:                                                                                     \
-    static const std::size_t Type;                                                          \
-    virtual bool IsClassType(const std::size_t classType) const override;                   \
+	static size_t GetClassType() {															\
+		static const std::size_t type = std::hash<std::string>()( TO_STRING(Component) );	\
+		return type;																		\
+	}																						\
+																							\
+	virtual bool IsClassType(const std::size_t classType) const {							\
+		if(classType == GetClassType())														\
+			return true;																	\
+		return ParentClass::IsClassType(classType);											\
+	}																						\
 																							\
 	virtual std::unique_ptr<Component> Clone() const override								\
 	{																						\
-		return std::make_unique<classname>(*this);											\
+		return std::make_unique<ClassName>(*this);											\
 	}																						\
 private:
 
 
-//****************
-// COMPONENT_DEFINITION
-// 
-// This macro must be included in the class definition to properly initialize 
-// variables used in type checking. Take special care to ensure that the 
-// proper parentclass is indicated or the run-time type information will be
-// incorrect. Only works on single-inheritance RTTI.
-//****************
-#define COMPONENT_DEFINITION( parentclass, childclass )                                     \
-const std::size_t childclass::Type = std::hash<std::string>()( TO_STRING(childclass) );		\
-bool childclass::IsClassType(const std::size_t classType) const {							\
-	if(classType == childclass::Type)														\
-		return true;																		\
-	return parentclass::IsClassType(classType);												\
-}
+
 
 namespace ose::entity
 {
 	class Component
 	{
 	public:
-		static const std::size_t Type;
-		virtual bool IsClassType(const std::size_t classType) const { return classType == Type; }
+		// Get the class type of Component
+		static size_t GetClassType() {
+			static const std::size_t type = std::hash<std::string>()( TO_STRING(Component) );
+			return type;
+		}
+		// Test whether this class has the same class type as the one passed
+		virtual bool IsClassType(const std::size_t classType) const {
+			return classType == GetClassType();
+		}
 		
 		Component(const std::string & name);
 		virtual ~Component();
@@ -78,9 +75,3 @@ namespace ose::entity
 	};
 }
 
-// include component classes after defining component macros and defining component class
-#include "TextureFilter.h"
-#include "MeshFilter.h"
-#include "MeshRenderer.h"
-#include "Material.h"
-#include "SpriteRenderer.h"

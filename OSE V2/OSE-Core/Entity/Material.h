@@ -5,8 +5,8 @@ namespace ose::entity
 {
 	class Material : public Component
 	{
-		// declare MeshFilter as an OSE Component
-		COMPONENT_DECLERATION(Material)
+	// declare MeshFilter as an OSE Component
+	COMPONENT(Material, Component)
 
 	public:
 

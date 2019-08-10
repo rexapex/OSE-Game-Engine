@@ -9,8 +9,8 @@ namespace ose::entity
 
 	class TextureFilter : public Component
 	{
-		// declare TextureFilter as an OSE Component
-		COMPONENT_DECLERATION(TextureFilter)
+	// declare TextureFilter as an OSE Component
+	COMPONENT(TextureFilter, Component)
 
 	private:
 		// NOTE !IMPORTANT! - can't take a pointer to this, it may be re-allocated by ResourceManager

@@ -22,8 +22,8 @@ namespace ose::entity
 		const std::string & GetName() const { return this->name_; }
 		const EntityID GetUniqueId() const { return this->unique_id_; }
 
-		void set_name(const std::string & name) { this->name_ = name; }
-		void set_tag(const std::string & tag) { this->tag_ = tag; }
+		void SetName(const std::string & name) { this->name_ = name; }
+		void SetTag(const std::string & tag) { this->tag_ = tag; }
 
 		// get a list of all sub entities
 		// provide const and non-const versions
@@ -56,7 +56,7 @@ namespace ose::entity
 			for(auto && component : components_)
 			{
 				// if the type is correct, return a pointer to the component
-				if(component->IsClassType(ComponentType::Type)) {
+				if(component->IsClassType(ComponentType::GetClassType())) {
 					return static_cast<ComponentType*>(component.get());
 				}
 			}
@@ -76,7 +76,7 @@ namespace ose::entity
 			for(auto && comp : components_)
 			{
 				// add every component which is/derives from the type given
-				if(comp->IsClassType(ComponentType::Type)) {
+				if(comp->IsClassType(ComponentType::GetClassType())) {
 					matching_comps.emplace_back(static_cast<ComponentType*>(comp.get()));
 				}
 			}
@@ -98,7 +98,7 @@ namespace ose::entity
 			// otherwise, find the first component of given type
 			// search from beginning to end of list
 			// return first component to return true from lambda
-			auto & pos = std::find_if(components_.begin(), components_.end(), [type = ComponentType::Type] (auto & comp) {
+			auto & pos = std::find_if(components_.begin(), components_.end(), [type = ComponentType::GetClassType()] (auto & comp) {
 				return comp->IsClassType(type);
 			});
 

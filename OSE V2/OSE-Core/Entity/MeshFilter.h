@@ -7,8 +7,8 @@ namespace ose::entity
 
 	class MeshFilter : public Component
 	{
-		// declare MeshFilter as an OSE Component
-		COMPONENT_DECLERATION(MeshFilter)
+	// declare MeshFilter as an OSE Component
+	COMPONENT(MeshFilter, Component)
 
 	private:
 		//data

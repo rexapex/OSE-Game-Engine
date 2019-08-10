@@ -5,8 +5,8 @@ namespace ose::entity
 {
 	class MeshRenderer : public Component
 	{
-		// declare MeshRenderer as an OSE Component
-		COMPONENT_DECLERATION(MeshRenderer)
+	// declare MeshRenderer as an OSE Component
+	COMPONENT(MeshRenderer, Component)
 
 	public:
 
