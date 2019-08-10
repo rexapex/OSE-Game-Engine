@@ -4,6 +4,8 @@ namespace ose::game
 {
 	class Time
 	{
+	friend class Game;								//Allows Game to access private data members, required for calling update
+
 	public:
 		Time();
 		~Time();
@@ -14,16 +16,16 @@ namespace ose::game
 
 		//publically available accessor methods
 		//get the current time (in seconds)
-		const double get_current_time() const { return current_time_seconds_; }
+		const double GetCurrentTime() const { return current_time_seconds_; }
 
 		//get the delta time (in seconds), i.e. number of seconds since last frame
-		const double get_delta_time() const { return delta_time_seconds_; }
+		const double GetDeltaTime() const { return delta_time_seconds_; }
 
 		//get the frames per second (fps)
-		const int get_fps() const { return frames_per_second_; }
+		const int GetFps() const { return frames_per_second_; }
 
 		//get the number of milliseconds it took to render the current frame (millis per frame)
-		const double get_mpf() const { return millis_per_frame_; }
+		const double GetMpf() const { return millis_per_frame_; }
 
 	private:
 		//all things timing
@@ -35,12 +37,10 @@ namespace ose::game
 		int frames_per_second_;							//The number of frames rendered in the last second
 		double delta_time_seconds_;
 
-		void init(const double current_time_seconds);	//Set the initial values of the timing variables
-		void update(const double current_time_seconds);
-		void calcDeltaTime();							//Calculates and returns the delta time in seconds
-		void calcFPS();									//Calculates the fps and the mpf
-
-		friend class Game;								//Allows Game to access private data members, required for calling update
+		void Init(const double current_time_seconds);	//Set the initial values of the timing variables
+		void Update(const double current_time_seconds);
+		void CalcDeltaTime();							//Calculates and returns the delta time in seconds
+		void CalcFPS();									//Calculates the fps and the mpf
 	};
 }
 

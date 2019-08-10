@@ -7,7 +7,7 @@ namespace ose::game
 							std::condition_variable & work_to_do, std::function<void(uint32_t thread_id)> on_task_completed)
 		: thread_id_(thread_id), get_new_task_(get_new_task), mu_(mu), work_to_do_(work_to_do), on_task_completed_(on_task_completed)
 	{
-		this->t_ = std::thread(&GameThread::run, this);
+		this->t_ = std::thread(&GameThread::Run, this);
 	}
 
 	GameThread::~GameThread()
@@ -30,7 +30,7 @@ namespace ose::game
 		return *this;
 	}
 
-	void GameThread::run()
+	void GameThread::Run()
 	{
 		DEBUG_LOG("thread started");
 		while(true)

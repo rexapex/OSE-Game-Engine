@@ -25,7 +25,7 @@ namespace ose::resources
 	// method constructs a new object
 	// method takes an array of constructor arguments
 	template<typename... Args>
-	Entity & PrefabManager::addTempPrefab(Args &&... params, std::string const & path)
+	Entity & PrefabManager::AddTempPrefab(Args &&... params, std::string const & path)
 	{
 		// construct a new entity object
 		try {
@@ -39,7 +39,7 @@ namespace ose::resources
 
 	// add a temporary prefab entity to the prefab manager
 	// method moves the object passed
-	void PrefabManager::addTempPrefab(std::unique_ptr<Entity> e, std::string const & path)
+	void PrefabManager::AddTempPrefab(std::unique_ptr<Entity> e, std::string const & path)
 	{
 		if(e != nullptr) {
 			try {
@@ -55,7 +55,7 @@ namespace ose::resources
 	// method constructs a new object
 	// method takes an array of constructor arguments
 	template<typename... Args>
-	Entity & PrefabManager::addCachedPrefab(Args &&... params, std::string const & path)
+	Entity & PrefabManager::AddCachedPrefab(Args &&... params, std::string const & path)
 	{
 		// construct a new entity object
 		try {
@@ -69,7 +69,7 @@ namespace ose::resources
 
 	// add a persistent (cached) prefab entity to the prefab manager
 	// method moves the object passed
-	void PrefabManager::addCachedPrefab(std::unique_ptr<Entity> e, std::string const & path)
+	void PrefabManager::AddCachedPrefab(std::unique_ptr<Entity> e, std::string const & path)
 	{
 		if(e != nullptr) {
 			try {
@@ -83,7 +83,7 @@ namespace ose::resources
 
 	// get a reference to the entity prefab with name given
 	// checks both temporary and cached entities
-	Entity & PrefabManager::getPrefab(std::string const & name)
+	Entity & PrefabManager::GetPrefab(std::string const & name)
 	{
 		// check cached prefabs
 		auto iter1 = cached_prefabs_.find(name);
@@ -102,7 +102,7 @@ namespace ose::resources
 
 	// returns true iff an entity prefab exists with the name given
 	// check both temporary and cached entities
-	bool PrefabManager::doesPrefabExist(std::string const & name)
+	bool PrefabManager::DoesPrefabExist(std::string const & name)
 	{
 		// check cached prefabs
 		auto iter1 = cached_prefabs_.find(name);
@@ -121,7 +121,7 @@ namespace ose::resources
 
 	// clear the list of temporary entity prefab objects
 	// frees the prefab objects from memory
-	void PrefabManager::clearTempPrefabs()
+	void PrefabManager::ClearTempPrefabs()
 	{
 		temp_prefabs_.clear();
 	}

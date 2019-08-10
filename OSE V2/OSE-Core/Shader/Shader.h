@@ -13,7 +13,7 @@ namespace ose::shader
 		// ShaderNodeType is the type of ShaderNode to add
 		// returns the index of the ShaderNode in to the get_nodes() array
 		template <typename ShaderNodeType, typename ...Args>
-		int32_t addNode(Args &&... params)
+		int32_t AddNode(Args &&... params)
 		{
 			nodes_.emplace_back( std::make_unique<ShaderNodeType>(std::forward<Args>(params)...) );
 			return nodes_.size() - 1;	// return the index of the new node
@@ -21,10 +21,10 @@ namespace ose::shader
 
 		// connect the 2 nodes given at the indexes passed
 		// returns true iff the nodes were connected
-		bool connect(int32_t node_index_1, int32_t node_index_2);
+		bool Connect(int32_t node_index_1, int32_t node_index_2);
 
 		// returns a const list of all nodes in the shader graph
-		const std::vector<std::unique_ptr<ShaderNode>> & get_nodes() const { return nodes_; }
+		const std::vector<std::unique_ptr<ShaderNode>> & GetNodes() const { return nodes_; }
 
 	private:
 		// every shader has a name

@@ -12,34 +12,34 @@ namespace ose::entity
 
 	private:
 		//data
-		std::string path;	//get rid of this when models are implemented
+		std::string path_;	//get rid of this when models are implemented
 
 	public:
 		//allocate rendering engine data
-		MeshFilter(const std::string & name, const std::string & path) : Component(name), path(path) {}
+		MeshFilter(const std::string & name, const std::string & path) : Component(name), path_(path) {}
 
 		//de-allocate rendering engine data
 		virtual ~MeshFilter() {}
 		
 		//copy constructor
-		MeshFilter(const MeshFilter & other) noexcept : Component(other), path(other.path) {}
+		MeshFilter(const MeshFilter & other) noexcept : Component(other), path_(other.path_) {}
 
 		//copy assignment constructor
 		MeshFilter & operator=(const MeshFilter & other) noexcept
 		{
 			Component::operator=(other);
-			path = other.path;
+			path_ = other.path_;
 			return *this;
 		}
 
 		//move constructor
-		MeshFilter(const MeshFilter && other) noexcept : Component(other), path(std::move(other.path)) {}
+		MeshFilter(const MeshFilter && other) noexcept : Component(other), path_(std::move(other.path_)) {}
 
 		//move assignment constructor
 		MeshFilter & operator=(const MeshFilter && other) noexcept
 		{
 			Component::operator=(other);
-			path = std::move(other.path);
+			path_ = std::move(other.path_);
 			return *this;
 		}
 	};

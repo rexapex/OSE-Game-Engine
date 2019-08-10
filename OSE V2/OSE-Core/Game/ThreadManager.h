@@ -13,10 +13,10 @@ namespace ose::game
 		ThreadManager(ThreadManager && other) noexcept;
 		ThreadManager & operator=(ThreadManager && other) noexcept = delete;
 
-		void addNewTask(const std::string &);
+		void AddNewTask(const std::string &);
 
 		// process all rendering tasks
-		void processRenderTasks();
+		void ProcessRenderTasks();
 
 	private:
 		uint32_t tasks_in_progress_;
@@ -29,11 +29,11 @@ namespace ose::game
 
 		//create the array of threads
 		//function decides how many threads are needed
-		void createThreads();
+		void CreateThreads();
 
-		void getNewTask(std::string & task);
+		void GetNewTask(std::string & task);
 
-		void onTaskCompleted(uint32_t thread_id);
+		void OnTaskCompleted(uint32_t thread_id);
 
 		std::mutex mu_;
 		std::condition_variable work_to_do_;

@@ -13,17 +13,19 @@ namespace ose::game
 		this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
 		
 		this->window_manager_ = std::make_unique<WindowManagerImpl>();
-		this->window_manager_->createWindow(1);
-		int fbwidth { this->window_manager_->getFramebufferWidth() };
-		int fbheight { this->window_manager_->getFramebufferHeight() };
+		this->window_manager_->NewWindow(1);
+		int fbwidth { this->window_manager_->GetFramebufferWidth() };
+		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
 		//this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
 		// Can I create unique ptr from released one ???
 		this->rendering_engine_ = uptr<RenderingEngine> { static_cast<RenderingEngine*>(RenderingEngineFactories[0]().release()) };
-		this->window_manager_->setEngineReferences(this->rendering_engine_.get());
-		this->rendering_engine_->set_projection_mode_and_fbsize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
+		this->window_manager_->SetEngineReferences(this->rendering_engine_.get());
+		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
-		this->time_.init(this->window_manager_->getTimeSeconds());
+		this->time_.Init(this->window_manager_->GetTimeSeconds());
+
+		// TODO - Intialise persistent entities
 	}
 
 
@@ -32,7 +34,7 @@ namespace ose::game
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
 										 active_scene_(std::move(other.active_scene_)), running_(other.running_),
-										 thread_manager_(std::move(other.thread_manager_)), persistent_entities_(std::move(other.persistent_entities_)),
+										 thread_manager_(std::move(other.thread_manager_)), ///persistent_entities_(std::move(other.persistent_entities_)),
 									     render_pool_(std::move(other.render_pool_)) {}
 
 
@@ -43,7 +45,7 @@ namespace ose::game
 		this->active_scene_ = std::move(other.active_scene_);
 		this->running_ = other.running_;
 		this->thread_manager_ = std::move(other.thread_manager_);
-		this->persistent_entities_ = std::move(other.persistent_entities_);
+		///this->persistent_entities_ = std::move(other.persistent_entities_);
 		this->render_pool_ = std::move(other.render_pool_);
 		return *this;
 	}
@@ -52,13 +54,13 @@ namespace ose::game
 	// loads the project specified (does not load any scenes)
 	// throws std::exception if the project could not be loaded
 	// throws std::invalid_argument if the project FILE_FORMAT decleration file does not exist
-	void Game::loadProject(const std::string & proj_name)
+	void Game::LoadProject(const std::string & proj_name)
 	{
 		// before project can be loaded, the file format of the project files must de determined
-		std::string proj_file_format = ProjectLoader::getProjectFileFormat(proj_name);
+		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(proj_name);
 
 		if(proj_file_format == "XML") {
-			this->project_ = this->project_loader_->loadProject(proj_name);
+			this->project_ = this->project_loader_->LoadProject(proj_name);
 
 			if(this->project_ == nullptr) {
 				throw std::exception("Error: Could not load Project");
@@ -77,26 +79,26 @@ namespace ose::game
 	// throws std::exception if no project has been loaded
 	// throws std::invalid_argument exception if the scene does exist
 	// throws std::exception if the scene could not be loaded
-	void Game::loadScene(const std::string & scene_name)
+	void Game::LoadScene(const std::string & scene_name)
 	{
 		if(project_ == nullptr) {
 			throw std::exception("Error: A Project must be loaded before a Scene can be loaded");
 		}
 
 		// first, check that the scene actually exists
-		auto map = project_->get_scene_names_to_path_map();
+		auto map = project_->GetSceneNamesToPathMap();
 		auto pos = map.find(scene_name);
 		if(pos == map.end()) {
 			throw std::invalid_argument("Error: The Scene " + scene_name + " does not exist in the current Project");
 		}
 
 		// load the scene using the project loader
-		auto scene = this->project_loader_->loadScene(*project_, scene_name);
+		auto scene = this->project_loader_->LoadScene(*project_, scene_name);
 
 		// scene pointer will be nullptr if no scene exists with name scene_name or the scene file failed to load
 		if(scene != nullptr)
 		{
-			scene->print();
+			scene->Print();
 
 			auto index = this->loaded_scenes_.find(scene_name);
 		
@@ -117,7 +119,7 @@ namespace ose::game
 	}
 
 
-	void Game::unloadScene(const std::string & scene_name)
+	void Game::UnloadScene(const std::string & scene_name)
 	{
 		auto iter = this->loaded_scenes_.find(scene_name);
 
@@ -132,13 +134,13 @@ namespace ose::game
 	}
 
 
-	void Game::unloadAllLoadedScenes()
+	void Game::UnloadAllLoadedScenes()
 	{
 		this->loaded_scenes_.clear();		//easy... I hope
 	}
 
 
-	void Game::setActiveScene(const std::string & scene_name)
+	void Game::SetActiveScene(const std::string & scene_name)
 	{
 		auto iter = this->loaded_scenes_.find(scene_name);
 
@@ -187,21 +189,21 @@ namespace ose::game
 		// IMPORTANT - the following code can only be run on the same thread as the render context
 
 		// create GPU memory for the new resources
-		this->project_->get_resource_manager().createTextures();
+		this->project_->GetResourceManager().CreateTextures();
 
 		// create GPU memory for the new render objects
-		for(auto const & entity : this->active_scene_->entities().get())
+		for(auto const & entity : this->active_scene_->entities().GetEntities())
 		{
-			initEntity(*entity);
+			InitEntity(*entity);
 		}
 	}
 
-	void Game::startGame()
+	void Game::StartGame()
 	{
 		if(!running_)
 		{
 			running_ = true;
-			runGame();
+			RunGame();
 		}
 		else
 		{
@@ -209,7 +211,7 @@ namespace ose::game
 		}
 	}
 
-	void Game::runGame()
+	void Game::RunGame()
 	{
 		// get current time in seconds
 		// TODO - should I use this or window_manager_ timing
@@ -220,35 +222,35 @@ namespace ose::game
 		while(running_)
 		{
 			// renders previous frame to window and poll for new event
-			window_manager_->update();
+			window_manager_->Update();
 
 			// update all timing variables
-			time_.update(window_manager_->getTimeSeconds());
+			time_.Update(window_manager_->GetTimeSeconds());
 
-			thread_manager_->processRenderTasks();
+			thread_manager_->ProcessRenderTasks();
 
 			///editor_temp.update(stub);
 		}
 	}
 
 	// initialise components of an entity along with its sub-entities
-	void Game::initEntity(const Entity & entity)
+	void Game::InitEntity(const Entity & entity)
 	{
 		// for each sprite renderer component of the entity		
-		for(auto const & comp : entity.getComponents<SpriteRenderer>())
+		for(auto const & comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
-			comp->init();
+			comp->Init();
 			DEBUG_LOG("Initialised SpriteRenderer");
 
 			// then add the component to the render pool
-			render_pool_->addEngineDataObject(static_cast<RenderTaskImpl *>(comp->get_render_object()));
+			render_pool_->AddEngineDataObject(static_cast<RenderTaskImpl *>(comp->GetRenderObject()));
 		}
 
 		// initialise all sub entities
-		for(auto const & sub_entity : entity.sub_entities().get())
+		for(auto const & sub_entity : entity.GetEntities())
 		{
-			initEntity(*sub_entity);
+			InitEntity(*sub_entity);
 		}
 	}
 }

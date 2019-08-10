@@ -20,12 +20,12 @@ namespace ose::project
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
 
-		const ProjectInfo & get_project_info() const { return this->project_info_; }
-		const std::string & get_project_path() const { return this->project_path_; }
-		const std::string & get_project_file_format() const { return this->project_file_format_; }
-		const std::map<std::string, std::string> & get_scene_names_to_path_map() const { return this->scene_names_to_path_; }
-		ResourceManager & get_resource_manager() const { return *resource_manager_; }
-		PrefabManager & get_prefab_manager() const { return *prefab_manager_; }
+		const ProjectInfo & GetProjectInfo() const { return this->project_info_; }
+		const std::string & GetProjectPath() const { return this->project_path_; }
+		const std::string & GetProjectFileFormat() const { return this->project_file_format_; }
+		const std::map<std::string, std::string> & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
+		ResourceManager & GetResourceManager() const { return *resource_manager_; }
+		PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
 
 
 	private:

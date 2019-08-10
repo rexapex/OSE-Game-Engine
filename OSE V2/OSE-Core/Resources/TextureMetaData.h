@@ -11,8 +11,8 @@ namespace ose::resources
 		//mip mapping settings
 		bool mip_mapping_enabled_ { true };
 		//look this up here: https://www.khronos.org/opengl/wiki/Sampler_Object
-		uint32_t min_LOD_ { 0 };
-		uint32_t max_LOD_ { 0 };
-		uint32_t LOD_bias_ { 0 };
+		uint32_t min_lod_ { 0 };
+		uint32_t max_lod_ { 0 };
+		uint32_t lod_bias_ { 0 };
 	};
 }

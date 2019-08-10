@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "FileHandlingUtil.h"
 
-void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text)
+void FileHandlingUtil::LoadTextFile(const std::string & path, std::string & text)
 {
 	std::ifstream in(path.c_str(), std::ios::in | std::ios::binary);
 
@@ -21,7 +21,7 @@ void FileHandlingUtil::loadTextFile(const std::string & path, std::string & text
 
 // Writes text file at 'path' with the contents 'text'
 // The file will be created if it does not already exist
-void FileHandlingUtil::writeTextFile(const std::string & path, const std::string & text)
+void FileHandlingUtil::WriteTextFile(const std::string & path, const std::string & text)
 {
 	// https://stackoverflow.com/questions/478075/creating-files-in-c
 	std::ofstream out(path);
@@ -29,7 +29,7 @@ void FileHandlingUtil::writeTextFile(const std::string & path, const std::string
 	out.close();
 }
 
-void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
+void FileHandlingUtil::GetHomeDirectory(std::string & home_dir_path)
 {
 #if defined(__APPLE__) || defined(__linux__)
 	//get linux/mac HOME environment variable
@@ -71,12 +71,12 @@ void FileHandlingUtil::getHomeDirectory(std::string & home_dir_path)
 }
 
 //Copy the file at the from path to the to path
-void FileHandlingUtil::copyFile(const std::string & from, const std::string & to)
+void FileHandlingUtil::CopyFile(const std::string & from, const std::string & to)
 {
 	try
 	{
 		//first, create the necessary directories
-		std::experimental::filesystem::create_directories(parentPathFromPath(to));
+		std::experimental::filesystem::create_directories(GetParentPathFromPath(to));
 
 		//then, copy the file
 		bool success = std::experimental::filesystem::copy_file(from, to);
@@ -97,12 +97,12 @@ void FileHandlingUtil::copyFile(const std::string & from, const std::string & to
 }
 
 //Creates directories given in path if they do not already exist
-void FileHandlingUtil::createDirs(const std::string & path)
+void FileHandlingUtil::CreateDirs(const std::string & path)
 {
 	auto & p = std::experimental::filesystem::path(path);
 	if(p.has_filename())
 	{
-		std::experimental::filesystem::create_directories(parentPathFromPath(path));
+		std::experimental::filesystem::create_directories(GetParentPathFromPath(path));
 	}
 	else
 	{
@@ -111,26 +111,26 @@ void FileHandlingUtil::createDirs(const std::string & path)
 }
 
 //Returns true iff the path exists and is a file
-bool FileHandlingUtil::doesFileExist(const std::string & path)
+bool FileHandlingUtil::DoesFileExist(const std::string & path)
 {
 	return std::experimental::filesystem::exists(path) && std::experimental::filesystem::is_regular_file(path);
 }
 
 //Get the filename of a path
-std::string FileHandlingUtil::filenameFromPath(const std::string & path)
+std::string FileHandlingUtil::GetFilenameFromPath(const std::string & path)
 {
 	return std::experimental::filesystem::path(path).filename().string();
 }
 
 //Get the parent path of a path
-std::string FileHandlingUtil::parentPathFromPath(const std::string & path)
+std::string FileHandlingUtil::GetParentPathFromPath(const std::string & path)
 {
 	return std::experimental::filesystem::path(path).parent_path().string();
 }
 
 // Get a field from the engine's settings ini file
 // The field must be of the type string
-std::string FileHandlingUtil::getEngineSettingsString(const std::string & section, const std::string & name, const std::string & default_value)
+std::string FileHandlingUtil::GetEngineSettingsString(const std::string & section, const std::string & name, const std::string & default_value)
 {
 	// TODO - Make my own INI parse and manager, probably will be easier than this
 

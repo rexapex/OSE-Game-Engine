@@ -27,33 +27,33 @@ namespace ose::math
 		Transform(Transform && other) noexcept;
 		Transform & operator=(Transform && other) noexcept;
 
-		void translate(const glm::vec3 & translation);
-		void translate(const float x, const float y, const float z);
+		void Translate(const glm::vec3 & translation);
+		void Translate(const float x, const float y, const float z);
 
 		//rotate by radians
-		void rotate(const glm::vec3 & change);
-		void rotate(const float pitch, const float yaw, const float roll);
+		void Rotate(const glm::vec3 & change);
+		void Rotate(const float pitch, const float yaw, const float roll);
 		//rotate by degrees
-		void rotateDeg(const glm::vec3 & change);
-		void rotateDeg(const float pitch, const float yaw, const float roll);
+		void RotateDeg(const glm::vec3 & change);
+		void RotateDeg(const float pitch, const float yaw, const float roll);
 
-		void scale(const float scalar);
-		void scale(const glm::vec3 & multiplier);
-		void scale(const float x, const float y, const float z);
+		void Scale(const float scalar);
+		void Scale(const glm::vec3 & multiplier);
+		void Scale(const float x, const float y, const float z);
 
-		const glm::vec3 & get_position() const { return position_; };
-		const glm::quat & get_orientation() const { return orientation_; };
-		const glm::vec3 & get_scale() const { return scale_; };
+		const glm::vec3 & GetPosition() const { return position_; };
+		const glm::quat & GetOrientation() const { return orientation_; };
+		const glm::vec3 & GetScale() const { return scale_; };
 
-		const glm::mat4 get_position_as_matrix() const;
-		const glm::mat4 get_orientation_as_matrix() const;
-		const glm::mat4 get_scale_as_matrix() const;
+		const glm::mat4 GetPositionMatrix() const;
+		const glm::mat4 GetOrientationMatrix() const;
+		const glm::mat4 GetScaleMatrix() const;
 
-		const glm::mat4 get_transform_matrix() const;
+		const glm::mat4 GetTransformMatrix() const;
 
-		const glm::vec3 get_up() const;
-		const glm::vec3 get_forward() const;
-		const glm::vec3 get_right() const;
+		const glm::vec3 GetUp() const;
+		const glm::vec3 GetForward() const;
+		const glm::vec3 GetRight() const;
 
 	private:
 		glm::vec3 position_;

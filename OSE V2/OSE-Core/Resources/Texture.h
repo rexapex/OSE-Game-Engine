@@ -23,45 +23,45 @@ namespace ose::resources
 		Texture & operator=(Texture &&) noexcept = default;
 
 		// in order to be useful, the texture must be bindable
-		virtual void bind() = 0;
+		virtual void Bind() = 0;
 
 		// the texture can be created in the GPU memory
-		virtual void createTexture() = 0;
+		virtual void CreateTexture() = 0;
 
 		// the texture can be freed from the GPU memory
-		virtual void destroyTexture() = 0;
+		virtual void DestroyTexture() = 0;
 
-		const std::string & get_name() const { return name_; }
-		const std::string & get_path() const { return path_; }
+		const std::string & GetName() const { return name_; }
+		const std::string & GetPath() const { return path_; }
 
-		void set_name(const std::string & name) { name_ = name; }
-		void set_path(const std::string & path) { path_ = path; }
+		void SetName(const std::string & name) { name_ = name; }
+		void SetPath(const std::string & path) { path_ = path; }
 
-		const int32_t get_width() const { return width_; }
-		const int32_t get_height() const { return height_; }
-		IMGDATA const get_img_data() const { return img_data_; }
+		const int32_t GetWidth() const { return width_; }
+		const int32_t GetHeight() const { return height_; }
+		IMGDATA const GetImgData() const { return img_data_; }
 
 		//set the img data, width and height after the texture has been loaded
-		void set_img_data(IMGDATA const img_data, int32_t width, int32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
+		void SetImgData(IMGDATA const img_data, int32_t width, int32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
 
-		const ETextureFilterMode get_mag_filter_mode() const { return meta_data_.mag_filter_mode_; }
-		const ETextureFilterMode get_min_filter_mode() const { return meta_data_.min_filter_mode_; }
+		const ETextureFilterMode GetMagFilterMode() const { return meta_data_.mag_filter_mode_; }
+		const ETextureFilterMode GetMinFilterMode() const { return meta_data_.min_filter_mode_; }
 
-		void set_mag_filter_mode(const ETextureFilterMode & mode) { meta_data_.mag_filter_mode_ = mode; }
-		void set_min_filter_mode(const ETextureFilterMode & mode) { meta_data_.min_filter_mode_ = mode; }
+		void SetMagFilterMode(const ETextureFilterMode & mode) { meta_data_.mag_filter_mode_ = mode; }
+		void SetMinFilterMode(const ETextureFilterMode & mode) { meta_data_.min_filter_mode_ = mode; }
 
-		const bool is_mip_mapping_enabled() const { return meta_data_.mip_mapping_enabled_; }
-		const uint32_t get_min_LOD() const { return meta_data_.min_LOD_; }
-		const uint32_t get_max_LOD() const { return meta_data_.max_LOD_; }
-		const uint32_t get_LOD_bias() const { return meta_data_.LOD_bias_; }
+		const bool IsMipMappingEnabled() const { return meta_data_.mip_mapping_enabled_; }
+		const uint32_t GetMinLod() const { return meta_data_.min_lod_; }
+		const uint32_t GetMaxLod() const { return meta_data_.max_lod_; }
+		const uint32_t GetLodBias() const { return meta_data_.lod_bias_; }
 
-		void set_mip_mapping_enabled(const bool enabled) { meta_data_.mip_mapping_enabled_ = enabled; }
-		void set_min_LOD(const uint32_t LOD) { meta_data_.min_LOD_ = LOD; }
-		void set_max_LOD(const uint32_t LOD) { meta_data_.max_LOD_ = LOD; }
-		void set_LOD_bias(const uint32_t bias) { meta_data_.LOD_bias_ = bias; }
+		void SetMipMappingEnabled(const bool enabled) { meta_data_.mip_mapping_enabled_ = enabled; }
+		void SetMinLod(const uint32_t LOD) { meta_data_.min_lod_ = LOD; }
+		void SetMaxLod(const uint32_t LOD) { meta_data_.max_lod_ = LOD; }
+		void SetLodBias(const uint32_t bias) { meta_data_.lod_bias_ = bias; }
 
 		//set all meta data in one go
-		void set_meta_data(const TextureMetaData & meta_data) { meta_data_ = meta_data; }
+		void SetMetaData(const TextureMetaData & meta_data) { meta_data_ = meta_data; }
 
 	protected:
 		std::string name_;

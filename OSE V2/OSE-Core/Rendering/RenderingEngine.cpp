@@ -14,7 +14,7 @@ namespace ose::rendering
 	}
 
 	//saves having to resize framebuffers twice
-	void RenderingEngine::set_projection_mode_and_fbsize(const EProjectionMode & projection_mode, const int width, const int height)
+	void RenderingEngine::SetProjectionModeAndFbSize(const EProjectionMode & projection_mode, const int width, const int height)
 	{
 		if(this->projection_mode_ != projection_mode)
 		{
@@ -22,26 +22,26 @@ namespace ose::rendering
 		}
 		this->fbwidth_ = width;
 		this->fbheight_ = height;
-		this->updateProjectionMatrix();
+		this->UpdateProjectionMatrix();
 	}
 
-	void RenderingEngine::set_projection_mode(const EProjectionMode & projection_mode)
+	void RenderingEngine::SetProjectionMode(const EProjectionMode & projection_mode)
 	{
 		if(this->projection_mode_ != projection_mode)
 		{
 			this->projection_mode_ = projection_mode;
-			this->updateProjectionMatrix();
+			this->UpdateProjectionMatrix();
 		}
 	}
 
-	void RenderingEngine::set_framebuffer_size(const int width, const int height)
+	void RenderingEngine::SetFramebufferSize(const int width, const int height)
 	{
 		this->fbwidth_ = width;
 		this->fbheight_ = height;
-		this->updateProjectionMatrix();
+		this->UpdateProjectionMatrix();
 	}
 
-	void RenderingEngine::updateProjectionMatrix()
+	void RenderingEngine::UpdateProjectionMatrix()
 	{
 		if(fbwidth_ != 0 && fbheight_ != 0)		//minimisation and tabbing out need not cause a frame buffer update
 		{
@@ -49,12 +49,12 @@ namespace ose::rendering
 			{
 			case EProjectionMode::ORTHOGRAPHIC:
 			{
-				this->updateOrthographicProjectionMatrix(fbwidth_, fbheight_);
+				this->UpdateOrthographicProjectionMatrix(fbwidth_, fbheight_);
 				break;
 			}
 			case EProjectionMode::PERSPECTIVE:
 			{
-				this->updatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
+				this->UpdatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
 				break;
 			}
 			}

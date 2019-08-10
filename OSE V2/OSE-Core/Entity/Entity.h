@@ -9,7 +9,7 @@ namespace ose::entity
 	using namespace math;
 	using namespace game;
 
-	class Entity
+	class Entity : public EntityList
 	{
 	public:
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
@@ -19,26 +19,26 @@ namespace ose::entity
 		Entity(Entity && other) noexcept = default;
 		Entity & operator=(Entity && other) noexcept = default;
 
-		const std::string & get_name() const { return this->name_; }
-		const EntityID get_unique_ID() const { return this->unique_ID_; }
+		const std::string & GetName() const { return this->name_; }
+		const EntityID GetUniqueId() const { return this->unique_id_; }
 
 		void set_name(const std::string & name) { this->name_ = name; }
 		void set_tag(const std::string & tag) { this->tag_ = tag; }
 
 		// get a list of all sub entities
 		// provide const and non-const versions
-		EntityList & sub_entities() { return sub_entities_; }
-		const EntityList & sub_entities() const { return sub_entities_; }
+		///EntityList & sub_entities() { return sub_entities_; }
+		///const EntityList & sub_entities() const { return sub_entities_; }
 
 		// get a list of all components
-		const std::vector<std::unique_ptr<Component>> & get_components() const { return this->components_; }
+		const std::vector<std::unique_ptr<Component>> & GetComponents() const { return this->components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
 		// template takes the type of component
 		// method takes an array of contructor arguments
 		template<class ComponentType, typename... Args>
-		void addComponent(Args &&... params)
+		void AddComponent(Args &&... params)
 		{
 			//components.emplace_back(new ComponentType(std::forward<Args>(params)));
 			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
@@ -50,13 +50,13 @@ namespace ose::entity
 		// entity class manages object, returned object should not be deleted (de-allocated)
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		ComponentType * getComponent() const
+		ComponentType * GetComponent() const
 		{
 			// check whether the type matches of each component
 			for(auto && component : components_)
 			{
 				// if the type is correct, return a pointer to the component
-				if(component->isClassType(ComponentType::Type)) {
+				if(component->IsClassType(ComponentType::Type)) {
 					return static_cast<ComponentType*>(component.get());
 				}
 			}
@@ -69,14 +69,14 @@ namespace ose::entity
 		// list will be empty if no component of given type exists
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		std::vector<ComponentType *> getComponents() const
+		std::vector<ComponentType *> GetComponents() const
 		{
 			std::vector<ComponentType *> matching_comps;
 
 			for(auto && comp : components_)
 			{
 				// add every component which is/derives from the type given
-				if(comp->isClassType(ComponentType::Type)) {
+				if(comp->IsClassType(ComponentType::Type)) {
 					matching_comps.emplace_back(static_cast<ComponentType*>(comp.get()));
 				}
 			}
@@ -88,7 +88,7 @@ namespace ose::entity
 		// returns true if component of given type is removed
 		// returns false if no component of given type exists
 		template<class ComponentType>
-		bool removeComponent()
+		bool RemoveComponent()
 		{
 			// no component can be removed if there are no components therefore return false
 			if(components_.empty()) {
@@ -99,7 +99,7 @@ namespace ose::entity
 			// search from beginning to end of list
 			// return first component to return true from lambda
 			auto & pos = std::find_if(components_.begin(), components_.end(), [type = ComponentType::Type] (auto & comp) {
-				return comp->isClassType(type);
+				return comp->IsClassType(type);
 			});
 
 			// if a matching component is found, remove it then return true
@@ -115,7 +115,7 @@ namespace ose::entity
 		// remove all components which are of / are derived from given type
 		// returns the number of removals
 		template<class ComponentType>
-		int32_t removeComponents()
+		int32_t RemoveComponents()
 		{
 			// no component can be removed if there are no components therefore return 0
 			if(components_.empty()) {
@@ -126,7 +126,7 @@ namespace ose::entity
 
 			// use removeComponent method in a loop until no more components can be removed
 			do {
-				bool removed = this->removeComponent<ComponentType>();
+				bool removed = this->RemoveComponent<ComponentType>();
 				if(removed) num_removals ++;
 			} while(removed);
 
@@ -137,54 +137,54 @@ namespace ose::entity
 		// remove the component pass from the entity
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
-		bool removeComponent(const Component & comp);
+		bool RemoveComponent(const Component & comp);
 
 		// read-only transform relative the parent entity/world if no parent exists
-		const Transform & get_local_transform() const { return this->local_transform_; }
+		const Transform & GetLocalTransform() const { return this->local_transform_; }
 
 		// read-only transform relative to the world
-		const Transform & get_global_transform() const { return this->global_transform_; }
+		const Transform & GetGlobalTransform() const { return this->global_transform_; }
 
 		// modify the local and global transform of the entity
-		void translate(const glm::vec3 & translation);
-		void translate(const float x, const float y, const float z);
+		void Translate(const glm::vec3 & translation);
+		void Translate(const float x, const float y, const float z);
 
 		// rotate by radians
-		void rotate(const glm::vec3 & change);
-		void rotate(const float pitch, const float yaw, const float roll);
+		void Rotate(const glm::vec3 & change);
+		void Rotate(const float pitch, const float yaw, const float roll);
 		// rotate by degrees
-		void rotateDeg(const glm::vec3 & change);
-		void rotateDeg(const float pitch, const float yaw, const float roll);
+		void RotateDeg(const glm::vec3 & change);
+		void RotateDeg(const float pitch, const float yaw, const float roll);
 
-		void scale(const float scalar);
-		void scale(const glm::vec3 & multiplier);
-		void scale(const float x, const float y, const float z);
+		void Scale(const float scalar);
+		void Scale(const glm::vec3 & multiplier);
+		void Scale(const float x, const float y, const float z);
 
 	private:
 		// modify just the global transform of the entity
-		void translateParent(const glm::vec3 & translation);
-		void translateParent(const float x, const float y, const float z);
+		void TranslateParent(const glm::vec3 & translation);
+		void TranslateParent(const float x, const float y, const float z);
 
 		// rotate by radians
-		void rotateParent(const glm::vec3 & change);
-		void rotateParent(const float pitch, const float yaw, const float roll);
+		void RotateParent(const glm::vec3 & change);
+		void RotateParent(const float pitch, const float yaw, const float roll);
 		// rotate by degrees
-		void rotateDegParent(const glm::vec3 & change);
-		void rotateDegParent(const float pitch, const float yaw, const float roll);
+		void RotateDegParent(const glm::vec3 & change);
+		void RotateDegParent(const float pitch, const float yaw, const float roll);
 
-		void scaleParent(const float scalar);
-		void scaleParent(const glm::vec3 & multiplier);
-		void scaleParent(const float x, const float y, const float z);
+		void ScaleParent(const float scalar);
+		void ScaleParent(const glm::vec3 & multiplier);
+		void ScaleParent(const float x, const float y, const float z);
 
 		std::string name_;		// name_ need not be unique
-		EntityID unique_ID_;	// unique_ID_ should be unique to a game engine execution
+		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 
 		std::string tag_;		// the lowest level tag applied to this entity (or "")
 		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
 
 		// list of all sub/child entities
 		//std::vector<std::unique_ptr<Entity>> sub_entities_;
-		EntityList sub_entities_;
+		//EntityList sub_entities_;
 
 		// list of all components attached to this entity, components need not be active
 		std::vector<std::unique_ptr<Component>> components_;
@@ -195,7 +195,7 @@ namespace ose::entity
 		// isVisible, isEnabled, ...
 
 		// utility method for deleting all components
-		void deleteAllComponents() noexcept;
+		void DeleteAllComponents() noexcept;
 	};
 }
 

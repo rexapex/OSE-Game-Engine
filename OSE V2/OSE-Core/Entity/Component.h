@@ -16,12 +16,13 @@
 #define COMPONENT_DECLERATION( classname )                                                  \
 public:                                                                                     \
     static const std::size_t Type;                                                          \
-    virtual bool isClassType(const std::size_t classType) const override;                   \
+    virtual bool IsClassType(const std::size_t classType) const override;                   \
 																							\
-	virtual std::unique_ptr<Component> clone() const override								\
+	virtual std::unique_ptr<Component> Clone() const override								\
 	{																						\
 		return std::make_unique<classname>(*this);											\
-	}
+	}																						\
+private:
 
 
 //****************
@@ -34,10 +35,10 @@ public:                                                                         
 //****************
 #define COMPONENT_DEFINITION( parentclass, childclass )                                     \
 const std::size_t childclass::Type = std::hash<std::string>()( TO_STRING(childclass) );		\
-bool childclass::isClassType(const std::size_t classType) const {							\
+bool childclass::IsClassType(const std::size_t classType) const {							\
 	if(classType == childclass::Type)														\
 		return true;																		\
-	return parentclass::isClassType(classType);												\
+	return parentclass::IsClassType(classType);												\
 }
 
 namespace ose::entity
@@ -46,7 +47,7 @@ namespace ose::entity
 	{
 	public:
 		static const std::size_t Type;
-		virtual bool isClassType(const std::size_t classType) const { return classType == Type; }
+		virtual bool IsClassType(const std::size_t classType) const { return classType == Type; }
 		
 		Component(const std::string & name);
 		virtual ~Component();
@@ -56,16 +57,16 @@ namespace ose::entity
 		Component & operator=(const Component && other) noexcept;
 
 		// clone method which can be overwritten by base classes
-		virtual std::unique_ptr<Component> clone() const;
+		virtual std::unique_ptr<Component> Clone() const;
 
 		// initialise the component, should only be called from the main thread
-		virtual void init() {}
+		virtual void Init() {}
 
 		// disable the component (i.e. remove it from corresponding engine data pool
-		virtual void disable();
+		virtual void Disable();
 
 		// enable the component (i.e. add it to its corresponding engine data pool)
-		virtual void enable();
+		virtual void Enable();
 
 	private:
 		// fields shared by all component types

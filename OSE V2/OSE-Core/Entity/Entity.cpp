@@ -4,9 +4,9 @@
 namespace ose::entity
 {
 	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
-				 : name_(name), tag_(tag), prefab_(prefab)
+				 : EntityList(), name_(name), tag_(tag), prefab_(prefab), unique_id_(IDManager::NextEntityId())
 	{
-		this->unique_ID_ = IDManager::next_entity_ID();
+
 	}
 
 
@@ -14,20 +14,20 @@ namespace ose::entity
 	{
 		// TODO - delete components from their respective engines
 		// delete all the components of this entity
-		this->deleteAllComponents();
+		this->DeleteAllComponents();
 	}
 
 
-	Entity::Entity(const Entity & other) noexcept
+	Entity::Entity(const Entity & other) noexcept : EntityList(other)
 	{
 		this->name_ = other.name_;
-		this->unique_ID_ = IDManager::next_entity_ID();
+		this->unique_id_ = IDManager::NextEntityId();
 		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 
 		// perform a deep copy of all entities
-		this->sub_entities_ = other.sub_entities_;
+		///this->sub_entities_ = other.sub_entities_;
 
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -35,7 +35,7 @@ namespace ose::entity
 		for(const auto & comp : other.components_)
 		{
 			//using a clone method prevents slicing
-			this->components_.emplace_back(comp->clone());
+			this->components_.emplace_back(comp->Clone());
 		}
 
 		this->local_transform_ = other.local_transform_;
@@ -46,14 +46,17 @@ namespace ose::entity
 	//Change (Entity & other) to (Entity other) if add pointers to Entity class
 	Entity & Entity::operator=(const Entity & other) noexcept
 	{
+		// Call the base copy assignment constructor
+		EntityList::operator=(other);
+
 		this->name_ = other.name_;
-		this->unique_ID_ = IDManager::next_entity_ID();
+		this->unique_id_ = IDManager::NextEntityId();
 		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 
 		// perform a deep copy of all entities
-		this->sub_entities_ = other.sub_entities_;
+		///this->sub_entities_ = other.sub_entities_;
 		
 		//TODO - remove any existing components
 		//this->deleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
@@ -61,7 +64,7 @@ namespace ose::entity
 		for(const auto & comp : other.components_)
 		{
 			//using a clone method prevents slicing
-			this->components_.emplace_back(comp->clone());
+			this->components_.emplace_back(comp->Clone());
 		}
 
 		this->local_transform_ = other.local_transform_;
@@ -71,7 +74,7 @@ namespace ose::entity
 	}
 
 
-	/*Entity::Entity(Entity && other) noexcept
+	/*Entity::Entity(Entity && other) noexcept : EntityList(other)
 	{
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
@@ -84,6 +87,9 @@ namespace ose::entity
 
 	Entity & Entity::operator=(Entity && other) noexcept
 	{
+		// Call the base move assignment constructor
+		EntityList::operator=(other);
+
 		this->name_ = std::move(other.name_);
 		this->sub_entities_ = std::move(other.sub_entities_);
 		this->unique_ID_ = std::move(other.unique_ID_);
@@ -94,7 +100,7 @@ namespace ose::entity
 	}*/
 
 	// utility method for deleting all components
-	void Entity::deleteAllComponents() noexcept
+	void Entity::DeleteAllComponents() noexcept
 	{
 		// TODO - delete components from their respective engines
 		this->components_.clear();
@@ -184,10 +190,10 @@ namespace ose::entity
 		return false;
 	}*/
 
-	// remove the component pass from the entity
+	// remove the component passed from the entity
 	// returns true if the component is removed
 	// returns false if the component does not belong to this entity
-	bool Entity::removeComponent(const Component & comp)
+	bool Entity::RemoveComponent(const Component & comp)
 	{
 		// no component can be removed if there are no components therefore return false
 		if(components_.empty()) {
@@ -231,95 +237,95 @@ namespace ose::entity
 		Updates both the local and global transforms
 	*/
 
-	void Entity::translate(const glm::vec3 & translation)
+	void Entity::Translate(const glm::vec3 & translation)
 	{
-		local_transform_.translate(translation);
-		global_transform_.translate(translation);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Translate(translation);
+		global_transform_.Translate(translation);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->translateParent(translation);
+			sub_entity->TranslateParent(translation);
 		}
 	}
 
-	void Entity::translate(const float x, const float y, const float z)
+	void Entity::Translate(const float x, const float y, const float z)
 	{
-		local_transform_.translate(x, y, z);
-		global_transform_.translate(x, y, z);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Translate(x, y, z);
+		global_transform_.Translate(x, y, z);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->translateParent(x, y, z);
+			sub_entity->TranslateParent(x, y, z);
 		}
 	}
 
 	//rotate by radians
-	void Entity::rotate(const glm::vec3 & change)
+	void Entity::Rotate(const glm::vec3 & change)
 	{
-		local_transform_.rotate(change);
-		global_transform_.rotate(change);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Rotate(change);
+		global_transform_.Rotate(change);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateParent(change);
+			sub_entity->RotateParent(change);
 		}
 	}
 
-	void Entity::rotate(const float pitch, const float yaw, const float roll)
+	void Entity::Rotate(const float pitch, const float yaw, const float roll)
 	{
-		local_transform_.rotate(pitch, yaw, roll);
-		global_transform_.rotate(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Rotate(pitch, yaw, roll);
+		global_transform_.Rotate(pitch, yaw, roll);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateParent(pitch, yaw, roll);
+			sub_entity->RotateParent(pitch, yaw, roll);
 		}
 	}
 
 	//rotate by degrees
-	void Entity::rotateDeg(const glm::vec3 & change)
+	void Entity::RotateDeg(const glm::vec3 & change)
 	{
-		local_transform_.rotateDeg(change);
-		global_transform_.rotateDeg(change);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.RotateDeg(change);
+		global_transform_.RotateDeg(change);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateDegParent(change);
+			sub_entity->RotateDegParent(change);
 		}
 	}
 
-	void Entity::rotateDeg(const float pitch, const float yaw, const float roll)
+	void Entity::RotateDeg(const float pitch, const float yaw, const float roll)
 	{
-		local_transform_.rotateDeg(pitch, yaw, roll);
-		global_transform_.rotateDeg(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.RotateDeg(pitch, yaw, roll);
+		global_transform_.RotateDeg(pitch, yaw, roll);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateDegParent(pitch, yaw, roll);
+			sub_entity->RotateDegParent(pitch, yaw, roll);
 		}
 	}
 
-	void Entity::scale(const float scalar)
+	void Entity::Scale(const float scalar)
 	{
-		local_transform_.scale(scalar);
-		global_transform_.scale(scalar);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Scale(scalar);
+		global_transform_.Scale(scalar);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(scalar);
+			sub_entity->ScaleParent(scalar);
 		}
 	}
 
-	void Entity::scale(const glm::vec3 & multiplier)
+	void Entity::Scale(const glm::vec3 & multiplier)
 	{
-		local_transform_.scale(multiplier);
-		global_transform_.scale(multiplier);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Scale(multiplier);
+		global_transform_.Scale(multiplier);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(multiplier);
+			sub_entity->ScaleParent(multiplier);
 		}
 	}
 
-	void Entity::scale(const float x, const float y, const float z)
+	void Entity::Scale(const float x, const float y, const float z)
 	{
-		local_transform_.scale(x, y, z);
-		global_transform_.scale(x, y, z);
-		for(auto & sub_entity : sub_entities_.get())
+		local_transform_.Scale(x, y, z);
+		global_transform_.Scale(x, y, z);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(x, y, z);
+			sub_entity->ScaleParent(x, y, z);
 		}
 	}
 
@@ -330,86 +336,86 @@ namespace ose::entity
 	Updates just the global transform, i.e. for when parent entity has been transformed
 	*/
 
-	void Entity::translateParent(const glm::vec3 & translation)
+	void Entity::TranslateParent(const glm::vec3 & translation)
 	{
-		global_transform_.translate(translation);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Translate(translation);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->translateParent(translation);
+			sub_entity->TranslateParent(translation);
 		}
 	}
 
-	void Entity::translateParent(const float x, const float y, const float z)
+	void Entity::TranslateParent(const float x, const float y, const float z)
 	{
-		global_transform_.translate(x, y, z);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Translate(x, y, z);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->translateParent(x, y, z);
+			sub_entity->TranslateParent(x, y, z);
 		}
 	}
 
 	//rotate by radians
-	void Entity::rotateParent(const glm::vec3 & change)
+	void Entity::RotateParent(const glm::vec3 & change)
 	{
-		global_transform_.rotate(change);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Rotate(change);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateParent(change);
+			sub_entity->RotateParent(change);
 		}
 	}
 
-	void Entity::rotateParent(const float pitch, const float yaw, const float roll)
+	void Entity::RotateParent(const float pitch, const float yaw, const float roll)
 	{
-		global_transform_.rotate(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Rotate(pitch, yaw, roll);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateParent(pitch, yaw, roll);
+			sub_entity->RotateParent(pitch, yaw, roll);
 		}
 	}
 
 	//rotate by degrees
-	void Entity::rotateDegParent(const glm::vec3 & change)
+	void Entity::RotateDegParent(const glm::vec3 & change)
 	{
-		global_transform_.rotateDeg(change);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.RotateDeg(change);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateDegParent(change);
+			sub_entity->RotateDegParent(change);
 		}
 	}
 
-	void Entity::rotateDegParent(const float pitch, const float yaw, const float roll)
+	void Entity::RotateDegParent(const float pitch, const float yaw, const float roll)
 	{
-		global_transform_.rotateDeg(pitch, yaw, roll);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.RotateDeg(pitch, yaw, roll);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->rotateDegParent(pitch, yaw, roll);
+			sub_entity->RotateDegParent(pitch, yaw, roll);
 		}
 	}
 
-	void Entity::scaleParent(const float scalar)
+	void Entity::ScaleParent(const float scalar)
 	{
-		global_transform_.scale(scalar);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Scale(scalar);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(scalar);
+			sub_entity->ScaleParent(scalar);
 		}
 	}
 
-	void Entity::scaleParent(const glm::vec3 & multiplier)
+	void Entity::ScaleParent(const glm::vec3 & multiplier)
 	{
-		global_transform_.scale(multiplier);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Scale(multiplier);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(multiplier);
+			sub_entity->ScaleParent(multiplier);
 		}
 	}
 
-	void Entity::scaleParent(const float x, const float y, const float z)
+	void Entity::ScaleParent(const float x, const float y, const float z)
 	{
-		global_transform_.scale(x, y, z);
-		for(auto & sub_entity : sub_entities_.get())
+		global_transform_.Scale(x, y, z);
+		for(auto & sub_entity : entities_)
 		{
-			sub_entity->scaleParent(x, y, z);
+			sub_entity->ScaleParent(x, y, z);
 		}
 	}
 }

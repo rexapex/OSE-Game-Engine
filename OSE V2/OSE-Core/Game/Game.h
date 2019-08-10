@@ -35,21 +35,21 @@ namespace ose::game
 		Game & operator=(Game && other) noexcept;
 		
 		// scene methods
-		void loadProject(const std::string & proj_name);		// loads the project specified (does not load any scenes)
-		void loadScene(const std::string & scene_name);			// loads the scene into memory
-		void unloadScene(const std::string & scene_name);		// frees the scene from memory
-		void unloadAllLoadedScenes();							// frees all loaded scenes (not active scene) from memory
-		void setActiveScene(const std::string & scene_name);	// switches game to the scene specified iff it is loaded
+		void LoadProject(const std::string & proj_name);		// loads the project specified (does not load any scenes)
+		void LoadScene(const std::string & scene_name);			// loads the scene into memory
+		void UnloadScene(const std::string & scene_name);		// frees the scene from memory
+		void UnloadAllLoadedScenes();							// frees all loaded scenes (not active scene) from memory
+		void SetActiveScene(const std::string & scene_name);	// switches game to the scene specified iff it is loaded
 
 		// provide const and non-const versions
-		EntityList & persistent_entities() { return persistent_entities_; };
-		const EntityList & persistent_entities() const { return persistent_entities_; }
+		///EntityList & persistent_entities() { return persistent_entities_; };
+		///const EntityList & persistent_entities() const { return persistent_entities_; }
 
 		// set the way the game removes scenes on a scene switch
-		void setSceneSwitchMode(const ESceneSwitchMode & mode) {scene_switch_mode_ = mode;}
+		void SetSceneSwitchMode(const ESceneSwitchMode & mode) {scene_switch_mode_ = mode;}
 
 		// start execution of the game
-		void startGame();
+		void StartGame();
 
 	private:
 		// specifies which scenes should be unloaded on scene switch
@@ -65,7 +65,7 @@ namespace ose::game
 		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;
 
 		// entities which will persist between scenes
-		EntityList persistent_entities_;
+		///EntityList persistent_entities_;
 
 		// window manager handles window creation, events and input
 		std::unique_ptr<WindowManager> window_manager_;
@@ -86,9 +86,9 @@ namespace ose::game
 		bool running_;
 
 		// called from startGame, runs a loop while running_ is true
-		void runGame();
+		void RunGame();
 
 		// initialise components of an entity along with its sub-entities
-		void initEntity(const Entity & entity);
+		void InitEntity(const Entity & entity);
 	};
 }

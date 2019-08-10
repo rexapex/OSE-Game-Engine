@@ -22,41 +22,41 @@ namespace ose::resources
 
 		// import a file into the project resources directory
 		// sub_dir is a sub directory within the resources directory
-		void importFile(const std::string & file_path, const std::string & sub_dir = "");
+		void ImportFile(const std::string & file_path, const std::string & sub_dir = "");
 
 		// imports multiple files into project resources directory
 		// sub_dir is a sub directory within the resources directory
-		void importFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir = "");
+		void ImportFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir = "");
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		const Texture * getTexture(const std::string name);
+		const Texture * GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
 		// if no name is given, the relative path will be used
 		// IMPORTANT - can be called from any thread
-		void addTexture(const std::string & path, const std::string & name = "");
+		void AddTexture(const std::string & path, const std::string & name = "");
 
 		// create the GPU memory for an already loaded (added) texture
 		// returns an iterator to the next texture in the textures_without_GPU_memory map
 		// IMPORANT - can only be called from the thread which contains the render context
-		std::map<std::string, std::unique_ptr<Texture>>::const_iterator createTexture(const std::string & tex_name);
+		std::map<std::string, std::unique_ptr<Texture>>::const_iterator CreateTexture(const std::string & tex_name);
 
 		// remove the texture from the textures list and free the texture's resources
 		// IMPORANT - can be called from any thread
-		void removeTexture(const std::string & tex_name);
+		void RemoveTexture(const std::string & tex_name);
 
 		// free the GPU memory of the texture
 		// IMPORANT - can only be called from the thread which contains the render context
-		void destroyTexture(const std::string & tex_name);
+		void DestroyTexture(const std::string & tex_name);
 
 		// create all textures which are currently lacking a GPU representation
 		// IMPORTANT - can only be called from the thread which contains the render context
-		void createTextures();
+		void CreateTextures();
 
 		// loads a meta file for some texture, meta files map properties to values
-		void loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data);
+		void LoadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data);
 
 	private:
 		// the root path of the currently loaded project
@@ -65,12 +65,12 @@ namespace ose::resources
 		// maps texture name to texture object
 		// any texture with a representation in GPU memory
 		// these textures can be destroyed but not removed
-		std::map<std::string, std::unique_ptr<Texture>> textures_with_GPU_memory_;
+		std::map<std::string, std::unique_ptr<Texture>> textures_with_Gpu_memory_;
 
 		// maps texture name to texture object
 		// any texture with no representation in GPU memory
 		// only these textures can be created and removed
-		std::map<std::string, std::unique_ptr<Texture>> textures_without_GPU_memory_;
+		std::map<std::string, std::unique_ptr<Texture>> textures_without_Gpu_memory_;
 
 		// the TextureLoader object used for loading textures from image files
 		std::unique_ptr<TextureLoader> texture_loader_;

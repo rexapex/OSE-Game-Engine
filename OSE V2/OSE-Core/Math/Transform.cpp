@@ -38,19 +38,19 @@ namespace ose::math
 
 	Transform::~Transform() {}
 
-	void Transform::translate(const glm::vec3 & translation)
+	void Transform::Translate(const glm::vec3 & translation)
 	{
 		position_ += translation;
 	}
 
-	void Transform::translate(const float x, const float y, const float z)
+	void Transform::Translate(const float x, const float y, const float z)
 	{
 		position_.x += x;
 		position_.y += y;
 		position_.z += z;
 	}
 
-	void Transform::rotate(const float pitch, const float yaw, const float roll)
+	void Transform::Rotate(const float pitch, const float yaw, const float roll)
 	{
 		//construct a quat from a vec3 of euler angles (in radians)
 		glm::quat change { glm::vec3 { pitch, yaw, roll } };
@@ -59,13 +59,13 @@ namespace ose::math
 		orientation_ *= change;
 	}
 
-	void Transform::rotate(const glm::vec3 & change)
+	void Transform::Rotate(const glm::vec3 & change)
 	{
 		//cumulating quaternions -> multiply in reverse order
 		orientation_ *= glm::quat { change };
 	}
 
-	void Transform::rotateDeg(const float pitch, const float yaw, const float roll)
+	void Transform::RotateDeg(const float pitch, const float yaw, const float roll)
 	{
 		//construct a quat from a vec3 of euler angles (in degrees)
 		glm::quat change { glm::vec3 { glm::radians(pitch), glm::radians(yaw), glm::radians(roll) } };
@@ -74,60 +74,60 @@ namespace ose::math
 		orientation_ *= change;
 	}
 
-	void Transform::rotateDeg(const glm::vec3 & change)
+	void Transform::RotateDeg(const glm::vec3 & change)
 	{
 		//cumulating quaternions -> multiply in reverse order
 		orientation_ *= glm::quat { glm::radians(change) };
 	}
 
-	void Transform::scale(const float scalar)
+	void Transform::Scale(const float scalar)
 	{
 		scale_ *= scalar;
 	}
 
-	void Transform::scale(const glm::vec3 & multiplier)
+	void Transform::Scale(const glm::vec3 & multiplier)
 	{
 		scale_ *= multiplier;
 	}
 
-	void Transform::scale(const float x, const float y, const float z)
+	void Transform::Scale(const float x, const float y, const float z)
 	{
 		scale_.x *= x;
 		scale_.y *= y;
 		scale_.z *= z;
 	}
 
-	const glm::mat4 Transform::get_position_as_matrix() const
+	const glm::mat4 Transform::GetPositionMatrix() const
 	{
 		return glm::translate(glm::mat4(), position_);
 	}
 
-	const glm::mat4 Transform::get_orientation_as_matrix() const
+	const glm::mat4 Transform::GetOrientationMatrix() const
 	{
 		return glm::toMat4(orientation_);
 	}
 
-	const glm::mat4 Transform::get_scale_as_matrix() const
+	const glm::mat4 Transform::GetScaleMatrix() const
 	{
 		return glm::scale(glm::mat4(), scale_);
 	}
 
-	const glm::mat4 Transform::get_transform_matrix() const
+	const glm::mat4 Transform::GetTransformMatrix() const
 	{
 		return glm::translate(glm::mat4(), position_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
 	}
 
-	const glm::vec3 Transform::get_up() const
+	const glm::vec3 Transform::GetUp() const
 	{
 		return glm::cross(orientation_, glm::vec3(0, 1, 0));
 	}
 
-	const glm::vec3 Transform::get_forward() const
+	const glm::vec3 Transform::GetForward() const
 	{
 		return glm::cross(orientation_, glm::vec3(0, 0, -1));
 	}
 
-	const glm::vec3 Transform::get_right() const
+	const glm::vec3 Transform::GetRight() const
 	{
 		return glm::cross(orientation_, glm::vec3(1, 0, 0));
 	}

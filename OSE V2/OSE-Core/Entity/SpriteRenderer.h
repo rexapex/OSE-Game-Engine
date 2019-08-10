@@ -27,17 +27,17 @@ namespace ose::entity
 
 		// initialise the component, should only be called from the main thread
 		// IMPORTANT - can only be called from the thread containing the render context
-		virtual void init() override;
+		virtual void Init() override;
 
 
 		// get the render object pointer
-		RenderTask * get_render_object() const { return render_object_; }
+		RenderTask * GetRenderObject() const { return render_object_; }
 
 		// set the texture displayed by the sprite renderer
-		void set_texture(const Texture * texture) { texture_ = texture; }
+		void SetTexture(const Texture * texture) { texture_ = texture; }
 
 		// get the texture displayed by the sprite renderer
-		const Texture * get_texture() const { return texture_; }
+		const Texture * GetTexture() const { return texture_; }
 
 
 

@@ -10,7 +10,7 @@ namespace ose::game
 		Tag(Tag && other);
 		Tag & operator=(Tag && other);
 
-		std::vector<Tag> & get_sub_tags() { return sub_tags_; }
+		std::vector<Tag> & GetSubTags() { return sub_tags_; }
 
 	private:
 		std::string name_;

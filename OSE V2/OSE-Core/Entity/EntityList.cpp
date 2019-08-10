@@ -35,7 +35,7 @@ namespace ose::entity
 	// method constructs a new object
 	// method takes an array of constructor arguments
 	template<typename... Args>
-	Entity & EntityList::add(Args &&... params)
+	Entity & EntityList::AddEntity(Args &&... params)
 	{
 		// construct a new entity object
 		try {
@@ -48,7 +48,7 @@ namespace ose::entity
 
 	// add a non-persistent entity to the scene
 	// method moves the object passed
-	void EntityList::add(std::unique_ptr<Entity> e)
+	void EntityList::AddEntity(std::unique_ptr<Entity> e)
 	{
 		try {
 			// move the entity pointer to the list of entities
@@ -63,7 +63,7 @@ namespace ose::entity
 	// new entity is a deep copy of the entity passed
 	// method constructs a new object
 	// returns: reference to newly created entity
-	Entity & EntityList::add(const Entity & other)
+	Entity & EntityList::AddEntity(const Entity & other)
 	{
 		// construct a new entity object
 		try {
@@ -77,7 +77,7 @@ namespace ose::entity
 	// remove sub entity
 	// return true if sub entity is removed
 	// return false if the sub entity does not belong to this entity
-	bool EntityList::remove(const Entity & entity)
+	bool EntityList::RemoveEntity(const Entity & entity)
 	{
 		// no sub entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {
@@ -97,7 +97,7 @@ namespace ose::entity
 	// remove entity by name
 	// return true if entity with given name is removed
 	// return false if no entity with given name exists
-	bool EntityList::remove(const std::string & name)
+	bool EntityList::RemoveEntity(const std::string & name)
 	{
 		// no sub entity can be removed if there are no entities, therefore return false
 		if(entities_.empty()) {
@@ -108,7 +108,7 @@ namespace ose::entity
 		// search from beginning to end of list
 		// return first component to return true from lambda
 		auto & pos = std::find_if(entities_.begin(), entities_.end(), [name] (auto & entity) {
-			return entity->get_name() == name;
+			return entity->GetName() == name;
 		});
 
 		// if a matching entity is found, remove it then return true
@@ -124,7 +124,7 @@ namespace ose::entity
 	// remove entity by EntityID
 	// return true if entity with given EntityID is removed
 	// return false if no entity with given EntityID exists
-	bool EntityList::remove(const EntityID uid)
+	bool EntityList::RemoveEntity(const EntityID uid)
 	{
 		// no entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {
@@ -135,7 +135,7 @@ namespace ose::entity
 		// search from beginning to end of list
 		// return first component to return true from lambda
 		auto & pos = std::find_if(entities_.begin(), entities_.end(), [uid] (auto & entity) {
-			return entity->get_unique_ID() == uid;
+			return entity->GetUniqueId() == uid;
 		});
 
 		// if a matching entity is found, remove it then return true

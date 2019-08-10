@@ -26,18 +26,18 @@ namespace ose::game
 
 	//DEBUG METHODS
 	//TODO - REMOVE WHEN READY
-	void Scene::print()
+	void Scene::Print()
 	{
 		std::cerr << "**********  Scene Definition  **********" << std::endl;
 		std::cerr << "scene -> name: " << this->name_ << std::endl;
-		for(auto & e : entities_.get())
+		for(auto & e : entities_.GetEntities())
 		{
-			printEntity(*e, 1);
+			PrintEntity(*e, 1);
 		}
 	}
 
 
-	void Scene::printEntity(const Entity & e, int32_t level)
+	void Scene::PrintEntity(const Entity & e, int32_t level)
 	{
 		std::string indent = "";
 		for(int32_t i = 0; i < level; i++)
@@ -45,16 +45,16 @@ namespace ose::game
 			indent += "    ";
 		}
 
-		std::cerr << indent << "entity -> id: " << e.get_unique_ID() << ", name: " << e.get_name() << std::endl;
+		std::cerr << indent << "entity -> id: " << e.GetUniqueId() << ", name: " << e.GetName() << std::endl;
 
 		/*for(auto & comp : e.get_components())
 		{
 			std::cerr << indent << "    comp -> " << comp->name << std::endl;
 		}*/
 
-		for(const auto & subE : e.sub_entities().get())
+		for(const auto & subE : e.GetEntities())
 		{
-			printEntity(*subE, level + 1);
+			PrintEntity(*subE, level + 1);
 		}
 	}
 }

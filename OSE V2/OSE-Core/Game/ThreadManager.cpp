@@ -6,7 +6,7 @@ namespace ose::game
 	ThreadManager::ThreadManager(const RenderPool & render_pool) : render_pool_(render_pool)
 	{
 		//only need to call in regular constructor
-		createThreads();
+		CreateThreads();
 	}
 
 	ThreadManager::~ThreadManager() noexcept {}
@@ -25,7 +25,7 @@ namespace ose::game
 
 	//create the array of threads
 	//function decides how many threads are needed
-	void ThreadManager::createThreads()
+	void ThreadManager::CreateThreads()
 	{
 		//set the number of threads to the number of CPU cores
 		uint32_t num_threads {std::thread::hardware_concurrency() == 0 ? 1 : std::thread::hardware_concurrency()};
@@ -34,11 +34,11 @@ namespace ose::game
 		threads_.reserve(num_threads);
 
 		auto get_new_task = [this] (std::string & task) {
-			this->getNewTask(task);
+			this->GetNewTask(task);
 		};
 
 		auto on_task_completed = [this] (uint32_t thread_id) {
-			this->onTaskCompleted(thread_id);
+			this->OnTaskCompleted(thread_id);
 		};
 
 		tasks_in_progress_ = 0;
@@ -54,7 +54,7 @@ namespace ose::game
 
 
 	//called by a thread upon completing its task
-	void ThreadManager::getNewTask(std::string & task)
+	void ThreadManager::GetNewTask(std::string & task)
 	{
 		//DEBUG_LOG(thread.name_);
 		if(tasks_.size() > 0)
@@ -71,7 +71,7 @@ namespace ose::game
 	}
 
 
-	void ThreadManager::addNewTask(const std::string & t)
+	void ThreadManager::AddNewTask(const std::string & t)
 	{
 		{
 			std::unique_lock<std::mutex> lock(mu_);
@@ -82,7 +82,7 @@ namespace ose::game
 	}
 
 
-	void ThreadManager::onTaskCompleted(uint32_t thread_id)
+	void ThreadManager::OnTaskCompleted(uint32_t thread_id)
 	{
 		std::unique_lock<std::mutex> lock(mu_);
 		tasks_in_progress_ --;
@@ -93,13 +93,13 @@ namespace ose::game
 	}
 
 	// process all rendering tasks
-	void ThreadManager::processRenderTasks()
+	void ThreadManager::ProcessRenderTasks()
 	{
 		// render the game
 		RenderTaskImpl * render_object = nullptr;
-		while((render_object = render_pool_.getNextDataObject()) != nullptr)
+		while((render_object = render_pool_.GetNextDataObject()) != nullptr)
 		{
-			render_object->update();
+			render_object->Update();
 			///rendering_engine_->update(*render_object);
 		}
 	}

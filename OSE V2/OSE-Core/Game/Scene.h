@@ -25,8 +25,8 @@ namespace ose::game
 
 		//DEBUG METHODS
 		//TODO - REMOVE WHEN READY
-		void print();
-		void printEntity(const Entity & e, int32_t level);
+		void Print();
+		void PrintEntity(const Entity & e, int32_t level);
 
 	private:
 		std::string name_;

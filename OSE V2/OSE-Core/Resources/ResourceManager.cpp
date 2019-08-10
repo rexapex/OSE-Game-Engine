@@ -10,50 +10,50 @@ namespace ose::resources
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
-		textures_without_GPU_memory_(std::move(other.textures_without_GPU_memory_)), textures_with_GPU_memory_(std::move(other.textures_with_GPU_memory_)),
+		textures_without_Gpu_memory_(std::move(other.textures_without_Gpu_memory_)), textures_with_Gpu_memory_(std::move(other.textures_with_Gpu_memory_)),
 		texture_loader_(std::move(other.texture_loader_)) {}
 
 	ResourceManager & ResourceManager::operator=(ResourceManager && other) noexcept
 	{
 		project_path_ = std::move(other.project_path_);
-		textures_without_GPU_memory_ = std::move(other.textures_without_GPU_memory_);
-		textures_with_GPU_memory_ = std::move(other.textures_with_GPU_memory_);
+		textures_without_Gpu_memory_ = std::move(other.textures_without_Gpu_memory_);
+		textures_with_Gpu_memory_ = std::move(other.textures_with_Gpu_memory_);
 		texture_loader_ = std::move(other.texture_loader_);
 		return *this;
 	}
 
 	//import a file into the project resources directory
 	//sub_dir is a sub directory within the resources directory
-	void ResourceManager::importFile(const std::string & file_path, const std::string & sub_dir)
+	void ResourceManager::ImportFile(const std::string & file_path, const std::string & sub_dir)
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
-		FileHandlingUtil::copyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::filenameFromPath(file_path));
+		FileHandlingUtil::CopyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
 	}
 
 	//imports multiple files into project resources directory
 	//sub_dir is a sub directory within the resources directory
-	void ResourceManager::importFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir)
+	void ResourceManager::ImportFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir)
 	{
 		for(auto & path : file_paths)
 		{
-			importFile(path, sub_dir);
+			ImportFile(path, sub_dir);
 		}
 	}
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	const Texture * ResourceManager::getTexture(const std::string name)
+	const Texture * ResourceManager::GetTexture(const std::string name)
 	{
 		// search the textures_with_GPU_memory_ list
-		auto const & tex_iter { textures_with_GPU_memory_.find(name) };
-		if(tex_iter != textures_with_GPU_memory_.end()) {
+		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };
+		if(tex_iter != textures_with_Gpu_memory_.end()) {
 			return tex_iter->second.get();
 		}
 
 		// then, if texture couldn't be found, search the textures_without_GPU_memory_ list
-		auto const & tex_iter2 { textures_without_GPU_memory_.find(name) };
-		if(tex_iter2 != textures_without_GPU_memory_.end()) {
+		auto const & tex_iter2 { textures_without_Gpu_memory_.find(name) };
+		if(tex_iter2 != textures_without_Gpu_memory_.end()) {
 			return tex_iter2->second.get();
 		}
 
@@ -64,11 +64,11 @@ namespace ose::resources
 	// path is relative to ProjectPath/Resources
 	// if no name is given, the filepath will be used
 	// TODO - either remove name altogether or come up with something clever
-	void ResourceManager::addTexture(const std::string & path, const std::string & name)
+	void ResourceManager::AddTexture(const std::string & path, const std::string & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::doesFileExist(abs_path))
+		if(FileHandlingUtil::DoesFileExist(abs_path))
 		{
 			// if no name is given, use the filename
 			std::string name_to_use { name };
@@ -78,26 +78,26 @@ namespace ose::resources
 			}
 
 			// only add the new texture if the name is not taken (in either map)
-			auto & iter = textures_without_GPU_memory_.find(name_to_use);
-			auto & iter2 = textures_with_GPU_memory_.find(name_to_use);
-			if(iter == textures_without_GPU_memory_.end() && iter2 == textures_with_GPU_memory_.end())
+			auto & iter = textures_without_Gpu_memory_.find(name_to_use);
+			auto & iter2 = textures_with_Gpu_memory_.find(name_to_use);
+			if(iter == textures_without_Gpu_memory_.end() && iter2 == textures_with_Gpu_memory_.end())
 			{
-				textures_without_GPU_memory_.emplace(name_to_use, std::make_unique<TextureImpl>(name_to_use, abs_path));
+				textures_without_Gpu_memory_.emplace(name_to_use, std::make_unique<TextureImpl>(name_to_use, abs_path));
 				DEBUG_LOG("Added texture " << name_to_use << " to ResourceManager");
 				
 				// get a references to the newly created texture
-				auto & tex = textures_without_GPU_memory_.at(name_to_use);
+				auto & tex = textures_without_Gpu_memory_.at(name_to_use);
 
 				// load or generate the texture's meta data
 				std::string meta_abs_path { abs_path + ".meta" };
 				bool success = false;
 				TextureMetaData meta_data;	//object will have default values
-				if(FileHandlingUtil::doesFileExist(meta_abs_path))
+				if(FileHandlingUtil::DoesFileExist(meta_abs_path))
 				{
 					//load meta data file
 					try
 					{
-						loadTextureMetaFile(meta_abs_path, meta_data);
+						LoadTextureMetaFile(meta_abs_path, meta_data);
 						success = true;
 					}
 					catch(const std::exception &) {}	// success will be false, therefore, meta file will be created
@@ -106,7 +106,7 @@ namespace ose::resources
 				{
 					// create meta data file
 					// NOTE - compiler auto concatenates adjacent string literals
-					FileHandlingUtil::writeTextFile(meta_abs_path,	"mag_filter_mode 0\n"
+					FileHandlingUtil::WriteTextFile(meta_abs_path,	"mag_filter_mode 0\n"
 																	"min_filter_mode 0\n"
 																	"mip_mapping_enabled 1\n"
 																	"min_LOD 0\n"
@@ -115,13 +115,13 @@ namespace ose::resources
 				}
 
 				// set the texture's meta data
-				tex->set_meta_data(meta_data);
+				tex->SetMetaData(meta_data);
 
 				// TODO - do the loading with multi-threading
 				int32_t w, h;
 				IMGDATA d;
-				texture_loader_->loadTexture(abs_path, &d, &w, &h);
-				tex->set_img_data(d, w, h);
+				texture_loader_->LoadTexture(abs_path, &d, &w, &h);
+				tex->SetImgData(d, w, h);
 			}
 			else
 			{
@@ -133,22 +133,22 @@ namespace ose::resources
 	// create the GPU memory for an already loaded (added) texture
 		// returns an iterator to the next texture in the textures_without_GPU_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::createTexture(const std::string & tex_name)
+	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::CreateTexture(const std::string & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with no representation in GPU memory can be created
-		auto const & tex_iter { textures_without_GPU_memory_.find(tex_name) };
+		auto const & tex_iter { textures_without_Gpu_memory_.find(tex_name) };
 
 		// if the texture exists, then create its GPU representation
-		if(tex_iter != textures_without_GPU_memory_.end())
+		if(tex_iter != textures_without_Gpu_memory_.end())
 		{
 			try {
 				// try to create the texture on the GPU
-				tex_iter->second->createTexture();
+				tex_iter->second->CreateTexture();
 				// iff the creation succeeds, move the texture from one map to the other
-				textures_with_GPU_memory_.insert({ tex_name, std::move(tex_iter->second) });
+				textures_with_Gpu_memory_.insert({ tex_name, std::move(tex_iter->second) });
 				// remove the texture from the original map
-				return textures_without_GPU_memory_.erase(tex_iter);
+				return textures_without_Gpu_memory_.erase(tex_iter);
 			} catch(const std::exception & e) {
 				ERROR_LOG(e.what());
 			}
@@ -159,64 +159,64 @@ namespace ose::resources
 
 	// remove the texture from the textures list and free the texture's resources
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::removeTexture(const std::string & tex_name)
+	void ResourceManager::RemoveTexture(const std::string & tex_name)
 	{
 		// get the texture if it exists
 		// only texture without memory allocated on the GPU can be removed
-		auto const & tex_iter { textures_without_GPU_memory_.find(tex_name) };
+		auto const & tex_iter { textures_without_Gpu_memory_.find(tex_name) };
 
 		// if the texture exists, then free its resources and remove it from map
-		if(tex_iter != textures_without_GPU_memory_.end())
+		if(tex_iter != textures_without_Gpu_memory_.end())
 		{
 			// free the image data resource
-			texture_loader_->freeTexture(tex_iter->second->get_img_data());
+			texture_loader_->FreeTexture(tex_iter->second->GetImgData());
 			// remove the texture from the map
-			textures_without_GPU_memory_.erase(tex_iter);
+			textures_without_Gpu_memory_.erase(tex_iter);
 		}
 	}
 
 	// free the GPU memory of the texture
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::destroyTexture(const std::string & tex_name)
+	void ResourceManager::DestroyTexture(const std::string & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with memory allocated on the GPU can be destroyed
-		auto const & tex_iter { textures_with_GPU_memory_.find(tex_name) };
+		auto const & tex_iter { textures_with_Gpu_memory_.find(tex_name) };
 
 		// if the texture exists, then free its resources and remove it from map
-		if(tex_iter != textures_with_GPU_memory_.end())
+		if(tex_iter != textures_with_Gpu_memory_.end())
 		{
 			// free the image data resource
-			tex_iter->second->destroyTexture();
+			tex_iter->second->DestroyTexture();
 			// iff the creation succeeds, move the texture from one map to the other
-			textures_without_GPU_memory_.insert({ tex_name, std::move(tex_iter->second) });
+			textures_without_Gpu_memory_.insert({ tex_name, std::move(tex_iter->second) });
 			// remove the texture from the map
-			textures_with_GPU_memory_.erase(tex_iter);
+			textures_with_Gpu_memory_.erase(tex_iter);
 		}
 	}
 
 	// create all textures which are currently lacking a GPU representation
 	// IMPORTANT - can only be called from the thread which contains the render context
-	void ResourceManager::createTextures()
+	void ResourceManager::CreateTextures()
 	{
 		std::map<std::string, std::unique_ptr<Texture>>::const_iterator it;
 
 		// create a GPU texture for each texture without a GPU texture representation
-		for(it = textures_without_GPU_memory_.begin(); it != textures_without_GPU_memory_.end(); )
+		for(it = textures_without_Gpu_memory_.begin(); it != textures_without_Gpu_memory_.end(); )
 		{
 			// delegate to this method because why not
-			it = createTexture(it->first);
+			it = CreateTexture(it->first);
 		}
 	}
 
 	//loads a meta file for some texture, meta files map properties to values
-	void ResourceManager::loadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
+	void ResourceManager::LoadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
 	{
 		//load the meta data string
 		std::string contents;
 		try
 		{
-			FileHandlingUtil::loadTextFile(abs_path, contents);
+			FileHandlingUtil::LoadTextFile(abs_path, contents);
 		}
 		catch(const std::exception & e)
 		{
@@ -241,11 +241,11 @@ namespace ose::resources
 			} else if(property == "mip_mapping_enabled") {
 				meta_data.mip_mapping_enabled_ = static_cast<bool>(value);
 			} else if(property == "min_LOD") {
-				meta_data.min_LOD_ = value;
+				meta_data.min_lod_ = value;
 			} else if(property == "max_LOD") {
-				meta_data.max_LOD_ = value;
+				meta_data.max_lod_ = value;
 			} else if(property == "LOD_bias") {
-				meta_data.LOD_bias_ = value;
+				meta_data.lod_bias_ = value;
 			}
 		}
 	}

@@ -24,33 +24,33 @@ namespace ose::resources
 		// method constructs a new object
 		// method takes an array of constructor arguments
 		template<typename... Args>
-		Entity & addTempPrefab(Args &&... params, std::string const & path);
+		Entity & AddTempPrefab(Args &&... params, std::string const & path);
 
 		// add a temporary prefab entity to the prefab manager
 		// method moves the object passed
-		void addTempPrefab(std::unique_ptr<Entity> e, std::string const & path);
+		void AddTempPrefab(std::unique_ptr<Entity> e, std::string const & path);
 
 		// add a persistent (cached) prefab entity to the prefab manager
 		// method constructs a new object
 		// method takes an array of constructor arguments
 		template<typename... Args>
-		Entity & addCachedPrefab(Args &&... params, std::string const & path);
+		Entity & AddCachedPrefab(Args &&... params, std::string const & path);
 
 		// add a persistent (cached) prefab entity to the prefab manager
 		// method moves the object passed
-		void addCachedPrefab(std::unique_ptr<Entity> e, std::string const & path);
+		void AddCachedPrefab(std::unique_ptr<Entity> e, std::string const & path);
 
 		// get a reference to the entity prefab with path given
 		// checks both temporary and cached entities
-		Entity & getPrefab(std::string const & path);
+		Entity & GetPrefab(std::string const & path);
 
 		// returns true iff an entity prefab exists with the path given
 		// check both temporary and cached entities
-		bool doesPrefabExist(std::string const & path);
+		bool DoesPrefabExist(std::string const & path);
 
 		// clear the list of temporary entity prefab objects
 		// frees the prefab objects from memory
-		void clearTempPrefabs();
+		void ClearTempPrefabs();
 
 	private:
 

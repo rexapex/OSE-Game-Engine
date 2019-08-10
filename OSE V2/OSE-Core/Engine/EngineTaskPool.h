@@ -29,20 +29,20 @@ namespace ose::engine
 
 		// add an engine data object to the data pool
 		// called when a component is loaded, or when a component is re-enabled
-		void addEngineDataObject(DataObject * obj)
+		void AddEngineDataObject(DataObject * obj)
 		{
 			data_objects_.push_back(obj);
 		}
 
 		// remove an engine data object to the data pool
 		// called when a component/entity is removed, or when a component is disabled
-		void removeEngineDataObject(DataObject * obj)
+		void RemoveEngineDataObject(DataObject * obj)
 		{
 			data_objects_.erase(std::remove(data_objects_.begin(), data_objects_.end(), obj), data_objects_.end());
 		}
 
 		// get the next data object
-		DataObject * getNextDataObject() const
+		DataObject * GetNextDataObject() const
 		{
 			static int next_index = 0;
 			if(next_index < data_objects_.size()) {

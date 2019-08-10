@@ -31,7 +31,7 @@ int main(int argc, char * argv[])
 	
 	// load the project, giving access to all of its settings and scenes
 	try {
-		Env::game->loadProject("OSE-TestProject");
+		Env::game->LoadProject("OSE-TestProject");
 	} catch(const std::invalid_argument & e) {
 		ERROR_LOG(e.what());
 		return 1;
@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
 
 	// load a scene, giving access to all of its entities and resources
 	try {
-		Env::game->loadScene("scene1");
+		Env::game->LoadScene("scene1");
 	} catch(const std::invalid_argument & e) {
 		ERROR_LOG(e.what());
 		return 1;
@@ -55,7 +55,7 @@ int main(int argc, char * argv[])
 
 	// set the new scene as the active scene
 	try {
-		Env::game->setActiveScene("scene1");
+		Env::game->SetActiveScene("scene1");
 	} catch(const std::invalid_argument & e) {
 		ERROR_LOG(e.what());
 		getchar();
@@ -63,7 +63,7 @@ int main(int argc, char * argv[])
 	}
 
 	// all resources have been loaded and entities initialised, therefore, start the game
-	Env::game->startGame();
+	Env::game->StartGame();
 	
 	return 0;
 }

@@ -56,10 +56,10 @@ namespace ose::entity
 
 	// initialise the component, should only be called from the main thread
 	// IMPORTANT - can only be called from the thread containing the render context
-	void SpriteRenderer::init()
+	void SpriteRenderer::Init()
 	{
 		// initialise the render object
 		// NOTE - requires render context
-		render_object_->init(this);
+		render_object_->Init(this);
 	}
 }

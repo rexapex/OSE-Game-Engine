@@ -22,7 +22,7 @@ namespace ose::game
 		GameThread & operator=(GameThread && other) noexcept;
 
 	private:
-		void run();
+		void Run();
 
 		std::thread t_;
 

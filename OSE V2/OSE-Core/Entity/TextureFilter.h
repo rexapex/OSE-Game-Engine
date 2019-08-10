@@ -18,8 +18,8 @@ namespace ose::entity
 
 	public:
 		//getting and setting texture pointer
-		const Texture * const get_texture() const { return this->texture_; }
-		void set_texture(Texture * texture) { this->texture_ = texture; }
+		const Texture * const GetTexture() const { return this->texture_; }
+		void SetTexture(Texture * texture) { this->texture_ = texture; }
 
 		//allocate rendering engine data
 		TextureFilter(const std::string & name) : Component(name) {}
