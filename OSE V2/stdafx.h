@@ -17,11 +17,6 @@
 // convenience method for output of error messages
 #define ERROR_LOG(x) do {std::cerr << x << std::endl;} while(0)
 
-// convenience typedef for shorter pointer declerations
-template<class T> using uptr = std::unique_ptr<T>;
-template<class T> using sptr = std::shared_ptr<T>;
-template<class T> using wptr = std::weak_ptr<T>;
-
 //export functions for testing iff building in debug mode
 #ifdef _WIN32
 #	ifdef _DEBUG
