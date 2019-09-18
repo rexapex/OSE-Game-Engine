@@ -235,7 +235,7 @@ namespace ose::game
 	void Game::InitEntity(const Entity & entity)
 	{
 		// for each sprite renderer component of the entity		
-		for(auto const & comp : entity.GetComponents<SpriteRenderer>())
+		for(ose::unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
 			comp->Init();

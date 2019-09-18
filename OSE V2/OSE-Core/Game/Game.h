@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OSE-Core/Types.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectLoader.h"

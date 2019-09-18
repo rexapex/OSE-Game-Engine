@@ -164,6 +164,7 @@
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
+    <ClInclude Include="OSE-Core\Types.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
     <ClInclude Include="OSE-Core\Editor\Editor.h" />
