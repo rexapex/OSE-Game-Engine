@@ -11,29 +11,36 @@ namespace ose::shader
 		~Shader();
 
 		// ShaderNodeType is the type of ShaderNode to add
-		// returns the index of the ShaderNode in to the get_nodes() array
+		// Returns a pointer to the ShaderNode
+		// Do not delete or move the pointer returned
+		// To delete the node, use the RemoveNode method
 		template <typename ShaderNodeType, typename ...Args>
-		int32_t AddNode(Args &&... params)
+		ShaderNode * AddNode(Args &&... params)
 		{
 			nodes_.emplace_back( std::make_unique<ShaderNodeType>(std::forward<Args>(params)...) );
-			return nodes_.size() - 1;	// return the index of the new node
+			return nodes_.back().get();
 		}
 
-		// connect the 2 nodes given at the indexes passed
-		// returns true iff the nodes were connected
-		bool Connect(int32_t node_index_1, int32_t node_index_2);
+		// Remove a shader node from the shader
+		// Returns true iff the node exists and is removed successfully
+		// TODO - Remove all connectors joining this node to others
+		bool RemoveNode(ShaderNode * node);
 
-		// returns a const list of all nodes in the shader graph
+		// Connect the 2 nodes passed together
+		// Returns true iff the nodes were connected
+		bool Connect(ShaderNode * out_node, std::string const & out_node_output, ShaderNode * in_node, std::string const & in_node_input);
+
+		// Returns a const list of all nodes in the shader graph
 		const std::vector<std::unique_ptr<ShaderNode>> & GetNodes() const { return nodes_; }
 
 	private:
-		// every shader has a name
+		// Every shader has a name
 		std::string name_;
 
-		// list of all nodes in the graph
+		// List of all nodes in the graph
 		std::vector<std::unique_ptr<ShaderNode>> nodes_;
 
-		// list of connectors between nodes
+		// List of connectors between nodes
 		std::vector<NodeConnector> connectors_;
 	};
 }

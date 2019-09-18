@@ -48,6 +48,5 @@ namespace ose::entity
 			texture_ = other.texture_;
 			return *this;
 		}
-
 	};
 }

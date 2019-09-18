@@ -159,8 +159,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="OSE-Core\Math\Transformable.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
+    <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
@@ -500,6 +502,8 @@
     <ClInclude Include="OSE-Core\Shader\Shader.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderBuilder.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\SDefault.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -650,6 +654,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
@@ -684,7 +689,9 @@
     <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shader.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
-    <ClCompile Include="OSE-Core\Shader\ShaderBuiler.cpp" />
+    <ClCompile Include="OSE-Core\Shader\ShaderBuilder.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\SDefault.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

@@ -12,4 +12,9 @@ namespace ose::shader
 	{
 
 	}
+
+	void ShaderBuilder::BuildShader(Shader & shader)
+	{
+		
+	}
 }

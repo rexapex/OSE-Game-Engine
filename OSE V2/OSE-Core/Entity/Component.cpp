@@ -28,7 +28,8 @@ namespace ose::entity
 	// clone method which can be overwritten by base classes
 	std::unique_ptr<Component> Component::Clone() const
 	{
-		return std::make_unique<Component>(*this);
+		return nullptr;
+		///return std::make_unique<Component>(*this);
 	}
 
 	// disable the component (i.e. remove it from corresponding engine data pool

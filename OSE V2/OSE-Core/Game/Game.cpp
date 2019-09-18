@@ -5,7 +5,7 @@ namespace ose::game
 {
 	Game::Game()
 	{
-		this->project_loader_ = std::make_unique<ProjectLoaderImpl>();
+		this->project_loader_ = std::move(ProjectLoaderFactories[0]());
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
 
@@ -17,9 +17,7 @@ namespace ose::game
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		//this->rendering_engine_ = std::make_unique<RenderingEngineImpl>();
-		// Can I create unique ptr from released one ???
-		this->rendering_engine_ = uptr<RenderingEngine> { static_cast<RenderingEngine*>(RenderingEngineFactories[0]().release()) };
+		this->rendering_engine_ = std::move(RenderingEngineFactories[0]());
 		this->window_manager_->SetEngineReferences(this->rendering_engine_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 

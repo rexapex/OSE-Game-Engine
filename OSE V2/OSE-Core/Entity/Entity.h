@@ -25,11 +25,6 @@ namespace ose::entity
 		void SetName(const std::string & name) { this->name_ = name; }
 		void SetTag(const std::string & tag) { this->tag_ = tag; }
 
-		// get a list of all sub entities
-		// provide const and non-const versions
-		///EntityList & sub_entities() { return sub_entities_; }
-		///const EntityList & sub_entities() const { return sub_entities_; }
-
 		// get a list of all components
 		const std::vector<std::unique_ptr<Component>> & GetComponents() const { return this->components_; }
 
@@ -40,7 +35,7 @@ namespace ose::entity
 		template<class ComponentType, typename... Args>
 		void AddComponent(Args &&... params)
 		{
-			//components.emplace_back(new ComponentType(std::forward<Args>(params)));
+			//components.emplace_back(new ComponentType( std::forward<Args>(params)... ));
 			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
 		}
 
@@ -135,9 +130,10 @@ namespace ose::entity
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
 		// remove the component passed from the entity
+		// does NOT delete the component
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
-		bool RemoveComponent(const Component & comp);
+		bool RemoveComponent(const Component * comp);
 
 		// Get a list of transformable elements
 		// Returns a list of child entities

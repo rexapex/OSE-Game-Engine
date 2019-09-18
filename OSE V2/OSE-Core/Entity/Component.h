@@ -12,7 +12,7 @@
 #define COMPONENT( ClassName, ParentClass )													\
 public:                                                                                     \
 	static size_t GetClassType() {															\
-		static const std::size_t type = std::hash<std::string>()( TO_STRING(Component) );	\
+		static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };	\
 		return type;																		\
 	}																						\
 																							\
@@ -26,21 +26,32 @@ public:                                                                         
 	{																						\
 		return std::make_unique<ClassName>(*this);											\
 	}																						\
-private:
-
+private:/*																					\
+	/* Private delete means cannot be deleted other than by friend classes /				\
+	static void operator delete(void * p) {													\
+		::operator delete(p);																\
+	}																						\
+																							\
+	/* Private new means cannot be constructed other than by friend classes /				\
+	static void * operator new(size_t size) {												\
+		return new char[size];																\
+	}
+*/
 
 
 
 namespace ose::entity
 {
+	// Dev Note - Can't make Component abstract even though it should be due to the way Entity clones components
 	class Component
 	{
 	public:
 		// Get the class type of Component
 		static size_t GetClassType() {
-			static const std::size_t type = std::hash<std::string>()( TO_STRING(Component) );
+			static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };
 			return type;
 		}
+
 		// Test whether this class has the same class type as the one passed
 		virtual bool IsClassType(const std::size_t classType) const {
 			return classType == GetClassType();
@@ -71,7 +82,6 @@ namespace ose::entity
 
 		// true iff the component has been added to some engine data pool
 		bool enabled_;
-
 	};
 }
 

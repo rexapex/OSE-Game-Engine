@@ -100,7 +100,7 @@ namespace ose::game
 		while((render_object = render_pool_.GetNextDataObject()) != nullptr)
 		{
 			render_object->Update();
-			///rendering_engine_->update(*render_object);
+		///	rendering_engine_->update(*render_object);
 		}
 	}
 }

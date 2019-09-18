@@ -131,7 +131,7 @@ namespace ose::resources
 	}
 
 	// create the GPU memory for an already loaded (added) texture
-		// returns an iterator to the next texture in the textures_without_GPU_memory map
+	// returns an iterator to the next texture in the textures_without_GPU_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
 	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::CreateTexture(const std::string & tex_name)
 	{
