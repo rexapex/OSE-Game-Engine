@@ -36,7 +36,6 @@ namespace ose::entity
 		template<class ComponentType, typename... Args>
 		void AddComponent(Args &&... params)
 		{
-			//components.emplace_back(new ComponentType( std::forward<Args>(params)... ));
 			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
 		}
 

@@ -3,7 +3,7 @@
 
 namespace ose::game
 {
-	ThreadManager::ThreadManager(const RenderPool & render_pool) : render_pool_(render_pool)
+	ThreadManager::ThreadManager(RenderPool const & render_pool) : render_pool_(render_pool)
 	{
 		//only need to call in regular constructor
 		CreateThreads();
@@ -12,7 +12,7 @@ namespace ose::game
 	ThreadManager::~ThreadManager() noexcept {}
 
 	ThreadManager::ThreadManager(ThreadManager && other) noexcept : threads_(std::move(other.threads_)),
-					tasks_in_progress_(std::move(other.tasks_in_progress_)), render_pool_(std::move(other.render_pool_)) {}
+		tasks_in_progress_(std::move(other.tasks_in_progress_)), render_pool_(std::move(other.render_pool_)) {}
 
 	/*ThreadManager & ThreadManager::operator=(ThreadManager && other) noexcept
 	{
@@ -95,12 +95,12 @@ namespace ose::game
 	// process all rendering tasks
 	void ThreadManager::ProcessRenderTasks()
 	{
-		// render the game
-		RenderTaskImpl * render_object = nullptr;
+		// Render the game
+		/*RenderTaskImpl * render_object = nullptr;
 		while((render_object = render_pool_.GetNextDataObject()) != nullptr)
 		{
 			render_object->Update();
 		///	rendering_engine_->update(*render_object);
-		}
+		}*/
 	}
 }

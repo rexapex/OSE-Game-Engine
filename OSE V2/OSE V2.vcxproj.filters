@@ -102,9 +102,6 @@
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -180,9 +177,6 @@
     <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Shader\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -202,6 +196,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1652,12 +1655,6 @@
     <ClInclude Include="OSE-Core\Engine\EngineTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Rendering\RenderTask.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderTaskGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Shader\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1686,6 +1683,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Rendering\RenderPool.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

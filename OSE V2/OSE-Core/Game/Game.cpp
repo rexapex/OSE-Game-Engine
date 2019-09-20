@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Game.h"
 
+// TODO - Remove
+#include "OSE-V2-STD-Modules/Rendering/RenderingEngineGL.h"
+
 namespace ose::game
 {
 	Game::Game()
@@ -9,8 +12,8 @@ namespace ose::game
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
 
-		this->render_pool_ = std::make_unique<RenderPool>();
-		this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
+		///this->render_pool_ = std::move(RenderPoolFactories[0]());
+		///this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
 		
 		this->window_manager_ = std::make_unique<WindowManagerImpl>();
 		this->window_manager_->NewWindow(1);
@@ -18,7 +21,7 @@ namespace ose::game
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
 		this->rendering_engine_ = std::move(RenderingEngineFactories[0]());
-		this->window_manager_->SetEngineReferences(this->rendering_engine_.get());
+		this->window_manager_->SetEngineReferences(rendering_engine_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
@@ -31,9 +34,12 @@ namespace ose::game
 
 
 	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
-										 active_scene_(std::move(other.active_scene_)), running_(other.running_),
-										 thread_manager_(std::move(other.thread_manager_)), ///persistent_entities_(std::move(other.persistent_entities_)),
-									     render_pool_(std::move(other.render_pool_)) {}
+										 active_scene_(std::move(other.active_scene_)), running_(other.running_)
+										 ///thread_manager_(std::move(other.thread_manager_)), ///persistent_entities_(std::move(other.persistent_entities_)),
+									     ///render_pool_(std::move(other.render_pool_)) {}
+	{
+
+	}
 
 
 	Game & Game::operator=(Game && other) noexcept
@@ -42,9 +48,9 @@ namespace ose::game
 		this->project_loader_ = std::move(other.project_loader_);
 		this->active_scene_ = std::move(other.active_scene_);
 		this->running_ = other.running_;
-		this->thread_manager_ = std::move(other.thread_manager_);
+		///this->thread_manager_ = std::move(other.thread_manager_);
 		///this->persistent_entities_ = std::move(other.persistent_entities_);
-		this->render_pool_ = std::move(other.render_pool_);
+		///this->render_pool_ = std::move(other.render_pool_);
 		return *this;
 	}
 
@@ -225,7 +231,8 @@ namespace ose::game
 			// update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
-			thread_manager_->ProcessRenderTasks();
+			rendering_engine_->Update();
+			///thread_manager_->ProcessRenderTasks();
 
 			///editor_temp.update(stub);
 		}
@@ -242,7 +249,7 @@ namespace ose::game
 			DEBUG_LOG("Initialised SpriteRenderer");
 
 			// then add the component to the render pool
-			render_pool_->AddEngineDataObject(static_cast<RenderTaskImpl *>(comp->GetRenderObject()));
+			rendering_engine_->GetRenderPool().AddSpriteRenderer(comp);
 		}
 
 		// initialise all sub entities

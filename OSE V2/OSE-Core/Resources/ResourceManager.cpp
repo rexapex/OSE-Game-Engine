@@ -43,7 +43,7 @@ namespace ose::resources
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	const Texture * ResourceManager::GetTexture(const std::string name)
+	ose::unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
 	{
 		// search the textures_with_GPU_memory_ list
 		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };

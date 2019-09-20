@@ -1,5 +1,6 @@
 #pragma once
 
+#include "OSE-Core/Types.h"
 #include "FileHandlingUtil.h"
 #include "Texture.h"
 #include "TextureLoader.h"
@@ -30,7 +31,7 @@ namespace ose::resources
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		const Texture * GetTexture(const std::string name);
+		ose::unowned_ptr<Texture const> GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources

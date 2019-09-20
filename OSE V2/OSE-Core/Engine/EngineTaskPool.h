@@ -1,5 +1,4 @@
 #pragma once
-#include "OSE-Core/Rendering/RenderTask.h"
 #include <algorithm>
 
 namespace ose::engine

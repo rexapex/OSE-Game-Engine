@@ -1,12 +1,11 @@
 #pragma once
+#include "OSE-Core/Types.h"
 #include "Component.h"
 #include "OSE-Core/Resources/Texture.h"
-#include "OSE-Core/Rendering/RenderTask.h"
 
 namespace ose::entity
 {
 	using namespace resources;
-	using namespace rendering;
 
 	// Renders a 2D texture at the entities transform
 	class SpriteRenderer : public Component
@@ -18,31 +17,20 @@ namespace ose::entity
 
 		// a sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
-		const Texture * texture_;
-
-		// provide a pointer to the render data (what is rendererd by OpenGL)
-		RenderTask * render_object_;
+		ose::unowned_ptr<Texture const> texture_;
 
 	public:
 
-		// initialise the component, should only be called from the main thread
-		// IMPORTANT - can only be called from the thread containing the render context
-		virtual void Init() override;
-
-
-		// get the render object pointer
-		RenderTask * GetRenderObject() const { return render_object_; }
-
 		// set the texture displayed by the sprite renderer
-		void SetTexture(const Texture * texture) { texture_ = texture; }
+		void SetTexture(ose::unowned_ptr<Texture const> texture) { texture_ = texture; }
 
 		// get the texture displayed by the sprite renderer
-		const Texture * GetTexture() const { return texture_; }
+		ose::unowned_ptr<Texture const> GetTexture() const { return texture_; }
 
 
 
 		// initialise the sprite renderer
-		SpriteRenderer(const std::string & name, const Texture & t);
+		SpriteRenderer(std::string const & name, ose::unowned_ptr<Texture const> t);
 
 		// delete the render_object_ pointer
 		virtual ~SpriteRenderer() noexcept;

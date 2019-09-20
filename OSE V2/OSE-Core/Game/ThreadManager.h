@@ -3,12 +3,15 @@
 #include <mutex>
 #include "GameThread.h"
 
+// IMPORTANT - ThreadManager & GameThread currently used
+// Switched to using OpenMP to simplify pooling and multi-threading code
+
 namespace ose::game
 {
 	class ThreadManager
 	{
 	public:
-		ThreadManager(const RenderPool & render_pool);
+		ThreadManager(RenderPool const & render_pool);
 		~ThreadManager() noexcept;
 		ThreadManager(ThreadManager && other) noexcept;
 		ThreadManager & operator=(ThreadManager && other) noexcept = delete;
@@ -39,6 +42,6 @@ namespace ose::game
 		std::condition_variable work_to_do_;
 
 		// reference to the pool of render tasks
-		const RenderPool & render_pool_;
+		RenderPool const & render_pool_;
 	};
 }

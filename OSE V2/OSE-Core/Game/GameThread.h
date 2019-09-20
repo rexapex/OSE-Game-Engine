@@ -4,6 +4,9 @@
 #include <functional>
 #include <mutex>
 
+// IMPORTANT - ThreadManager & GameThread currently used
+// Switched to using OpenMP to simplify pooling and multi-threading code
+
 namespace ose::game
 {
 	class GameThread
