@@ -32,21 +32,19 @@ namespace ose::entity
 		// initialise the sprite renderer
 		SpriteRenderer(std::string const & name, ose::unowned_ptr<Texture const> t);
 
-		// delete the render_object_ pointer
+		// does nothing
 		virtual ~SpriteRenderer() noexcept;
 
-
-
 		// copy constructor
-		SpriteRenderer(const SpriteRenderer & other) noexcept;
+		SpriteRenderer(SpriteRenderer const & other) noexcept;
 
 		// copy assignment constructor
-		SpriteRenderer & operator=(const SpriteRenderer & other) noexcept;
+		SpriteRenderer & operator=(SpriteRenderer const & other) noexcept;
 
 		// move constructor
-		SpriteRenderer(const SpriteRenderer && other) noexcept;
+		SpriteRenderer(SpriteRenderer const && other) noexcept;
 
 		// move assignment constructor
-		SpriteRenderer & operator=(const SpriteRenderer && other) noexcept;
+		SpriteRenderer & operator=(SpriteRenderer const && other) noexcept;
 	};
 }

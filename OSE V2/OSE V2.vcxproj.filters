@@ -1691,6 +1691,18 @@
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ShaderGroupGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPassGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ERenderObjectType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">

@@ -23,7 +23,7 @@ namespace ose::resources
 		Texture & operator=(Texture &&) noexcept = default;
 
 		// in order to be useful, the texture must be bindable
-		virtual void Bind() = 0;
+		virtual void Bind() const = 0;
 
 		// the texture can be created in the GPU memory
 		virtual void CreateTexture() = 0;

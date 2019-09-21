@@ -33,12 +33,12 @@ namespace ose::entity
 		}
 
 		//move constructor
-		MeshFilter(const MeshFilter && other) noexcept : Component(other), path_(std::move(other.path_)) {}
+		MeshFilter(const MeshFilter && other) noexcept : Component(std::move(other)), path_(std::move(other.path_)) {}
 
 		//move assignment constructor
 		MeshFilter & operator=(const MeshFilter && other) noexcept
 		{
-			Component::operator=(other);
+			Component::operator=(std::move(other));
 			path_ = std::move(other.path_);
 			return *this;
 		}

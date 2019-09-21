@@ -39,12 +39,12 @@ namespace ose::entity
 		}
 
 		//move constructor
-		TextureFilter(const TextureFilter && other) noexcept : Component(other), texture_(other.texture_) {}
+		TextureFilter(const TextureFilter && other) noexcept : Component(std::move(other)), texture_(other.texture_) {}
 
 		//move assignment constructor
 		TextureFilter & operator=(const TextureFilter && other) noexcept
 		{
-			Component::operator=(other);
+			Component::operator=(std::move(other));
 			texture_ = other.texture_;
 			return *this;
 		}

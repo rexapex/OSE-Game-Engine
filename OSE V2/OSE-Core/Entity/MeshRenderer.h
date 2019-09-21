@@ -35,12 +35,12 @@ namespace ose::entity
 		}
 
 		//move constructor
-		MeshRenderer(const MeshRenderer && other) noexcept : Component(other) {}
+		MeshRenderer(const MeshRenderer && other) noexcept : Component(std::move(other)) {}
 
 		//move assignment constructor
 		MeshRenderer & operator=(const MeshRenderer && other) noexcept
 		{
-			Component::operator=(other);
+			Component::operator=(std::move(other));
 			return *this;
 		}
 	};

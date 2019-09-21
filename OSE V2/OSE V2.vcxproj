@@ -323,6 +323,10 @@
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_rect_pack.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ERenderObjectType.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPassGL.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ShaderGroupGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />

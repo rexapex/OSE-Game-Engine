@@ -14,13 +14,13 @@ namespace ose::entity
 	}
 
 	// copy constructor
-	SpriteRenderer::SpriteRenderer(const SpriteRenderer & other) noexcept : Component(other), texture_(other.texture_)
+	SpriteRenderer::SpriteRenderer(SpriteRenderer const & other) noexcept : Component(other), texture_(other.texture_)
 	{
 
 	}
 
 	// copy assignment constructor
-	SpriteRenderer & SpriteRenderer::operator=(const SpriteRenderer & other) noexcept
+	SpriteRenderer & SpriteRenderer::operator=(SpriteRenderer const & other) noexcept
 	{
 		Component::operator=(other);
 		texture_ = other.texture_;
@@ -28,18 +28,17 @@ namespace ose::entity
 	}
 
 	// move constructor
-	SpriteRenderer::SpriteRenderer(const SpriteRenderer && other) noexcept : Component(other),
+	SpriteRenderer::SpriteRenderer(SpriteRenderer const && other) noexcept : Component(std::move(other)),
 		texture_(other.texture_)
 	{
 
 	}
 
 	// move assignment constructor
-	SpriteRenderer & SpriteRenderer::operator=(const SpriteRenderer && other) noexcept
+	SpriteRenderer & SpriteRenderer::operator=(SpriteRenderer const && other) noexcept
 	{
-		Component::operator=(other);
+		Component::operator=(std::move(other));
 		texture_ = other.texture_;
 		return *this;
 	}
-
 }
