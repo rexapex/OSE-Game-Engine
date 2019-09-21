@@ -502,13 +502,13 @@
     <ClInclude Include="OSE-Core\Resources\TextureLoader.h" />
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h" />
-    <ClInclude Include="OSE-Core\Shader\Shader.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
-    <ClInclude Include="OSE-Core\Shader\ShaderBuilder.h" />
-    <ClInclude Include="OSE-Core\Shader\Shaders\SDefault.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.h" />
+    <ClInclude Include="OSE-Core\Shader\Shader.h" />
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -691,13 +691,12 @@
     <ClCompile Include="OSE-Core\Resources\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\TextureLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Shader.cpp" />
+    <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
-    <ClCompile Include="OSE-Core\Shader\ShaderBuilder.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Shaders\SDefault.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.cpp" />
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

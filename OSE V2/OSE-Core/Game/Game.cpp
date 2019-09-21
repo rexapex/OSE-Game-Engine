@@ -72,10 +72,6 @@ namespace ose::game
 		} else {
 			throw std::exception("Error: Unknown project file type");
 		}
-		//TODO - remove test (works)
-		//resource_manager_->importFile("D:/James/Documents/Resources/2D Game Resources/rock.png", "sub");
-		//resource_manager_->addTexture("rock.png");
-		//resource_manager_->addTexture("sub/rock.png", "rock2.png");
 	}
 
 

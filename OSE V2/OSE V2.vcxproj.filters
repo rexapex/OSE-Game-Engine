@@ -177,25 +177,13 @@
     <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\Shader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\ShaderBuilder.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\Shaders\SDefault.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp">
@@ -205,6 +193,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1655,13 +1652,7 @@
     <ClInclude Include="OSE-Core\Engine\EngineTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\Shader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\ShaderBuilder.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Math\Transformable.h">
@@ -1674,12 +1665,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\Shaders\SDefault.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderBuilderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Types.h">
@@ -1701,6 +1686,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\Rendering\ERenderObjectType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\Shader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,21 +1,22 @@
 #include "stdafx.h"
-#include "Shader.h"
+#include "ShaderGraph.h"
 
 namespace ose::shader
 {
-	Shader::Shader(const std::string & name) : name_(name)
+	ShaderGraph::ShaderGraph(const std::string & name) : name_(name)
 	{
-
+		// Every shader graph contains a single color output node, the first node in the graph
+		AddNode<ShaderNode>();
 	}
 
-	Shader::~Shader()
+	ShaderGraph::~ShaderGraph()
 	{
 
 	}
 
 	// Remove a shader node from the shader
 	// Returns true iff the node exists and is removed successfully
-	bool Shader::RemoveNode(ShaderNode * node)
+	bool ShaderGraph::RemoveNode(ose::unowned_ptr<ShaderNode> node)
 	{
 		// No node can be removed if there are no nodes therefore return false
 		// Nullptr cannot be in list of nodes_ therefore exit if node == nullptr
@@ -46,7 +47,7 @@ namespace ose::shader
 
 	// Connect the 2 nodes passed together
 	// Returns true iff the nodes were connected
-	bool Shader::Connect(ShaderNode * out_node, std::string const & out_node_output, ShaderNode * in_node, std::string const & in_node_input)
+	bool ShaderGraph::Connect(ose::unowned_ptr<ShaderNode> out_node, std::string const & out_node_output, ose::unowned_ptr<ShaderNode> in_node, std::string const & in_node_input)
 	{
 		// If either node is nullptr, return early
 		if(out_node == nullptr || in_node == nullptr) {
