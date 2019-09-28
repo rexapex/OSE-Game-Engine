@@ -78,33 +78,7 @@ namespace ose::entity
 
 		return *this;
 	}
-
-
-	/*Entity::Entity(Entity && other) noexcept : EntityList(other)
-	{
-		this->name_ = std::move(other.name_);
-		this->sub_entities_ = std::move(other.sub_entities_);
-		this->unique_ID_ = std::move(other.unique_ID_);
-		this->components_ = std::move(other.components_);
-		this->local_transform_ = other.local_transform_;
-		this->global_transform_ = other.global_transform_;
-	}
-
-
-	Entity & Entity::operator=(Entity && other) noexcept
-	{
-		// Call the base move assignment constructor
-		EntityList::operator=(other);
-
-		this->name_ = std::move(other.name_);
-		this->sub_entities_ = std::move(other.sub_entities_);
-		this->unique_ID_ = std::move(other.unique_ID_);
-		this->components_ = std::move(other.components_);
-		this->local_transform_ = other.local_transform_;
-		this->global_transform_ = other.global_transform_;
-		return *this;
-	}*/
-
+	
 	// utility method for deleting all components
 	void Entity::DeleteAllComponents() noexcept
 	{

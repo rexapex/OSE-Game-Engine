@@ -15,36 +15,29 @@ namespace ose::entity
 
 	private:
 
-		// a sprite renderer is composed of a 2D texture
+		// A sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
 		ose::unowned_ptr<Texture const> texture_;
 
 	public:
 
-		// set the texture displayed by the sprite renderer
+		// Set the texture displayed by the sprite renderer
 		void SetTexture(ose::unowned_ptr<Texture const> texture) { texture_ = texture; }
 
-		// get the texture displayed by the sprite renderer
+		// Get the texture displayed by the sprite renderer
 		ose::unowned_ptr<Texture const> GetTexture() const { return texture_; }
 
 
+		// Initialise the sprite renderer
+		SpriteRenderer(std::string const & name, ose::unowned_ptr<Texture const> t) : Component(name), texture_(t) {}
 
-		// initialise the sprite renderer
-		SpriteRenderer(std::string const & name, ose::unowned_ptr<Texture const> t);
+		// Does nothing
+		virtual ~SpriteRenderer() noexcept {}
 
-		// does nothing
-		virtual ~SpriteRenderer() noexcept;
-
-		// copy constructor
-		SpriteRenderer(SpriteRenderer const & other) noexcept;
-
-		// copy assignment constructor
-		SpriteRenderer & operator=(SpriteRenderer const & other) noexcept;
-
-		// move constructor
-		SpriteRenderer(SpriteRenderer const && other) noexcept;
-
-		// move assignment constructor
-		SpriteRenderer & operator=(SpriteRenderer const && other) noexcept;
+		// Default copy/move constructors
+		SpriteRenderer(SpriteRenderer const & other) noexcept = default;
+		SpriteRenderer & operator=(SpriteRenderer const & other) noexcept = default;
+		SpriteRenderer(SpriteRenderer && other) noexcept = default;
+		SpriteRenderer & operator=(SpriteRenderer && other) noexcept = default;
 	};
 }

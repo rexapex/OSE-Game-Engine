@@ -11,9 +11,11 @@ namespace ose::entity
 	{
 	public:
 		EntityList();
-		~EntityList();
+		virtual ~EntityList() noexcept;
 		EntityList(const EntityList & other) noexcept;
 		EntityList & operator=(const EntityList & other) noexcept;
+		EntityList(EntityList &&) noexcept = default;
+		EntityList & operator=(EntityList &&) noexcept = default;
 
 		// add a non-persistent entity to the scene
 		// TODO - should name be unique ???

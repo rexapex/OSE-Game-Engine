@@ -29,31 +29,7 @@ namespace ose::game
 		// TODO - Intialise persistent entities
 	}
 
-
 	Game::~Game() noexcept {}
-
-
-	Game::Game(Game && other) noexcept : project_(std::move(other.project_)), project_loader_(std::move(other.project_loader_)),
-										 active_scene_(std::move(other.active_scene_)), running_(other.running_)
-										 ///thread_manager_(std::move(other.thread_manager_)), ///persistent_entities_(std::move(other.persistent_entities_)),
-									     ///render_pool_(std::move(other.render_pool_)) {}
-	{
-
-	}
-
-
-	Game & Game::operator=(Game && other) noexcept
-	{
-		this->project_ = std::move(other.project_);
-		this->project_loader_ = std::move(other.project_loader_);
-		this->active_scene_ = std::move(other.active_scene_);
-		this->running_ = other.running_;
-		///this->thread_manager_ = std::move(other.thread_manager_);
-		///this->persistent_entities_ = std::move(other.persistent_entities_);
-		///this->render_pool_ = std::move(other.render_pool_);
-		return *this;
-	}
-
 
 	// loads the project specified (does not load any scenes)
 	// throws std::exception if the project could not be loaded

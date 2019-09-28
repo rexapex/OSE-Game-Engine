@@ -46,6 +46,13 @@ namespace ose::entity
 	class Component
 	{
 	public:
+		Component(const std::string & name);
+		virtual ~Component();
+		Component(const Component & other) noexcept;
+		Component & operator=(const Component & other) noexcept;
+		Component(Component && other) noexcept = default;
+		Component & operator=(Component && other) noexcept = default;
+
 		// Get the class type of Component
 		static size_t GetClassType() {
 			static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };
@@ -56,13 +63,6 @@ namespace ose::entity
 		virtual bool IsClassType(const std::size_t classType) const {
 			return classType == GetClassType();
 		}
-		
-		Component(const std::string & name);
-		virtual ~Component();
-		Component(const Component & other) noexcept;
-		Component & operator=(const Component & other) noexcept;
-		Component(const Component && other) noexcept;
-		Component & operator=(const Component && other) noexcept;
 
 		// clone method which can be overwritten by base classes
 		virtual std::unique_ptr<Component> Clone() const;

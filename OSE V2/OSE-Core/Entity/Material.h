@@ -16,26 +16,10 @@ namespace ose::entity
 		//de-allocate rendering engine data
 		virtual ~Material() {}
 
-
-
-		//copy constructor
-		Material(const Material & other) noexcept : Component(other) {}
-
-		//copy assignment constructor
-		Material & operator=(const Material & other) noexcept
-		{
-			Component::operator=(other);
-			return *this;
-		}
-
-		//move constructor
-		Material(const Material && other) noexcept : Component(other) {}
-
-		//move assignment constructor
-		Material & operator=(const Material && other) noexcept
-		{
-			Component::operator=(other);
-			return *this;
-		}
+		// Default copy/move constructors
+		Material(Material const &) noexcept = default;
+		Material & operator=(Material const &) noexcept = default;
+		Material(Material &&) noexcept = default;
+		Material & operator=(Material &&) noexcept = default;
 	};
 }

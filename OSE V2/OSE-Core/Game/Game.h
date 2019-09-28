@@ -32,8 +32,8 @@ namespace ose::game
 		~Game() noexcept;
 		Game(Game &) = delete;
 		Game & operator=(Game &) = delete;
-		Game(Game && other) noexcept;
-		Game & operator=(Game && other) noexcept;
+		Game(Game && other) noexcept = default;
+		Game & operator=(Game && other) noexcept = default;
 		
 		// Scene methods
 		void LoadProject(const std::string & proj_name);		// Loads the project specified (does not load any scenes)

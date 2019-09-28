@@ -9,19 +9,12 @@ namespace ose::entity
 
 	Component::~Component() {}
 
-	Component::Component(const Component & other) noexcept : name_(other.name_) {}
+	Component::Component(const Component & other) noexcept : name_(other.name_), enabled_(other.enabled_) {}
 
 	Component & Component::operator=(const Component & other) noexcept
 	{
 		name_ = other.name_;
-		return *this;
-	}
-
-	Component::Component(const Component && other) noexcept : name_(std::move(other.name_)) {}
-
-	Component & Component::operator=(const Component && other) noexcept
-	{
-		name_ = std::move(other.name_);
+		enabled_ = other.enabled_;
 		return *this;
 	}
 

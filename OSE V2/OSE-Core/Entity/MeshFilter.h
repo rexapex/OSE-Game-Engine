@@ -21,25 +21,22 @@ namespace ose::entity
 		//de-allocate rendering engine data
 		virtual ~MeshFilter() {}
 		
-		//copy constructor
+		// Default copy/move constructors
+		///MeshFilter(MeshFilter const &) noexcept = default;
+		///MeshFilter & operator=(MeshFilter const &) noexcept = default;
+		MeshFilter(MeshFilter &&) noexcept = default;
+		MeshFilter & operator=(MeshFilter &&) noexcept = default;
+		
+		// Copy constructor
+		// NOTE - No default copy constructors when std::string used as member
 		MeshFilter(const MeshFilter & other) noexcept : Component(other), path_(other.path_) {}
 
-		//copy assignment constructor
+		// Copy assignment constructor
+		// NOTE - No default copy constructors when std::string used as member
 		MeshFilter & operator=(const MeshFilter & other) noexcept
 		{
 			Component::operator=(other);
 			path_ = other.path_;
-			return *this;
-		}
-
-		//move constructor
-		MeshFilter(const MeshFilter && other) noexcept : Component(std::move(other)), path_(std::move(other.path_)) {}
-
-		//move assignment constructor
-		MeshFilter & operator=(const MeshFilter && other) noexcept
-		{
-			Component::operator=(std::move(other));
-			path_ = std::move(other.path_);
 			return *this;
 		}
 	};

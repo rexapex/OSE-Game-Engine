@@ -22,26 +22,10 @@ namespace ose::entity
 		//de-allocate rendering engine data
 		virtual ~MeshRenderer() {}
 
-
-
-		//copy constructor
-		MeshRenderer(const MeshRenderer & other) noexcept : Component(other) {}
-
-		//copy assignment constructor
-		MeshRenderer & operator=(const MeshRenderer & other) noexcept
-		{
-			Component::operator=(other);
-			return *this;
-		}
-
-		//move constructor
-		MeshRenderer(const MeshRenderer && other) noexcept : Component(std::move(other)) {}
-
-		//move assignment constructor
-		MeshRenderer & operator=(const MeshRenderer && other) noexcept
-		{
-			Component::operator=(std::move(other));
-			return *this;
-		}
+		// Default copy/move constructors
+		MeshRenderer(MeshRenderer const &) noexcept = default;
+		MeshRenderer & operator=(MeshRenderer const &) noexcept = default;
+		MeshRenderer(MeshRenderer &&) noexcept = default;
+		MeshRenderer & operator=(MeshRenderer &&) noexcept = default;
 	};
 }
