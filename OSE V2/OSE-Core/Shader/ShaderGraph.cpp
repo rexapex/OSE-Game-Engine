@@ -71,4 +71,22 @@ namespace ose::shader
 		// Add the connector to the list of connectors
 		return connectors_.emplace_back( in_node, in_node_input, out_node, out_node_output ), true;
 	}
+
+	// Get a list of all nodes which connect to into node n
+	std::vector<ose::unowned_ptr<NodeConnector>> const ShaderGraph::GetIncomingConnectors(ose::unowned_ptr<ShaderNode> n)
+	{
+		std::vector<ose::unowned_ptr<NodeConnector>> incoming_connectors;
+		for(auto & c : connectors_)
+		{
+			ose::unowned_ptr<ShaderNode> out_node;
+			std::string out_name;
+			c.GetOutput(&out_node, out_name);
+			// If the output of node is n, add c to the list
+			if(out_node == n)
+			{
+				incoming_connectors.push_back(&c);
+			}
+		}
+		return incoming_connectors;
+	}
 }

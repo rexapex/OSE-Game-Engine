@@ -3,10 +3,10 @@
 
 namespace ose::math
 {
-	Transform::Transform() : position_(), orientation_(), scale_() {}
+	Transform::Transform() : position_(), orientation_(), scale_(1, 1, 1) {}
 
 	Transform::Transform(const glm::vec3 & position)
-		: position_(position), orientation_(), scale_() {}
+		: position_(position), orientation_(), scale_(1, 1, 1) {}
 
 	Transform::Transform(const glm::vec3 & position, const glm::vec3 & rotation_radians, const glm::vec3 & scale)
 		: position_(position), orientation_(rotation_radians), scale_(scale) {}

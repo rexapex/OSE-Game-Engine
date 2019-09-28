@@ -156,9 +156,6 @@
     <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Entity\SpriteRenderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -201,7 +198,13 @@
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.cpp">
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1583,9 +1586,6 @@
     <ClInclude Include="OSE-Core\Entity\MeshFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\TextureFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Entity\MeshRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1694,10 +1694,16 @@
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\Shader.h">
+    <ClInclude Include="OSE-Core\Shader\ShaderProg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderGLSL.h">
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

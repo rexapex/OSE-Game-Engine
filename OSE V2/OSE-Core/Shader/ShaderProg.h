@@ -3,11 +3,11 @@
 
 namespace ose::shader
 {
-	class Shader
+	class ShaderProg
 	{
 	public:
-		Shader() {}
-		virtual ~Shader() {}
+		ShaderProg() {}
+		virtual ~ShaderProg() {}
 
 		// Build a shader object from a shader graph
 		virtual void BuildShaderGraph(ShaderGraph & shader_graph) = 0;

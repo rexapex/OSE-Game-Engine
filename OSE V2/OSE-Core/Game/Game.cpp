@@ -1,9 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
 
-// TODO - Remove
-#include "OSE-V2-STD-Modules/Rendering/RenderingEngineGL.h"
-
 namespace ose::game
 {
 	Game::Game()
@@ -203,6 +200,7 @@ namespace ose::game
 			// update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
+			// render to the back buffer
 			rendering_engine_->Update();
 			///thread_manager_->ProcessRenderTasks();
 
@@ -221,7 +219,7 @@ namespace ose::game
 			DEBUG_LOG("Initialised SpriteRenderer");
 
 			// then add the component to the render pool
-			rendering_engine_->GetRenderPool().AddSpriteRenderer(comp);
+			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
 		}
 
 		// initialise all sub entities
