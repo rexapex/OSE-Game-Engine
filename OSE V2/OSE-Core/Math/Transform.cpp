@@ -3,16 +3,22 @@
 
 namespace ose::math
 {
-	Transform::Transform() : position_(), orientation_(), scale_(1, 1, 1) {}
+	Transform::Transform() : ITransform(), position_(), orientation_(), scale_(1, 1, 1) {}
 
 	Transform::Transform(const glm::vec3 & position)
-		: position_(position), orientation_(), scale_(1, 1, 1) {}
+		: ITransform(), position_(position), orientation_(), scale_(1, 1, 1) {}
 
 	Transform::Transform(const glm::vec3 & position, const glm::vec3 & rotation_radians, const glm::vec3 & scale)
-		: position_(position), orientation_(rotation_radians), scale_(scale) {}
+		: ITransform(), position_(position), orientation_(rotation_radians), scale_(scale) {}
 
 	Transform::Transform(const glm::vec3 & position, const glm::quat & orientation, const glm::vec3 & scale)
-		: position_(position), orientation_(orientation), scale_(scale) {}
+		: ITransform(), position_(position), orientation_(orientation), scale_(scale) {}
+
+	Transform::~Transform() {}
+
+	// Copy from ITransform to Transform object
+	Transform::Transform(const ITransform & other) noexcept
+		: position_(other.GetPosition()), orientation_(other.GetOrientation()), scale_(other.GetScale()) {}
 
 	//copy constructors
 	Transform::Transform(const Transform & other) noexcept : position_(other.position_), orientation_(other.orientation_), scale_(other.scale_) {}
@@ -35,8 +41,6 @@ namespace ose::math
 		scale_ = std::move(other.scale_);
 		return *this;
 	}
-
-	Transform::~Transform() {}
 
 	void Transform::Translate(const glm::vec3 & translation)
 	{
@@ -114,7 +118,7 @@ namespace ose::math
 
 	const glm::mat4 Transform::GetTransformMatrix() const
 	{
-		return glm::translate(glm::mat4(), position_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
+		return glm::scale(glm::mat4(), scale_) * glm::toMat4(orientation_) * glm::translate(glm::mat4(), position_);
 	}
 
 	const glm::vec3 Transform::GetUp() const

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "ITransform.h"
 #include "Transform.h"
 
 namespace ose::math
@@ -10,12 +11,18 @@ namespace ose::math
 	class Transformable
 	{
 	public:
+		Transformable() {}
+		virtual ~Transformable() {}
 
-		// TODO - Copy/Move constructors
+		// Copy/move constructors
+		Transformable(const Transformable & other) noexcept = default;
+		Transformable & operator=(const Transformable & other) noexcept = default;
+		Transformable(Transformable && other) noexcept = default;
+		Transformable & operator=(Transformable && other) noexcept = default;
 
 		// Accessor methods for retrieving const references to transform objects
-		Transform const & GetLocalTransform() const { return local_transform_; }
-		Transform const & GetGlobalTransform() const { return global_transform_; }
+		ITransform const & GetLocalTransform() const { return local_transform_; }
+		ITransform const & GetGlobalTransform() const { return global_transform_; }
 
 		// Modify the local and global transform of the entity
 		void Translate(const glm::vec3 & translation)

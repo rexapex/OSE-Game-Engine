@@ -4,7 +4,7 @@
 namespace ose::entity
 {
 	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
-				 : EntityList(), name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
+				 : Transformable(), EntityList(), name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
 	{
 
 	}
@@ -18,7 +18,7 @@ namespace ose::entity
 	}
 
 
-	Entity::Entity(const Entity & other) noexcept : EntityList(other)
+	Entity::Entity(const Entity & other) noexcept : Transformable(other), EntityList(other)
 	{
 		this->name_ = other.name_;
 		this->unique_id_ = Entity::NextEntityId();
@@ -51,6 +51,7 @@ namespace ose::entity
 	{
 		// Call the base copy assignment constructor
 		EntityList::operator=(other);
+		Transformable::operator=(other);
 
 		this->name_ = other.name_;
 		this->unique_id_ = Entity::NextEntityId();

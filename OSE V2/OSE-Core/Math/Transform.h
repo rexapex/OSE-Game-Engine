@@ -6,48 +6,45 @@
 #include "OSE-Core/EngineDependencies/glm/gtx/quaternion.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/type_ptr.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/matrix_transform.hpp"
+#include "ITransform.h"
 
 namespace ose::math
 {
-	template <typename T>
-	class Transformable;
-
-	class Transform
+	class Transform : public ITransform
 	{
-	template<typename T>
-	friend class Transformable;
-
 	public:
-		//constructors & destructor
+		// Constructors & destructor
 		Transform();
 		Transform(const glm::vec3 & position);
 		Transform(const glm::vec3 & position, const glm::vec3 & rotation_radians, const glm::vec3 & scale);
 		Transform(const glm::vec3 & position, const glm::quat & orientation, const glm::vec3 & scale);
 		~Transform();
 
-		//copy constructors
+		// Copy from ITransform to Transform object
+		Transform(const ITransform & other) noexcept;
+
+		// Copy constructors
 		Transform(const Transform & other) noexcept;
 		Transform & operator=(const Transform & other) noexcept;
 
-		//move constructors
+		// Move constructors
 		Transform(Transform && other) noexcept;
 		Transform & operator=(Transform && other) noexcept;
 
-		const glm::vec3 & GetPosition() const { return position_; };
-		const glm::quat & GetOrientation() const { return orientation_; };
-		const glm::vec3 & GetScale() const { return scale_; };
+		const glm::vec3 & GetPosition() const override { return position_; };
+		const glm::quat & GetOrientation() const override { return orientation_; };
+		const glm::vec3 & GetScale() const override { return scale_; };
 
-		const glm::mat4 GetPositionMatrix() const;
-		const glm::mat4 GetOrientationMatrix() const;
-		const glm::mat4 GetScaleMatrix() const;
+		const glm::mat4 GetPositionMatrix() const override;
+		const glm::mat4 GetOrientationMatrix() const override;
+		const glm::mat4 GetScaleMatrix() const override;
 
-		const glm::mat4 GetTransformMatrix() const;
+		const glm::mat4 GetTransformMatrix() const override;
 
-		const glm::vec3 GetUp() const;
-		const glm::vec3 GetForward() const;
-		const glm::vec3 GetRight() const;
+		const glm::vec3 GetUp() const override;
+		const glm::vec3 GetForward() const override;
+		const glm::vec3 GetRight() const override;
 
-	private:
 		void Translate(const glm::vec3 & translation);
 		void Translate(const float x, const float y, const float z);
 
@@ -62,6 +59,7 @@ namespace ose::math
 		void Scale(const glm::vec3 & multiplier);
 		void Scale(const float x, const float y, const float z);
 
+	private:
 		glm::vec3 position_;
 		glm::quat orientation_;
 		glm::vec3 scale_;
