@@ -3,6 +3,8 @@
 
 namespace ose::resources
 {
+	using namespace entity;
+
 	PrefabManager::PrefabManager()
 	{
 

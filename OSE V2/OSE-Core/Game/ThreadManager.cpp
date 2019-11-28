@@ -3,6 +3,8 @@
 
 namespace ose::game
 {
+	using namespace rendering;
+
 	ThreadManager::ThreadManager(RenderPool const & render_pool) : render_pool_(render_pool)
 	{
 		//only need to call in regular constructor

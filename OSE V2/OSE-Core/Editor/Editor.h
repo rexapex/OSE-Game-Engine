@@ -3,9 +3,7 @@
 
 namespace ose::editor
 {
-	using namespace engine;
-
-	class Editor : public Engine
+	class Editor : public engine::Engine
 	{
 	public:
 		Editor();

@@ -3,6 +3,8 @@
 
 namespace ose
 {
+	using namespace game;
+
 	Env::Env()
 	{
 

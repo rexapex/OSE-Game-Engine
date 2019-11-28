@@ -5,8 +5,6 @@
 
 namespace ose::game
 {
-	using namespace entity;
-
 	class Scene
 	{
 	public:
@@ -16,8 +14,8 @@ namespace ose::game
 		Scene & operator=(const Scene & other) noexcept;
 		
 		// provide const and non-const versions
-		EntityList & entities() { return entities_; };
-		const EntityList & entities() const { return entities_; }
+		entity::EntityList & entities() { return entities_; };
+		const entity::EntityList & entities() const { return entities_; }
 
 		//get the name of the scene
 		const std::string & get_name() const { return this->name_; }
@@ -26,13 +24,13 @@ namespace ose::game
 		//DEBUG METHODS
 		//TODO - REMOVE WHEN READY
 		void Print();
-		void PrintEntity(const Entity & e, int32_t level);
+		void PrintEntity(const entity::Entity & e, int32_t level);
 
 	private:
 		std::string name_;
 
 		// refactored all entity add & remove operations into a separate class for code reuse
-		EntityList entities_;
+		entity::EntityList entities_;
 	};
 }
 

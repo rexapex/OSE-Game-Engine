@@ -18,11 +18,6 @@
 
 namespace ose::game
 {
-	using namespace entity;
-	using namespace project;
-	using namespace rendering;
-	using namespace windowing;
-
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	class Game
@@ -56,8 +51,8 @@ namespace ose::game
 		// Specifies which scenes should be unloaded on scene switch
 		ESceneSwitchMode scene_switch_mode_;
 
-		std::unique_ptr<Project> project_;
-		std::unique_ptr<ProjectLoader> project_loader_;
+		std::unique_ptr<project::Project> project_;
+		std::unique_ptr<project::ProjectLoader> project_loader_;
 
 		// The current scene being played (updated, rendered, etc...)
 		std::unique_ptr<Scene> active_scene_;
@@ -69,13 +64,13 @@ namespace ose::game
 		///EntityList persistent_entities_;
 
 		// Window manager handles window creation, events and input
-		std::unique_ptr<WindowManager> window_manager_;
+		std::unique_ptr<windowing::WindowManager> window_manager_;
 
 		// Thread manager handles multithreading and updating of engines
 		///std::unique_ptr<ThreadManager> thread_manager_;
 
 		// Rendering engine handles all rendering of entity render objects
-		std::unique_ptr<RenderingEngine> rendering_engine_;
+		std::unique_ptr<rendering::RenderingEngine> rendering_engine_;
 
 		// TODO - current iteration of render pool
 		///std::unique_ptr<RenderPool> render_pool_;
@@ -90,6 +85,6 @@ namespace ose::game
 		void RunGame();
 
 		// Initialise components of an entity along with its sub-entities
-		void InitEntity(const Entity & entity);
+		void InitEntity(const entity::Entity & entity);
 	};
 }

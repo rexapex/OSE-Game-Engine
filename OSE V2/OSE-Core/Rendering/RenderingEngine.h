@@ -9,10 +9,6 @@
 
 namespace ose::rendering
 {
-	using namespace engine;
-	using namespace entity;
-	using namespace resources;
-
 	/// Templated on the type of pool on which the rendering engine acts
 	///template <class T>
 	class RenderingEngine/// : public Engine<T>

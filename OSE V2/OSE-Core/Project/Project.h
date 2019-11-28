@@ -6,8 +6,6 @@
 
 namespace ose::project
 {
-	using namespace resources;
-
 	// A representation of a game project as a whole
 	// Contains information about the path, the resources & the scenes available
 	// Also contains the default settings for the input and the engines
@@ -24,8 +22,8 @@ namespace ose::project
 		const std::string & GetProjectPath() const { return this->project_path_; }
 		const std::string & GetProjectFileFormat() const { return this->project_file_format_; }
 		const std::map<std::string, std::string> & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
-		ResourceManager & GetResourceManager() const { return *resource_manager_; }
-		PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
+		resources::ResourceManager & GetResourceManager() const { return *resource_manager_; }
+		resources::PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
 
 
 	private:
@@ -39,10 +37,10 @@ namespace ose::project
 		ProjectInfo project_info_;
 
 		// resource manager
-		std::unique_ptr<ResourceManager> resource_manager_;
+		std::unique_ptr<resources::ResourceManager> resource_manager_;
 
 		// prefab manager
-		std::unique_ptr<PrefabManager> prefab_manager_;
+		std::unique_ptr<resources::PrefabManager> prefab_manager_;
 
 		// scene list (maps name to path ?)
 		std::map<std::string, std::string> scene_names_to_path_;

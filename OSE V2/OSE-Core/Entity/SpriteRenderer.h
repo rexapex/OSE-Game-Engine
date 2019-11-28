@@ -5,8 +5,6 @@
 
 namespace ose::entity
 {
-	using namespace resources;
-
 	// Renders a 2D texture at the entities transform
 	class SpriteRenderer : public Component
 	{
@@ -17,19 +15,19 @@ namespace ose::entity
 
 		// A sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
-		ose::unowned_ptr<Texture const> texture_;
+		ose::unowned_ptr<resources::Texture const> texture_;
 
 	public:
 
 		// Set the texture displayed by the sprite renderer
-		void SetTexture(ose::unowned_ptr<Texture const> texture) { texture_ = texture; }
+		void SetTexture(ose::unowned_ptr<resources::Texture const> texture) { texture_ = texture; }
 
 		// Get the texture displayed by the sprite renderer
-		ose::unowned_ptr<Texture const> GetTexture() const { return texture_; }
+		ose::unowned_ptr<resources::Texture const> GetTexture() const { return texture_; }
 
 
 		// Initialise the sprite renderer
-		SpriteRenderer(std::string const & name, ose::unowned_ptr<Texture const> t) : Component(name), texture_(t) {}
+		SpriteRenderer(std::string const & name, ose::unowned_ptr<resources::Texture const> t) : Component(name), texture_(t) {}
 
 		// Does nothing
 		virtual ~SpriteRenderer() noexcept {}

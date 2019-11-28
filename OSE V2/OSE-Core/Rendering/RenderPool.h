@@ -5,8 +5,6 @@
 
 namespace ose::rendering
 {
-	using namespace entity;
-
 	class RenderPool
 	{
 	public:
@@ -14,7 +12,7 @@ namespace ose::rendering
 		~RenderPool();
 
 		// Add a sprite renderer component to the render pool
-		virtual void AddSpriteRenderer(ITransform const & t, ose::unowned_ptr<SpriteRenderer> sr) = 0;
+		virtual void AddSpriteRenderer(math::ITransform const & t, ose::unowned_ptr<entity::SpriteRenderer> sr) = 0;
 	};
 }
 

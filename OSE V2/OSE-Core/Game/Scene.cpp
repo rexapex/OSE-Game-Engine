@@ -3,6 +3,8 @@
 
 namespace ose::game
 {
+	using namespace entity;
+
 	Scene::Scene(const std::string & name) : name_(name) {}
 
 	Scene::~Scene() noexcept {}

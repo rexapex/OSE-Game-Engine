@@ -3,8 +3,6 @@
 
 namespace ose::entity
 {
-	using namespace resources;
-
 	class MeshFilter : public Component
 	{
 	// declare MeshFilter as an OSE Component

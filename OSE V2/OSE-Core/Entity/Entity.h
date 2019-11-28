@@ -6,11 +6,9 @@
 
 namespace ose::entity
 {
-	using namespace math;
-
 	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
 
-	class Entity : public EntityList, public Transformable<std::unique_ptr<Entity>>
+	class Entity : public EntityList, public math::Transformable<std::unique_ptr<Entity>>
 	{
 	public:
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
@@ -150,8 +148,8 @@ namespace ose::entity
 		// list of all components attached to this entity, components need not be active
 		std::vector<std::unique_ptr<Component>> components_;
 
-		Transform local_transform_;		// the transform of the entity relative to the parent
-		Transform global_transform_;	// the transform of the entity relative to the world
+		math::Transform local_transform_;		// the transform of the entity relative to the parent
+		math::Transform global_transform_;	// the transform of the entity relative to the world
 
 		// isVisible, isEnabled, ...
 

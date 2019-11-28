@@ -4,8 +4,6 @@
 
 namespace ose::windowing
 {
-	using namespace rendering;
-
 	class WindowManager
 	{
 	public:
@@ -16,7 +14,7 @@ namespace ose::windowing
 		WindowManager & operator=(WindowManager &) = delete;
 		WindowManager & operator=(WindowManager &&) = delete;
 
-		void SetEngineReferences(RenderingEngine * rendering_engine);
+		void SetEngineReferences(rendering::RenderingEngine * rendering_engine);
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
@@ -52,7 +50,7 @@ namespace ose::windowing
 		virtual int	InitWindowingToolkit() const = 0;
 
 		// pointers should not be de-allocated by this class
-		RenderingEngine * rendering_engine_ { nullptr };
+		rendering::RenderingEngine * rendering_engine_ { nullptr };
 	};
 }
 

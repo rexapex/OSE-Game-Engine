@@ -5,8 +5,7 @@
 
 namespace ose::math
 {
-	// If extending, be sure to include TRANSFORMABLE_DEFINITION macro within sub-class
-	// IMPORTANT - Set T to the child class which is extending Transformable
+	// NOTE - If extending Transformable, T should be a pointer type
 	template <class T>
 	class Transformable
 	{
@@ -24,7 +23,8 @@ namespace ose::math
 		ITransform const & GetLocalTransform() const { return local_transform_; }
 		ITransform const & GetGlobalTransform() const { return global_transform_; }
 
-		// Modify the local and global transform of the entity
+
+		// Modify the local and global transform of the transformable
 		void Translate(const glm::vec3 & translation)
 		{
 			local_transform_.Translate(translation);
@@ -35,7 +35,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void Translate(const float x, const float y, const float z)
 		{
 			local_transform_.Translate(x, y, z);
@@ -46,7 +46,30 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
+		void Translate2d(const glm::vec2 & translation)
+		{
+			local_transform_.Translate2d(translation);
+			global_transform_.Translate2d(translation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Translate2dParent(translation);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Translate2d(const float x, const float y)
+		{
+			local_transform_.Translate2d(x, y);
+			global_transform_.Translate2d(x, y);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Translate2dParent(x, y);
+			}
+		}
+
+
+		// Modify the local and global transform of the transformable
 		void Rotate(const glm::vec3 & change)
 		{
 			local_transform_.Rotate(change);
@@ -57,7 +80,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void Rotate(const float pitch, const float yaw, const float roll)
 		{
 			local_transform_.Rotate(pitch, yaw, roll);
@@ -68,7 +91,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void RotateDeg(const glm::vec3 & change)
 		{
 			local_transform_.RotateDeg(change);
@@ -79,7 +102,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void RotateDeg(const float pitch, const float yaw, const float roll)
 		{
 			local_transform_.RotateDeg(pitch, yaw, roll);
@@ -90,7 +113,30 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
+		void Rotate2d(const float rotation)
+		{
+			local_transform_.Rotate2d(rotation);
+			global_transform_.Rotate2d(rotation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Rotate2dParent(rotation);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Rotate2dDeg(const float rotation)
+		{
+			local_transform_.Rotate2dDeg(rotation);
+			global_transform_.Rotate2dDeg(rotation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Rotate2dDegParent(rotation);
+			}
+		}
+
+
+		// Modify the local and global transform of the transformable
 		void Scale(const float scalar)
 		{
 			local_transform_.Scale(scalar);
@@ -101,7 +147,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void Scale(const glm::vec3 & multiplier)
 		{
 			local_transform_.Scale(multiplier);
@@ -112,8 +158,7 @@ namespace ose::math
 			}
 		}
 
-
-		// Modify the local and global transform of the entity
+		// Modify the local and global transform of the transformable
 		void Scale(const float x, const float y, const float z)
 		{
 			local_transform_.Scale(x, y, z);
@@ -121,6 +166,28 @@ namespace ose::math
 			for(auto & child : GetChildTransformables())
 			{
 				child->ScaleParent(x, y, z);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Scale2d(const glm::vec2 & multiplier)
+		{
+			local_transform_.Scale2d(multiplier);
+			global_transform_.Scale2d(multiplier);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Scale2dParent(multiplier);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Scale2d(const float x, const float y)
+		{
+			local_transform_.Scale2d(x, y);
+			global_transform_.Scale2d(x, y);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Scale2dParent(x, y);
 			}
 		}
 		
@@ -131,7 +198,7 @@ namespace ose::math
 
 	private:
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void TranslateParent(const glm::vec3 & translation)
 		{
 			global_transform_.Translate(translation);
@@ -141,7 +208,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void TranslateParent(const float x, const float y, const float z)
 		{
 			global_transform_.Translate(x, y, z);
@@ -151,7 +218,28 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
+		void Translate2dParent(const glm::vec2 & translation)
+		{
+			global_transform_.Translate2d(translation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Translate2dParent(translation);
+			}
+		}
+
+		// Modify just the global transform of the transformable
+		void Translate2dParent(const float x, const float y)
+		{
+			global_transform_.Translate2d(x, y);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Translate2dParent(x, y);
+			}
+		}
+
+
+		// Modify just the global transform of the transformable
 		void RotateParent(const glm::vec3 & change)
 		{
 			global_transform_.Rotate(change);
@@ -161,7 +249,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void RotateParent(const float pitch, const float yaw, const float roll)
 		{
 			global_transform_.Rotate(pitch, yaw, roll);
@@ -171,7 +259,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void RotateDegParent(const glm::vec3 & change)
 		{
 			global_transform_.RotateDeg(change);
@@ -181,7 +269,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void RotateDegParent(const float pitch, const float yaw, const float roll)
 		{
 			global_transform_.RotateDeg(pitch, yaw, roll);
@@ -191,7 +279,28 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify the local and global transform of the transformable
+		void Rotate2dParent(const float rotation)
+		{
+			global_transform_.Rotate2d(rotation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Rotate2dParent(rotation);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Rotate2dDegParent(const float rotation)
+		{
+			global_transform_.Rotate2dDeg(rotation);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Rotate2dDegParent(rotation);
+			}
+		}
+
+
+		// Modify just the global transform of the transformable
 		void ScaleParent(const float scalar)
 		{
 			global_transform_.Scale(scalar);
@@ -201,7 +310,7 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void ScaleParent(const glm::vec3 & multiplier)
 		{
 			global_transform_.Scale(multiplier);
@@ -211,13 +320,33 @@ namespace ose::math
 			}
 		}
 
-		// Modify just the global transform of the entity
+		// Modify just the global transform of the transformable
 		void ScaleParent(const float x, const float y, const float z)
 		{
 			global_transform_.Scale(x, y, z);
 			for(auto & child : GetChildTransformables())
 			{
 				child->ScaleParent(x, y, z);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Scale2dParent(const glm::vec2 & multiplier)
+		{
+			global_transform_.Scale2d(multiplier);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Scale2dParent(multiplier);
+			}
+		}
+
+		// Modify the local and global transform of the transformable
+		void Scale2dParent(const float x, const float y)
+		{
+			global_transform_.Scale2d(x, y);
+			for(auto & child : GetChildTransformables())
+			{
+				child->Scale2dParent(x, y);
 			}
 		}
 

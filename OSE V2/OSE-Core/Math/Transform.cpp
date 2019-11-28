@@ -53,6 +53,25 @@ namespace ose::math
 		position_.y += y;
 		position_.z += z;
 	}
+	
+	void Transform::Translate2d(const glm::vec2 & translation)
+	{
+		position_.x += translation.x;
+		position_.y += translation.y;
+	}
+
+	void Transform::Translate2d(const float x, const float y)
+	{
+		position_.x += x;
+		position_.y += y;
+	}
+
+
+	// Rotate by a orientatoin specifying the change
+	void Transform::Rotate(const glm::quat & change)
+	{
+		orientation_ *= change;
+	}
 
 	void Transform::Rotate(const float pitch, const float yaw, const float roll)
 	{
@@ -84,6 +103,28 @@ namespace ose::math
 		orientation_ *= glm::quat { glm::radians(change) };
 	}
 
+
+	// Rotate in the 2D plane by radians
+	void Transform::Rotate2d(const float rotation)
+	{
+		// Construct  a quat from a vec3 of euler angles
+		glm::quat change { glm::vec3 { 0 , 0, rotation } };
+
+		// Cumulate current orientation with change in orientation
+		orientation_ *= change;
+	}
+
+	// Rotate in the 2D plane by degrees
+	void Transform::Rotate2dDeg(const float rotation)
+	{
+		// Construct  a quat from a vec3 of euler angles
+		glm::quat change { glm::vec3 { 0 , 0, glm::radians(rotation) } };
+
+		// Cumulate current orientation with change in orientation
+		orientation_ *= change;
+	}
+
+
 	void Transform::Scale(const float scalar)
 	{
 		scale_ *= scalar;
@@ -100,6 +141,121 @@ namespace ose::math
 		scale_.y *= y;
 		scale_.z *= z;
 	}
+
+	void Transform::Scale2d(const glm::vec2 & multiplier)
+	{
+		scale_.x *= multiplier.x;
+		scale_.y *= multiplier.y;
+	}
+
+	void Transform::Scale2d(const float x, const float y)
+	{
+		scale_.x *= x;
+		scale_.y *= y;
+	}
+
+
+	void Transform::SetTranslation(const glm::vec3 & translation)
+	{
+		position_.x = translation.x;
+		position_.y = translation.y;
+		position_.z = translation.z;
+	}
+
+	void Transform::SetTranslation(const float x, const float y, const float z)
+	{
+		position_.x = x;
+		position_.y = y;
+		position_.z = z;
+	}
+
+	void Transform::SetTranslation2d(const glm::vec2 & translation)
+	{
+		position_.x = translation.x;
+		position_.y = translation.y;
+		position_.z = 0;
+	}
+
+	void Transform::SetTranslation2d(const float x, const float y)
+	{
+		position_.x = x;
+		position_.y = y;
+		position_.z = 0;
+	}
+
+
+	void Transform::SetOrientation(const glm::quat & orientation)
+	{
+		orientation_.x = orientation.x;
+		orientation_.y = orientation.y;
+		orientation_.z = orientation.z;
+		orientation_.w = orientation.w;
+	}
+
+	void Transform::SetOrientation(const glm::vec3 & rotation)
+	{
+		orientation_ = glm::quat { rotation };
+	}
+
+	void Transform::SetOrientation(const float pitch, const float yaw, const float roll)
+	{
+		orientation_ = glm::quat { glm::vec3 { pitch, yaw, roll } };
+	}
+
+	void Transform::SetOrientationDeg(const glm::vec3 & rotation)
+	{
+		orientation_ = glm::quat { glm::vec3 { glm::radians(rotation) } };
+	}
+
+	void Transform::SetOrientationDeg(const float pitch, const float yaw, const float roll)
+	{
+		orientation_ = glm::quat { glm::vec3 { glm::radians(pitch), glm::radians(yaw), glm::radians(roll) } };
+	}
+
+	void Transform::SetOrientation2d(const float rotation)
+	{
+		orientation_ = glm::quat { glm::vec3 { 0, 0, rotation } };
+	}
+
+	void Transform::SetOrientation2dDeg(const float rotation)
+	{
+		orientation_ = glm::quat { glm::vec3 { 0, 0, glm::radians(rotation) } };
+	}
+
+
+	void Transform::SetScale(const float scalar)
+	{
+		scale_.x = scalar;
+		scale_.y = scalar;
+		scale_.z = scalar;
+	}
+
+	void Transform::SetScale(const glm::vec3 & scale)
+	{
+		scale_.x = scale.x;
+		scale_.y = scale.y;
+		scale_.z = scale.z;
+	}
+
+	void Transform::SetScale(const float x, const float y, const float z)
+	{
+		scale_.x = x;
+		scale_.y = y;
+		scale_.z = z;
+	}
+
+	void Transform::SetScale2d(const glm::vec2 & scale)
+	{
+		scale_.x = scale.x;
+		scale_.y = scale.y;
+	}
+
+	void Transform::SetScale2d(const float x, const float y)
+	{
+		scale_.x = x;
+		scale_.y = y;
+	}
+
 
 	const glm::mat4 Transform::GetPositionMatrix() const
 	{

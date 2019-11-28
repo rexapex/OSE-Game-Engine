@@ -3,6 +3,14 @@
 
 namespace ose::game
 {
+	using namespace project;
+	using namespace windowing;
+	using namespace rendering;
+	using namespace resources;
+	using namespace editor;
+	using namespace engine;
+	using namespace shader;
+
 	Game::Game()
 	{
 		this->project_loader_ = std::move(ProjectLoaderFactories[0]());

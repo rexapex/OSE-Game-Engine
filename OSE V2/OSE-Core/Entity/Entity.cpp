@@ -3,6 +3,8 @@
 
 namespace ose::entity
 {
+	using namespace math;
+
 	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
 				 : Transformable(), EntityList(), name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
 	{

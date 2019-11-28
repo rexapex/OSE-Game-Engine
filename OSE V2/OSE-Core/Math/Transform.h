@@ -47,17 +47,55 @@ namespace ose::math
 
 		void Translate(const glm::vec3 & translation);
 		void Translate(const float x, const float y, const float z);
+		
+		void Translate2d(const glm::vec2 & translation);
+		void Translate2d(const float x, const float y);
 
-		//rotate by radians
+		// Rotate by a orientation specifying the change
+		void Rotate(const glm::quat & change);
+
+		// Rotate by radians
 		void Rotate(const glm::vec3 & change);
 		void Rotate(const float pitch, const float yaw, const float roll);
-		//rotate by degrees
+		// Rotate by degrees
 		void RotateDeg(const glm::vec3 & change);
 		void RotateDeg(const float pitch, const float yaw, const float roll);
+
+		// Rotate in the 2D plane by radians
+		void Rotate2d(const float rotation);
+		// Rotate in the 2D plane by degrees
+		void Rotate2dDeg(const float rotation);
 
 		void Scale(const float scalar);
 		void Scale(const glm::vec3 & multiplier);
 		void Scale(const float x, const float y, const float z);
+		
+		void Scale2d(const glm::vec2 & multiplier);
+		void Scale2d(const float x, const float y);
+
+		void SetTranslation(const glm::vec3 & translation);
+		void SetTranslation(const float x, const float y, const float z);
+
+		void SetTranslation2d(const glm::vec2 & translation);
+		void SetTranslation2d(const float x, const float y);
+
+		void SetOrientation(const glm::quat & orientation);
+
+		void SetOrientation(const glm::vec3 & rotation);
+		void SetOrientation(const float pitch, const float yaw, const float roll);
+
+		void SetOrientationDeg(const glm::vec3 & rotation);
+		void SetOrientationDeg(const float pitch, const float yaw, const float roll);
+
+		void SetOrientation2d(const float rotation);
+		void SetOrientation2dDeg(const float rotation);
+
+		void SetScale(const float scalar);
+		void SetScale(const glm::vec3 & scale);
+		void SetScale(const float x, const float y, const float z);
+
+		void SetScale2d(const glm::vec2 & scale);
+		void SetScale2d(const float x, const float y);
 
 	private:
 		glm::vec3 position_;

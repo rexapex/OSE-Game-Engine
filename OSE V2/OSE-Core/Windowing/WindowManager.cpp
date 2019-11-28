@@ -3,6 +3,8 @@
 
 namespace ose::windowing
 {
+	using namespace rendering;
+
 	WindowManager::WindowManager() {}
 
 	WindowManager::~WindowManager() {}
