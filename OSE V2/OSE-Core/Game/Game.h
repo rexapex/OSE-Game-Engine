@@ -1,24 +1,38 @@
 #pragma once
 
-#include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Types.h"
-#include "OSE-Core/EngineReferences.h"
-#include "OSE-Core/Project/Project.h"
-#include "OSE-Core/Project/ProjectLoader.h"
-#include "OSE-Core/Windowing/WindowManager.h"
-#include "OSE-Core/Rendering/RenderingEngine.h"
-#include "OSE-Core/Entity/Entity.h"
-#include "OSE-Core/Entity/Component.h"
-#include "OSE-Core/Entity/SpriteRenderer.h"
-#include "OSE-Core/Engine/EngineTaskPool.h"
-#include "Scene.h"
 #include "ESceneSwitchMode.h"
 #include "ThreadManager.h"
 #include "Time.h"
 #include <ctime>
 
+namespace ose
+{
+	namespace project
+	{
+		class Project;
+		class ProjectLoader;
+	}
+	namespace windowing
+	{
+		class WindowManager;
+	}
+	namespace rendering
+	{
+		class RenderingEngine;
+	}
+	namespace entity
+	{
+		class Entity;
+		class Component;
+		class SpriteRenderer;
+	}
+}
+
 namespace ose::game
 {
+	class Scene;
+
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	class Game
@@ -52,8 +66,8 @@ namespace ose::game
 		// Specifies which scenes should be unloaded on scene switch
 		ESceneSwitchMode scene_switch_mode_;
 
-		std::unique_ptr<project::Project> project_;
-		std::unique_ptr<project::ProjectLoader> project_loader_;
+		std::unique_ptr<ose::project::Project> project_;
+		std::unique_ptr<ose::project::ProjectLoader> project_loader_;
 
 		// The current scene being played (updated, rendered, etc...)
 		std::unique_ptr<Scene> active_scene_;
@@ -65,13 +79,13 @@ namespace ose::game
 		///EntityList persistent_entities_;
 
 		// Window manager handles window creation, events and input
-		std::unique_ptr<windowing::WindowManager> window_manager_;
+		std::unique_ptr<ose::windowing::WindowManager> window_manager_;
 
 		// Thread manager handles multithreading and updating of engines
 		///std::unique_ptr<ThreadManager> thread_manager_;
 
 		// Rendering engine handles all rendering of entity render objects
-		std::unique_ptr<rendering::RenderingEngine> rendering_engine_;
+		std::unique_ptr<ose::rendering::RenderingEngine> rendering_engine_;
 
 		// TODO - current iteration of render pool
 		///std::unique_ptr<RenderPool> render_pool_;
@@ -86,6 +100,6 @@ namespace ose::game
 		void RunGame();
 
 		// Initialise components of an entity along with its sub-entities
-		void InitEntity(const entity::Entity & entity);
+		void InitEntity(const ose::entity::Entity & entity);
 	};
 }

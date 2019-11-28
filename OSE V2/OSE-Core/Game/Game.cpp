@@ -1,15 +1,22 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "OSE-Core/Project/Project.h"
+#include "Scene.h"
 #include "OSE-Core/Resources/ResourceManager.h"
+#include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Project/ProjectLoader.h"
+#include "OSE-Core/Windowing/WindowManager.h"
+#include "OSE-Core/Rendering/RenderingEngine.h"
+#include "OSE-Core/Entity/Entity.h"
+#include "OSE-Core/Entity/Component.h"
+#include "OSE-Core/Entity/SpriteRenderer.h"
+#include "OSE-Core/Engine/EngineTaskPool.h"
+#include "OSE-Core/EngineReferences.h"
 
 using namespace ose::project;
 using namespace ose::windowing;
 using namespace ose::rendering;
 using namespace ose::resources;
-using namespace ose::editor;
 using namespace ose::engine;
-using namespace ose::shader;
 using namespace ose::entity;
 
 namespace ose::game
