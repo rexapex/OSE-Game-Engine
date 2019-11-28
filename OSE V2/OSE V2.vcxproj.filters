@@ -1706,6 +1706,9 @@
     <ClInclude Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OSE-Core\Math\ITransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">

@@ -76,10 +76,10 @@ void FileHandlingUtil::CopyFile(const std::string & from, const std::string & to
 	try
 	{
 		//first, create the necessary directories
-		std::experimental::filesystem::create_directories(GetParentPathFromPath(to));
+		std::filesystem::create_directories(GetParentPathFromPath(to));
 
 		//then, copy the file
-		bool success = std::experimental::filesystem::copy_file(from, to);
+		bool success = std::filesystem::copy_file(from, to);
 
 		if(success)
 		{
@@ -90,7 +90,7 @@ void FileHandlingUtil::CopyFile(const std::string & from, const std::string & to
 			LOG("error: " + from + " could not be copied to " + to);
 		}
 	}
-	catch(std::experimental::filesystem::filesystem_error &)
+	catch(std::filesystem::filesystem_error &)
 	{
 		LOG("error: invalid arguments");
 	}
@@ -99,33 +99,33 @@ void FileHandlingUtil::CopyFile(const std::string & from, const std::string & to
 //Creates directories given in path if they do not already exist
 void FileHandlingUtil::CreateDirs(const std::string & path)
 {
-	auto & p = std::experimental::filesystem::path(path);
+	auto & p = std::filesystem::path(path);
 	if(p.has_filename())
 	{
-		std::experimental::filesystem::create_directories(GetParentPathFromPath(path));
+		std::filesystem::create_directories(GetParentPathFromPath(path));
 	}
 	else
 	{
-		std::experimental::filesystem::create_directories(path);
+		std::filesystem::create_directories(path);
 	}
 }
 
 //Returns true iff the path exists and is a file
 bool FileHandlingUtil::DoesFileExist(const std::string & path)
 {
-	return std::experimental::filesystem::exists(path) && std::experimental::filesystem::is_regular_file(path);
+	return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 }
 
 //Get the filename of a path
 std::string FileHandlingUtil::GetFilenameFromPath(const std::string & path)
 {
-	return std::experimental::filesystem::path(path).filename().string();
+	return std::filesystem::path(path).filename().string();
 }
 
 //Get the parent path of a path
 std::string FileHandlingUtil::GetParentPathFromPath(const std::string & path)
 {
-	return std::experimental::filesystem::path(path).parent_path().string();
+	return std::filesystem::path(path).parent_path().string();
 }
 
 // Get a field from the engine's settings ini file
