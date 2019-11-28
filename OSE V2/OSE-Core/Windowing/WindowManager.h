@@ -1,6 +1,13 @@
 #pragma once
 #include "OSE-Core/Rendering/VideoMode.h"
-#include "OSE-Core/Rendering/RenderingEngine.h"
+
+namespace ose
+{
+	namespace rendering
+	{
+		class RenderingEngine;
+	}
+}
 
 namespace ose::windowing
 {
@@ -14,7 +21,7 @@ namespace ose::windowing
 		WindowManager & operator=(WindowManager &) = delete;
 		WindowManager & operator=(WindowManager &&) = delete;
 
-		void SetEngineReferences(rendering::RenderingEngine * rendering_engine);
+		void SetEngineReferences(ose::rendering::RenderingEngine * rendering_engine);
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
@@ -50,7 +57,7 @@ namespace ose::windowing
 		virtual int	InitWindowingToolkit() const = 0;
 
 		// pointers should not be de-allocated by this class
-		rendering::RenderingEngine * rendering_engine_ { nullptr };
+		ose::rendering::RenderingEngine * rendering_engine_ { nullptr };
 	};
 }
 

@@ -1,9 +1,10 @@
 #include "stdafx.h"
 #include "ThreadManager.h"
+#include "OSE-Core/Rendering/RenderPool.h"
 
 namespace ose::game
 {
-	using namespace rendering;
+	using namespace ose::rendering;
 
 	ThreadManager::ThreadManager(RenderPool const & render_pool) : render_pool_(render_pool)
 	{

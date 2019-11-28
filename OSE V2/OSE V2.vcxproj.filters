@@ -159,9 +159,6 @@
     <ClCompile Include="OSE-Core\Editor\Editor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -169,9 +166,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
@@ -1616,9 +1610,6 @@
     <ClInclude Include="OSE-Core\Editor\Editor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1635,12 +1626,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Engine\EEngineType.h">

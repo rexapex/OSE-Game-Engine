@@ -1,10 +1,10 @@
 #pragma once
 
-#include "OSE-Core/EngineReferences.h"
+//#include "OSE-Core/EngineReferences.h"
 #include "EProjectionMode.h"
-#include "OSE-Core/Engine/Engine.h"
-#include "OSE-Core/Entity/Entity.h"
-#include "OSE-Core/Entity/SpriteRenderer.h"
+//#include "OSE-Core/Engine/Engine.h"
+//#include "OSE-Core/Entity/Entity.h"
+//#include "OSE-Core/Entity/SpriteRenderer.h"
 #include "RenderPool.h"
 
 namespace ose::rendering

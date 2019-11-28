@@ -1,16 +1,19 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Resources/ResourceManager.h"
+
+using namespace ose::project;
+using namespace ose::windowing;
+using namespace ose::rendering;
+using namespace ose::resources;
+using namespace ose::editor;
+using namespace ose::engine;
+using namespace ose::shader;
+using namespace ose::entity;
 
 namespace ose::game
 {
-	using namespace project;
-	using namespace windowing;
-	using namespace rendering;
-	using namespace resources;
-	using namespace editor;
-	using namespace engine;
-	using namespace shader;
-
 	Game::Game()
 	{
 		this->project_loader_ = std::move(ProjectLoaderFactories[0]());

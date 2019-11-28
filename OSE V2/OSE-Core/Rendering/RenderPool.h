@@ -1,7 +1,17 @@
 #pragma once
 #include "OSE-Core/Types.h"
-#include "OSE-Core/Entity/SpriteRenderer.h"
-#include "OSE-Core/Math/ITransform.h"
+
+namespace ose
+{
+	namespace math
+	{
+		class ITransform;
+	}
+	namespace entity
+	{
+		class SpriteRenderer;
+	}
+}
 
 namespace ose::rendering
 {
@@ -12,7 +22,7 @@ namespace ose::rendering
 		~RenderPool();
 
 		// Add a sprite renderer component to the render pool
-		virtual void AddSpriteRenderer(math::ITransform const & t, ose::unowned_ptr<entity::SpriteRenderer> sr) = 0;
+		virtual void AddSpriteRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::SpriteRenderer> sr) = 0;
 	};
 }
 

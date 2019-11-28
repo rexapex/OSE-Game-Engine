@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "Project.h"
+#include "OSE-Core/Resources/ResourceManager.h"
+#include "OSE-Core/Resources/PrefabManager.h"
 
 namespace ose::project
 {

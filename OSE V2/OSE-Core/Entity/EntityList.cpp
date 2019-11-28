@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "EntityList.h"
+#include "Entity.h"
 
 namespace ose::entity
 {

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "ProjectLoader.h"
+#include "OSE-Core/Resources/FileHandlingUtil.h"
 
 namespace ose::project
 {

@@ -167,8 +167,6 @@
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-Core\Types.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
     <ClInclude Include="OSE-Core\Editor\Editor.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />
@@ -318,7 +316,6 @@
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
     <ClInclude Include="OSE-Core\Engine\EngineTaskPool.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_internal.h" />
@@ -665,8 +662,6 @@
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
