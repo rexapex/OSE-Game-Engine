@@ -89,14 +89,14 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>EngineDependencies/glfw/include;EngineDependencies/glew/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>EngineDependencies\glfw\lib-vc2015;EngineDependencies\glew\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,14 +107,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -128,12 +128,15 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <LanguageStandard>stdcpp17</LanguageStandard>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -146,7 +149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir);OSE-V2-STD-Modules\EngineDependencies\glew\include;OSE-V2-STD-Modules\EngineDependencies\glfw\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,21 +157,22 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>OSE-V2-STD-Modules\EngineDependencies\glew\x64;OSE-V2-STD-Modules\EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\assimp-4.1.0\build;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glew32s.lib;glfw3.lib;SOIL.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Math\ITransform.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.h" />
-    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
-    <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
-    <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
+    <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
     <ClInclude Include="OSE-Core\Types.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.h" />
     <ClInclude Include="OSE-Core\Editor\Editor.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />
@@ -318,19 +322,6 @@
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
     <ClInclude Include="OSE-Core\Engine\EngineTaskPool.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Editor\Widget.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_internal.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_rect_pack.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ERenderObjectType.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPassGL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ShaderGroupGL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_exponential.hpp" />
@@ -503,13 +494,7 @@
     <ClInclude Include="OSE-Core\Resources\TextureLoader.h" />
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h" />
-    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
-    <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
-    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.h" />
-    <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -654,28 +639,13 @@
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec3.hpp" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vector_relational.hpp" />
-    <ClInclude Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderingEngineGL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
-    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\Launcher\Launcher.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Editor\EditorDearIMGUI.cpp" />
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_demo.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
     <ClCompile Include="OSE-Core\Game\GameThread.cpp" />
@@ -693,12 +663,12 @@
     <ClCompile Include="OSE-Core\Resources\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\TextureLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp" />
+    <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp" />
+    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
-    <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -706,11 +676,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="OSE-Core\Windowing\WindowManager.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderingEngineGL.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

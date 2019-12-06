@@ -3,7 +3,7 @@
 
 namespace ose::rendering
 {
-	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE)
+	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE), fbwidth_(0), fbheight_(0)
 	{
 
 	}

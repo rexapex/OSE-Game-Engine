@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "WindowManager.h"
+#include "OSE-Core/Rendering/RenderingEngine.h"
 
 namespace ose::windowing
 {

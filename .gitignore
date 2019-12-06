@@ -256,3 +256,7 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/Module Builds
+/OSE Rendering GL/Dependencies/glew/include/GL
+/OSE Resources SOIL/Dependencies/soil/lib
+/OSE Resources SOIL/Dependencies/soil
