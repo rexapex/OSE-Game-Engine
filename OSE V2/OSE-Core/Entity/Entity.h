@@ -118,8 +118,9 @@ namespace ose::entity
 			int32_t num_removals = 0;
 
 			// use removeComponent method in a loop until no more components can be removed
+			bool removed;
 			do {
-				bool removed = this->RemoveComponent<ComponentType>();
+				removed = this->RemoveComponent<ComponentType>();
 				if(removed) num_removals ++;
 			} while(removed);
 

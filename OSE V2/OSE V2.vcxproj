@@ -96,7 +96,7 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules/EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -107,14 +107,14 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);OSE-V2-STD-Modules/EngineDependencies/glfw/include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules/EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -136,7 +136,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules/EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -149,7 +149,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <ForcedIncludeFiles>stdafx.h</ForcedIncludeFiles>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);OSE-V2-STD-Modules/EngineDependencies/glfw/include;OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir);OSE-V2-STD-Modules\EngineDependencies\soil\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -157,8 +157,8 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules/EngineDependencies\glfw\lib-vc2015;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;opengl32.lib;glu32.lib;glfw3.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;OSE-V2-STD-Modules\EngineDependencies\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -495,7 +495,6 @@
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
-    <ClInclude Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.h" />
     <ClInclude Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
@@ -671,7 +670,6 @@
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
-    <ClCompile Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.cpp" />
     <ClCompile Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
