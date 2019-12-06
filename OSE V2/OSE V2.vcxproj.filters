@@ -147,9 +147,6 @@
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -1575,9 +1572,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Math\ITransform.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h">
