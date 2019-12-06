@@ -120,25 +120,10 @@
     <ClCompile Include="OSE-Core\Resources\FileHandlingUtil.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.cpp">
-      <Filter>Source Files\project</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.cpp">
-      <Filter>Source Files\windowing</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderingEngineGL.cpp">
-      <Filter>Source Files\rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.cpp">
-      <Filter>Source Files\resource-management</Filter>
-    </ClCompile>
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Resources\ModelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Entity\Component.cpp">
@@ -153,52 +138,34 @@
     <ClCompile Include="OSE-Core\Env.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\TextureGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Editor\Editor.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp">
+    <ClCompile Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.cpp">
+    <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.cpp">
+    <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.cpp">
+    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1556,25 +1523,10 @@
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.h">
-      <Filter>Header Files\project</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Windowing\WindowManagerGLFW.h">
-      <Filter>Header Files\windowing</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderingEngineGL.h">
-      <Filter>Header Files\rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.h">
-      <Filter>Header Files\resource-management</Filter>
-    </ClInclude>
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Resources\ModelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Resources\ModelLoaderASSIMP.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Entity\MeshFilter.h">
@@ -1604,28 +1556,7 @@
     <ClInclude Include="OSE-Core\Entity\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\TextureGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Editor\Editor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_rect_pack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\imgui\stb_textedit.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Engine\EEngineType.h">
@@ -1637,19 +1568,7 @@
     <ClInclude Include="OSE-Core\Engine\EngineTask.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\ShaderNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Math\Transformable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\NodeConnector.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\ShaderVarType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Types.h">
@@ -1658,40 +1577,34 @@
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPoolGL.h">
+    <ClInclude Include="OSE-Core\Math\ITransform.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ShaderGroupGL.h">
+    <ClInclude Include="OSE-V2-STD-Modules\Resources\TextureLoaderSOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderPassGL.h">
+    <ClInclude Include="OSE-V2-STD-Modules\Project\ProjectLoaderXML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\RenderObjectGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Rendering\ERenderObjectType.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h">
+    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\NodeConnector.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\ShaderGraph.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Shader\ShaderNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\ShaderProgGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\VertShaderGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-V2-STD-Modules\Shader\FragShaderGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Math\ITransform.h">
+    <ClInclude Include="OSE-Core\Shader\ShaderVarType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

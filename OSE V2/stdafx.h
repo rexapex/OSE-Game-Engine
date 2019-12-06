@@ -10,10 +10,6 @@
 #include <memory>
 #include <functional>
 
-#define GLEW_STATIC
-#include <GL/glew.h>
-#include <GL/GL.h>
-
 #define GLM_FORCE_RADIANS
 #include "OSE-Core/EngineDependencies/glm/glm.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/quaternion.hpp"
