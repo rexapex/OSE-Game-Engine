@@ -23,19 +23,20 @@ namespace ose::game
 {
 	Game::Game()
 	{
-		this->project_loader_ = std::move(ProjectLoaderFactories[0]());
+		this->project_loader_ = std::move(ProjectLoaderFactories[0]->NewProjectLoader());
 		this->scene_switch_mode_ = ESceneSwitchMode::REMOVE_ALL_ON_SWITCH;
 		this->running_ = false;
 
 		///this->render_pool_ = std::move(RenderPoolFactories[0]());
 		///this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
 		
-		this->window_manager_ = std::make_unique<WindowManagerImpl>();
+		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
 		this->window_manager_->NewWindow(1);
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		this->rendering_engine_ = std::move(RenderingEngineFactories[0]());
+		//this->rendering_engine_ = std::move(RenderingEngineFactories[0]());
+		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
 		this->window_manager_->SetEngineReferences(rendering_engine_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 

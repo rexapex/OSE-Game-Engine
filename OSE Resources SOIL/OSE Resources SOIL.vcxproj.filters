@@ -21,12 +21,18 @@
     <ClInclude Include="Resources\TextureLoaderSOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Resources\TextureLoaderFactorySOIL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Resources\TextureLoaderSOIL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Resources\TextureLoaderFactorySOIL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

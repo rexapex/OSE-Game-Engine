@@ -183,6 +183,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rendering\ERenderObjectType.h" />
     <ClInclude Include="Rendering\RenderingEngineGL.h" />
+    <ClInclude Include="Rendering\RenderingFactoryGL.h" />
     <ClInclude Include="Rendering\RenderObjectGL.h" />
     <ClInclude Include="Rendering\RenderPassGL.h" />
     <ClInclude Include="Rendering\RenderPoolGL.h" />
@@ -194,6 +195,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\RenderingEngineGL.cpp" />
+    <ClCompile Include="Rendering\RenderingFactoryGL.cpp" />
     <ClCompile Include="Rendering\RenderPoolGL.cpp" />
     <ClCompile Include="Rendering\TextureGL.cpp" />
     <ClCompile Include="pch.cpp">

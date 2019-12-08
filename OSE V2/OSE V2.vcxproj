@@ -162,9 +162,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h" />
     <ClInclude Include="OSE-Core\Math\ITransform.h" />
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
+    <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Resources\TextureLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
@@ -495,6 +498,7 @@
     <ClInclude Include="OSE-Core\Resources\TextureMetaData.h" />
     <ClInclude Include="OSE-Core\Resources\PrefabManager.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
+    <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
