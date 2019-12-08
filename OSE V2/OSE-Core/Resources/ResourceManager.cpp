@@ -6,7 +6,7 @@ namespace ose::resources
 {
 	using namespace rendering;
 
-	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path), texture_loader_(std::make_unique<TextureLoaderImpl>(project_path)) {}
+	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path), texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)) {}
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
@@ -82,7 +82,7 @@ namespace ose::resources
 			auto & iter2 = textures_with_Gpu_memory_.find(name_to_use);
 			if(iter == textures_without_Gpu_memory_.end() && iter2 == textures_with_Gpu_memory_.end())
 			{
-				textures_without_Gpu_memory_.emplace(name_to_use, std::make_unique<TextureImpl>(name_to_use, abs_path));
+				textures_without_Gpu_memory_.emplace(name_to_use, RenderingFactories[0]->NewTexture(name_to_use, abs_path));
 				DEBUG_LOG("Added texture " << name_to_use << " to ResourceManager");
 				
 				// get a references to the newly created texture

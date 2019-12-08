@@ -21,12 +21,18 @@
     <ClInclude Include="Project\ProjectLoaderXML.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Project\ProjectLoaderFactoryXML.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Project\ProjectLoaderXML.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Project\ProjectLoaderFactoryXML.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

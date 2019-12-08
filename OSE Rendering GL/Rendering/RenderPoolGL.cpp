@@ -146,7 +146,7 @@ namespace ose::rendering
 	// Add a sprite renderer component to the render pool
 	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, ose::unowned_ptr<SpriteRenderer> sr)
 	{
-		// Try to find a render object the 
+		// Try to find a render object of the same type
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
 		bool found_sprite_renderer_group { false };
 		for(auto & r : s.render_objects_)

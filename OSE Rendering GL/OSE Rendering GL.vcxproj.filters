@@ -48,6 +48,9 @@
     <ClInclude Include="Shader\VertShaderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\RenderingFactoryGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\RenderingEngineGL.cpp">
@@ -69,6 +72,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Shader\VertShaderGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Rendering\RenderingFactoryGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

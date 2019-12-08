@@ -1595,6 +1595,18 @@
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\TextureLoaderFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="OSE-V2-STD-Modules\EngineDependencies\glm\detail\func_common.inl">
