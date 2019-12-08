@@ -1,5 +1,5 @@
 #pragma once
-#include "OSE-Core/Resources/Texture.h"
+#include "OSE-Core/Resources/Texture/Texture.h"
 
 namespace ose::rendering
 {

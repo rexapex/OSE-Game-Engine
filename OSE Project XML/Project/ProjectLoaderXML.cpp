@@ -5,9 +5,9 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene.h"
-#include "OSE-Core/Resources/Texture.h"
+#include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Entity/SpriteRenderer.h"
-#include "OSE-Core/Resources/PrefabManager.h"
+#include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
 

@@ -18,10 +18,10 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\TextureLoaderSOIL.h">
+    <ClInclude Include="Resources\Texture\TextureLoaderSOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Resources\TextureLoaderFactorySOIL.h">
+    <ClInclude Include="Resources\Texture\TextureLoaderFactorySOIL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,10 +29,10 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\TextureLoaderSOIL.cpp">
+    <ClCompile Include="Resources\Texture\TextureLoaderFactorySOIL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Resources\TextureLoaderFactorySOIL.cpp">
+    <ClCompile Include="Resources\Texture\TextureLoaderSOIL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

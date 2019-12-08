@@ -2,9 +2,9 @@
 
 #include "OSE-Core/Types.h"
 #include "FileHandlingUtil.h"
-#include "Texture.h"
-#include "TextureLoader.h"
-#include "TextureMetaData.h"
+#include "Texture/Texture.h"
+#include "Texture/TextureLoader.h"
+#include "Texture/TextureMetaData.h"
 #include <sstream>
 
 namespace ose::resources

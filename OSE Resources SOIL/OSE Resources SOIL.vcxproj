@@ -180,8 +180,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Resources\TextureLoaderFactorySOIL.h" />
-    <ClInclude Include="Resources\TextureLoaderSOIL.h" />
+    <ClInclude Include="Resources\Texture\TextureLoaderFactorySOIL.h" />
+    <ClInclude Include="Resources\Texture\TextureLoaderSOIL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -190,8 +190,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Resources\TextureLoaderFactorySOIL.cpp" />
-    <ClCompile Include="Resources\TextureLoaderSOIL.cpp" />
+    <ClCompile Include="Resources\Texture\TextureLoaderFactorySOIL.cpp" />
+    <ClCompile Include="Resources\Texture\TextureLoaderSOIL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

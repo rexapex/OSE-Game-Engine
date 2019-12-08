@@ -105,12 +105,6 @@
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Resources\Texture.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Resources\TextureLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Windowing\WindowManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -123,13 +117,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Resources\ModelLoader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Entity\Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="OSE-Core\Resources\PrefabManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp">
@@ -160,6 +148,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\Texture\Texture.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\Texture\TextureLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\Model\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Resources\Prefab\PrefabManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1496,15 +1496,6 @@
     <ClInclude Include="OSE-Core\Resources\ResourceManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\Texture.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\TextureLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\TextureMetaData.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1520,9 +1511,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\ModelLoader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Entity\MeshFilter.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1530,9 +1518,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Entity\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\PrefabManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Game\Scene.h">
@@ -1601,10 +1586,25 @@
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Resources\TextureLoaderFactory.h">
+    <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h">
+    <ClInclude Include="OSE-Core\Resources\Texture\TextureMetaData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\Texture\Texture.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\Texture\TextureLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Resources\Prefab\PrefabManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

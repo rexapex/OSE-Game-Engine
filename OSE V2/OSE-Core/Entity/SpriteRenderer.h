@@ -1,7 +1,7 @@
 #pragma once
 #include "OSE-Core/Types.h"
 #include "Component.h"
-#include "OSE-Core/Resources/Texture.h"
+#include "OSE-Core/Resources/Texture/Texture.h"
 
 namespace ose::entity
 {
