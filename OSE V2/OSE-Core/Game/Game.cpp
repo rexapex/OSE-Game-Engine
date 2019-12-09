@@ -21,7 +21,7 @@ using namespace ose::entity;
 
 namespace ose::game
 {
-	Game::Game()
+	Game::Game() : SceneSwitchManager(), EntityList()
 	{
 		this->running_ = false;
 

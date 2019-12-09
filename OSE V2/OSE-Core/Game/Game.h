@@ -4,6 +4,7 @@
 #include "Scene/SceneSwitchManager.h"
 #include "ThreadManager.h"
 #include "Time.h"
+#include "OSE-Core/Entity/EntityList.h"
 #include <ctime>
 
 namespace ose
@@ -36,7 +37,7 @@ namespace ose::game
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	// TODO - Use template inheritance to allow game type with different scene switch type
-	class Game : public SceneSwitchManager
+	class Game : public SceneSwitchManager, public ose::entity::EntityList
 	{
 	public:
 		Game();
@@ -50,17 +51,10 @@ namespace ose::game
 		// Depending on switch manager, could be multiple active scenes
 		virtual void OnSceneActivated(Scene & scene);
 
-		// Provide const and non-const versions
-		///EntityList & persistent_entities() { return persistent_entities_; };
-		///const EntityList & persistent_entities() const { return persistent_entities_; }
-
 		// Start execution of the game
 		void StartGame();
 
 	private:
-		// Entities which will persist between scenes
-		///EntityList persistent_entities_;
-
 		// Window manager handles window creation, events and input
 		std::unique_ptr<ose::windowing::WindowManager> window_manager_;
 
