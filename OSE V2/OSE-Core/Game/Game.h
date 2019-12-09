@@ -1,7 +1,7 @@
 #pragma once
 
 #include "OSE-Core/Types.h"
-#include "ESceneSwitchMode.h"
+#include "Scene/SceneSwitchManager.h"
 #include "ThreadManager.h"
 #include "Time.h"
 #include <ctime>
@@ -35,46 +35,29 @@ namespace ose::game
 
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
-	class Game
+	// TODO - Use template inheritance to allow game type with different scene switch type
+	class Game : public SceneSwitchManager
 	{
 	public:
 		Game();
-		~Game() noexcept;
+		virtual ~Game() noexcept;
 		Game(Game &) = delete;
 		Game & operator=(Game &) = delete;
 		Game(Game && other) noexcept = default;
 		Game & operator=(Game && other) noexcept = default;
-		
-		// Scene methods
-		void LoadProject(const std::string & proj_name);		// Loads the project specified (does not load any scenes)
-		void LoadScene(const std::string & scene_name);			// Loads the scene into memory
-		void UnloadScene(const std::string & scene_name);		// Frees the scene from memory
-		void UnloadAllLoadedScenes();							// Frees all loaded scenes (not active scene) from memory
-		void SetActiveScene(const std::string & scene_name);	// Switches game to the scene specified iff it is loaded
+
+		// Called upon a scene being activated
+		// Depending on switch manager, could be multiple active scenes
+		virtual void OnSceneActivated(Scene & scene);
 
 		// Provide const and non-const versions
 		///EntityList & persistent_entities() { return persistent_entities_; };
 		///const EntityList & persistent_entities() const { return persistent_entities_; }
 
-		// Set the way the game removes scenes on a scene switch
-		void SetSceneSwitchMode(const ESceneSwitchMode & mode) {scene_switch_mode_ = mode;}
-
 		// Start execution of the game
 		void StartGame();
 
 	private:
-		// Specifies which scenes should be unloaded on scene switch
-		ESceneSwitchMode scene_switch_mode_;
-
-		std::unique_ptr<ose::project::Project> project_;
-		std::unique_ptr<ose::project::ProjectLoader> project_loader_;
-
-		// The current scene being played (updated, rendered, etc...)
-		std::unique_ptr<Scene> active_scene_;
-
-		// Contains every scene which has been loaded but NOT the active scene
-		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;
-
 		// Entities which will persist between scenes
 		///EntityList persistent_entities_;
 

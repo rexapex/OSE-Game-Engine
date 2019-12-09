@@ -21,7 +21,7 @@ namespace ose::project
 	{
 	public:
 		Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path);
-		~Project() noexcept;
+		virtual ~Project() noexcept;
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
 
@@ -32,6 +32,8 @@ namespace ose::project
 		ose::resources::ResourceManager & GetResourceManager() const { return *resource_manager_; }
 		ose::resources::PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
 
+		// Create gpu resources for each loaded resource object
+		void CreateGpuResources();
 
 	private:
 		// absolute path of the root directory of the project

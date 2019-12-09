@@ -33,4 +33,10 @@ namespace ose::project
 		prefab_manager_ = std::move(other.prefab_manager_);
 		return *this;
 	}
+
+	// Create gpu resources for each loaded resource object
+	void Project::CreateGpuResources()
+	{
+		resource_manager_->CreateTextures();
+	}
 }
