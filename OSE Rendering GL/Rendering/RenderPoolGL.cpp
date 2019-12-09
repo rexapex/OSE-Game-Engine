@@ -47,7 +47,12 @@ namespace ose::rendering
 				"void main() {\n"
 				"	vertexUV = uv;\n"
 				"	vec4 samplerSize = vec4(textureSize(texSampler, 0), 1, 1);"
-				"	gl_Position = samplerSize * viewProjMatrix * worldTransform * vec4(position, 0.0, 1.0);\n"
+				"	mat4 samplerScale;"
+				"	samplerScale[0][0] = samplerSize[0];"
+				"	samplerScale[1][1] = samplerSize[1];"
+				"	samplerScale[2][2] = samplerSize[2];"
+				"	samplerScale[3][3] = 1.0;"
+				"	gl_Position = (samplerScale * (viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
 				"}\n"
 				;
 			glShaderSource(vert, 1, &vert_source, NULL);
