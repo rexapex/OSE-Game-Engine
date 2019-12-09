@@ -1,24 +1,25 @@
 #include "stdafx.h"
 #include "Scene.h"
+#include "OSE-Core/Entity/Entity.h"
+
+using namespace ose::entity;
 
 namespace ose::game
 {
-	using namespace entity;
-
-	Scene::Scene(const std::string & name) : name_(name) {}
+	Scene::Scene(const std::string & name) : EntityList(), name_(name) {}
 
 	Scene::~Scene() noexcept {}
 
-	Scene::Scene(const Scene & other) noexcept
+	Scene::Scene(const Scene & other) noexcept : EntityList(other)
 	{
 		this->name_ = other.name_;
-		this->entities_ = other.entities_;
 	}
 
 	Scene & Scene::operator=(const Scene & other) noexcept
 	{
+		// Call the base copy assignment constructor
+		EntityList::operator=(other);
 		this->name_ = other.name_;
-		this->entities_ = other.entities_;
 		return *this;
 	}
 
@@ -26,13 +27,13 @@ namespace ose::game
 
 
 
-	//DEBUG METHODS
-	//TODO - REMOVE WHEN READY
+	// DEBUG METHODS
+	// TODO - REMOVE WHEN READY
 	void Scene::Print()
 	{
 		std::cerr << "**********  Scene Definition  **********" << std::endl;
 		std::cerr << "scene -> name: " << this->name_ << std::endl;
-		for(auto & e : entities_.GetEntities())
+		for(auto & e : entities_)
 		{
 			PrintEntity(*e, 1);
 		}

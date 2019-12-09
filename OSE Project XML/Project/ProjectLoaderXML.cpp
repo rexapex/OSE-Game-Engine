@@ -5,6 +5,7 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
+#include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Entity/SpriteRenderer.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
@@ -272,7 +273,7 @@ namespace ose::project
 				// create the entity then move it's pointer to the scene
 				auto entity = ParseEntity(entity_node, aliases, project);
 				if(entity != nullptr) {
-					scene->entities().AddEntity(std::move(entity));
+					scene->AddEntity(std::move(entity));
 				}
 			}
 		}
