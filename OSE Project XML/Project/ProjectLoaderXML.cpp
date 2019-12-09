@@ -4,7 +4,7 @@
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Game/Tag.h"
-#include "OSE-Core/Game/Scene.h"
+#include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Entity/SpriteRenderer.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
