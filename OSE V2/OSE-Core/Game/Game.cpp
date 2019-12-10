@@ -33,14 +33,11 @@ namespace ose::game
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		//this->rendering_engine_ = std::move(RenderingEngineFactories[0]());
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
 		this->window_manager_->SetEngineReferences(rendering_engine_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
-
-		// TODO - Intialise persistent entities
 	}
 
 	Game::~Game() noexcept {}
