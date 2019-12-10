@@ -105,13 +105,13 @@ namespace ose::game
 			{
 				//remove all loaded scenes then add the active scene to the loaded scenes list
 				this->loaded_scenes_.clear();
-				this->loaded_scenes_.emplace(active_scene_->get_name(), std::move(active_scene_));
+				this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
 				break;
 			}
 			case ESceneSwitchMode::REMOVE_NONE_ON_SWITCH:
 			{
 				//add the active scene to the loaded scenes list so all other scenes are now in loaded list
-				this->loaded_scenes_.emplace(active_scene_->get_name(), std::move(active_scene_));
+				this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
 				break;
 			}
 			//no case neeeded for -> ESceneSwitchMode::REMOVE_ACTIVE_ON_SWITCH

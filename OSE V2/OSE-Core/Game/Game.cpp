@@ -21,7 +21,7 @@ using namespace ose::entity;
 
 namespace ose::game
 {
-	Game::Game()
+	Game::Game() : SceneSwitchManager(), EntityList()
 	{
 		this->running_ = false;
 
@@ -55,7 +55,7 @@ namespace ose::game
 		project_->CreateGpuResources();
 
 		// create GPU memory for the new render objects
-		for(auto const & entity : scene.entities().GetEntities())
+		for(auto const & entity : scene.GetEntities())
 		{
 			InitEntity(*entity);
 		}

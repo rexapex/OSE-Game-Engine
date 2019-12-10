@@ -16,7 +16,7 @@ namespace ose::entity
 		EntityList(EntityList &&) noexcept = default;
 		EntityList & operator=(EntityList &&) noexcept = default;
 
-		// add a non-persistent entity to the scene
+		// add an entity to the entity list
 		// TODO - should name be unique ???
 		// method constructs a new object
 		// method takes an array of constructor arguments
@@ -25,11 +25,11 @@ namespace ose::entity
 		template<typename... Args>
 		Entity & AddEntity(Args &&... params);
 
-		// add a non-persistent entity to the scene
+		// add an entity to the entity list
 		// method moves the object passed
 		void AddEntity(std::unique_ptr<Entity> e);
 
-		// add a non-persistent entity to the scene
+		// add an entity to the entity list
 		// new entity is a deep copy of the entity passed
 		// method constructs a new object
 		// returns: reference to newly created entity

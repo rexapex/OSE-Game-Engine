@@ -31,7 +31,7 @@ namespace ose::entity
 
 
 
-	// add a non-persistent entity to the scene
+	// add an entity to the entity list
 	// name must be unique
 	// method constructs a new object
 	// method takes an array of constructor arguments
@@ -47,7 +47,7 @@ namespace ose::entity
 		}
 	}
 
-	// add a non-persistent entity to the scene
+	// add an entity to the entity list
 	// method moves the object passed
 	void EntityList::AddEntity(std::unique_ptr<Entity> e)
 	{
@@ -60,7 +60,7 @@ namespace ose::entity
 	}
 
 
-	// add a non-persistent entity to the scene
+	// add an entity to the entity list
 	// new entity is a deep copy of the entity passed
 	// method constructs a new object
 	// returns: reference to newly created entity
@@ -148,6 +148,4 @@ namespace ose::entity
 		// else, return false
 		return false;
 	}
-
-
 }
