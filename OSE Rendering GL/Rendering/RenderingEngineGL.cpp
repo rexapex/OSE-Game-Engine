@@ -57,6 +57,7 @@ namespace ose::rendering
 				for(auto const & render_object : shader_group.render_objects_)
 				{
 					// TODO - Allow a single render object to bind multiple textures simultaneously
+					// TODO - Could use a vector num_textures_ that gives the number of textures used by object i
 					for(size_t i = 0; i < render_object.transforms_.size(); i++)
 					{
 						// Pass the world transform of the object to the shader program

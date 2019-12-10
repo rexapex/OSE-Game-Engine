@@ -371,6 +371,7 @@ namespace ose::project
 			try
 			{
 				// TODO - Include controls for settings the orientation
+				// NOTE - Should include ability to set 2d rotation (r), 3d euler rotation (rx, ry, rz), 3d orientation (ox, oy, oz, ow)
 				float x  { 0.0f };
 				float y  { 0.0f };
 				float z  { 0.0f };
