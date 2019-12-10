@@ -11,6 +11,8 @@
 #include "OSE-Core/Entity/SpriteRenderer.h"
 #include "OSE-Core/Engine/EngineTaskPool.h"
 #include "OSE-Core/EngineReferences.h"
+#include "OSE-Core/Windowing/WindowingFactory.h"
+#include "OSE-Core/Rendering/RenderingFactory.h"
 
 using namespace ose::project;
 using namespace ose::windowing;

@@ -3,6 +3,7 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectLoader.h"
 #include "OSE-Core/EngineReferences.h"
+#include "OSE-Core/Project/ProjectLoaderFactory.h"
 
 namespace ose::game
 {

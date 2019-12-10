@@ -168,6 +168,9 @@
     <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OSE-Core\EngineReferences.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp">

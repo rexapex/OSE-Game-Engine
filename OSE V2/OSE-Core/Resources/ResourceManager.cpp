@@ -1,6 +1,8 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 #include "OSE-Core/EngineReferences.h"
+#include "OSE-Core/Rendering/RenderingFactory.h"
+#include "OSE-Core/Resources/Texture/TextureLoaderFactory.h"
 
 namespace ose::resources
 {
