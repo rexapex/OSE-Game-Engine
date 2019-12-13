@@ -4,7 +4,7 @@
 
 //#include "OSE-Core/EngineReferences.h"
 
-#include "OSE-Core/Entity/SpriteRenderer.h"
+#include "OSE-Core/Entity/Component/SpriteRenderer.h"
 
 // TODO - Remove
 #include "OSE-Core/Shader/Shaders/ShaderGraphDefault.h"

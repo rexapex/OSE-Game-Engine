@@ -1,6 +1,6 @@
 #pragma once
 #include "OSE-Core/Types.h"
-#include "Component.h"
+#include "Component/Component.h"
 #include "EntityList.h"
 #include "OSE-Core/Math/Transformable.h"
 

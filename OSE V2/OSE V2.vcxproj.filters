@@ -114,9 +114,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="OSE-Core\Entity\Component.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -169,6 +166,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OSE-Core\EngineReferences.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="OSE-Core\Entity\Component\Component.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1451,9 +1451,6 @@
     <ClInclude Include="OSE-Core\EngineDependencies\glm\vector_relational.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\Component.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Entity\Entity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1517,15 +1514,6 @@
     <ClInclude Include="stdafx.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\MeshFilter.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\MeshRenderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\Material.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="OSE-Core\Entity\EntityList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -1533,9 +1521,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Engine\Engine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="OSE-Core\Entity\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Editor\Editor.h">
@@ -1620,6 +1605,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\Component\Component.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\Component\Material.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\Component\MeshFilter.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="OSE-Core\Entity\Component\SpriteRenderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

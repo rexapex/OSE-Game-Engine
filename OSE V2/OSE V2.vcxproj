@@ -320,7 +320,7 @@
     <ClInclude Include="EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="EngineDependencies\glm\vector_relational.hpp" />
     <ClInclude Include="OSE-Core\Engine\EngineTask.h" />
-    <ClInclude Include="OSE-Core\Entity\SpriteRenderer.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\SpriteRenderer.h" />
     <ClInclude Include="OSE-Core\Env.h" />
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-Core\Engine\Engine.h" />
@@ -467,7 +467,7 @@
     <ClInclude Include="OSE-Core\EngineDependencies\glm\vec3.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\vector_relational.hpp" />
-    <ClInclude Include="OSE-Core\Entity\Component.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\Component.h" />
     <ClInclude Include="OSE-Core\Entity\Entity.h" />
     <ClInclude Include="OSE-Core\EngineReferences.h" />
     <ClInclude Include="OSE-Core\Game\Scene\ESceneSwitchMode.h" />
@@ -486,9 +486,9 @@
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
-    <ClInclude Include="OSE-Core\Entity\Material.h" />
-    <ClInclude Include="OSE-Core\Entity\MeshFilter.h" />
-    <ClInclude Include="OSE-Core\Entity\MeshRenderer.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\Material.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\MeshFilter.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
     <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h" />
@@ -652,7 +652,7 @@
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
-    <ClCompile Include="OSE-Core\Entity\Component.cpp" />
+    <ClCompile Include="OSE-Core\Entity\Component\Component.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
     <ClCompile Include="OSE-Core\Game\GameThread.cpp" />

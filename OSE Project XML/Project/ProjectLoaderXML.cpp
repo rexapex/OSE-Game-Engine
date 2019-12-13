@@ -7,7 +7,7 @@
 #include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Resources/Texture/Texture.h"
-#include "OSE-Core/Entity/SpriteRenderer.h"
+#include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
