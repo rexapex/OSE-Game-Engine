@@ -37,7 +37,7 @@ namespace ose::entity
 		for(const auto & comp : other.components_)
 		{
 			// Component base class won't compile if abstract so check for it here instead (and elsewhere)
-			if(comp->GetClassType() != Component::GetClassType()) {
+			if(comp->IsClassType(Component::GetClassType())) {
 				//using a clone method prevents slicing
 				this->components_.emplace_back(comp->Clone());
 			}
@@ -70,7 +70,7 @@ namespace ose::entity
 		for(const auto & comp : other.components_)
 		{
 			// Component base class won't compile if abstract so check for it here instead (and elsewhere)
-			if(comp->GetClassType() != Component::GetClassType()) {
+			if(comp->IsClassType(Component::GetClassType())) {
 				//using a clone method prevents slicing
 				this->components_.emplace_back(comp->Clone());
 			}

@@ -293,7 +293,7 @@ namespace ose::project
 		try
 		{
 			//load the prefab from its xml file
-			doc = LoadXmlFile(project.GetProjectPath() + "/" + prefab_path + file_extension, contents);
+			doc = LoadXmlFile(project.GetProjectPath() + "/Prefabs/" + prefab_path + file_extension, contents);
 		}
 		catch(const std::exception & e)
 		{
