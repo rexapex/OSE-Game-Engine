@@ -70,7 +70,7 @@ namespace ose::rendering
 						// Render the object
 						glBindVertexArray(render_object.vao_);
 						glBindBuffer(GL_VERTEX_ARRAY, render_object.vbo_);
-						glDrawArrays(GL_QUADS, 0, 4);
+						glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
 					}
 				}
 			}

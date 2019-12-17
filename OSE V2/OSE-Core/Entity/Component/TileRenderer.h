@@ -17,13 +17,13 @@ namespace ose::entity
 		ose::unowned_ptr<resources::Texture const> texture_;
 
 		// The number of columns of tiles in the texture
-		uint32_t num_cols_;
+		uint32_t num_cols_ { 1 };
 
 		// The number of rows of tiles in the texture
-		uint32_t num_rows_;
+		uint32_t num_rows_ { 1 };
 
 		// The total numbers of tiles in the texture (not all rows/cols may be full)
-		uint32_t num_tiles_;
+		uint32_t num_tiles_ { 1 };
 
 	public:
 
@@ -39,8 +39,12 @@ namespace ose::entity
 
 		// Initialise the tile renderer
 		TileRenderer(std::string const & name, ose::unowned_ptr<resources::Texture const> t,
-			uint32_t num_cols, uint32_t num_rows, uint32_t num_tiles) : Component(name), texture_(t),
-			num_cols_(num_cols), num_rows_(num_rows), num_tiles_(num_tiles) {}
+			uint32_t num_cols, uint32_t num_rows, uint32_t num_tiles) : Component(name), texture_(t)
+		{
+			SetNumCols(num_cols);
+			SetNumRows(num_rows);
+			SetNumTiles(num_tiles);
+		}
 
 		// Does nothing
 		virtual ~TileRenderer() noexcept {}

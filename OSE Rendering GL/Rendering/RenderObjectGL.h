@@ -12,6 +12,10 @@ namespace ose::rendering
 		uint32_t vbo_;
 		uint32_t vao_;
 
+		GLenum render_primitive_ { GL_TRIANGLES };
+		GLint first_ { 0 };
+		GLint count_ { 0 };
+
 		// TODO - Implement stride (or something similar) to determine which textures belong to same instance within render object
 		std::vector<ose::unowned_ptr<TextureGL const>> textures_;
 
