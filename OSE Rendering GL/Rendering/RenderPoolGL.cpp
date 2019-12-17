@@ -2,18 +2,12 @@
 #include "RenderPoolGL.h"
 #include "ERenderObjectType.h"
 
-//#include "OSE-Core/EngineReferences.h"
-
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
-
-// TODO - Remove
-#include "OSE-Core/Shader/Shaders/ShaderGraphDefault.h"
-#include "ShaderGroupGL.h"
+#include "OSE-Core/Entity/Component/TileRenderer.h"
 
 namespace ose::rendering
 {
 	using namespace math;
-	using namespace shader;
 	using namespace entity;
 
 	RenderPoolGL::RenderPoolGL()
@@ -153,19 +147,19 @@ namespace ose::rendering
 	{
 		// Try to find a render object of the same type
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
-		bool found_sprite_renderer_group { false };
+		bool found_group { false };
 		for(auto & r : s.render_objects_)
 		{
 			if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
 			{
 				// Add the sprite renderer to the existing render object
-				found_sprite_renderer_group = true;
+				found_group = true;
 				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture()));
 				s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
 			}
 		}
 		// If the sprite renderer group could not be found, make one
-		if(!found_sprite_renderer_group)
+		if(!found_group)
 		{
 			// Create a VBO for the render object
 			GLuint vbo;
@@ -196,6 +190,58 @@ namespace ose::rendering
 			s.render_objects_.back().vao_ = vao;
 			s.render_objects_.back().type_ = ERenderObjectType::SPRITE_RENDERER;
 			s.render_objects_.back().textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture()));
+			s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
+		}
+	}
+
+	// Add a tile renderer component to the render pool
+	void RenderPoolGL::AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr)
+	{
+		// Try to find a render object of the same type
+		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
+		bool found_group { false };
+		for(auto & r : s.render_objects_)
+		{
+			if(r.type_ == ERenderObjectType::TILE_RENDERER)
+			{
+				// Add the sprite renderer to the existing render object
+				found_group = true;
+				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture()));
+				s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
+			}
+		}
+		// If the sprite renderer group could not be found, make one
+		if(!found_group)
+		{
+			// Create a VBO for the render object
+			GLuint vbo;
+			glGenBuffers(1, &vbo);
+			// Data consists of 2-float position and 2-float tex coords interleaved
+			float data[] = {
+				0, 0, 0, 1,
+				0, 1, 0, 0,
+				1, 1, 1, 0,
+				1, 0, 1, 1
+			};
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+
+			// Create a VAO for the render object
+			GLuint vao;
+			glGenBuffers(1, &vao);
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			// TODO - Vertex attrib locations are to be controlled by the built shader program
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+
+			s.render_objects_.emplace_back();
+			s.render_objects_.back().vbo_ = vbo;
+			s.render_objects_.back().vao_ = vao;
+			s.render_objects_.back().type_ = ERenderObjectType::SPRITE_RENDERER;
+			s.render_objects_.back().textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture()));
 			s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
 		}
 	}

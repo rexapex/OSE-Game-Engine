@@ -9,6 +9,7 @@
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
+#include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Engine/EngineTaskPool.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Windowing/WindowingFactory.h"
@@ -109,6 +110,16 @@ namespace ose::game
 
 			// then add the component to the render pool
 			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
+		}
+
+		for(ose::unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised TileRenderer");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
 		// initialise all sub entities

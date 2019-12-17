@@ -12,7 +12,7 @@
 #define COMPONENT( ClassName, ParentClass )													\
 public:                                                                                     \
 	static size_t GetClassType() {															\
-		static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };	\
+		static const std::size_t type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
 		return type;																		\
 	}																						\
 																							\

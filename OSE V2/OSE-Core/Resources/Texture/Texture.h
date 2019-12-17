@@ -14,7 +14,7 @@ namespace ose::resources
 		// Texture is an abstract class, the full class will contain render library specific data
 		Texture(const std::string & name, const std::string & path);
 	public:
-		~Texture();
+		virtual ~Texture();
 		//copying is not allowed (same as ResourceManager)
 		Texture(Texture &) = delete;
 		Texture & operator=(Texture &) = delete;
