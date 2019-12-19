@@ -26,7 +26,8 @@ namespace ose::rendering
 		DEBUG_LOG("updating othographic projection matrix");
 		float aspect_ratio = (float)fbwidth/(float)fbheight;
 		// setting glOrtho and glViewport in the following ways worked in testing
-		projection_matrix_ = glm::ortho(-(float)fbwidth/2 * aspect_ratio, (float)fbwidth/2 * aspect_ratio, -(float)fbheight/2 * aspect_ratio, (float)fbheight/2 * aspect_ratio);
+		///projection_matrix_ = glm::ortho(-(float)fbwidth/2 * aspect_ratio, (float)fbwidth/2 * aspect_ratio, -(float)fbheight/2 * aspect_ratio, (float)fbheight/2 * aspect_ratio);
+		projection_matrix_ = glm::ortho(0.0f, (float)fbwidth, 0.0f, (float)fbheight);
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
@@ -65,16 +66,16 @@ namespace ose::rendering
 
 						// Bind the texture
 						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]->GetGlTexId());
+						glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
 
 						// Render the object
 						glBindVertexArray(render_object.vao_);
-						glBindBuffer(GL_VERTEX_ARRAY, render_object.vbo_);
 						glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
 					}
 				}
 			}
 		}
+		glBindVertexArray(0);
 	}
 
 	// Load OpenGL functions using GLEW

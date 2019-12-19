@@ -7,18 +7,18 @@
 
 namespace ose::rendering
 {
-	class RenderingEngineGL : public RenderingEngine
+	class RenderingEngineGL final : public RenderingEngine
 	{
 	public:
 		RenderingEngineGL();
-		virtual ~RenderingEngineGL();
+		~RenderingEngineGL();
 
 		// Engine::update method overriden
 		// Called every game update to render all object in the pool
-		virtual void Update();
+		void Update() override;
 
 		// Get a reference to the render pool, s.t. new render objects can be added
-		virtual RenderPool & GetRenderPool() { return render_pool_; }
+		RenderPool & GetRenderPool() override { return render_pool_; }
 		
 	private:
 		// Load OpenGL functions using GLEW

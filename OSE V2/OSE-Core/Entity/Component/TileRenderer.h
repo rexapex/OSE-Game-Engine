@@ -17,29 +17,29 @@ namespace ose::entity
 		ose::unowned_ptr<resources::Texture const> texture_;
 
 		// The number of columns of tiles in the texture
-		uint32_t num_cols_ { 1 };
+		int32_t num_cols_ { 1 };
 
 		// The number of rows of tiles in the texture
-		uint32_t num_rows_ { 1 };
+		int32_t num_rows_ { 1 };
 
 		// The total numbers of tiles in the texture (not all rows/cols may be full)
-		uint32_t num_tiles_ { 1 };
+		int32_t num_tiles_ { 1 };
 
 	public:
 
 		ose::unowned_ptr<resources::Texture const> GetTexture() const { return texture_; }
-		uint32_t GetNumCols() const { return num_cols_; }
-		uint32_t GetNumRows() const { return num_rows_; }
-		uint32_t GetNumTiles() const { return num_tiles_; }
+		int32_t GetNumCols() const { return num_cols_; }
+		int32_t GetNumRows() const { return num_rows_; }
+		int32_t GetNumTiles() const { return num_tiles_; }
 
 		void SetTexture(ose::unowned_ptr<resources::Texture const> texture) { texture_ = texture; }
-		void SetNumCols(uint32_t n) { if(n > 0) num_cols_ = n; }
-		void SetNumRows(uint32_t n) { if(n > 0) num_rows_ = n; }
-		void SetNumTiles(uint32_t n) { if(n > 0) num_tiles_ = n; }
+		void SetNumCols(int32_t n) { if(n > 0) num_cols_ = n; }
+		void SetNumRows(int32_t n) { if(n > 0) num_rows_ = n; }
+		void SetNumTiles(int32_t n) { if(n > 0) num_tiles_ = n; }
 
 		// Initialise the tile renderer
 		TileRenderer(std::string const & name, ose::unowned_ptr<resources::Texture const> t,
-			uint32_t num_cols, uint32_t num_rows, uint32_t num_tiles) : Component(name), texture_(t)
+			int32_t num_cols, int32_t num_rows, int32_t num_tiles) : Component(name), texture_(t)
 		{
 			SetNumCols(num_cols);
 			SetNumRows(num_rows);

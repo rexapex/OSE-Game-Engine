@@ -44,8 +44,8 @@ namespace ose::rendering
 				"	samplerScale[1][1] = samplerSize[1];"
 				"	samplerScale[2][2] = samplerSize[2];"
 				"	samplerScale[3][3] = 1.0;"
-				//"	gl_Position = (samplerScale * (viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
-				"	gl_Position = ((viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
+				"	gl_Position = (viewProjMatrix * (worldTransform * samplerScale)) * vec4(position, 0.0, 1.0);\n"
+			//	"	gl_Position = ((viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
 				"}\n"
 				;
 			glShaderSource(vert, 1, &vert_source, NULL);
@@ -78,6 +78,7 @@ namespace ose::rendering
 				"uniform sampler2D texSampler;\n"
 				"void main() {\n"
 				"	fragColor = texture(texSampler, vertexUV);\n"
+				//"	fragColor = vec4(1, 0, 0, 1);\n"
 				"}\n"
 				;
 			glShaderSource(frag, 1, &frag_source, NULL);
@@ -156,8 +157,8 @@ namespace ose::rendering
 			{
 				// Add the sprite renderer to the existing render object
 				found_group = true;
-				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture()));
-				s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
+				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
+				r.transforms_.push_back(t.GetTransformMatrix());
 			}
 		}
 		// If the sprite renderer group could not be found, make one
@@ -178,7 +179,7 @@ namespace ose::rendering
 
 			// Create a VAO for the render object
 			GLuint vao;
-			glGenBuffers(1, &vao);
+			glGenVertexArrays(1, &vao);
 			glBindVertexArray(vao);
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			// TODO - Vertex attrib locations are to be controlled by the built shader program
@@ -186,16 +187,21 @@ namespace ose::rendering
 			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 			glEnableVertexAttribArray(1);
 			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+			// Unbind the vao
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-			s.render_objects_.emplace_back();
-			s.render_objects_.back().vbo_ = vbo;
-			s.render_objects_.back().vao_ = vao;
-			s.render_objects_.back().first_ = 0;
-			s.render_objects_.back().count_ = 4;
-			s.render_objects_.back().render_primitive_ = GL_QUADS;
-			s.render_objects_.back().type_ = ERenderObjectType::SPRITE_RENDERER;
-			s.render_objects_.back().textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture()));
-			s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
+			// Add a new render object
+			GLenum primitive{ GL_QUADS };
+			GLint first{ 0 };
+			GLint count{ 4 };
+			s.render_objects_.emplace_back(
+				ERenderObjectType::SPRITE_RENDERER,
+				vbo, vao,
+				primitive, first, count,
+				std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() },
+				std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+			);
 		}
 	}
 
@@ -208,16 +214,17 @@ namespace ose::rendering
 		// Unlike SpriteRenderer, TileRenderer cannot share a group since the tile grid is encoded into the buffer data
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
 
-		uint32_t tile_width  { static_cast<uint32_t>(tr->GetTexture()->GetWidth()) / tr->GetNumCols() };
-		uint32_t tile_height { static_cast<uint32_t>(tr->GetTexture()->GetHeight()) / tr->GetNumRows() };
+		// Calculate tile dimensions s.t. when multiplied by the texture dimensions in the shader, the tiles will be the correct size
+		float tile_width  { (static_cast<float>(tr->GetTexture()->GetWidth()) / tr->GetNumCols()) / tr->GetTexture()->GetWidth() };
+		float tile_height { (static_cast<float>(tr->GetTexture()->GetHeight()) / tr->GetNumRows()) / tr->GetTexture()->GetHeight() };
 
 		// TODO
-		size_t tilemap_width  { 10 };
-		size_t tilemap_height { 10 };
+		int32_t tilemap_width  { 10 };
+		int32_t tilemap_height { 10 };
 
 		// TODO
-		uint32_t spacing_x { tile_width };
-		uint32_t spacing_y { tile_height };
+		float spacing_x { tile_width };
+		float spacing_y { tile_height };
 		// TODO - Was incorrectly adding to x/y instead of u/v
 		float half_pixel_width  = 0;// { (1.0f / tr->GetTexture()->GetWidth()) / 2};
 		float half_pixel_height = 0;//{ (1.0f / tr->GetTexture()->GetHeight()) / 2};
@@ -248,7 +255,7 @@ namespace ose::rendering
 				float v0 = (float)atlas_y / tr->GetNumRows();
 				float v1 = (float)(atlas_y + 1) / tr->GetNumRows();
 				// Set the vertex's position and texture co-ordinates
-				size_t tile_offset { 6*4*(i + tilemap_width * (tilemap_height - j - 1)) };
+				size_t tile_offset { static_cast<size_t>(6*4*(i + tilemap_width * (tilemap_height - j - 1))) };
 				// Top Left
 				data[tile_offset + 0*4 + 0] = x0;
 				data[tile_offset + 0*4 + 1] = y1;
@@ -285,7 +292,7 @@ namespace ose::rendering
 
 		// Create a VAO for the render object
 		GLuint vao;
-		glGenBuffers(1, &vao);
+		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
 		// TODO - Vertex attrib locations are to be controlled by the built shader program
@@ -293,15 +300,20 @@ namespace ose::rendering
 		glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
 		glEnableVertexAttribArray(1);
 		glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+		// Unbind the vao
+		glBindVertexArray(0);
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		s.render_objects_.emplace_back();
-		s.render_objects_.back().vbo_ = vbo;
-		s.render_objects_.back().vao_ = vao;
-		s.render_objects_.back().first_ = 0;
-		s.render_objects_.back().count_ = 6 * tilemap_width * tilemap_height;
-		s.render_objects_.back().render_primitive_ = GL_TRIANGLES;
-		s.render_objects_.back().type_ = ERenderObjectType::TILE_RENDERER;
-		s.render_objects_.back().textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture()));
-		s.render_objects_.back().transforms_.push_back(t.GetTransformMatrix());
+		// Add a new render object
+		GLenum primitive{ GL_TRIANGLES };
+		GLint first{ 0 };
+		GLint count{ 6 * tilemap_width * tilemap_height };
+		s.render_objects_.emplace_back(
+			ERenderObjectType::TILE_RENDERER,
+			vbo, vao,
+			primitive, first, count,
+			std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() },
+			std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+		);
 	}
 }
