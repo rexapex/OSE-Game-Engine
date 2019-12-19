@@ -274,7 +274,7 @@ namespace ose::math
 
 	const glm::mat4 Transform::GetTransformMatrix() const
 	{
-		return glm::scale(glm::mat4(), scale_) * glm::toMat4(orientation_) * glm::translate(glm::mat4(), position_);
+		return glm::translate(glm::mat4(), position_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
 	}
 
 	const glm::vec3 Transform::GetUp() const
