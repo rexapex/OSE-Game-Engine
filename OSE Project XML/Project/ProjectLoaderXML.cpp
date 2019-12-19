@@ -8,6 +8,7 @@
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
+#include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
@@ -406,7 +407,7 @@ namespace ose::project
 				new_entity->Translate(x, y, z);
 				new_entity->Scale(sx, sy, sz);
 			}
-			catch(std::exception &)
+			catch(...)
 			{
 				ERROR_LOG("Error: Failed to parse transform attribute as float, transform component ignored");
 			}
@@ -428,6 +429,49 @@ namespace ose::project
 			const Texture * tex = project.GetResourceManager().GetTexture(texture);
 			if(tex != nullptr) {
 				new_entity->AddComponent<SpriteRenderer>(name, tex);
+			} else {
+				ERROR_LOG("Error: Texture " << texture << " has not been loaded");
+			}
+		}
+
+		// parse the tile renderer components of the new entity
+		for(auto component_node = entity_node->first_node("tile_renderer"); component_node; component_node = component_node->next_sibling("tile_renderer"))
+		{
+			// has name & texture attributes
+			auto name_attrib	= component_node->first_attribute("name");
+			auto texture_attrib = component_node->first_attribute("texture");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// has num_cols, num_rows, & num_tiles attributes
+			auto num_cols_attrib  = component_node->first_attribute("num_cols");
+			auto num_rows_attrib  = component_node->first_attribute("num_rows");
+			auto num_tiles_attrib = component_node->first_attribute("num_tiles");
+			uint32_t num_cols{ 0 };
+			uint32_t num_rows{ 0 };
+			uint32_t num_tiles{ 0 };
+
+			try
+			{
+				if(num_cols_attrib != nullptr)
+					num_cols = std::stoi(num_cols_attrib->value());
+				if(num_rows_attrib != nullptr)
+					num_rows = std::stoi(num_rows_attrib->value());
+				if(num_tiles_attrib != nullptr)
+					num_tiles = std::stoi(num_tiles_attrib->value());
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse num_cols/num_rows/num_tiles attribute(s) as integer");
+			}
+
+			// if texture is an alias, find it's replacement text, else use the file text
+			std::string texture_text { (texture_attrib ? texture_attrib->value() : "") };
+			const auto texture_text_alias_pos { aliases.find(texture_text) };
+			const std::string & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
+
+			const Texture * tex = project.GetResourceManager().GetTexture(texture);
+			if(tex != nullptr) {
+				new_entity->AddComponent<TileRenderer>(name, tex, num_cols, num_rows, num_tiles);
 			} else {
 				ERROR_LOG("Error: Texture " << texture << " has not been loaded");
 			}

@@ -10,6 +10,7 @@ namespace ose
 	namespace entity
 	{
 		class SpriteRenderer;
+		class TileRenderer;
 	}
 }
 
@@ -19,10 +20,13 @@ namespace ose::rendering
 	{
 	public:
 		RenderPool();
-		~RenderPool();
+		virtual ~RenderPool();
 
 		// Add a sprite renderer component to the render pool
 		virtual void AddSpriteRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::SpriteRenderer> sr) = 0;
+
+		// Add a tile renderer component to the render pool
+		virtual void AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr) = 0;
 	};
 }
 

@@ -162,6 +162,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h" />
     <ClInclude Include="OSE-Core\Math\ITransform.h" />

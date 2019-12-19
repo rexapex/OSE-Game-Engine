@@ -3,6 +3,10 @@
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
 #include "OSE-Core/Resources/Texture/TextureLoaderFactory.h"
+#include "Texture/Texture.h"
+#include "Texture/TextureLoader.h"
+#include "Texture/TextureMetaData.h"
+#include "FileHandlingUtil.h"
 
 namespace ose::resources
 {

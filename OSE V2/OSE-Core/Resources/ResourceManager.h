@@ -1,14 +1,14 @@
 #pragma once
 
 #include "OSE-Core/Types.h"
-#include "FileHandlingUtil.h"
-#include "Texture/Texture.h"
-#include "Texture/TextureLoader.h"
-#include "Texture/TextureMetaData.h"
-#include <sstream>
 
 namespace ose::resources
 {
+	class TextureLoader;
+	class Texture;
+	class TextureAtlas;
+	class TextureMetaData;
+
 	class ResourceManager
 	{
 	public:

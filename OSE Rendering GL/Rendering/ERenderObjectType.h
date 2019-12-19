@@ -6,6 +6,7 @@ namespace ose::rendering
 	// Used to group object together into the same render object
 	enum class ERenderObjectType
 	{
-		SPRITE_RENDERER
+		SPRITE_RENDERER,
+		TILE_RENDERER
 	};
 }
