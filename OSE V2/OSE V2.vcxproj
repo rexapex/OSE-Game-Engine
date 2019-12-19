@@ -170,6 +170,7 @@
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptPool.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
@@ -503,6 +504,7 @@
     <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -681,6 +683,7 @@
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp" />
+    <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
