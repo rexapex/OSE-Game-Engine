@@ -170,9 +170,9 @@ namespace ose::rendering
 			// Data consists of 2-float position and 2-float tex coords interleaved
 			float data[] = {
 				0, 0, 0, 1,
-				0, 1, 0, 0,
+				1, 0, 1, 1,
 				1, 1, 1, 0,
-				1, 0, 1, 1
+				0, 1, 0, 0
 			};
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -261,31 +261,31 @@ namespace ose::rendering
 				data[tile_offset + 0*4 + 1] = y1;
 				data[tile_offset + 0*4 + 2] = u0;
 				data[tile_offset + 0*4 + 3] = v0;
-				// Top Right
-				data[tile_offset + 1*4 + 0] = x1;
-				data[tile_offset + 1*4 + 1] = y1;
-				data[tile_offset + 1*4 + 2] = u1;
-				data[tile_offset + 1*4 + 3] = v0;
 				// Bottom Right
+				data[tile_offset + 1*4 + 0] = x1;
+				data[tile_offset + 1*4 + 1] = y0;
+				data[tile_offset + 1*4 + 2] = u1;
+				data[tile_offset + 1*4 + 3] = v1;
+				// Top Right
 				data[tile_offset + 2*4 + 0] = x1;
-				data[tile_offset + 2*4 + 1] = y0;
+				data[tile_offset + 2*4 + 1] = y1;
 				data[tile_offset + 2*4 + 2] = u1;
-				data[tile_offset + 2*4 + 3] = v1;
+				data[tile_offset + 2*4 + 3] = v0;
 				// Bottom Right
 				data[tile_offset + 3*4 + 0] = x1;
 				data[tile_offset + 3*4 + 1] = y0;
 				data[tile_offset + 3*4 + 2] = u1;
 				data[tile_offset + 3*4 + 3] = v1;
-				// Bottom Left
-				data[tile_offset + 4*4 + 0] = x0;
-				data[tile_offset + 4*4 + 1] = y0;
-				data[tile_offset + 4*4 + 2] = u0;
-				data[tile_offset + 4*4 + 3] = v1;
 				// Top Left
+				data[tile_offset + 4*4 + 0] = x0;
+				data[tile_offset + 4*4 + 1] = y1;
+				data[tile_offset + 4*4 + 2] = u0;
+				data[tile_offset + 4*4 + 3] = v0;
+				// Bottom Left
 				data[tile_offset + 5*4 + 0] = x0;
-				data[tile_offset + 5*4 + 1] = y1;
+				data[tile_offset + 5*4 + 1] = y0;
 				data[tile_offset + 5*4 + 2] = u0;
-				data[tile_offset + 5*4 + 3] = v0;
+				data[tile_offset + 5*4 + 3] = v1;
 			}
 		}
 		glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(float), data.data(), GL_STATIC_DRAW);
