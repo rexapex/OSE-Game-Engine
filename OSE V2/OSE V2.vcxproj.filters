@@ -525,6 +525,7 @@
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vector_relational.hpp" />
     <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptPool.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

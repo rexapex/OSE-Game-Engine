@@ -1,5 +1,13 @@
 #pragma once
 
+namespace ose
+{
+	namespace entity
+	{
+		class Entity;
+	}
+}
+
 namespace ose::scripting
 {
 	class ScriptPool
@@ -8,6 +16,6 @@ namespace ose::scripting
 		virtual ~ScriptPool() {}
 
 		// Add a custom engine component to the script pool
-		virtual void AddCustomEngine() = 0;
+		virtual void AddCustomEngine(ose::entity::Entity & entity, ose::unowned_ptr<) = 0;
 	};
 }

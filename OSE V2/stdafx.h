@@ -11,6 +11,8 @@
 #include <memory>
 #include <functional>
 
+#include "OSE-Core/Types.h"
+
 #define GLM_FORCE_RADIANS
 #include "OSE-Core/EngineDependencies/glm/glm.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/quaternion.hpp"
