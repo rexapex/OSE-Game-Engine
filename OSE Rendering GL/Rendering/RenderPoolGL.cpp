@@ -78,6 +78,8 @@ namespace ose::rendering
 				"uniform sampler2D texSampler;\n"
 				"void main() {\n"
 				"	fragColor = texture(texSampler, vertexUV);\n"
+				"	float gamma = 2.2;\n"
+				"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
 				//"	fragColor = vec4(1, 0, 0, 1);\n"
 				"}\n"
 				;
