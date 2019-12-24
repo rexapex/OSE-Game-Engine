@@ -36,6 +36,7 @@
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="OSE-Core\Windowing\WindowManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -524,6 +525,8 @@
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\vector_relational.hpp" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
+    <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

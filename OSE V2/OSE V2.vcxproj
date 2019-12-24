@@ -171,6 +171,8 @@
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
+    <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
+    <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
@@ -676,6 +678,7 @@
     <ClCompile Include="OSE-Core\Resources\Prefab\PrefabManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\Tilemap.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
     <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
