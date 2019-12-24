@@ -443,13 +443,17 @@ namespace ose::project
 			auto tilemap_attrib = component_node->first_attribute("tilemap");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
-			// Has num_cols, num_rows, & num_tiles attributes
+			// Optionally has num_cols, num_rows, num_tiles, spacing_x & spacing_y attributes
 			auto num_cols_attrib  = component_node->first_attribute("num_cols");
 			auto num_rows_attrib  = component_node->first_attribute("num_rows");
 			auto num_tiles_attrib = component_node->first_attribute("num_tiles");
-			uint32_t num_cols{ 0 };
-			uint32_t num_rows{ 0 };
-			uint32_t num_tiles{ 0 };
+			auto spacing_x_attrib = component_node->first_attribute("spacing_x");
+			auto spacing_y_attrib = component_node->first_attribute("spacing_y");
+			int32_t num_cols{ 0 };
+			int32_t num_rows{ 0 };
+			int32_t num_tiles{ 0 };
+			float spacing_x{ 1.0f };
+			float spacing_y{ 1.0f };
 
 			try
 			{
@@ -459,10 +463,14 @@ namespace ose::project
 					num_rows = std::stoi(num_rows_attrib->value());
 				if(num_tiles_attrib != nullptr)
 					num_tiles = std::stoi(num_tiles_attrib->value());
+				if(spacing_x_attrib != nullptr)
+					spacing_x = std::stof(spacing_x_attrib->value());
+				if(spacing_y_attrib != nullptr)
+					spacing_y = std::stof(spacing_y_attrib->value());
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse num_cols/num_rows/num_tiles attribute(s) as integer");
+				ERROR_LOG("Error: Failed to parse num_cols/num_rows/num_tiles/spacing_x/spacing_y attribute(s) as integer");
 			}
 
 			// If texture is an alias, find it's replacement text, else use the file text
@@ -479,7 +487,7 @@ namespace ose::project
 			const Tilemap * tmap = project.GetResourceManager().GetTilemap(tilemap);
 			const Texture * tex = project.GetResourceManager().GetTexture(texture);
 			if(tex != nullptr && tmap != nullptr) {
-				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles);
+				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles, spacing_x, spacing_y);
 			} else {
 				if(tex == nullptr) {
 					ERROR_LOG("Error: Texture " << texture << " has not been loaded");

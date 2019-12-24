@@ -4,7 +4,7 @@
 namespace ose::resources
 {
 	Tilemap::Tilemap(const std::string & name, const std::string & path) : name_(name), path_(path),
-		width_(0), height_(0), spacing_x_(0), spacing_y_(0), tile_grid_(nullptr)
+		width_(0), height_(0), tile_grid_(nullptr)
 	{
 
 	}
@@ -16,7 +16,7 @@ namespace ose::resources
 
 	Tilemap::Tilemap(Tilemap && other) noexcept
 		: name_(""), path_(""), width_(0), height_(0),
-		spacing_x_(0), spacing_y_(0), tile_grid_(nullptr)
+		tile_grid_(nullptr)
 	{
 		std::swap(*this, other);
 	}
@@ -27,8 +27,6 @@ namespace ose::resources
 		path_ = "";
 		width_ = 0;
 		height_ = 0;
-		spacing_x_ = 0;
-		spacing_y_ = 0;
 		tile_grid_ = nullptr;
 		std::swap(*this, other);
 		return *this;

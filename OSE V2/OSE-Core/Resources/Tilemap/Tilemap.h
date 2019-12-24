@@ -18,12 +18,6 @@ namespace ose::resources
 		int32_t GetWidth() const { return width_; }
 		int32_t GetHeight() const { return height_; }
 
-		int32_t GetSpacingX() const { return spacing_x_; }
-		int32_t GetSpacingY() const { return spacing_y_; }
-
-		void SetSpacingX(int32_t val) { spacing_x_ = val; }
-		void SetSpacingY(int32_t val) { spacing_y_ = val; }
-
 		void CreateTileGrid(int32_t width, int32_t height) noexcept;
 		void DeleteTileGrid() noexcept;
 
@@ -41,8 +35,5 @@ namespace ose::resources
 
 		int32_t width_;
 		int32_t height_;
-
-		int32_t spacing_x_;
-		int32_t spacing_y_;
 	};
 }
