@@ -251,7 +251,7 @@ namespace ose::rendering
 				{
 					// Calculate the position of the tile in the texture atlas
 					int32_t atlas_x { value % tr->GetNumCols() };
-					int32_t atlas_y { value / tr->GetNumRows() };
+					int32_t atlas_y { value / tr->GetNumCols() };
 					// Calculate the position co-ordinates for the tile
 					float x0 = i * spacing_x;
 					float x1 = i * spacing_x + tile_width;
@@ -263,7 +263,7 @@ namespace ose::rendering
 					float v0 = (float)atlas_y / tr->GetNumRows() + half_pixel_height;
 					float v1 = (float)(atlas_y + 1) / tr->GetNumRows() - half_pixel_height;
 					// Set the vertex's position and texture co-ordinates
-					size_t tile_offset { static_cast<size_t>(6*4*(i + j*tilemap_width)) };
+					size_t tile_offset { static_cast<size_t>(6*4*(i + (tilemap_height - j - 1)*tilemap_width)) };
 					// Top Left
 					data[tile_offset + 0*4 + 0] = x0;
 					data[tile_offset + 0*4 + 1] = y1;
