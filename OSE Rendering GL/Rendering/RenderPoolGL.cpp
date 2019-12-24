@@ -218,9 +218,8 @@ namespace ose::rendering
 		auto & tilemap = *tr->GetTilemap();
 
 		// Calculate tile dimensions s.t. when multiplied by the texture dimensions in the shader, the tiles will be the correct size
-		// TODO - Change to 1.0f / NumCols(Rows)
-		float tile_width  { (static_cast<float>(tr->GetTexture()->GetWidth()) / tr->GetNumCols()) / tr->GetTexture()->GetWidth() };
-		float tile_height { (static_cast<float>(tr->GetTexture()->GetHeight()) / tr->GetNumRows()) / tr->GetTexture()->GetHeight() };
+		float tile_width  { 1.0f / tr->GetNumCols() };
+		float tile_height { 1.0f / tr->GetNumRows() };
 
 		// Get the width and height of the tilemap
 		int32_t tilemap_width  { tilemap.GetWidth() };
@@ -231,8 +230,8 @@ namespace ose::rendering
 		float spacing_y { tile_height };
 
 		// TODO - Was incorrectly adding to x/y instead of u/v
-		float half_pixel_width  = 0;// { (1.0f / tr->GetTexture()->GetWidth()) / 2};
-		float half_pixel_height = 0;//{ (1.0f / tr->GetTexture()->GetHeight()) / 2};
+		float half_pixel_width  = { (1.0f / tr->GetTexture()->GetWidth()) / 2};
+		float half_pixel_height = { (1.0f / tr->GetTexture()->GetHeight()) / 2};
 
 		// Create a VBO for the render object
 		GLuint vbo;
@@ -250,17 +249,16 @@ namespace ose::rendering
 				int32_t atlas_x { value % tr->GetNumCols() };
 				int32_t atlas_y { value / tr->GetNumRows() };
 				// Calculate the position co-ordinates for the tile
-				float x0 = i * spacing_x + half_pixel_width;
-				float x1 = i * spacing_x + tile_width - half_pixel_width;
-				float y0 = j * spacing_y + half_pixel_height;
-				float y1 = j * spacing_y + tile_height - half_pixel_height;
+				float x0 = i * spacing_x;
+				float x1 = i * spacing_x + tile_width;
+				float y0 = j * spacing_y;
+				float y1 = j * spacing_y + tile_height;
 				// Calculate the texture co-ordinates for the tile
-				float u0 = (float)atlas_x / tr->GetNumCols();
-				float u1 = (float)(atlas_x + 1) / tr->GetNumCols();
-				float v0 = (float)atlas_y / tr->GetNumRows();
-				float v1 = (float)(atlas_y + 1) / tr->GetNumRows();
+				float u0 = (float)atlas_x / tr->GetNumCols() + half_pixel_width;
+				float u1 = (float)(atlas_x + 1) / tr->GetNumCols() - half_pixel_width;
+				float v0 = (float)atlas_y / tr->GetNumRows() + half_pixel_height;
+				float v1 = (float)(atlas_y + 1) / tr->GetNumRows() - half_pixel_height;
 				// Set the vertex's position and texture co-ordinates
-				//size_t tile_offset { static_cast<size_t>(6*4*(i + tilemap_width * (tilemap_height - j - 1))) };
 				size_t tile_offset { static_cast<size_t>(6*4*(i + j*tilemap_width)) };
 				// Top Left
 				data[tile_offset + 0*4 + 0] = x0;
