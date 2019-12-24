@@ -6,19 +6,23 @@
 #include "Texture/Texture.h"
 #include "Texture/TextureLoader.h"
 #include "Texture/TextureMetaData.h"
+#include "Tilemap/TilemapLoaderFactory.h"
 #include "Tilemap/Tilemap.h"
+#include "Tilemap/TilemapLoader.h"
 #include "FileHandlingUtil.h"
 
 namespace ose::resources
 {
 	using namespace rendering;
 
-	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path), texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)) {}
+	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path),
+		texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)),
+		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)) {}
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
 		textures_without_Gpu_memory_(std::move(other.textures_without_Gpu_memory_)), textures_with_Gpu_memory_(std::move(other.textures_with_Gpu_memory_)),
-		texture_loader_(std::move(other.texture_loader_)) {}
+		texture_loader_(std::move(other.texture_loader_)), tilemap_loader_(std::move(other.tilemap_loader_)) {}
 
 	ResourceManager & ResourceManager::operator=(ResourceManager && other) noexcept
 	{
@@ -26,6 +30,7 @@ namespace ose::resources
 		textures_without_Gpu_memory_ = std::move(other.textures_without_Gpu_memory_);
 		textures_with_Gpu_memory_ = std::move(other.textures_with_Gpu_memory_);
 		texture_loader_ = std::move(other.texture_loader_);
+		tilemap_loader_ = std::move(other.tilemap_loader_);
 		return *this;
 	}
 
@@ -298,8 +303,7 @@ namespace ose::resources
 				auto & tilemap = tilemaps_.at(name_to_use);
 
 				// TODO - Do the loading with multi-threading
-			//	texture_loader_->LoadTexture(abs_path, &d, &w, &h);
-			//	tex->SetImgData(d, w, h);
+				tilemap_loader_->LoadTilemap(abs_path, *tilemap);
 			}
 			else
 			{
@@ -312,5 +316,14 @@ namespace ose::resources
 	// IMPORANT - can be called from any thread (TODO)
 	void ResourceManager::RemoveTilemap(const std::string & name)
 	{
+		// Get the tilemap if it exists
+		auto const & iter { tilemaps_.find(name) };
+
+		// If the tilemaps exists, remove it from the map
+		if(iter != tilemaps_.end())
+		{
+			// Remove the texture from the map
+			tilemaps_.erase(iter);
+		}
 	}
 }

@@ -24,10 +24,14 @@ namespace ose::resources
 		void SetSpacingX(int32_t val) { spacing_x_ = val; }
 		void SetSpacingY(int32_t val) { spacing_y_ = val; }
 
-		void SetTileGrid(int32_t width, int32_t height) noexcept;
+		void CreateTileGrid(int32_t width, int32_t height) noexcept;
+		void DeleteTileGrid() noexcept;
 
 		int32_t & operator[](size_t index) { return tile_grid_[index]; }
-		int32_t & operator()(size_t row, size_t col) { return tile_grid_[col + row*width_]; }
+		int32_t & operator()(size_t col, size_t row) { return tile_grid_[col + row*width_]; }
+
+		int32_t operator[](size_t index) const { return tile_grid_[index]; }
+		int32_t operator()(size_t col, size_t row) const { return tile_grid_[col + row*width_]; }
 
 	protected:
 		std::string name_;

@@ -208,23 +208,28 @@ namespace ose::rendering
 	// Add a tile renderer component to the render pool
 	void RenderPoolGL::AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr)
 	{
-		if(tr->GetTexture() == nullptr)
+		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;
 
 		// Unlike SpriteRenderer, TileRenderer cannot share a group since the tile grid is encoded into the buffer data
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
 
+		// Get a reference to the tilemap
+		auto & tilemap = *tr->GetTilemap();
+
 		// Calculate tile dimensions s.t. when multiplied by the texture dimensions in the shader, the tiles will be the correct size
+		// TODO - Change to 1.0f / NumCols(Rows)
 		float tile_width  { (static_cast<float>(tr->GetTexture()->GetWidth()) / tr->GetNumCols()) / tr->GetTexture()->GetWidth() };
 		float tile_height { (static_cast<float>(tr->GetTexture()->GetHeight()) / tr->GetNumRows()) / tr->GetTexture()->GetHeight() };
 
-		// TODO
-		int32_t tilemap_width  { 10 };
-		int32_t tilemap_height { 10 };
+		// Get the width and height of the tilemap
+		int32_t tilemap_width  { tilemap.GetWidth() };
+		int32_t tilemap_height { tilemap.GetHeight() };
 
-		// TODO
+		// Get the x and y spacing between tiles
 		float spacing_x { tile_width };
 		float spacing_y { tile_height };
+
 		// TODO - Was incorrectly adding to x/y instead of u/v
 		float half_pixel_width  = 0;// { (1.0f / tr->GetTexture()->GetWidth()) / 2};
 		float half_pixel_height = 0;//{ (1.0f / tr->GetTexture()->GetHeight()) / 2};
@@ -233,17 +238,17 @@ namespace ose::rendering
 		GLuint vbo;
 		glGenBuffers(1, &vbo);
 		// Data consists of 2-float position and 2-float tex coords interleaved, each tile is composed of 2 tris (6 vertices)
-		std::vector<float> data(6 * 4 * tilemap_width * tilemap_height);
+		std::vector<float> data(static_cast<size_t>(6) * 4 * tilemap_width * tilemap_height);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		for(int j = 0; j < tilemap_height; j++)
+		for(size_t j = 0; j < tilemap_height; j++)
 		{
-			for(int i = 0; i < tilemap_width; i++)
+			for(size_t i = 0; i < tilemap_width; i++)
 			{
-				// TODO
-				int value { i % 4 };
+				// Get the value of the tile at (x, y) - Stored upside down so use y = j - height - 1 instead of y = j
+				int32_t value { tilemap(i, tilemap_height-j-1) };
 				// Calculate the position of the tile in the texture atlas
-				int atlas_x { value % static_cast<int>(tr->GetNumCols()) };
-				int atlas_y { value % static_cast<int>(tr->GetNumRows()) };
+				int32_t atlas_x { value % tr->GetNumCols() };
+				int32_t atlas_y { value / tr->GetNumRows() };
 				// Calculate the position co-ordinates for the tile
 				float x0 = i * spacing_x + half_pixel_width;
 				float x1 = i * spacing_x + tile_width - half_pixel_width;
@@ -255,7 +260,8 @@ namespace ose::rendering
 				float v0 = (float)atlas_y / tr->GetNumRows();
 				float v1 = (float)(atlas_y + 1) / tr->GetNumRows();
 				// Set the vertex's position and texture co-ordinates
-				size_t tile_offset { static_cast<size_t>(6*4*(i + tilemap_width * (tilemap_height - j - 1))) };
+				//size_t tile_offset { static_cast<size_t>(6*4*(i + tilemap_width * (tilemap_height - j - 1))) };
+				size_t tile_offset { static_cast<size_t>(6*4*(i + j*tilemap_width)) };
 				// Top Left
 				data[tile_offset + 0*4 + 0] = x0;
 				data[tile_offset + 0*4 + 1] = y1;

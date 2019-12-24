@@ -8,6 +8,8 @@ namespace ose::resources
 	class Texture;
 	class TextureAtlas;
 	struct TextureMetaData;
+	
+	class TilemapLoader;
 	class Tilemap;
 
 	class ResourceManager
@@ -93,5 +95,8 @@ namespace ose::resources
 
 		// Maps tilemap name to tilemap object
 		std::map<std::string, std::unique_ptr<Tilemap>> tilemaps_;
+
+		// The TilemapLoader object used for loading tilemap from filees
+		std::unique_ptr<TilemapLoader> tilemap_loader_;
 	};
 }

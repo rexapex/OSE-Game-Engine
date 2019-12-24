@@ -31,9 +31,10 @@ namespace ose::resources
 		spacing_y_ = 0;
 		tile_grid_ = nullptr;
 		std::swap(*this, other);
+		return *this;
 	}
 
-	void Tilemap::SetTileGrid(int32_t width, int32_t height) noexcept
+	void Tilemap::CreateTileGrid(int32_t width, int32_t height) noexcept
 	{
 		if(width > 0 && height > 0)
 		{
@@ -49,5 +50,14 @@ namespace ose::resources
 				tile_grid_ = nullptr;
 			}
 		}
+	}
+
+	void Tilemap::DeleteTileGrid() noexcept
+	{
+		width_ = 0;
+		height_ = 0;
+		auto ptr = tile_grid_;
+		tile_grid_ = nullptr;
+		delete[] ptr;
 	}
 }
