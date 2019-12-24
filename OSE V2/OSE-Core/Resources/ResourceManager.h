@@ -7,7 +7,8 @@ namespace ose::resources
 	class TextureLoader;
 	class Texture;
 	class TextureAtlas;
-	class TextureMetaData;
+	struct TextureMetaData;
+	class Tilemap;
 
 	class ResourceManager
 	{
@@ -36,7 +37,7 @@ namespace ose::resources
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
 		// if no name is given, the relative path will be used
-		// IMPORTANT - can be called from any thread
+		// IMPORTANT - can be called from any thread (TODO)
 		void AddTexture(const std::string & path, const std::string & name = "");
 
 		// create the GPU memory for an already loaded (added) texture
@@ -45,7 +46,7 @@ namespace ose::resources
 		std::map<std::string, std::unique_ptr<Texture>>::const_iterator CreateTexture(const std::string & tex_name);
 
 		// remove the texture from the textures list and free the texture's resources
-		// IMPORANT - can be called from any thread
+		// IMPORANT - can be called from any thread (TODO)
 		void RemoveTexture(const std::string & tex_name);
 
 		// free the GPU memory of the texture
@@ -58,6 +59,20 @@ namespace ose::resources
 
 		// loads a meta file for some texture, meta files map properties to values
 		void LoadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data);
+
+		// Get the tilemap from the resources manager
+		// Given the name of the tilemap, return the tilemap object
+		ose::unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
+
+		// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
+		// Path is relative to ProjectPath/Resources
+		// If no name is given, the relative path will be used
+		// IMPORTANT - Can be called from any thread (TODO)
+		void AddTilemap(const std::string & path, const std::string & name = "");
+
+		// Remove the tilemap from the tilemaps list and free the tilemap's resources
+		// IMPORANT - can be called from any thread (TODO)
+		void RemoveTilemap(const std::string & name);
 
 	private:
 		// the root path of the currently loaded project
@@ -75,5 +90,8 @@ namespace ose::resources
 
 		// the TextureLoader object used for loading textures from image files
 		std::unique_ptr<TextureLoader> texture_loader_;
+
+		// Maps tilemap name to tilemap object
+		std::map<std::string, std::unique_ptr<Tilemap>> tilemaps_;
 	};
 }

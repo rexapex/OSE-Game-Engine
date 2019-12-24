@@ -6,7 +6,7 @@ namespace ose::resources
 	class Tilemap
 	{
 	public:
-		Tilemap(const std::string & name, const std::string & path, int32_t width, int32_t height);
+		Tilemap(const std::string & name, const std::string & path);
 		~Tilemap();
 		// Copying is not allowed (same as ResourceManager)
 		Tilemap(Tilemap &) = delete;
@@ -14,8 +14,6 @@ namespace ose::resources
 		// Moving is allowed (same as ResourceManager)
 		Tilemap(Tilemap &&) noexcept;
 		Tilemap & operator=(Tilemap &&) noexcept;
-
-		ose::unowned_ptr<int32_t> const GetTileGrid() const { return tile_grid_; }
 
 		int32_t GetWidth() const { return width_; }
 		int32_t GetHeight() const { return height_; }
@@ -25,6 +23,8 @@ namespace ose::resources
 
 		void SetSpacingX(int32_t val) { spacing_x_ = val; }
 		void SetSpacingY(int32_t val) { spacing_y_ = val; }
+
+		void SetTileGrid(int32_t width, int32_t height) noexcept;
 
 		int32_t & operator[](size_t index) { return tile_grid_[index]; }
 		int32_t & operator()(size_t row, size_t col) { return tile_grid_[col + row*width_]; }

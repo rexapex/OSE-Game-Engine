@@ -434,15 +434,16 @@ namespace ose::project
 			}
 		}
 
-		// parse the tile renderer components of the new entity
+		// Parse the tile renderer components of the new entity
 		for(auto component_node = entity_node->first_node("tile_renderer"); component_node; component_node = component_node->next_sibling("tile_renderer"))
 		{
-			// has name & texture attributes
+			// Has name, texture & tilemap attributes
 			auto name_attrib	= component_node->first_attribute("name");
 			auto texture_attrib = component_node->first_attribute("texture");
+			auto tilemap_attrib = component_node->first_attribute("tilemap");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
-			// has num_cols, num_rows, & num_tiles attributes
+			// Has num_cols, num_rows, & num_tiles attributes
 			auto num_cols_attrib  = component_node->first_attribute("num_cols");
 			auto num_rows_attrib  = component_node->first_attribute("num_rows");
 			auto num_tiles_attrib = component_node->first_attribute("num_tiles");
@@ -464,16 +465,28 @@ namespace ose::project
 				ERROR_LOG("Error: Failed to parse num_cols/num_rows/num_tiles attribute(s) as integer");
 			}
 
-			// if texture is an alias, find it's replacement text, else use the file text
+			// If texture is an alias, find it's replacement text, else use the file text
 			std::string texture_text { (texture_attrib ? texture_attrib->value() : "") };
 			const auto texture_text_alias_pos { aliases.find(texture_text) };
 			const std::string & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
 
+			// If tilemap is an alias, find it's replacement text, else use the file text
+			std::string tilemap_text { (tilemap_attrib ? tilemap_attrib->value() : "") };
+			const auto tilemap_text_alias_pos { aliases.find(tilemap_text) };
+			const std::string & tilemap { tilemap_text_alias_pos == aliases.end() ? tilemap_text : tilemap_text_alias_pos->second };
+
+			// Add the component to the entity
+			const Tilemap * tmap = project.GetResourceManager().GetTilemap(tilemap);
 			const Texture * tex = project.GetResourceManager().GetTexture(texture);
-			if(tex != nullptr) {
-				new_entity->AddComponent<TileRenderer>(name, tex, num_cols, num_rows, num_tiles);
+			if(tex != nullptr && tmap != nullptr) {
+				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles);
 			} else {
-				ERROR_LOG("Error: Texture " << texture << " has not been loaded");
+				if(tex == nullptr) {
+					ERROR_LOG("Error: Texture " << texture << " has not been loaded");
+				}
+				if(tmap == nullptr) {
+					ERROR_LOG("Error: Tilemap " << tilemap << " has not been loaded");
+				}
 			}
 		}
 
@@ -524,6 +537,26 @@ namespace ose::project
 				}
 
 				project.GetResourceManager().AddTexture(tex_path, "");	// TODO - remove name_ field from texture class
+			}
+		}
+
+		// parse tilemap nodes
+		for(auto tilemap_node { resources_node->first_node("tilemap") }; tilemap_node; tilemap_node = tilemap_node->next_sibling("tilemap"))
+		{
+			auto const alias_attrib { tilemap_node->first_attribute("alias") };
+			auto const path_attrib  { tilemap_node->first_attribute("path") };
+
+			if(path_attrib)
+			{
+				auto const path { path_attrib->value() };
+
+				// if there is an alias provided, add it to the list of aliases for this file
+				if(alias_attrib) {
+					auto const alias { alias_attrib->value() };
+					aliases.insert({ alias, path });
+				}
+
+				project.GetResourceManager().AddTilemap(path, "");	// TODO - remove name_ field from texture class
 			}
 		}
 

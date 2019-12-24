@@ -6,6 +6,7 @@
 #include "Texture/Texture.h"
 #include "Texture/TextureLoader.h"
 #include "Texture/TextureMetaData.h"
+#include "Tilemap/Tilemap.h"
 #include "FileHandlingUtil.h"
 
 namespace ose::resources
@@ -254,5 +255,62 @@ namespace ose::resources
 				meta_data.lod_bias_ = value;
 			}
 		}
+	}
+
+	// Get the tilemap from the resources manager
+	// Given the name of the tilemap, return the tilemap object
+	ose::unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
+	{
+		// search the tilemaps_ list
+		auto const & iter { tilemaps_.find(name) };
+		if(iter != tilemaps_.end()) {
+			return iter->second.get();
+		}
+
+		return nullptr;
+	}
+
+	// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
+	// Path is relative to ProjectPath/Resources
+	// If no name is given, the relative path will be used
+	// IMPORTANT - Can be called from any thread (TODO)
+	void ResourceManager::AddTilemap(const std::string & path, const std::string & name)
+	{
+		std::string abs_path { project_path_ + "/Resources/" + path };
+
+		if(FileHandlingUtil::DoesFileExist(abs_path))
+		{
+			// if no name is given, use the filename
+			std::string name_to_use { name };
+			if(name_to_use == "")
+			{
+				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+			}
+
+			// only add the new tilemaps if the name is not taken
+			auto & iter = tilemaps_.find(name_to_use);
+			if(iter == tilemaps_.end())
+			{
+				tilemaps_.emplace(name_to_use, std::make_unique<Tilemap>(name_to_use, abs_path));
+				DEBUG_LOG("Added tilemap " << name_to_use << " to ResourceManager");
+
+				// get a references to the newly created tilemap
+				auto & tilemap = tilemaps_.at(name_to_use);
+
+				// TODO - Do the loading with multi-threading
+			//	texture_loader_->LoadTexture(abs_path, &d, &w, &h);
+			//	tex->SetImgData(d, w, h);
+			}
+			else
+			{
+				LOG("error: tilemap name " + name_to_use + " is already taken");
+			}
+		}
+	}
+
+	// Remove the tilemap from the tilemaps list and free the tilemap's resources
+	// IMPORANT - can be called from any thread (TODO)
+	void ResourceManager::RemoveTilemap(const std::string & name)
+	{
 	}
 }
