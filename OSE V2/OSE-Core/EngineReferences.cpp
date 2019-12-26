@@ -5,6 +5,7 @@
 #include "OSE Project XML/Project/ProjectLoaderFactoryXML.h"
 #include "OSE Resources SOIL/Resources/Texture/TextureLoaderFactorySOIL.h"
 #include "OSE Windowing GLFW/Windowing/WindowingFactoryGLFW.h"
+#include "OSE Scripting CPP/Scripting/ScriptingFactoryCPP.h"
 
 namespace ose
 {
@@ -19,4 +20,7 @@ namespace ose
 
 	// Create array of rendering factories
 	extern std::unique_ptr<ose::rendering::RenderingFactory> const RenderingFactories[] { std::make_unique<ose::rendering::RenderingFactoryGL>() };
+
+	// Create array of scripting factories
+	extern std::unique_ptr<ose::scripting::ScriptingFactory> const ScriptingFactories[] { std::make_unique<ose::scripting::ScriptingFactoryCPP>() };
 }

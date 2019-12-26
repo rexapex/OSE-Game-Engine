@@ -28,6 +28,10 @@ namespace ose
 		class Component;
 		class SpriteRenderer;
 	}
+	namespace scripting
+	{
+		class ScriptingEngine;
+	}
 }
 
 namespace ose::game
@@ -63,6 +67,9 @@ namespace ose::game
 
 		// Rendering engine handles all rendering of entity render objects
 		std::unique_ptr<ose::rendering::RenderingEngine> rendering_engine_;
+
+		// Scripting engine handles execution of game developer created scripts
+		std::unique_ptr<ose::scripting::ScriptingEngine> scripting_engine_;
 
 		// TODO - current iteration of render pool
 		///std::unique_ptr<RenderPool> render_pool_;

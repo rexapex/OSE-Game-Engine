@@ -11,9 +11,11 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Engine/EngineTaskPool.h"
+#include "OSE-Core/Scripting/ScriptingEngine.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Windowing/WindowingFactory.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
+#include "OSE-Core/Scripting/ScriptingFactory.h"
 
 using namespace ose::project;
 using namespace ose::windowing;
@@ -21,6 +23,7 @@ using namespace ose::rendering;
 using namespace ose::resources;
 using namespace ose::engine;
 using namespace ose::entity;
+using namespace ose::scripting;
 
 namespace ose::game
 {
@@ -39,6 +42,9 @@ namespace ose::game
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
 		this->window_manager_->SetEngineReferences(rendering_engine_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
+
+		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
+		scripting_engine_->Init();
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
 	}
@@ -89,6 +95,9 @@ namespace ose::game
 
 			// update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
+
+			// execute developer created scripts
+			scripting_engine_->Update();
 
 			// render to the back buffer
 			rendering_engine_->Update();

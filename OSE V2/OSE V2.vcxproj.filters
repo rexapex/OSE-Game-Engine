@@ -362,9 +362,6 @@
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\Material.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\MeshFilter.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
     <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h" />
@@ -524,6 +521,7 @@
     <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptPool.h" />
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptingFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

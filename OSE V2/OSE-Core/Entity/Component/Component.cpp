@@ -5,7 +5,7 @@ using namespace ose::entity;
 
 namespace ose::entity
 {
-	Component::Component(const std::string & name) : name_(name) {}
+	Component::Component(const std::string & name) : name_(name), enabled_(true) {}
 
 	Component::~Component() {}
 

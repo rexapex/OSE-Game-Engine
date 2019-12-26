@@ -13,10 +13,11 @@ namespace ose::scripting
 {
 	class ScriptPool
 	{
+	public:
 		ScriptPool() {}
 		virtual ~ScriptPool() {}
 
 		// Add a custom engine component to the script pool
-		virtual void AddCustomEngine(ose::entity::Entity & entity, ose::unowned_ptr<ose::entity::CustomComponent> comp) = 0;
+		virtual void AddCustomComponent(ose::entity::Entity & entity, ose::unowned_ptr<ose::entity::CustomComponent> comp) = 0;
 	};
 }
