@@ -63,7 +63,8 @@ namespace ose::rendering
 					for(size_t i = 0; i < render_object.transforms_.size(); i++)
 					{
 						// Pass the world transform of the object to the shader program
-						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(render_object.transforms_[i]));
+						glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
+						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
 						// Bind the texture
 						glActiveTexture(GL_TEXTURE0);

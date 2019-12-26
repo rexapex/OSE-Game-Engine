@@ -5,11 +5,16 @@
 #include <map>
 #include <array>
 #include <unordered_map>
-#include <sstream>
 
+#include <sstream>
 #include <iostream>
+
 #include <memory>
 #include <functional>
+#include <any>
+#include <initializer_list>
+
+#include "OSE-Core/Types.h"
 
 #define GLM_FORCE_RADIANS
 #include "OSE-Core/EngineDependencies/glm/glm.hpp"

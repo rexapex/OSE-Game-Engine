@@ -26,26 +26,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,15 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,6 +106,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,6 +128,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,6 +154,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -160,8 +180,13 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h" />
@@ -170,6 +195,8 @@
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptingFactory.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptPool.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
@@ -482,7 +509,6 @@
     <ClInclude Include="OSE-Core\Game\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />
     <ClInclude Include="OSE-Core\Game\Time.h" />
-    <ClInclude Include="OSE-Core\Main.h" />
     <ClInclude Include="OSE-Core\Math\Transform.h" />
     <ClInclude Include="OSE-Core\Project\Project.h" />
     <ClInclude Include="OSE-Core\Project\ProjectInfo.h" />
@@ -491,9 +517,6 @@
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\Material.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\MeshFilter.h" />
-    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
     <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h" />
@@ -506,6 +529,7 @@
     <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h" />
+    <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
     <ClInclude Include="OSE-V2-STD-Modules\EngineDependencies\glm\common.hpp" />
@@ -666,7 +690,6 @@
     <ClCompile Include="OSE-Core\Game\Tag.cpp" />
     <ClCompile Include="OSE-Core\Game\ThreadManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Time.cpp" />
-    <ClCompile Include="OSE-Core\Main.cpp" />
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
@@ -686,6 +709,7 @@
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp" />
+    <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
