@@ -15,7 +15,6 @@
     <ClCompile Include="OSE-Core\Game\Tag.cpp" />
     <ClCompile Include="OSE-Core\Game\ThreadManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Time.cpp" />
-    <ClCompile Include="OSE-Core\Main.cpp" />
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
@@ -355,7 +354,6 @@
     <ClInclude Include="OSE-Core\Game\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />
     <ClInclude Include="OSE-Core\Game\Time.h" />
-    <ClInclude Include="OSE-Core\Main.h" />
     <ClInclude Include="OSE-Core\Math\Transform.h" />
     <ClInclude Include="OSE-Core\Project\Project.h" />
     <ClInclude Include="OSE-Core\Project\ProjectInfo.h" />

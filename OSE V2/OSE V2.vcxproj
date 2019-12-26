@@ -26,26 +26,26 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -71,15 +71,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <OutDir>$(SolutionDir)/Builds/Core/</OutDir>
+    <TargetName>$(ProjectName)_$(Platform)_$(Configuration)</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -98,6 +106,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -116,6 +128,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -138,6 +154,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -160,6 +180,10 @@
       <AdditionalLibraryDirectories>$(SolutionDir)\Module Builds;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Project XML_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <Lib>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
@@ -481,7 +505,6 @@
     <ClInclude Include="OSE-Core\Game\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />
     <ClInclude Include="OSE-Core\Game\Time.h" />
-    <ClInclude Include="OSE-Core\Main.h" />
     <ClInclude Include="OSE-Core\Math\Transform.h" />
     <ClInclude Include="OSE-Core\Project\Project.h" />
     <ClInclude Include="OSE-Core\Project\ProjectInfo.h" />
@@ -666,7 +689,6 @@
     <ClCompile Include="OSE-Core\Game\Tag.cpp" />
     <ClCompile Include="OSE-Core\Game\ThreadManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Time.cpp" />
-    <ClCompile Include="OSE-Core\Main.cpp" />
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
