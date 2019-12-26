@@ -8,7 +8,7 @@ namespace ose::resources
 	{
 	public:
 		TextureLoader(const std::string & project_path);
-		~TextureLoader();
+		virtual ~TextureLoader();
 		//TextureLoader is NOT copyable
 		TextureLoader(TextureLoader &) = delete;
 		TextureLoader & operator=(TextureLoader &) = delete;

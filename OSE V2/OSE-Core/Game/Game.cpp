@@ -103,6 +103,9 @@ namespace ose::game
 			///thread_manager_->ProcessRenderTasks();
 
 			///editor_temp.update(stub);
+
+			// TODO - Remove once proper FPS display is implemented
+			window_manager_->SetTitle(std::to_string(time_.GetFps()));
 		}
 	}
 

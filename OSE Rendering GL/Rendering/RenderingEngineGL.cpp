@@ -13,10 +13,11 @@ namespace ose::rendering
 		render_pool_.Init();
 
 		// Set the default OpenGL settings
-		glDisable(GL_CULL_FACE);
-		///glCullFace(GL_BACK);
-		///glEnable(GL_CULL_FACE);
+		glCullFace(GL_BACK);
+		glEnable(GL_CULL_FACE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+		glEnable(GL_BLEND);
+		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	}
 
 	RenderingEngineGL::~RenderingEngineGL() {}

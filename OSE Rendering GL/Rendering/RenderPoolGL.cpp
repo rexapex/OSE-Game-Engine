@@ -81,6 +81,8 @@ namespace ose::rendering
 				"uniform sampler2D texSampler;\n"
 				"void main() {\n"
 				"	fragColor = texture(texSampler, vertexUV);\n"
+				"	float gamma = 2.2;\n"
+				"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
 				//"	fragColor = vec4(1, 0, 0, 1);\n"
 				"}\n"
 				;
@@ -174,9 +176,9 @@ namespace ose::rendering
 			// Data consists of 2-float position and 2-float tex coords interleaved
 			float data[] = {
 				0, 0, 0, 1,
-				0, 1, 0, 0,
+				1, 0, 1, 1,
 				1, 1, 1, 0,
-				1, 0, 1, 1
+				0, 1, 0, 0
 			};
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -215,84 +217,91 @@ namespace ose::rendering
 	// Add a tile renderer component to the render pool
 	void RenderPoolGL::AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr)
 	{
-		if(tr->GetTexture() == nullptr)
+		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;
 
 		// Unlike SpriteRenderer, TileRenderer cannot share a group since the tile grid is encoded into the buffer data
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
 
+		// Get a reference to the tilemap
+		auto & tilemap = *tr->GetTilemap();
+
 		// Calculate tile dimensions s.t. when multiplied by the texture dimensions in the shader, the tiles will be the correct size
-		float tile_width  { (static_cast<float>(tr->GetTexture()->GetWidth()) / tr->GetNumCols()) / tr->GetTexture()->GetWidth() };
-		float tile_height { (static_cast<float>(tr->GetTexture()->GetHeight()) / tr->GetNumRows()) / tr->GetTexture()->GetHeight() };
+		float tile_width  { 1.0f / tr->GetNumCols() };
+		float tile_height { 1.0f / tr->GetNumRows() };
 
-		// TODO
-		int32_t tilemap_width  { 10 };
-		int32_t tilemap_height { 10 };
+		// Get the width and height of the tilemap
+		int32_t tilemap_width  { tilemap.GetWidth() };
+		int32_t tilemap_height { tilemap.GetHeight() };
 
-		// TODO
-		float spacing_x { tile_width };
-		float spacing_y { tile_height };
-		// TODO - Was incorrectly adding to x/y instead of u/v
-		float half_pixel_width  = 0;// { (1.0f / tr->GetTexture()->GetWidth()) / 2};
-		float half_pixel_height = 0;//{ (1.0f / tr->GetTexture()->GetHeight()) / 2};
+		// Get the x and y spacing between tiles
+		float spacing_x { tile_width * tr->GetSpacingX() };
+		float spacing_y { tile_height * tr->GetSpacingY() };
+
+		// Calculate the dimensions of half a pixel in texture co-ordinate space
+		float half_pixel_width  = { (1.0f / tr->GetTexture()->GetWidth()) / 2};
+		float half_pixel_height = { (1.0f / tr->GetTexture()->GetHeight()) / 2};
 
 		// Create a VBO for the render object
 		GLuint vbo;
 		glGenBuffers(1, &vbo);
 		// Data consists of 2-float position and 2-float tex coords interleaved, each tile is composed of 2 tris (6 vertices)
-		std::vector<float> data(6 * 4 * tilemap_width * tilemap_height);
+		std::vector<float> data(static_cast<size_t>(6) * 4 * tilemap_width * tilemap_height);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		for(int j = 0; j < tilemap_height; j++)
+		for(size_t j = 0; j < tilemap_height; j++)
 		{
-			for(int i = 0; i < tilemap_width; i++)
+			for(size_t i = 0; i < tilemap_width; i++)
 			{
-				// TODO
-				int value { i % 4 };
-				// Calculate the position of the tile in the texture atlas
-				int atlas_x { value % static_cast<int>(tr->GetNumCols()) };
-				int atlas_y { value % static_cast<int>(tr->GetNumRows()) };
-				// Calculate the position co-ordinates for the tile
-				float x0 = i * spacing_x + half_pixel_width;
-				float x1 = i * spacing_x + tile_width - half_pixel_width;
-				float y0 = j * spacing_y + half_pixel_height;
-				float y1 = j * spacing_y + tile_height - half_pixel_height;
-				// Calculate the texture co-ordinates for the tile
-				float u0 = (float)atlas_x / tr->GetNumCols();
-				float u1 = (float)(atlas_x + 1) / tr->GetNumCols();
-				float v0 = (float)atlas_y / tr->GetNumRows();
-				float v1 = (float)(atlas_y + 1) / tr->GetNumRows();
-				// Set the vertex's position and texture co-ordinates
-				size_t tile_offset { static_cast<size_t>(6*4*(i + tilemap_width * (tilemap_height - j - 1))) };
-				// Top Left
-				data[tile_offset + 0*4 + 0] = x0;
-				data[tile_offset + 0*4 + 1] = y1;
-				data[tile_offset + 0*4 + 2] = u0;
-				data[tile_offset + 0*4 + 3] = v0;
-				// Top Right
-				data[tile_offset + 1*4 + 0] = x1;
-				data[tile_offset + 1*4 + 1] = y1;
-				data[tile_offset + 1*4 + 2] = u1;
-				data[tile_offset + 1*4 + 3] = v0;
-				// Bottom Right
-				data[tile_offset + 2*4 + 0] = x1;
-				data[tile_offset + 2*4 + 1] = y0;
-				data[tile_offset + 2*4 + 2] = u1;
-				data[tile_offset + 2*4 + 3] = v1;
-				// Bottom Right
-				data[tile_offset + 3*4 + 0] = x1;
-				data[tile_offset + 3*4 + 1] = y0;
-				data[tile_offset + 3*4 + 2] = u1;
-				data[tile_offset + 3*4 + 3] = v1;
-				// Bottom Left
-				data[tile_offset + 4*4 + 0] = x0;
-				data[tile_offset + 4*4 + 1] = y0;
-				data[tile_offset + 4*4 + 2] = u0;
-				data[tile_offset + 4*4 + 3] = v1;
-				// Top Left
-				data[tile_offset + 5*4 + 0] = x0;
-				data[tile_offset + 5*4 + 1] = y1;
-				data[tile_offset + 5*4 + 2] = u0;
-				data[tile_offset + 5*4 + 3] = v0;
+				// Get the value of the tile at (x, y) - Stored upside down so use y = j - height - 1 instead of y = j
+				int32_t value { tilemap(i, tilemap_height-j-1) };
+				if(value >= 0 && value < tr->GetNumTiles())
+				{
+					// Calculate the position of the tile in the texture atlas
+					int32_t atlas_x { value % tr->GetNumCols() };
+					int32_t atlas_y { value / tr->GetNumCols() };
+					// Calculate the position co-ordinates for the tile
+					float x0 = i * spacing_x;
+					float x1 = i * spacing_x + tile_width;
+					float y0 = j * spacing_y;
+					float y1 = j * spacing_y + tile_height;
+					// Calculate the texture co-ordinates for the tile
+					float u0 = (float)atlas_x / tr->GetNumCols() + half_pixel_width;
+					float u1 = (float)(atlas_x + 1) / tr->GetNumCols() - half_pixel_width;
+					float v0 = (float)atlas_y / tr->GetNumRows() + half_pixel_height;
+					float v1 = (float)(atlas_y + 1) / tr->GetNumRows() - half_pixel_height;
+					// Set the vertex's position and texture co-ordinates
+					size_t tile_offset { static_cast<size_t>(6*4*(i + (tilemap_height - j - 1)*tilemap_width)) };
+					// Top Left
+					data[tile_offset + 0*4 + 0] = x0;
+					data[tile_offset + 0*4 + 1] = y1;
+					data[tile_offset + 0*4 + 2] = u0;
+					data[tile_offset + 0*4 + 3] = v0;
+					// Bottom Right
+					data[tile_offset + 1*4 + 0] = x1;
+					data[tile_offset + 1*4 + 1] = y0;
+					data[tile_offset + 1*4 + 2] = u1;
+					data[tile_offset + 1*4 + 3] = v1;
+					// Top Right
+					data[tile_offset + 2*4 + 0] = x1;
+					data[tile_offset + 2*4 + 1] = y1;
+					data[tile_offset + 2*4 + 2] = u1;
+					data[tile_offset + 2*4 + 3] = v0;
+					// Bottom Right
+					data[tile_offset + 3*4 + 0] = x1;
+					data[tile_offset + 3*4 + 1] = y0;
+					data[tile_offset + 3*4 + 2] = u1;
+					data[tile_offset + 3*4 + 3] = v1;
+					// Top Left
+					data[tile_offset + 4*4 + 0] = x0;
+					data[tile_offset + 4*4 + 1] = y1;
+					data[tile_offset + 4*4 + 2] = u0;
+					data[tile_offset + 4*4 + 3] = v0;
+					// Bottom Left
+					data[tile_offset + 5*4 + 0] = x0;
+					data[tile_offset + 5*4 + 1] = y0;
+					data[tile_offset + 5*4 + 2] = u0;
+					data[tile_offset + 5*4 + 3] = v1;
+				}
 			}
 		}
 		glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(float), data.data(), GL_STATIC_DRAW);
