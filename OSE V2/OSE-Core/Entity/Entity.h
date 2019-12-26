@@ -38,9 +38,6 @@ namespace ose::entity
 		std::string tag_;		// the lowest level tag applied to this entity (or "")
 		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
 
-		math::Transform local_transform_;		// the transform of the entity relative to the parent
-		math::Transform global_transform_;	// the transform of the entity relative to the world
-
 		// isVisible, isEnabled, ...
 
 		// Get the next available entity ID

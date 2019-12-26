@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
 #include "../OSE Scripting CPP/Scripting/EntityScript.h"
+#include "../OSE V2/OSE-Core/Entity/Entity.h"
 
 using namespace ose::scripting;
 using namespace ose::entity;
@@ -11,8 +12,7 @@ using namespace ose::entity;
 // Define the data stored for each custom component object
 DATA
 (
-	int x;
-	int y;
+	Entity & entity;
 )
 
 // Define the engine used to process the pool of custom component objects
@@ -21,6 +21,7 @@ ENGINE
 	void AddCustomComponent(Entity & entity, CustomComponent & comp)
 	{
 		std::cout << "Adding custom component\n";
+		data_array_.emplace_back(PlayerMovementData{entity});
 	}
 
 	void Init()
@@ -30,6 +31,10 @@ ENGINE
 
 	void Update()
 	{
-		
+		for(auto & data : data_array_)
+		{
+			data.entity.Translate2d(0.1f, 0);
+			std::cout << "Entity Translation: " << data.entity.GetLocalTransform().GetPosition().x << "\n";
+		}
 	}
 )

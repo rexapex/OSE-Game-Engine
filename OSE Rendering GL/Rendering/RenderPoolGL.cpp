@@ -5,6 +5,9 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 
+// TODO - Remove
+#include "OSE-Core/Math/ITransform.h"
+
 namespace ose::rendering
 {
 	using namespace math;
@@ -158,7 +161,8 @@ namespace ose::rendering
 				// Add the sprite renderer to the existing render object
 				found_group = true;
 				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
-				r.transforms_.push_back(t.GetTransformMatrix());
+				//r.transforms_.push_back(t.GetTransformMatrix());
+				r.transforms_.push_back(&t);
 			}
 		}
 		// If the sprite renderer group could not be found, make one
@@ -199,9 +203,12 @@ namespace ose::rendering
 				ERenderObjectType::SPRITE_RENDERER,
 				vbo, vao,
 				primitive, first, count,
-				std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() },
-				std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+				std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() }
+				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+				//std::initializer_list<ITransform const &>{ t }
 			);
+			// TODO - Remove
+			s.render_objects_.back().transforms_.emplace_back(&t);
 		}
 	}
 
@@ -312,8 +319,11 @@ namespace ose::rendering
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
 			primitive, first, count,
-			std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() },
-			std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+			std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() }
+			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+			//std::initializer_list<ITransform const &>{ t }
 		);
+		// TODO - Remove
+		s.render_objects_.back().transforms_.emplace_back(&t);
 	}
 }
