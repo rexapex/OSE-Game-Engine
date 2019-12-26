@@ -37,6 +37,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSE Editor Application", "O
 	ProjectSection(ProjectDependencies) = postProject
 		{0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4} = {0472E336-5AF8-4CEE-B8EF-1BDD2A7F96A4}
 	EndProjectSection
+EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OSE Resources Tilemap TXT", "OSE Resources Tilemap TXT\OSE Resources Tilemap TXT.vcxproj", "{2C0D1BE6-87FA-41A0-8267-C14605DCB195}"
 EndProject
 Global
@@ -119,6 +120,14 @@ Global
 		{5C6FD191-B0D4-428A-9110-2008EFA57D49}.Release|x64.Build.0 = Release|x64
 		{5C6FD191-B0D4-428A-9110-2008EFA57D49}.Release|x86.ActiveCfg = Release|Win32
 		{5C6FD191-B0D4-428A-9110-2008EFA57D49}.Release|x86.Build.0 = Release|Win32
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Debug|x64.ActiveCfg = Debug|x64
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Debug|x64.Build.0 = Debug|x64
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Debug|x86.ActiveCfg = Debug|Win32
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Debug|x86.Build.0 = Debug|Win32
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Release|x64.ActiveCfg = Release|x64
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Release|x64.Build.0 = Release|x64
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Release|x86.ActiveCfg = Release|Win32
+		{2C0D1BE6-87FA-41A0-8267-C14605DCB195}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
