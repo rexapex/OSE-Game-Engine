@@ -37,7 +37,7 @@ namespace ose::scripting
 		// Add the component to the engine if it exists
 		if(iter != custom_engines_.end())
 		{
-	//		(*iter)->
+			(*iter)->AddCustomComponent(entity, *comp);
 		}
 		else
 		{

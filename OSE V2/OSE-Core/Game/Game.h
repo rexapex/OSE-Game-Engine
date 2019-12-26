@@ -84,6 +84,6 @@ namespace ose::game
 		void RunGame();
 
 		// Initialise components of an entity along with its sub-entities
-		void InitEntity(const ose::entity::Entity & entity);
+		void InitEntity(ose::entity::Entity & entity);
 	};
 }

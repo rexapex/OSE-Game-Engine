@@ -18,7 +18,7 @@ namespace ose::scripting
 
 		// Get a reference to the script pool
 		// TODO - Refactor out returns by non-const reference
-		ScriptPool & GetScriptPool() { return script_pool_; }
+		ScriptPool & GetScriptPool() override { return script_pool_; }
 
 	private:
 		ScriptPoolCPP script_pool_;

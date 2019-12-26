@@ -20,7 +20,7 @@ ENGINE
 (
 	void AddCustomComponent(Entity & entity, CustomComponent & comp)
 	{
-		
+		std::cout << "Adding custom component\n";
 	}
 
 	void Init()
@@ -30,6 +30,6 @@ ENGINE
 
 	void Update()
 	{
-		std::cout << "Updating script\n";
+		
 	}
 )

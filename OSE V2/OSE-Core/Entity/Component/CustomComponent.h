@@ -27,7 +27,7 @@ namespace ose::entity
 		void SetComponentTypeName(std::string const & name) { component_type_name_ = name; }
 
 		// Initialise the sprite renderer
-		CustomComponent(std::string const & name) : Component(name) {}
+		CustomComponent(std::string const & name, std::string const & type_name) : Component(name), component_type_name_(type_name) {}
 
 		// Does nothing
 		virtual ~CustomComponent() noexcept {}

@@ -9,6 +9,7 @@
 #include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
+#include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
@@ -477,21 +478,15 @@ namespace ose::project
 			}
 		}
 
-		// mesh components
-		for(auto component_node = entity_node->first_node("mesh_filter"); component_node; component_node = component_node->next_sibling("mesh_filter"))
+		// parse the custom component components of the entity
+		for(auto component_node = entity_node->first_node("custom"); component_node; component_node = component_node->next_sibling("custom"))
 		{
-			// has name & path attributes
-			auto name_attrib = component_node->first_attribute("name");
-			auto path_attrib = component_node->first_attribute("path");
-		//	new_entity.get_components().emplace_back(std::make_unique<MeshFilter>((name_attrib ? name_attrib->value() : ""), (path_attrib ? path_attrib->value() : "")));
-		}
-
-		for(auto component_node = entity_node->first_node("mesh_renderer"); component_node; component_node = component_node->next_sibling("mesh_renderer"))
-		{
-			// has name & path attributes
-			auto name_attrib = component_node->first_attribute("name");
-			auto path_attrib = component_node->first_attribute("path");
-		//	new_entity.get_components().emplace_back(std::make_unique<MeshRenderer>(name_attrib ? name_attrib->value() : ""));
+			// has name and component attributes
+			auto name_attrib	= component_node->first_attribute("name");
+			auto component_attrib = component_node->first_attribute("component");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+			std::string component { (component_attrib ? component_attrib->value() : "") };
+			new_entity->AddComponent<CustomComponent>(name, component);
 		}
 
 		// parse any sub-entities

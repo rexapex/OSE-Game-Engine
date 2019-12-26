@@ -6,12 +6,12 @@
 #include "OSE-Core/Project/ProjectLoader.h"
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/RenderingEngine.h"
+#include "OSE-Core/Scripting/ScriptingEngine.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
-#include "OSE-Core/Engine/EngineTaskPool.h"
-#include "OSE-Core/Scripting/ScriptingEngine.h"
+#include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Windowing/WindowingFactory.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
@@ -21,7 +21,6 @@ using namespace ose::project;
 using namespace ose::windowing;
 using namespace ose::rendering;
 using namespace ose::resources;
-using namespace ose::engine;
 using namespace ose::entity;
 using namespace ose::scripting;
 
@@ -108,9 +107,8 @@ namespace ose::game
 	}
 
 	// initialise components of an entity along with its sub-entities
-	void Game::InitEntity(const Entity & entity)
+	void Game::InitEntity(Entity & entity)
 	{
-		// for each sprite renderer component of the entity		
 		for(ose::unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
@@ -129,6 +127,16 @@ namespace ose::game
 
 			// then add the component to the render pool
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
+		}
+
+		for(ose::unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised CustomComponent");
+
+			// then add the component to the script pool
+			scripting_engine_->GetScriptPool().AddCustomComponent(entity, comp);
 		}
 
 		// initialise all sub entities
