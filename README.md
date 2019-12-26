@@ -1,6 +1,6 @@
 ### Origami Sheep Engine
 
-Origami Sheep Engine Core Framework
+Origami Sheep Engine Core Framework and Standard Modules
 
 ### Installation
 
