@@ -29,15 +29,15 @@ namespace ose::math
 		const glm::quat & GetOrientation() const override { return orientation_; };
 		const glm::vec3 & GetScale() const override { return scale_; };
 
-		const glm::mat4 GetPositionMatrix() const override;
-		const glm::mat4 GetOrientationMatrix() const override;
-		const glm::mat4 GetScaleMatrix() const override;
+		glm::mat4 GetPositionMatrix() const override;
+		glm::mat4 GetOrientationMatrix() const override;
+		glm::mat4 GetScaleMatrix() const override;
 
-		const glm::mat4 GetTransformMatrix() const override;
+		glm::mat4 GetTransformMatrix() const override;
 
-		const glm::vec3 GetUp() const override;
-		const glm::vec3 GetForward() const override;
-		const glm::vec3 GetRight() const override;
+		glm::vec3 GetUp() const override;
+		glm::vec3 GetForward() const override;
+		glm::vec3 GetRight() const override;
 
 		void Translate(const glm::vec3 & translation);
 		void Translate(const float x, const float y, const float z);

@@ -257,37 +257,37 @@ namespace ose::math
 	}
 
 
-	const glm::mat4 Transform::GetPositionMatrix() const
+	glm::mat4 Transform::GetPositionMatrix() const
 	{
 		return glm::translate(glm::mat4(), position_);
 	}
 
-	const glm::mat4 Transform::GetOrientationMatrix() const
+	glm::mat4 Transform::GetOrientationMatrix() const
 	{
 		return glm::toMat4(orientation_);
 	}
 
-	const glm::mat4 Transform::GetScaleMatrix() const
+	glm::mat4 Transform::GetScaleMatrix() const
 	{
 		return glm::scale(glm::mat4(), scale_);
 	}
 
-	const glm::mat4 Transform::GetTransformMatrix() const
+	glm::mat4 Transform::GetTransformMatrix() const
 	{
 		return glm::translate(glm::mat4(), position_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
 	}
 
-	const glm::vec3 Transform::GetUp() const
+	glm::vec3 Transform::GetUp() const
 	{
 		return glm::cross(orientation_, glm::vec3(0, 1, 0));
 	}
 
-	const glm::vec3 Transform::GetForward() const
+	glm::vec3 Transform::GetForward() const
 	{
 		return glm::cross(orientation_, glm::vec3(0, 0, -1));
 	}
 
-	const glm::vec3 Transform::GetRight() const
+	glm::vec3 Transform::GetRight() const
 	{
 		return glm::cross(orientation_, glm::vec3(1, 0, 0));
 	}
