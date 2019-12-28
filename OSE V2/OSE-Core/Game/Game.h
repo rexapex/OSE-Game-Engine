@@ -62,8 +62,8 @@ namespace ose::game
 		// Start execution of the game
 		void StartGame();
 
-		// Get a const reference to the input manager
-		ose::input::InputManager const & GetInputManager() const { return *input_manager_; }
+		// Get a reference to the input manager
+		ose::input::InputManager & GetInputManager() const { return *input_manager_; }
 
 	private:
 		// Window manager handles window creation, events and input

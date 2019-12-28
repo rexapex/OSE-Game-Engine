@@ -34,6 +34,46 @@ namespace ose::input
 		axis_inputs_.emplace(name, AxisInput{ pos_primary, pos_secondary, neg_primary, neg_secondary, 0.0 });
 		return true;
 	}
+
+	// Returns true iff boolean input is triggered
+	// Returns false if boolean input doesn't exist
+	bool InputManager::IsBooleanInputTriggered(std::string const & name)
+	{
+		auto iter = boolean_inputs_.find(name);
+		if(iter != boolean_inputs_.end())
+			return iter->second.triggered_;
+		return false;
+	}
+
+	// Returns true iff boolean input is changing from an un-triggered state to a triggered state
+	// Returns false if boolean input doesn't exist
+	bool InputManager::IsBooleanInputTriggering(std::string const & name)
+	{
+		auto iter = boolean_inputs_.find(name);
+		if(iter != boolean_inputs_.end())
+			return iter->second.triggered_ && !iter->second.triggered_last_update_;
+		return false;
+	}
+
+	// Returns true iff boolean input is changing from a triggered state to an un-triggered state
+	// Returns false if boolean input doesn't exist
+	bool InputManager::IsBooleanInputUntriggering(std::string const & name)
+	{
+		auto iter = boolean_inputs_.find(name);
+		if(iter != boolean_inputs_.end())
+			return !iter->second.triggered_ && iter->second.triggered_last_update_;
+		return false;
+	}
+
+	// Returns value of axis input in range [-1, 1]
+	// Returns 0 if axis input doesn't exist
+	double InputManager::GetAxisValue(std::string const & name)
+	{
+		auto iter = axis_inputs_.find(name);
+		if(iter != axis_inputs_.end())
+			return iter->second.value_;
+		return 0;
+	}
 	
 	// Set input type to triggered or un-triggered
 	void InputManager::SetInputType(EInputType type, bool triggered)

@@ -25,6 +25,22 @@ namespace ose::input
 		// Returns true iff the input is added successfully
 		bool AddAxisInput(std::string const & name, EInputType pos_primary, EInputType neg_primary, EInputType pos_secondary = EInputType::NONE, EInputType neg_secondary = EInputType::NONE);
 
+		// Returns true iff boolean input is triggered
+		// Returns false if boolean input doesn't exist
+		bool IsBooleanInputTriggered(std::string const & name);
+
+		// Returns true iff boolean input is changing from an un-triggered state to a triggered state
+		// Returns false if boolean input doesn't exist
+		bool IsBooleanInputTriggering(std::string const & name);
+
+		// Returns true iff boolean input is changing from a triggered state to an un-triggered state
+		// Returns false if boolean input doesn't exist
+		bool IsBooleanInputUntriggering(std::string const & name);
+
+		// Returns value of axis input in range [-1, 1]
+		// Returns 0 if axis input doesn't exist
+		double GetAxisValue(std::string const & name);
+
 		// Set input type to triggered or un-triggered
 		void SetInputType(EInputType type, bool triggered);
 

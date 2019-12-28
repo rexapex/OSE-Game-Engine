@@ -85,12 +85,6 @@ namespace ose::game
 
 	void Game::RunGame()
 	{
-		// get current time in seconds
-		// TODO - should I use this or window_manager_ timing
-		// time_t t = time(0);
-		///EditorImpl editor_temp (*this->window_manager_);
-		///DataObject stub;
-
 		while(running_)
 		{
 			// renders previous frame to window and poll for new event
