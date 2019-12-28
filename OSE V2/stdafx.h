@@ -12,6 +12,7 @@
 #include <memory>
 #include <functional>
 #include <any>
+#include <variant>
 #include <initializer_list>
 
 #include "OSE-Core/Types.h"

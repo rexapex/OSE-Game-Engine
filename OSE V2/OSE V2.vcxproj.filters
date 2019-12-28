@@ -527,6 +527,7 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
+    <ClInclude Include="OSE-Core\Resources\Custom Data\CustomObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

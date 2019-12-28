@@ -12,6 +12,7 @@
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
+#include "OSE-Core/Resources/Custom Data/CustomObject.h"
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
 
 using namespace ose::game;
@@ -589,5 +590,121 @@ namespace ose::project
 				}
 			}
 		}
+	}
+	
+
+	// Load a custom data file into a custom object
+	std::unique_ptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(const std::string & path)
+	{
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+
+		try
+		{
+			doc = LoadXmlFile(path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return nullptr;
+		}
+
+		DEBUG_LOG("**********  Custom Data File  **********");
+
+		// Parse the xml
+		xml_node<> * root_obj = doc->first_node("object");
+		try
+		{
+			return ParseCustomObject(root_obj);
+		}
+		catch(std::exception & e)
+		{
+			ERROR_LOG(e.what());
+		}
+		return nullptr;
+	}
+	
+	// Parse a custom object node
+	std::unique_ptr<ose::resources::CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	{
+		if(obj_node == nullptr)
+			return nullptr;
+
+		auto obj = std::make_unique<CustomObject>();
+
+		// Get the key and value pair from an xml node
+		auto get_keyval_pair = [](CustomObject & parent, rapidxml::xml_node<> * node, std::string const & default_value) -> std::pair<std::string, std::string> {
+			auto name_attrib = node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			if(name != "" && parent.data_.find(name) == parent.data_.end())
+			{
+				std::string value_str = (node ? node->value() : default_value);
+				return std::make_pair(name, value_str);
+			}
+			else
+			{
+				ERROR_LOG("Error: Custom object field name (" << name << ") is not given or already in use");
+				throw std::exception("Failed to parse custom object");
+			}
+		};
+
+		// Parse the integer nodes
+		for(auto int_node { obj_node->first_node("int") }; int_node; int_node = int_node->next_sibling("int"))
+		{
+			auto pair { get_keyval_pair(*obj, int_node, "0") };
+			try
+			{
+				int64_t value = std::stoll(pair.second);
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse INT data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse the float nodes
+		for(auto float_node { obj_node->first_node("float") }; float_node; float_node = float_node->next_sibling("float"))
+		{
+			auto pair { get_keyval_pair(*obj, float_node, "0.0") };
+			try
+			{
+				double value = std::stod(pair.second);
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse FLOAT data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse the boolean nodes
+		for(auto bool_node { obj_node->first_node("bool") }; bool_node; bool_node = bool_node->next_sibling("float"))
+		{
+			auto pair { get_keyval_pair(*obj, bool_node, "0") };
+			bool value = pair.second == "true" || pair.second == "TRUE" || pair.second == "1" ? true : false;
+			obj->data_[pair.first] = value;
+		}
+
+		// Parse the string nodes
+		for(auto string_node { obj_node->first_node("string") }; string_node; string_node = string_node->next_sibling("string"))
+		{
+			auto pair { get_keyval_pair(*obj, string_node, "") };
+			obj->data_[pair.first] = pair.second;
+		}
+
+		// Parse nested custom object
+		for(auto child_obj_node { obj_node->first_node("object") }; child_obj_node; child_obj_node = child_obj_node->next_sibling("object"))
+		{
+			auto pair { get_keyval_pair(*obj, child_obj_node, "") };
+			auto child_obj { ParseCustomObject(child_obj_node) };
+			if(child_obj)
+				obj->data_[pair.first] = std::move(child_obj);
+		}
+
+		return obj;
 	}
 }
