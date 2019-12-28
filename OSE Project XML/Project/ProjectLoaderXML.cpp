@@ -649,7 +649,7 @@ namespace ose::project
 			}
 		};
 
-		// Parse the integer nodes
+		// Parse integer nodes
 		for(auto int_node { obj_node->first_node("int") }; int_node; int_node = int_node->next_sibling("int"))
 		{
 			auto pair { get_keyval_pair(*obj, int_node, "0") };
@@ -665,7 +665,7 @@ namespace ose::project
 			}
 		}
 
-		// Parse the float nodes
+		// Parse float nodes
 		for(auto float_node { obj_node->first_node("float") }; float_node; float_node = float_node->next_sibling("float"))
 		{
 			auto pair { get_keyval_pair(*obj, float_node, "0.0") };
@@ -681,7 +681,7 @@ namespace ose::project
 			}
 		}
 
-		// Parse the boolean nodes
+		// Parse boolean nodes
 		for(auto bool_node { obj_node->first_node("bool") }; bool_node; bool_node = bool_node->next_sibling("float"))
 		{
 			auto pair { get_keyval_pair(*obj, bool_node, "0") };
@@ -689,20 +689,81 @@ namespace ose::project
 			obj->data_[pair.first] = value;
 		}
 
-		// Parse the string nodes
+		// Parse string nodes
 		for(auto string_node { obj_node->first_node("string") }; string_node; string_node = string_node->next_sibling("string"))
 		{
 			auto pair { get_keyval_pair(*obj, string_node, "") };
 			obj->data_[pair.first] = pair.second;
 		}
 
-		// Parse nested custom object
+		// Parse nested custom object nodes
 		for(auto child_obj_node { obj_node->first_node("object") }; child_obj_node; child_obj_node = child_obj_node->next_sibling("object"))
 		{
 			auto pair { get_keyval_pair(*obj, child_obj_node, "") };
 			auto child_obj { ParseCustomObject(child_obj_node) };
 			if(child_obj)
 				obj->data_[pair.first] = std::move(child_obj);
+		}
+
+		// Parse array of integer nodes
+		for(auto ints_node { obj_node->first_node("ints") }; ints_node; ints_node = ints_node->next_sibling("ints"))
+		{
+			auto pair { get_keyval_pair(*obj, ints_node, "") };
+			try
+			{
+				std::vector<int64_t> value;
+				std::stringstream ss(pair.second);
+				std::string int_str;
+				while(ss.good())
+				{
+					std::getline(ss, int_str, ',');
+					value.push_back(std::stoll(int_str));
+				}
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse INT array data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse array of float nodes
+		for(auto floats_node { obj_node->first_node("floats") }; floats_node; floats_node = floats_node->next_sibling("floats"))
+		{
+			auto pair { get_keyval_pair(*obj, floats_node, "") };
+			try
+			{
+				std::vector<double> value;
+				std::stringstream ss(pair.second);
+				std::string float_str;
+				while(ss.good())
+				{
+					std::getline(ss, float_str, ',');
+					value.push_back(std::stoll(float_str));
+				}
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse FLOAT array data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse array of bool nodes
+		for(auto bools_node { obj_node->first_node("bools") }; bools_node; bools_node = bools_node->next_sibling("bools"))
+		{
+			auto pair { get_keyval_pair(*obj, bools_node, "") };
+			std::vector<bool> value;
+			std::stringstream ss(pair.second);
+			std::string bool_str;
+			while(ss.good())
+			{
+				std::getline(ss, bool_str, ',');
+				value.push_back(bool_str == "true" || bool_str == "TRUE" || bool_str == "1" ? true : false);
+			}
+			obj->data_[pair.first] = value;
 		}
 
 		return obj;
