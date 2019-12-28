@@ -47,7 +47,6 @@ namespace ose::game
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
-		scripting_engine_->Init();
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
 	}
@@ -85,6 +84,9 @@ namespace ose::game
 
 	void Game::RunGame()
 	{
+		// Initialise the user scripts after the game is initialised but before the game starts
+		scripting_engine_->Init();
+
 		while(running_)
 		{
 			// renders previous frame to window and poll for new event

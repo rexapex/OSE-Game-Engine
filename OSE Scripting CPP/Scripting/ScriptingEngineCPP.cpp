@@ -5,7 +5,7 @@ namespace ose::scripting
 {
 	ScriptingEngineCPP::ScriptingEngineCPP() : ScriptingEngine()
 	{
-	
+		script_pool_.Init();
 	}
 	
 	ScriptingEngineCPP::~ScriptingEngineCPP()
@@ -16,8 +16,6 @@ namespace ose::scripting
 	// Initialise all of the custom engines and controls in the script pool
 	void ScriptingEngineCPP::Init()
 	{
-		script_pool_.Init();
-
 		for(auto & engine : script_pool_.GetCustomEngines())
 		{
 			engine->Init();
