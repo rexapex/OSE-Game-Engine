@@ -1,7 +1,7 @@
 #pragma once
 #include "EInputType.h"
 
-namespace ose
+namespace ose::input
 {
 	struct AxisInput
 	{
@@ -9,6 +9,8 @@ namespace ose
 		EInputType pos_secondary_;
 		EInputType neg_primary_;
 		EInputType neg_secondary_;
-		double value_;	// Constrained to range [-1, 1]
+		double pos_value_;	// Constrained to range [0, 1]
+		double neg_value_;	// Constrained to range [0, 1]
+		double value_;		// Constrained to range [-1, 1]
 	};
 }

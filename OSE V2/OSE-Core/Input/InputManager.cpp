@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "InputManager.h"
 
-namespace ose
+namespace ose::input
 {
 	InputManager::InputManager()
 	{
@@ -33,5 +33,33 @@ namespace ose
 			return false;
 		axis_inputs_.emplace(name, AxisInput{ pos_primary, pos_secondary, neg_primary, neg_secondary, 0.0 });
 		return true;
+	}
+	
+	// Set input type to triggered or un-triggered
+	void InputManager::SetInputType(EInputType type, bool triggered)
+	{
+		// TODO - Consider also maintaining map from type to boolean/axis name to allow faster triggering of inputs
+		for(auto & pair : boolean_inputs_)
+		{
+			if(pair.second.primary_ == type || pair.second.secondary_ == type)
+			{
+				pair.second.triggered_last_update_ = pair.second.triggered_;
+				pair.second.triggered_ = triggered;
+			}
+		}
+
+		for(auto & pair : axis_inputs_)
+		{
+			if(pair.second.pos_primary_ == type || pair.second.pos_secondary_ == type)
+			{
+				pair.second.pos_value_ = triggered ? 1.0 : 0.0;
+				pair.second.value_ = pair.second.pos_value_ - pair.second.neg_value_;
+			}
+			else if(pair.second.neg_primary_ == type || pair.second.neg_secondary_ == type)
+			{
+				pair.second.neg_value_ = triggered ? 1.0 : 0.0;
+				pair.second.value_ = pair.second.pos_value_ - pair.second.neg_value_;
+			}
+		}
 	}
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose
+namespace ose::input
 {
 	// No input has value -1
 	// Keyboard input in range 0-999
@@ -66,7 +66,7 @@ namespace ose
 		TAB = 258,
 		BACKSPACE = 259,
 		INSERT = 260,
-		DELETE = 261,
+		DELETE_KEY = 261,
 		RIGHT = 262,
 		LEFT = 263,
 		DOWN = 264,
@@ -143,6 +143,6 @@ namespace ose
 		MOUSE_BUTTON_8 = 1007,
 		MOUSE_BUTTON_LEFT = MOUSE_BUTTON_1,
 		MOUSE_BUTTON_RIGHT = MOUSE_BUTTON_2,
-		MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3,
+		MOUSE_BUTTON_MIDDLE = MOUSE_BUTTON_3
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include "EInputType.h"
 
-namespace ose
+namespace ose::input
 {
 	struct BooleanInput
 	{

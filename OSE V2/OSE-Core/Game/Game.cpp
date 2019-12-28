@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Game.h"
+#include "OSE-Core/Input/InputManager.h"
 #include "Scene/Scene.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Project/Project.h"
@@ -17,6 +18,7 @@
 #include "OSE-Core/Rendering/RenderingFactory.h"
 #include "OSE-Core/Scripting/ScriptingFactory.h"
 
+using namespace ose::input;
 using namespace ose::project;
 using namespace ose::windowing;
 using namespace ose::rendering;
@@ -38,8 +40,10 @@ namespace ose::game
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
+		this->input_manager_ = std::make_unique<InputManager>();
+
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
-		this->window_manager_->SetEngineReferences(rendering_engine_.get());
+		this->window_manager_->SetEngineReferences(rendering_engine_.get(), input_manager_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();

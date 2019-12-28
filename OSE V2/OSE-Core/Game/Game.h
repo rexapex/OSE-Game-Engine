@@ -9,6 +9,10 @@
 
 namespace ose
 {
+	namespace input
+	{
+		class InputManager;
+	}
 	namespace project
 	{
 		class Project;
@@ -58,9 +62,15 @@ namespace ose::game
 		// Start execution of the game
 		void StartGame();
 
+		// Get a const reference to the input manager
+		ose::input::InputManager const & GetInputManager() const { return *input_manager_; }
+
 	private:
 		// Window manager handles window creation, events and input
 		std::unique_ptr<ose::windowing::WindowManager> window_manager_;
+
+		// Input manager handles processing of user input
+		std::unique_ptr<ose::input::InputManager> input_manager_;
 
 		// Thread manager handles multithreading and updating of engines
 		///std::unique_ptr<ThreadManager> thread_manager_;

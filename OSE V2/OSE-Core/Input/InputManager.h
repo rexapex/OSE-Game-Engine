@@ -3,7 +3,7 @@
 #include "BooleanInput.h"
 #include "EInputType.h"
 
-namespace ose
+namespace ose::input
 {
 	class InputManager final
 	{
@@ -24,6 +24,9 @@ namespace ose
 		// Name must be unique among all axis inputs
 		// Returns true iff the input is added successfully
 		bool AddAxisInput(std::string const & name, EInputType pos_primary, EInputType neg_primary, EInputType pos_secondary = EInputType::NONE, EInputType neg_secondary = EInputType::NONE);
+
+		// Set input type to triggered or un-triggered
+		void SetInputType(EInputType type, bool triggered);
 
 	private:
 		std::unordered_map<std::string, BooleanInput> boolean_inputs_;
