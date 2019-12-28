@@ -740,7 +740,7 @@ namespace ose::project
 				while(ss.good())
 				{
 					std::getline(ss, float_str, ',');
-					value.push_back(std::stoll(float_str));
+					value.push_back(std::stod(float_str));
 				}
 				obj->data_[pair.first] = value;
 			}
@@ -764,6 +764,33 @@ namespace ose::project
 				value.push_back(bool_str == "true" || bool_str == "TRUE" || bool_str == "1" ? true : false);
 			}
 			obj->data_[pair.first] = value;
+		}
+
+		// Parse array of string nodes
+		for(auto strings_node { obj_node->first_node("strings") }; strings_node; strings_node = strings_node->next_sibling("strings"))
+		{
+			auto pair { get_keyval_pair(*obj, strings_node, "") };
+			std::vector<std::string> value;
+			for(auto string_node { strings_node->first_node("string") }; string_node; string_node = string_node->next_sibling("string"))
+			{
+				auto string_value = string_node ? string_node->value() : "";
+				value.push_back(string_value);
+			}
+			obj->data_[pair.first] = value;
+		}
+
+		// Parse array of object nodes
+		for(auto objects_node { obj_node->first_node("objects") }; objects_node; objects_node = objects_node->next_sibling("objects"))
+		{
+			auto pair { get_keyval_pair(*obj, objects_node, "") };
+			std::vector<std::unique_ptr<CustomObject>> value;
+			for(auto child_object_node { objects_node->first_node("object") }; child_object_node; child_object_node = child_object_node->next_sibling("object"))
+			{
+				auto obj = ParseCustomObject(child_object_node);
+				if(obj)
+					value.push_back(std::move(obj));
+			}
+			obj->data_[pair.first] = std::move(value);
 		}
 
 		return obj;

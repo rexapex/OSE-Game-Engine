@@ -23,9 +23,6 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	// TODO - Test
-	auto obj = Env::GetGame().LoadCustomDataFile(R"(D:\James\Documents\Origami_Sheep_Engine\Projects\OSE-TestProject\Resources\custom-data.xml)");
-
 	// load a scene, giving access to all of its entities and resources
 	try {
 		Env::GetGame().LoadScene("scene1");
