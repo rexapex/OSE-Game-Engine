@@ -37,6 +37,7 @@
     <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\Tilemap.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
+    <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -527,6 +528,10 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
+    <ClInclude Include="OSE-Core\Input\InputManager.h" />
+    <ClInclude Include="OSE-Core\Input\EInputType.h" />
+    <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
+    <ClInclude Include="OSE-Core\Input\AxisInput.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
