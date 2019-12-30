@@ -1,8 +1,13 @@
 #pragma once
 #include "OSE-Core/Rendering/VideoMode.h"
+#include "OSE-Core/Input/EInputType.h"
 
 namespace ose
 {
+	namespace input
+	{
+		class InputManager;
+	}
 	namespace rendering
 	{
 		class RenderingEngine;
@@ -21,18 +26,19 @@ namespace ose::windowing
 		WindowManager & operator=(WindowManager &) = delete;
 		WindowManager & operator=(WindowManager &&) = delete;
 
-		void SetEngineReferences(ose::rendering::RenderingEngine * rendering_engine);
+		void SetEngineReferences(ose::rendering::RenderingEngine * rendering_engine, ose::input::InputManager * input_manager);
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
 		//window callbacks
 		void FramebufferSizeCallbackImpl(int width, int height);
-		void WindowPosCallbackImpl(int x, int y);
-		void CursorPosCallbackImpl(double xPos, double yPos);
-		void MouseButtonCallbackImpl(int button, int action, int mods);
-		void MouseScrollCallbackImpl(double xOffset, double yOffset);
-		void KeyCallbackImpl(int key, int scancode, int action, int mods);
-		void CharCallbackImpl(unsigned int codePoint);
+		void InputCallbackImpl(ose::input::EInputType type, bool triggered);
+		//void WindowPosCallbackImpl(int x, int y);
+		//void CursorPosCallbackImpl(double xPos, double yPos);
+		//void MouseButtonCallbackImpl(int button, int action, int mods);
+		//void MouseScrollCallbackImpl(double xOffset, double yOffset);
+		//void KeyCallbackImpl(int key, int scancode, int action, int mods);
+		//void CharCallbackImpl(unsigned int codePoint);
 
 		virtual const int GetFramebufferWidth() const = 0;
 		virtual const int GetFramebufferHeight() const = 0;
@@ -58,6 +64,7 @@ namespace ose::windowing
 
 		// pointers should not be de-allocated by this class
 		ose::rendering::RenderingEngine * rendering_engine_ { nullptr };
+		ose::input::InputManager * input_manager_ { nullptr };
 	};
 }
 

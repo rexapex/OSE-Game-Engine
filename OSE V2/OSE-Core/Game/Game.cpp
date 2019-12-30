@@ -17,6 +17,7 @@
 #include "OSE-Core/Rendering/RenderingFactory.h"
 #include "OSE-Core/Scripting/ScriptingFactory.h"
 
+using namespace ose::input;
 using namespace ose::project;
 using namespace ose::windowing;
 using namespace ose::rendering;
@@ -26,7 +27,7 @@ using namespace ose::scripting;
 
 namespace ose::game
 {
-	Game::Game() : SceneSwitchManager(), EntityList()
+	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
 	{
 		this->running_ = false;
 
@@ -39,16 +40,25 @@ namespace ose::game
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
-		this->window_manager_->SetEngineReferences(rendering_engine_.get());
+		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
-		scripting_engine_->Init();
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
 	}
 
 	Game::~Game() noexcept {}
+
+	// Called upon a project being activated
+	// Project is activated upon successful load
+	// Only one project can be active at a time
+	void Game::OnProjectActivated(Project & project)
+	{
+		// Clear the input manager of inputs from previous projects then apply the default project inputs
+		ClearInputs();
+		ApplyInputSettings(project.GetInputSettings());
+	}
 
 	// Called upon a scene being activated
 	// Depending on switch manager, could be multiple active scenes
@@ -81,11 +91,8 @@ namespace ose::game
 
 	void Game::RunGame()
 	{
-		// get current time in seconds
-		// TODO - should I use this or window_manager_ timing
-		// time_t t = time(0);
-		///EditorImpl editor_temp (*this->window_manager_);
-		///DataObject stub;
+		// Initialise the user scripts after the game is initialised but before the game starts
+		scripting_engine_->Init();
 
 		while(running_)
 		{

@@ -11,6 +11,10 @@ namespace ose
 	{
 		class Entity;
 	}
+	namespace input
+	{
+		struct InputSettings;
+	}
 }
 
 namespace ose::project
@@ -45,7 +49,7 @@ namespace ose::project
 		virtual void LoadProjectSettings(const std::string & project_path) = 0;
 
 		//Loads game developer defined default input controls
-		virtual void LoadInputSettings(const std::string & project_path) = 0;
+		virtual ose::input::InputSettings LoadInputSettings(const std::string & project_path) = 0;
 
 		//Loads a scene file defined by the game developer
 		virtual std::unique_ptr<ose::game::Scene> LoadScene(const Project & project, const std::string & scene_name) = 0;

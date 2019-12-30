@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "WindowManagerGLFW.h"
 
+using namespace ose::input;
 
 namespace ose::windowing
 {
@@ -109,11 +110,11 @@ namespace ose::windowing
 		}
 		else
 		{
-			glfwGetFramebufferSize(window, &fbwidth_, &fbheight_);	//set the initial framebuffer width and height
+			glfwGetFramebufferSize(window, &fbwidth_, &fbheight_);
 			glfwGetWindowSize(window, &wwidth_, &wheight_);
-			glfwSetWindowUserPointer(window, this);		//Set the window pointer to be this InputManager for later use
+			glfwSetWindowUserPointer(window, this);
 			glfwSetFramebufferSizeCallback(window, FramebufferSizeCallback);
-			glfwSetKeyCallback(window, KeyCallback);	//Set callbacks
+			glfwSetKeyCallback(window, KeyCallback);
 			//glfwSetWindowPosCallback(window, windowPosCallback);
 			//glfwSetCursorPosCallback(window, cursorPosCallback);
 			glfwSetMouseButtonCallback(window, MouseButtonCallback);
@@ -210,7 +211,7 @@ namespace ose::windowing
 		windowManager->FramebufferSizeCallbackImpl(width, height);
 	}
 
-	void WindowManagerGLFW::WindowPosCallback(GLFWwindow * window, int x, int y)
+	/*void WindowManagerGLFW::WindowPosCallback(GLFWwindow * window, int x, int y)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->WindowPosCallbackImpl(x, y);
@@ -220,29 +221,39 @@ namespace ose::windowing
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->CursorPosCallbackImpl(xPos, yPos);		//Forward the callback to the member implementation method
-	}
+	}*/
 
 	void WindowManagerGLFW::MouseButtonCallback(GLFWwindow * window, int button, int action, int mods)
 	{
-		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
-		windowManager->MouseButtonCallbackImpl(button, action, mods);		//Forward the callback to the member implementation method
+		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		EInputType type { static_cast<EInputType>(button + 1000) };
+		if(action == GLFW_PRESS)
+			window_manager->InputCallbackImpl(type, true);
+		else if(action == GLFW_RELEASE)
+			window_manager->InputCallbackImpl(type, false);
+		// NOTE - Ignore GLFW_REPEAT action
 	}
 
-	void WindowManagerGLFW::MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset)
+	/*void WindowManagerGLFW::MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset)
 	{
-		WindowManagerGLFW * inputManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
-		inputManager->MouseScrollCallbackImpl(xOffset, yOffset);		//Forward the callback to the member implementation method
-	}
+		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
+		windowManager->MouseScrollCallbackImpl(xOffset, yOffset);		//Forward the callback to the member implementation method
+	}*/
 
 	void WindowManagerGLFW::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)	//Receives input from the window
 	{
-		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
-		windowManager->KeyCallbackImpl(key, scancode, action, mods);		//Forward the callback to the member implementation method
+		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		EInputType type { static_cast<EInputType>(key) };
+		if(action == GLFW_PRESS)
+			window_manager->InputCallbackImpl(type, true);
+		else if(action == GLFW_RELEASE)
+			window_manager->InputCallbackImpl(type, false);
+		// NOTE - Ignore GLFW_REPEAT action
 	}
 
-	void WindowManagerGLFW::CharCallback(GLFWwindow * window, unsigned int codePoint)
+	/*void WindowManagerGLFW::CharCallback(GLFWwindow * window, unsigned int codePoint)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->CharCallbackImpl(codePoint);								//Forward the callback to the member implementation method
-	}
+	}*/
 }

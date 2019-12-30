@@ -33,5 +33,6 @@ namespace ose::game
 		std::unique_ptr<ose::project::ProjectLoader> project_loader_;
 
 		virtual void OnSceneActivated(Scene & scene) = 0;
+		virtual void OnProjectActivated(ose::project::Project & project) = 0;
 	};
 }
