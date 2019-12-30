@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "InputManager.h"
+#include "InputSettings.h"
 
 namespace ose::input
 {
@@ -37,7 +38,7 @@ namespace ose::input
 
 	// Returns true iff boolean input is triggered
 	// Returns false if boolean input doesn't exist
-	bool InputManager::IsBooleanInputTriggered(std::string const & name)
+	bool InputManager::IsBooleanInputTriggered(std::string const & name) const
 	{
 		auto iter = boolean_inputs_.find(name);
 		if(iter != boolean_inputs_.end())
@@ -47,7 +48,7 @@ namespace ose::input
 
 	// Returns true iff boolean input is changing from an un-triggered state to a triggered state
 	// Returns false if boolean input doesn't exist
-	bool InputManager::IsBooleanInputTriggering(std::string const & name)
+	bool InputManager::IsBooleanInputTriggering(std::string const & name) const
 	{
 		auto iter = boolean_inputs_.find(name);
 		if(iter != boolean_inputs_.end())
@@ -57,7 +58,7 @@ namespace ose::input
 
 	// Returns true iff boolean input is changing from a triggered state to an un-triggered state
 	// Returns false if boolean input doesn't exist
-	bool InputManager::IsBooleanInputUntriggering(std::string const & name)
+	bool InputManager::IsBooleanInputUntriggering(std::string const & name) const
 	{
 		auto iter = boolean_inputs_.find(name);
 		if(iter != boolean_inputs_.end())
@@ -67,7 +68,7 @@ namespace ose::input
 
 	// Returns value of axis input in range [-1, 1]
 	// Returns 0 if axis input doesn't exist
-	double InputManager::GetAxisValue(std::string const & name)
+	double InputManager::GetAxisValue(std::string const & name) const
 	{
 		auto iter = axis_inputs_.find(name);
 		if(iter != axis_inputs_.end())
@@ -101,5 +102,26 @@ namespace ose::input
 				pair.second.value_ = pair.second.pos_value_ - pair.second.neg_value_;
 			}
 		}
+	}
+
+	// Apply an InputSettings object to the input manager
+	// New inputs will be added and existing inputs will be overriden
+	void InputManager::ApplyInputSettings(InputSettings const & settings)
+	{
+		for(auto pair : settings.boolean_inputs_)
+		{
+			boolean_inputs_[pair.first] = pair.second;
+		}
+		for(auto pair : settings.axis_inputs_)
+		{
+			axis_inputs_[pair.first] = pair.second;
+		}
+	}
+
+	// Clear all boolean and axis inputs
+	void InputManager::ClearInputs()
+	{
+		boolean_inputs_.clear();
+		axis_inputs_.clear();
 	}
 }

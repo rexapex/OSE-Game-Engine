@@ -532,6 +532,7 @@
     <ClInclude Include="OSE-Core\Input\EInputType.h" />
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
+    <ClInclude Include="OSE-Core\Input\InputSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

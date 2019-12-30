@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "Game.h"
-#include "OSE-Core/Input/InputManager.h"
 #include "Scene/Scene.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Project/Project.h"
@@ -28,7 +27,7 @@ using namespace ose::scripting;
 
 namespace ose::game
 {
-	Game::Game() : SceneSwitchManager(), EntityList()
+	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
 	{
 		this->running_ = false;
 
@@ -40,10 +39,8 @@ namespace ose::game
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		this->input_manager_ = std::make_unique<InputManager>();
-
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
-		this->window_manager_->SetEngineReferences(rendering_engine_.get(), input_manager_.get());
+		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
@@ -52,6 +49,16 @@ namespace ose::game
 	}
 
 	Game::~Game() noexcept {}
+
+	// Called upon a project being activated
+	// Project is activated upon successful load
+	// Only one project can be active at a time
+	void Game::OnProjectActivated(Project & project)
+	{
+		// Clear the input manager of inputs from previous projects then apply the default project inputs
+		ClearInputs();
+		ApplyInputSettings(project.GetInputSettings());
+	}
 
 	// Called upon a scene being activated
 	// Depending on switch manager, could be multiple active scenes

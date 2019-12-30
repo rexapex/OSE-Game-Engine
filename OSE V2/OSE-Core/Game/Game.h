@@ -2,17 +2,14 @@
 
 #include "OSE-Core/Types.h"
 #include "Scene/SceneSwitchManager.h"
+#include "OSE-Core/Entity/EntityList.h"
+#include "OSE-Core/Input/InputManager.h"
 #include "ThreadManager.h"
 #include "Time.h"
-#include "OSE-Core/Entity/EntityList.h"
 #include <ctime>
 
 namespace ose
 {
-	namespace input
-	{
-		class InputManager;
-	}
 	namespace project
 	{
 		class Project;
@@ -45,7 +42,7 @@ namespace ose::game
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	// TODO - Use template inheritance to allow game type with different scene switch type
-	class Game : public SceneSwitchManager, public ose::entity::EntityList
+	class Game : public SceneSwitchManager, public ose::entity::EntityList, public ose::input::InputManager
 	{
 	public:
 		Game();
@@ -55,6 +52,11 @@ namespace ose::game
 		Game(Game && other) noexcept = default;
 		Game & operator=(Game && other) noexcept = default;
 
+		// Called upon a project being activated
+		// Project is activated upon successful load
+		// Only one project can be active at a time
+		virtual void OnProjectActivated(ose::project::Project & project);
+
 		// Called upon a scene being activated
 		// Depending on switch manager, could be multiple active scenes
 		virtual void OnSceneActivated(Scene & scene);
@@ -62,15 +64,9 @@ namespace ose::game
 		// Start execution of the game
 		void StartGame();
 
-		// Get a reference to the input manager
-		ose::input::InputManager & GetInputManager() const { return *input_manager_; }
-
 	private:
 		// Window manager handles window creation, events and input
 		std::unique_ptr<ose::windowing::WindowManager> window_manager_;
-
-		// Input manager handles processing of user input
-		std::unique_ptr<ose::input::InputManager> input_manager_;
 
 		// Thread manager handles multithreading and updating of engines
 		///std::unique_ptr<ThreadManager> thread_manager_;
