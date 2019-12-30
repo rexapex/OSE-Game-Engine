@@ -15,7 +15,6 @@ namespace ose
 	{
 		struct CustomObject;
 	}
-}
 	namespace input
 	{
 		struct InputSettings;
