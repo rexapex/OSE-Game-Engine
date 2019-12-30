@@ -6,10 +6,18 @@
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Entity/Entity.h"
+
+#include "OSE-Core/Input/InputSettings.h"
+#include "OSE-Core/Input/BooleanInput.h"
+#include "OSE-Core/Input/AxisInput.h"
+#include "OSE-Core/Input/EInputType.h"
+
 #include "OSE-Core/Resources/Texture/Texture.h"
+
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
+
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
@@ -18,6 +26,7 @@
 using namespace ose::game;
 using namespace ose::entity;
 using namespace ose::resources;
+using namespace ose::input;
 using namespace rapidxml;
 
 namespace ose::project
@@ -77,8 +86,11 @@ namespace ose::project
 		//then, load the tag definitions
 		std::unique_ptr<Tag> root_tag = LoadTagDefinitions(project_path);
 
+		// Then, load the default input manager
+		InputSettings input_settings = LoadInputSettings(project_path);
+
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations);
+		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations, input_settings);
 
 		return proj;
 	}
@@ -229,9 +241,101 @@ namespace ose::project
 	}
 
 
-	void ProjectLoaderXML::LoadInputSettings(const std::string & project_path)
+	InputSettings ProjectLoaderXML::LoadInputSettings(const std::string & project_path)
 	{
-		//TODO
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string input_path { project_path + "/input.xml" };
+		InputSettings settings;
+
+		try
+		{
+			doc = LoadXmlFile(input_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return settings;
+		}
+
+		auto input_node = doc->first_node("input");
+
+		auto parse_input_type = [](std::string const & value) -> EInputType {
+			if(value != "")
+			{
+				try
+				{
+					return static_cast<EInputType>(std::stoi(value));
+				}
+				catch(...)
+				{
+					ERROR_LOG("Error: Failed to parse input value as EInputType from integer");
+				}
+			}
+			return EInputType::NONE;
+		};
+
+		// Parse boolean inputs
+		for(auto bool_node = input_node->first_node("boolean"); bool_node; bool_node = bool_node->next_sibling("boolean"))
+		{
+			auto name_attrib = bool_node->first_attribute("name");
+			const std::string & name = (name_attrib ? name_attrib->value() : "");
+			auto name_iter = settings.boolean_inputs_.find(name);
+
+			auto primary_attrib = bool_node->first_attribute("primary");
+			const std::string & primary = (primary_attrib ? primary_attrib->value() : "");
+
+			auto secondary_attrib = bool_node->first_attribute("secondary");
+			const std::string & secondary = (secondary_attrib ? secondary_attrib->value() : "");
+
+			// All boolean inputs are required to have a unique name
+			if(name != "" && name_iter == settings.boolean_inputs_.end())
+			{
+				EInputType primary_type { parse_input_type(primary) };
+				EInputType secondary_type { parse_input_type(secondary) };
+				settings.boolean_inputs_.emplace(name, BooleanInput{ primary_type, secondary_type });
+			}
+			else
+			{
+				ERROR_LOG("Error: Failed to parse boolean input, name is a required unique field");
+			}
+		}
+
+		// Parse axis inputs
+		for(auto axis_node = input_node->first_node("axis"); axis_node; axis_node = axis_node->next_sibling("axis"))
+		{
+			auto name_attrib = axis_node->first_attribute("name");
+			const std::string & name = (name_attrib ? name_attrib->value() : "");
+			auto name_iter = settings.axis_inputs_.find(name);
+
+			auto pos_primary_attrib = axis_node->first_attribute("pos_primary");
+			const std::string & pos_primary = (pos_primary_attrib ? pos_primary_attrib->value() : "");
+
+			auto pos_secondary_attrib = axis_node->first_attribute("pos_secondary");
+			const std::string & pos_secondary = (pos_secondary_attrib ? pos_secondary_attrib->value() : "");
+
+			auto neg_primary_attrib = axis_node->first_attribute("neg_primary");
+			const std::string & neg_primary = (neg_primary_attrib ? neg_primary_attrib->value() : "");
+
+			auto neg_secondary_attrib = axis_node->first_attribute("neg_secondary");
+			const std::string & neg_secondary = (neg_secondary_attrib ? neg_secondary_attrib->value() : "");
+
+			// All axis inputs are required to have a unique name
+			if(name != "" && name_iter == settings.axis_inputs_.end())
+			{
+				EInputType pos_primary_type { parse_input_type(pos_primary) };
+				EInputType neg_primary_type { parse_input_type(neg_primary) };
+				EInputType pos_secondary_type { parse_input_type(pos_secondary) };
+				EInputType neg_secondary_type { parse_input_type(neg_secondary) };
+				settings.axis_inputs_.emplace(name, AxisInput{ pos_primary_type, pos_secondary_type, neg_primary_type, neg_secondary_type });
+			}
+			else
+			{
+				ERROR_LOG("Error: Failed to parse axis input, name is a required unique field");
+			}
+		}
+
+		return settings;
 	}
 
 

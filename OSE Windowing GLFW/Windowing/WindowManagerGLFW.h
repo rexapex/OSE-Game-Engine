@@ -3,7 +3,7 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/VideoMode.h"
 
-class GLFWwindow;
+struct GLFWwindow;
 double glfwGetTime();
 
 namespace ose::windowing
@@ -49,12 +49,12 @@ namespace ose::windowing
 		int wwidth_, wheight_;		// window width & height
 
 		static void FramebufferSizeCallback(GLFWwindow * window, int width, int height);
-		static void WindowPosCallback(GLFWwindow * window, int x, int y);
-		static void CursorPosCallback(GLFWwindow * window, double xPos, double yPos);
+		//static void WindowPosCallback(GLFWwindow * window, int x, int y);
+		//static void CursorPosCallback(GLFWwindow * window, double xPos, double yPos);
 		static void MouseButtonCallback(GLFWwindow * window, int button, int action, int mods);
-		static void MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset);
+		//static void MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset);
 		static void KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods);	//Static function which receives key callbacks from window
-		static void CharCallback(GLFWwindow * window, unsigned int codePoint);
+		//static void CharCallback(GLFWwindow * window, unsigned int codePoint);
 	};
 }
 

@@ -7,6 +7,14 @@ namespace rapidxml
 	template <class Ch = char> class xml_node;
 }
 
+namespace ose
+{
+	namespace input
+	{
+		struct InputSettings;
+	}
+}
+
 namespace ose::project
 {
 	//Loads projects from xml text files
@@ -23,8 +31,7 @@ namespace ose::project
 		std::unique_ptr<ose::game::Tag> LoadTagDefinitions(const std::string & project_path);
 
 		void LoadProjectSettings(const std::string & project_path);
-		void LoadInputSettings(const std::string & project_path);
-
+		ose::input::InputSettings LoadInputSettings(const std::string & project_path);
 		std::unique_ptr<ose::game::Scene> LoadScene(const Project & project, const std::string & scene_name);
 		std::unique_ptr<ose::entity::Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
 		

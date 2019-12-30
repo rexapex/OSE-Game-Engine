@@ -31,6 +31,8 @@ namespace ose::game
 			if(this->project_ == nullptr) {
 				throw std::exception("Error: Could not load Project");
 			}
+
+			OnProjectActivated(*project_);
 		} else {
 			throw std::exception("Error: Unknown project file type");
 		}

@@ -16,6 +16,11 @@ namespace ose
 		struct CustomObject;
 	}
 }
+	namespace input
+	{
+		struct InputSettings;
+	}
+}
 
 namespace ose::project
 {
@@ -48,8 +53,8 @@ namespace ose::project
 		// Loads settings including: physics & rendering engine default settings
 		virtual void LoadProjectSettings(const std::string & project_path) = 0;
 
-		// Loads game developer defined default input controls
-		virtual void LoadInputSettings(const std::string & project_path) = 0;
+		//Loads game developer defined default input controls
+		virtual ose::input::InputSettings LoadInputSettings(const std::string & project_path) = 0;
 
 		// Loads a scene file defined by the game developer
 		virtual std::unique_ptr<ose::game::Scene> LoadScene(const Project & project, const std::string & scene_name) = 0;

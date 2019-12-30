@@ -2,9 +2,10 @@
 
 #include "OSE-Core/Types.h"
 #include "Scene/SceneSwitchManager.h"
+#include "OSE-Core/Entity/EntityList.h"
+#include "OSE-Core/Input/InputManager.h"
 #include "ThreadManager.h"
 #include "Time.h"
-#include "OSE-Core/Entity/EntityList.h"
 #include <ctime>
 
 namespace ose
@@ -45,7 +46,7 @@ namespace ose::game
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	// TODO - Use template inheritance to allow game type with different scene switch type
-	class Game : public SceneSwitchManager, public ose::entity::EntityList
+	class Game : public SceneSwitchManager, public ose::entity::EntityList, public ose::input::InputManager
 	{
 	public:
 		Game();
@@ -54,6 +55,11 @@ namespace ose::game
 		Game & operator=(Game &) = delete;
 		Game(Game && other) noexcept = default;
 		Game & operator=(Game && other) noexcept = default;
+
+		// Called upon a project being activated
+		// Project is activated upon successful load
+		// Only one project can be active at a time
+		virtual void OnProjectActivated(ose::project::Project & project);
 
 		// Called upon a scene being activated
 		// Depending on switch manager, could be multiple active scenes

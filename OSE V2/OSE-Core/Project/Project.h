@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ProjectInfo.h"
+#include "OSE-Core/Input/InputSettings.h"
 
 namespace ose
 {
@@ -20,7 +21,8 @@ namespace ose::project
 	class Project
 	{
 	public:
-		Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path);
+		Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path,
+			ose::input::InputSettings const & input_settings);
 		virtual ~Project() noexcept;
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
@@ -31,6 +33,7 @@ namespace ose::project
 		const std::map<std::string, std::string> & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
 		ose::resources::ResourceManager & GetResourceManager() const { return *resource_manager_; }
 		ose::resources::PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
+		ose::input::InputSettings const & GetInputSettings() const { return input_settings_; }
 
 		// Create gpu resources for each loaded resource object
 		void CreateGpuResources();
@@ -53,6 +56,9 @@ namespace ose::project
 
 		// scene list (maps name to path ?)
 		std::map<std::string, std::string> scene_names_to_path_;
+
+		// The default input settings configured in the project
+		ose::input::InputSettings input_settings_;
 
 		// engine settings
 		// rendering/physics settings
