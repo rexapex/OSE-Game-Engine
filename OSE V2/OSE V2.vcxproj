@@ -189,6 +189,11 @@
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
+    <ClInclude Include="OSE-Core\Input\AxisInput.h" />
+    <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
+    <ClInclude Include="OSE-Core\Input\EInputType.h" />
+    <ClInclude Include="OSE-Core\Input\InputManager.h" />
+    <ClInclude Include="OSE-Core\Input\InputSettings.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h" />
     <ClInclude Include="OSE-Core\Math\ITransform.h" />
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
@@ -678,6 +683,7 @@
   <ItemGroup>
     <ClCompile Include="OSE-Core\Entity\Component\ComponentList.cpp" />
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
+    <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
