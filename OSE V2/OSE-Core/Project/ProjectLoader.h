@@ -63,5 +63,8 @@ namespace ose::project
 
 		// Load a custom data file into a custom object
 		virtual std::unique_ptr<ose::resources::CustomObject> LoadCustomDataFile(const std::string & path) = 0;
+
+		// Save a custom object into a custom data file
+		virtual void SaveCustomDataFile(const std::string & path, ose::resources::CustomObject const & object) = 0;
 	};
 }

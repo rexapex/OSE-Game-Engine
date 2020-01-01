@@ -44,7 +44,7 @@ void FileHandlingUtil::GetHomeDirectory(std::string & home_dir_path)
 	home_dir_path = std::string(home_dir);
 #elif defined(_WIN32)
 	// Get windows Documents folder
-	CHAR docs_path[128];
+	CHAR docs_path[MAX_PATH];
 	HRESULT result = SHGetFolderPathA(NULL, CSIDL_PERSONAL, NULL, SHGFP_TYPE_CURRENT, docs_path);
 
 	if(result == S_OK)

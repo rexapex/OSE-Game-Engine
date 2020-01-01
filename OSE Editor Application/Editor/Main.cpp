@@ -10,7 +10,10 @@ int main(int argc, char * argv[])
 	using namespace ose;
 
 	// TODO - might need to destroy resources before returning error
-	
+
+	auto obj = Env::GetGame().LoadCustomDataFile(R"(D:\James\Documents\Origami_Sheep_Engine\Projects\OSE-TestProject\Resources\custom-data.xml)");
+	Env::GetGame().SaveCustomDataFile(R"(D:\James\Documents\Origami_Sheep_Engine\Projects\OSE-TestProject\Resources\custom-data.xml)", *obj);
+
 	// load the project, giving access to all of its settings and scenes
 	try {
 		Env::GetGame().LoadProject("OSE-TestProject");

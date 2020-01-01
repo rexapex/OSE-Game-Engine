@@ -21,7 +21,9 @@
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
+
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
+#include "Dependencies/rapidxml-1.13/rapidxml_print.hpp"
 
 using namespace ose::game;
 using namespace ose::entity;
@@ -898,5 +900,52 @@ namespace ose::project
 		}
 
 		return obj;
+	}
+
+	void ProjectLoaderXML::SaveCustomDataFile(const std::string & path, CustomObject const & object)
+	{
+		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
+		SaveCustomDataObject(*doc, nullptr, object);
+		std::cout << *doc << "\n";
+	}
+
+	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, xml_node<> * parent, CustomObject const & object)
+	{
+		xml_node<> * obj_node = doc.allocate_node(node_element, "object");
+		if(parent)
+			parent->append_node(obj_node);
+		else
+			doc.append_node(obj_node);
+
+		for(auto & pair : object.data_)
+		{
+			auto node_data = std::visit([](auto && arg) -> std::pair<std::string, std::string> {
+				using T = std::decay_t<decltype(arg)>;
+				if constexpr(std::is_same_v<T, int64_t>)
+				{
+					return std::make_pair("int", std::to_string(arg));
+				}
+				else if constexpr(std::is_same_v<T, double>)
+				{
+					return std::make_pair("float", std::to_string(arg));
+				}
+				else if constexpr(std::is_same_v<T, bool>)
+				{
+					return std::make_pair("bool", arg ? "true" : "false");
+				}
+				return std::make_pair("", "");
+			}, pair.second);
+
+			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool")
+			{
+				char * node_type = doc.allocate_string(node_data.first.c_str());
+				char * node_value = doc.allocate_string(node_data.second.c_str());
+				char * node_name = doc.allocate_string(pair.first.c_str());
+				auto node = doc.allocate_node(node_element, node_type, node_value);
+				auto name_attr = doc.allocate_attribute("name", node_name);
+				node->append_attribute(name_attr);
+				obj_node->append_node(node);
+			}
+		}
 	}
 }

@@ -162,5 +162,11 @@ namespace ose::game
 	{
 		return project_loader_->LoadCustomDataFile(path);
 	}
+
+	// Save a custom data file
+	void Game::SaveCustomDataFile(std::string const & path, CustomObject const & object)
+	{
+		project_loader_->SaveCustomDataFile(path, object);
+	}
 }
 

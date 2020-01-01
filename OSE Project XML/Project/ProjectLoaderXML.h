@@ -36,6 +36,7 @@ namespace ose::project
 		std::unique_ptr<ose::entity::Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
 		
 		std::unique_ptr<ose::resources::CustomObject> LoadCustomDataFile(const std::string & path);
+		void SaveCustomDataFile(const std::string & path, ose::resources::CustomObject const & object);
 
 	private:
 		//Parse the XML file at 'path' and store the contents in 'content'
@@ -50,6 +51,7 @@ namespace ose::project
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);
 
 		std::unique_ptr<ose::resources::CustomObject> ParseCustomObject(rapidxml::xml_node<> * obj_node);
+		void SaveCustomDataObject(rapidxml::xml_document<> & doc, rapidxml::xml_node<> * parent, ose::resources::CustomObject const & object);
 
 		const std::string file_extension = ".xml";
 	};
