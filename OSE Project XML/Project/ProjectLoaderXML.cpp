@@ -862,7 +862,7 @@ namespace ose::project
 		{
 			auto pair { get_keyval_pair(*obj, bools_node, "") };
 			std::vector<bool> value;
-			std::stringstream ss(pair.second);
+			std::stringstream ss(pair.second);	// TODO - Trim pair.second so whitespace is ignored
 			std::string bool_str;
 			while(ss.good())
 			{
@@ -953,10 +953,52 @@ namespace ose::project
 					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
 					return std::make_pair("object", "");
 				}
+				else if constexpr(std::is_same_v<T, std::vector<int64_t>>)
+				{
+					std::string s;
+					for(auto i : arg)
+					{
+						s += std::to_string(i) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("ints", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<double>>)
+				{
+					std::string s;
+					for(auto d : arg)
+					{
+						s += std::to_string(d) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("floats", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<bool>>)
+				{
+					std::string s;
+					for(auto b : arg)
+					{
+						s += (b ? std::string("true") : std::string("false")) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("bools", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<std::string>>)
+				{
+
+				}
+				else if constexpr(std::is_same_v<T, std::vector<std::unique_ptr<CustomObject>>>)
+				{
+
+				}
 				return std::make_pair("", "");
 			}, pair.second);
 
-			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool" || node_data.first == "string")
+			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool" || node_data.first == "string"
+				|| node_data.first == "ints" || node_data.first == "floats" || node_data.first == "bools")
 			{
 				char * node_type = doc.allocate_string(node_data.first.c_str());
 				char * node_value = doc.allocate_string(node_data.second.c_str());
