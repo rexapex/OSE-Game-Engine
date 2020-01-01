@@ -906,7 +906,9 @@ namespace ose::project
 	{
 		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
 		SaveCustomDataObject(*doc, object);
-		std::cout << *doc << "\n";
+		std::stringstream ss;
+		ss << *doc;
+		FileHandlingUtil::WriteTextFile(path, ss.str());
 	}
 
 	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, CustomObject const & object, xml_node<> * parent, std::string name)
