@@ -12,6 +12,7 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
+#include "OSE-Core/Resources/Custom Data/CustomObject.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Windowing/WindowingFactory.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
@@ -154,6 +155,18 @@ namespace ose::game
 		{
 			InitEntity(*sub_entity);
 		}
+	}
+
+	// Load a custom data file
+	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
+	{
+		return project_loader_->LoadCustomDataFile(path);
+	}
+
+	// Save a custom data file
+	void Game::SaveCustomDataFile(std::string const & path, CustomObject const & object)
+	{
+		project_loader_->SaveCustomDataFile(path, object);
 	}
 }
 

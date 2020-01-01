@@ -26,12 +26,17 @@ namespace ose::project
 
 		std::unique_ptr<Project> LoadProject(const std::string & project_name);
 		std::unique_ptr<ProjectInfo> LoadProjectManifest(const std::string & project_path);
+
 		std::unique_ptr<std::map<std::string, std::string>> LoadSceneDeclerations(const std::string & project_path);
 		std::unique_ptr<ose::game::Tag> LoadTagDefinitions(const std::string & project_path);
+
 		void LoadProjectSettings(const std::string & project_path);
 		ose::input::InputSettings LoadInputSettings(const std::string & project_path);
 		std::unique_ptr<ose::game::Scene> LoadScene(const Project & project, const std::string & scene_name);
 		std::unique_ptr<ose::entity::Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
+		
+		std::unique_ptr<ose::resources::CustomObject> LoadCustomDataFile(const std::string & path);
+		void SaveCustomDataFile(const std::string & path, ose::resources::CustomObject const & object);
 
 	private:
 		//Parse the XML file at 'path' and store the contents in 'content'
@@ -44,6 +49,9 @@ namespace ose::project
 		
 		void ParseTag(std::vector<ose::game::Tag> & tags, rapidxml::xml_node<> * tag_node);
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);
+
+		std::unique_ptr<ose::resources::CustomObject> ParseCustomObject(rapidxml::xml_node<> * obj_node);
+		void SaveCustomDataObject(rapidxml::xml_document<> & doc, ose::resources::CustomObject const & object, rapidxml::xml_node<> * parent = nullptr, std::string name = "");
 
 		const std::string file_extension = ".xml";
 	};

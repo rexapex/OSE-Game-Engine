@@ -199,6 +199,7 @@
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
     <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Resources\Custom Data\CustomObject.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptingFactory.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptPool.h" />

@@ -33,6 +33,10 @@ namespace ose
 	{
 		class ScriptingEngine;
 	}
+	namespace resources
+	{
+		struct CustomObject;
+	}
 }
 
 namespace ose::game
@@ -63,6 +67,15 @@ namespace ose::game
 
 		// Start execution of the game
 		void StartGame();
+
+		// Get the time object
+		Time const & GetTime() { return time_; }
+
+		// Load a custom data file
+		std::unique_ptr<ose::resources::CustomObject> LoadCustomDataFile(std::string const & path);
+
+		// Save a custom data file
+		void SaveCustomDataFile(std::string const & path, ose::resources::CustomObject const & object);
 
 	private:
 		// Window manager handles window creation, events and input

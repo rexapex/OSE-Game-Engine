@@ -20,7 +20,10 @@
 
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
+#include "OSE-Core/Resources/Custom Data/CustomObject.h"
+
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
+#include "Dependencies/rapidxml-1.13/rapidxml_print.hpp"
 
 using namespace ose::game;
 using namespace ose::entity;
@@ -691,6 +694,338 @@ namespace ose::project
 				} else {
 					project.GetPrefabManager().AddTempPrefab(std::move(LoadEntityPrefab(prefab_path, project)), prefab_path);
 				}
+			}
+		}
+	}
+	
+
+	// Load a custom data file into a custom object
+	std::unique_ptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(const std::string & path)
+	{
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+
+		try
+		{
+			doc = LoadXmlFile(path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return nullptr;
+		}
+
+		DEBUG_LOG("**********  Custom Data File  **********");
+
+		// Parse the xml
+		xml_node<> * root_obj = doc->first_node("object");
+		try
+		{
+			return ParseCustomObject(root_obj);
+		}
+		catch(std::exception & e)
+		{
+			ERROR_LOG(e.what());
+		}
+		return nullptr;
+	}
+	
+	// Parse a custom object node
+	std::unique_ptr<ose::resources::CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	{
+		if(obj_node == nullptr)
+			return nullptr;
+
+		auto obj = std::make_unique<CustomObject>();
+
+		// Get the key and value pair from an xml node
+		auto get_keyval_pair = [](CustomObject & parent, rapidxml::xml_node<> * node, std::string const & default_value) -> std::pair<std::string, std::string> {
+			auto name_attrib = node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			if(name != "" && parent.data_.find(name) == parent.data_.end())
+			{
+				std::string value_str = (node ? node->value() : default_value);
+				return std::make_pair(name, value_str);
+			}
+			else
+			{
+				ERROR_LOG("Error: Custom object field name (" << name << ") is not given or already in use");
+				throw std::exception("Failed to parse custom object");
+			}
+		};
+
+		// Parse integer nodes
+		for(auto int_node { obj_node->first_node("int") }; int_node; int_node = int_node->next_sibling("int"))
+		{
+			auto pair { get_keyval_pair(*obj, int_node, "0") };
+			try
+			{
+				int64_t value = std::stoll(pair.second);
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse INT data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse float nodes
+		for(auto float_node { obj_node->first_node("float") }; float_node; float_node = float_node->next_sibling("float"))
+		{
+			auto pair { get_keyval_pair(*obj, float_node, "0.0") };
+			try
+			{
+				double value = std::stod(pair.second);
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse FLOAT data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse boolean nodes
+		for(auto bool_node { obj_node->first_node("bool") }; bool_node; bool_node = bool_node->next_sibling("float"))
+		{
+			auto pair { get_keyval_pair(*obj, bool_node, "0") };
+			bool value = pair.second == "true" || pair.second == "TRUE" || pair.second == "1" ? true : false;
+			obj->data_[pair.first] = value;
+		}
+
+		// Parse string nodes
+		for(auto string_node { obj_node->first_node("string") }; string_node; string_node = string_node->next_sibling("string"))
+		{
+			auto pair { get_keyval_pair(*obj, string_node, "") };
+			obj->data_[pair.first] = pair.second;
+		}
+
+		// Parse nested custom object nodes
+		for(auto child_obj_node { obj_node->first_node("object") }; child_obj_node; child_obj_node = child_obj_node->next_sibling("object"))
+		{
+			auto pair { get_keyval_pair(*obj, child_obj_node, "") };
+			auto child_obj { ParseCustomObject(child_obj_node) };
+			if(child_obj)
+				obj->data_[pair.first] = std::move(child_obj);
+		}
+
+		// Parse array of integer nodes
+		for(auto ints_node { obj_node->first_node("ints") }; ints_node; ints_node = ints_node->next_sibling("ints"))
+		{
+			auto pair { get_keyval_pair(*obj, ints_node, "") };
+			try
+			{
+				std::vector<int64_t> value;
+				std::stringstream ss(pair.second);
+				std::string int_str;
+				while(ss.good())
+				{
+					std::getline(ss, int_str, ',');
+					value.push_back(std::stoll(int_str));
+				}
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse INT array data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse array of float nodes
+		for(auto floats_node { obj_node->first_node("floats") }; floats_node; floats_node = floats_node->next_sibling("floats"))
+		{
+			auto pair { get_keyval_pair(*obj, floats_node, "") };
+			try
+			{
+				std::vector<double> value;
+				std::stringstream ss(pair.second);
+				std::string float_str;
+				while(ss.good())
+				{
+					std::getline(ss, float_str, ',');
+					value.push_back(std::stod(float_str));
+				}
+				obj->data_[pair.first] = value;
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse FLOAT array data in custom object");
+				return nullptr;
+			}
+		}
+
+		// Parse array of bool nodes
+		for(auto bools_node { obj_node->first_node("bools") }; bools_node; bools_node = bools_node->next_sibling("bools"))
+		{
+			auto pair { get_keyval_pair(*obj, bools_node, "") };
+			std::vector<bool> value;
+			std::stringstream ss(pair.second);	// TODO - Trim pair.second so whitespace is ignored
+			std::string bool_str;
+			while(ss.good())
+			{
+				std::getline(ss, bool_str, ',');
+				value.push_back(bool_str == "true" || bool_str == "TRUE" || bool_str == "1" ? true : false);
+			}
+			obj->data_[pair.first] = value;
+		}
+
+		// Parse array of string nodes
+		for(auto strings_node { obj_node->first_node("strings") }; strings_node; strings_node = strings_node->next_sibling("strings"))
+		{
+			auto pair { get_keyval_pair(*obj, strings_node, "") };
+			std::vector<std::string> value;
+			for(auto string_node { strings_node->first_node("string") }; string_node; string_node = string_node->next_sibling("string"))
+			{
+				auto string_value = string_node ? string_node->value() : "";
+				value.push_back(string_value);
+			}
+			obj->data_[pair.first] = value;
+		}
+
+		// Parse array of object nodes
+		for(auto objects_node { obj_node->first_node("objects") }; objects_node; objects_node = objects_node->next_sibling("objects"))
+		{
+			auto pair { get_keyval_pair(*obj, objects_node, "") };
+			std::vector<std::unique_ptr<CustomObject>> value;
+			for(auto child_object_node { objects_node->first_node("object") }; child_object_node; child_object_node = child_object_node->next_sibling("object"))
+			{
+				auto obj = ParseCustomObject(child_object_node);
+				if(obj)
+					value.push_back(std::move(obj));
+			}
+			obj->data_[pair.first] = std::move(value);
+		}
+
+		return obj;
+	}
+
+	void ProjectLoaderXML::SaveCustomDataFile(const std::string & path, CustomObject const & object)
+	{
+		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
+		SaveCustomDataObject(*doc, object);
+		std::stringstream ss;
+		ss << *doc;
+		FileHandlingUtil::WriteTextFile(path, ss.str());
+	}
+
+	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, CustomObject const & object, xml_node<> * parent, std::string name)
+	{
+		xml_node<> * obj_node = doc.allocate_node(node_element, "object");
+		
+		// Add a name attribute to the object if one is given
+		if(name != "")
+		{
+			char * node_name = doc.allocate_string(name.c_str());
+			auto name_attr = doc.allocate_attribute("name", node_name);
+			obj_node->append_attribute(name_attr);
+		}
+
+		// Add the object to the xml doc
+		if(parent)
+			parent->append_node(obj_node);
+		else
+			doc.append_node(obj_node);
+
+		// Process the data contained in the object
+		for(auto & pair : object.data_)
+		{
+			auto node_data = std::visit([this, &doc, obj_node, &pair](auto && arg) -> std::pair<std::string, std::string> {
+				using T = std::decay_t<decltype(arg)>;
+				if constexpr(std::is_same_v<T, int64_t>)
+				{
+					return std::make_pair("int", std::to_string(arg));
+				}
+				else if constexpr(std::is_same_v<T, double>)
+				{
+					return std::make_pair("float", std::to_string(arg));
+				}
+				else if constexpr(std::is_same_v<T, bool>)
+				{
+					return std::make_pair("bool", arg ? "true" : "false");
+				}
+				else if constexpr(std::is_same_v<T, std::string>)
+				{
+					return std::make_pair("string", arg);
+				}
+				else if constexpr(std::is_same_v<T, std::unique_ptr<CustomObject>>)
+				{
+					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<int64_t>>)
+				{
+					std::string s;
+					for(auto i : arg)
+					{
+						s += std::to_string(i) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("ints", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<double>>)
+				{
+					std::string s;
+					for(auto d : arg)
+					{
+						s += std::to_string(d) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("floats", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<bool>>)
+				{
+					std::string s;
+					for(auto b : arg)
+					{
+						s += (b ? std::string("true") : std::string("false")) + ",";
+					}
+					if(s.size() > 0)
+						s.erase(s.end()-1);
+					return std::make_pair("bools", s);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<std::string>>)
+				{
+					char * node_name = doc.allocate_string(pair.first.c_str());
+					auto node = doc.allocate_node(node_element, "strings");
+					auto name_attr = doc.allocate_attribute("name", node_name);
+					node->append_attribute(name_attr);
+					for(auto const & s : arg)
+					{
+						char * elem_node_value = doc.allocate_string(s.c_str());
+						auto elem_node = doc.allocate_node(node_element, "string", elem_node_value);
+						node->append_node(elem_node);
+					}
+					obj_node->append_node(node);
+				}
+				else if constexpr(std::is_same_v<T, std::vector<std::unique_ptr<CustomObject>>>)
+				{
+					char * node_name = doc.allocate_string(pair.first.c_str());
+					auto node = doc.allocate_node(node_element, "objects");
+					auto name_attr = doc.allocate_attribute("name", node_name);
+					node->append_attribute(name_attr);
+					for(auto const & obj : arg)
+					{
+						SaveCustomDataObject(doc, *obj, node);
+					}
+					obj_node->append_node(node);
+				}
+				return std::make_pair("", "");
+			}, pair.second);
+
+			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool" || node_data.first == "string"
+				|| node_data.first == "ints" || node_data.first == "floats" || node_data.first == "bools")
+			{
+				char * node_type = doc.allocate_string(node_data.first.c_str());
+				char * node_value = doc.allocate_string(node_data.second.c_str());
+				char * node_name = doc.allocate_string(pair.first.c_str());
+				auto node = doc.allocate_node(node_element, node_type, node_value);
+				auto name_attr = doc.allocate_attribute("name", node_name);
+				node->append_attribute(name_attr);
+				obj_node->append_node(node);
 			}
 		}
 	}

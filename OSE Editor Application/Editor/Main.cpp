@@ -2,14 +2,15 @@
 #include "Main.h"
 #include "OSE-Core/Env.h"
 #include "OSE-Core/Game/Game.h"
-///#include "Math/Transform.h"
+
+#include "OSE-Core/Resources/Custom Data/CustomObject.h"
 
 int main(int argc, char * argv[])
 {
 	using namespace ose;
 
 	// TODO - might need to destroy resources before returning error
-	
+
 	// load the project, giving access to all of its settings and scenes
 	try {
 		Env::GetGame().LoadProject("OSE-TestProject");

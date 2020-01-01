@@ -528,6 +528,7 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
+    <ClInclude Include="OSE-Core\Resources\Custom Data\CustomObject.h" />
     <ClInclude Include="OSE-Core\Input\InputManager.h" />
     <ClInclude Include="OSE-Core\Input\EInputType.h" />
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
