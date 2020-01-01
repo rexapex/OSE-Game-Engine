@@ -905,21 +905,32 @@ namespace ose::project
 	void ProjectLoaderXML::SaveCustomDataFile(const std::string & path, CustomObject const & object)
 	{
 		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
-		SaveCustomDataObject(*doc, nullptr, object);
+		SaveCustomDataObject(*doc, object);
 		std::cout << *doc << "\n";
 	}
 
-	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, xml_node<> * parent, CustomObject const & object)
+	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, CustomObject const & object, xml_node<> * parent, std::string name)
 	{
 		xml_node<> * obj_node = doc.allocate_node(node_element, "object");
+		
+		// Add a name attribute to the object if one is given
+		if(name != "")
+		{
+			char * node_name = doc.allocate_string(name.c_str());
+			auto name_attr = doc.allocate_attribute("name", node_name);
+			obj_node->append_attribute(name_attr);
+		}
+
+		// Add the object to the xml doc
 		if(parent)
 			parent->append_node(obj_node);
 		else
 			doc.append_node(obj_node);
 
+		// Process the data contained in the object
 		for(auto & pair : object.data_)
 		{
-			auto node_data = std::visit([](auto && arg) -> std::pair<std::string, std::string> {
+			auto node_data = std::visit([this, &doc, obj_node, &pair](auto && arg) -> std::pair<std::string, std::string> {
 				using T = std::decay_t<decltype(arg)>;
 				if constexpr(std::is_same_v<T, int64_t>)
 				{
@@ -933,10 +944,19 @@ namespace ose::project
 				{
 					return std::make_pair("bool", arg ? "true" : "false");
 				}
+				else if constexpr(std::is_same_v<T, std::string>)
+				{
+					return std::make_pair("string", arg);
+				}
+				else if constexpr(std::is_same_v<T, std::unique_ptr<CustomObject>>)
+				{
+					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
+					return std::make_pair("object", "");
+				}
 				return std::make_pair("", "");
 			}, pair.second);
 
-			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool")
+			if(node_data.first == "int" || node_data.first == "float" || node_data.first == "bool" || node_data.first == "string")
 			{
 				char * node_type = doc.allocate_string(node_data.first.c_str());
 				char * node_value = doc.allocate_string(node_data.second.c_str());

@@ -51,7 +51,7 @@ namespace ose::project
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);
 
 		std::unique_ptr<ose::resources::CustomObject> ParseCustomObject(rapidxml::xml_node<> * obj_node);
-		void SaveCustomDataObject(rapidxml::xml_document<> & doc, rapidxml::xml_node<> * parent, ose::resources::CustomObject const & object);
+		void SaveCustomDataObject(rapidxml::xml_document<> & doc, ose::resources::CustomObject const & object, rapidxml::xml_node<> * parent = nullptr, std::string name = "");
 
 		const std::string file_extension = ".xml";
 	};
