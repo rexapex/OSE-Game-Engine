@@ -3,8 +3,6 @@
 #include "OSE-Core/Env.h"
 #include "OSE-Core/Game/Game.h"
 
-#include "OSE-Core/Resources/Custom Data/CustomObject.h"
-
 int main(int argc, char * argv[])
 {
 	using namespace ose;
