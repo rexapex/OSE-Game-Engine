@@ -951,7 +951,6 @@ namespace ose::project
 				else if constexpr(std::is_same_v<T, std::unique_ptr<CustomObject>>)
 				{
 					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
-					return std::make_pair("object", "");
 				}
 				else if constexpr(std::is_same_v<T, std::vector<int64_t>>)
 				{
@@ -988,11 +987,29 @@ namespace ose::project
 				}
 				else if constexpr(std::is_same_v<T, std::vector<std::string>>)
 				{
-
+					char * node_name = doc.allocate_string(pair.first.c_str());
+					auto node = doc.allocate_node(node_element, "strings");
+					auto name_attr = doc.allocate_attribute("name", node_name);
+					node->append_attribute(name_attr);
+					for(auto const & s : arg)
+					{
+						char * elem_node_value = doc.allocate_string(s.c_str());
+						auto elem_node = doc.allocate_node(node_element, "string", elem_node_value);
+						node->append_node(elem_node);
+					}
+					obj_node->append_node(node);
 				}
 				else if constexpr(std::is_same_v<T, std::vector<std::unique_ptr<CustomObject>>>)
 				{
-
+					char * node_name = doc.allocate_string(pair.first.c_str());
+					auto node = doc.allocate_node(node_element, "objects");
+					auto name_attr = doc.allocate_attribute("name", node_name);
+					node->append_attribute(name_attr);
+					for(auto const & obj : arg)
+					{
+						SaveCustomDataObject(doc, *obj, node);
+					}
+					obj_node->append_node(node);
 				}
 				return std::make_pair("", "");
 			}, pair.second);
