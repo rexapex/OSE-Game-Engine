@@ -28,111 +28,78 @@ namespace ose::math
 		void Translate(const glm::vec3 & translation)
 		{
 			local_transform_.Translate(translation);
-			global_transform_.Translate(translation);
-			for(auto & child : GetChildTransformables())
-			{
-				child->TranslateParent(translation);
-			}
+			TranslateParent(translation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Translate(const float x, const float y, const float z)
 		{
 			local_transform_.Translate(x, y, z);
-			global_transform_.Translate(x, y, z);
-			for(auto & child : GetChildTransformables())
-			{
-				child->TranslateParent(x, y, z);
-			}
+			TranslateParent(x, y, z);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Translate2d(const glm::vec2 & translation)
 		{
 			local_transform_.Translate2d(translation);
-			global_transform_.Translate2d(translation);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Translate2dParent(translation);
-			}
+			TranslateParent(translation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Translate2d(const float x, const float y)
 		{
 			local_transform_.Translate2d(x, y);
-			global_transform_.Translate2d(x, y);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Translate2dParent(x, y);
-			}
+			Translate2dParent(x, y);
 		}
 
+
+		// Modify the local and global transform of the transformable
+		void Rotate(const glm::quat & change)
+		{
+			local_transform_.Rotate(change);
+			RotateParent(change);
+		}
 
 		// Modify the local and global transform of the transformable
 		void Rotate(const glm::vec3 & change)
 		{
 			local_transform_.Rotate(change);
-			global_transform_.Rotate(change);
-			for(auto & child : GetChildTransformables())
-			{
-				child->RotateParent(change);
-			}
+			RotateParent(change);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Rotate(const float pitch, const float yaw, const float roll)
 		{
 			local_transform_.Rotate(pitch, yaw, roll);
-			global_transform_.Rotate(pitch, yaw, roll);
-			for(auto & child : GetChildTransformables())
-			{
-				child->RotateParent(pitch, yaw, roll);
-			}
+			RotateParent(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
 		void RotateDeg(const glm::vec3 & change)
 		{
 			local_transform_.RotateDeg(change);
-			global_transform_.RotateDeg(change);
-			for(auto & child : GetChildTransformables())
-			{
-				child->RotateDegParent(change);
-			}
+			RotateDegParent(change);
 		}
 
 		// Modify the local and global transform of the transformable
 		void RotateDeg(const float pitch, const float yaw, const float roll)
 		{
 			local_transform_.RotateDeg(pitch, yaw, roll);
-			global_transform_.RotateDeg(pitch, yaw, roll);
-			for(auto & child : GetChildTransformables())
-			{
-				child->RotateDegParent(pitch, yaw, roll);
-			}
+			RotateDegParent(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Rotate2d(const float rotation)
 		{
 			local_transform_.Rotate2d(rotation);
-			global_transform_.Rotate2d(rotation);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Rotate2dParent(rotation);
-			}
+			Rotate2dParent(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Rotate2dDeg(const float rotation)
 		{
 			local_transform_.Rotate2dDeg(rotation);
-			global_transform_.Rotate2dDeg(rotation);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Rotate2dDegParent(rotation);
-			}
+			Rotate2dDegParent(rotation);
 		}
 
 
@@ -140,56 +107,152 @@ namespace ose::math
 		void Scale(const float scalar)
 		{
 			local_transform_.Scale(scalar);
-			global_transform_.Scale(scalar);
-			for(auto & child : GetChildTransformables())
-			{
-				child->ScaleParent(scalar);
-			}
+			ScaleParent(scalar);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Scale(const glm::vec3 & multiplier)
 		{
 			local_transform_.Scale(multiplier);
-			global_transform_.Scale(multiplier);
-			for(auto & child : GetChildTransformables())
-			{
-				child->ScaleParent(multiplier);
-			}
+			ScaleParent(multiplier);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Scale(const float x, const float y, const float z)
 		{
 			local_transform_.Scale(x, y, z);
-			global_transform_.Scale(x, y, z);
-			for(auto & child : GetChildTransformables())
-			{
-				child->ScaleParent(x, y, z);
-			}
+			ScaleParent(x, y, z);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Scale2d(const glm::vec2 & multiplier)
 		{
 			local_transform_.Scale2d(multiplier);
-			global_transform_.Scale2d(multiplier);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Scale2dParent(multiplier);
-			}
+			Scale2dParent(multiplier);
 		}
 
 		// Modify the local and global transform of the transformable
 		void Scale2d(const float x, const float y)
 		{
 			local_transform_.Scale2d(x, y);
-			global_transform_.Scale2d(x, y);
-			for(auto & child : GetChildTransformables())
-			{
-				child->Scale2dParent(x, y);
-			}
+			Scale2dParent(x, y);
 		}
+
+		// Modify the local and global transform of the transformable
+		void SetTranslation(const glm::vec3 & translation)
+		{
+			glm::vec3 const & b { local_transform_.GetPosition() };
+			local_transform_.SetTranslation(translation);
+			TranslateParent(translation - b);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetTranslation(const float x, const float y, const float z)
+		{
+			glm::vec3 const & b { local_transform_.GetPosition() };
+			local_transform_.SetTranslation(x, y, z);
+			TranslateParent(x - b.x, y - b.y, z - b.z);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetTranslation2d(const glm::vec2 & translation)
+		{
+			glm::vec3 const & b { local_transform_.GetPosition() };
+			local_transform_.SetTranslation2d(translation);
+			Translate2dParent(translation - b);
+		}
+		
+		// Modify the local and global transform of the transformable
+		void SetTranslation2d(const float x, const float y)
+		{
+			glm::vec3 const & b { local_transform_.GetPosition() };
+			local_transform_.SetTranslation2d(x, y);
+			Translate2dParent(x - b.x, y - b.y);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientation(const glm::quat & orientation)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientation(orientation);
+			RotateParent(orientation * glm::inverse(b));
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientation(const glm::vec3 & rotation)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientation(rotation);
+			RotateParent(glm::inverse(b));
+			RotateParent(rotation);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientation(const float pitch, const float yaw, const float roll)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientation(pitch, yaw, roll);
+			RotateParent(glm::inverse(b));
+			RotateParent(pitch, yaw, roll);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientationDeg(const glm::vec3 & rotation)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientationDeg(rotation);
+			RotateParent(glm::inverse(b));
+			RotateDegParent(rotation);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientationDeg(const float pitch, const float yaw, const float roll)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientationDeg(pitch, yaw, roll);
+			RotateParent(glm::inverse(b));
+			RotateDegParent(pitch, yaw, roll);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientation2d(const float rotation)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientation2d(rotation);
+			RotateParent(glm::inverse(b));
+			Rotate2dParent(rotation);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetOrientation2dDeg(const float rotation)
+		{
+			glm::quat const & b { local_transform_.GetOrientation() };
+			local_transform_.SetOrientation2dDeg(rotation);
+			RotateParent(glm::inverse(b));
+			Rotate2dDegParent(rotation);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetScale(const float scalar)
+		{
+			/*glm::vec3 const & b { local_transform_.GetScale() };
+			local_transform_.SetScale(scalar);
+			if(b == glm::vec3(0, 0, 0))
+				
+			else
+				ScaleParent(scalar - b);*/
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetScale(const glm::vec3 & scale);
+		// Modify the local and global transform of the transformable
+		void SetScale(const float x, const float y, const float z);
+
+		// Modify the local and global transform of the transformable
+		void SetScale2d(const glm::vec2 & scale);
+		// Modify the local and global transform of the transformable
+		void SetScale2d(const float x, const float y);
+
 		
 	protected:
 
@@ -238,6 +301,16 @@ namespace ose::math
 			}
 		}
 
+
+		// Modify just the global transform of the transformable
+		void RotateParent(const glm::quat & change)
+		{
+			global_transform_.Rotate(change);
+			for(auto & child : GetChildTransformables())
+			{
+				child->RotateParent(change);
+			}
+		}
 
 		// Modify just the global transform of the transformable
 		void RotateParent(const glm::vec3 & change)
@@ -350,8 +423,11 @@ namespace ose::math
 			}
 		}
 
-		// Get a list of transformable elements
-		virtual const std::vector<T> & GetChildTransformables() = 0;
+		// Get a list of child transformable elements
+		virtual const std::vector<std::unique_ptr<T>> & GetChildTransformables() const = 0;
+
+		// Get the parent transformable element (if there is one)
+		virtual ose::unowned_ptr<T> GetParentTransformable() const = 0;
 	};
 }
 
