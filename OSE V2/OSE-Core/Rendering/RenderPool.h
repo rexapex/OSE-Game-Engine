@@ -14,10 +14,10 @@ namespace ose
 		virtual ~RenderPool();
 
 		// Add a sprite renderer component to the render pool
-		virtual void AddSpriteRenderer(ITransform const & t, ose::unowned_ptr<SpriteRenderer> sr) = 0;
+		virtual void AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr) = 0;
 
 		// Add a tile renderer component to the render pool
-		virtual void AddTileRenderer(ITransform const & t, ose::unowned_ptr<TileRenderer> tr) = 0;
+		virtual void AddTileRenderer(ITransform const & t, unowned_ptr<TileRenderer> tr) = 0;
 	};
 }
 

@@ -262,7 +262,7 @@ namespace ose
 
 	// Get the tilemap from the resources manager
 	// Given the name of the tilemap, return the tilemap object
-	ose::unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
+	unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
 	{
 		// search the tilemaps_ list
 		auto const & iter { tilemaps_.find(name) };

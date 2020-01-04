@@ -41,7 +41,7 @@ namespace ose
 		unowned_ptr<ShaderNode> const GetOutputColorNode() const { return nodes_[0].get(); }
 
 		// Get a list of all nodes which connect to into node n
-		std::vector<ose::unowned_ptr<NodeConnector>> const GetIncomingConnectors(unowned_ptr<ShaderNode> n);
+		std::vector<unowned_ptr<NodeConnector>> const GetIncomingConnectors(unowned_ptr<ShaderNode> n);
 
 	private:
 		// Every shader has a name

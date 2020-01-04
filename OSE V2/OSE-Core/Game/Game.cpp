@@ -112,7 +112,7 @@ namespace ose
 	// initialise components of an entity along with its sub-entities
 	void Game::InitEntity(Entity & entity)
 	{
-		for(ose::unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -122,7 +122,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(ose::unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -132,7 +132,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(ose::unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
 			comp->Init();
