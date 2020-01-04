@@ -356,7 +356,6 @@
     <ClInclude Include="EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="EngineDependencies\glm\vector_relational.hpp" />
     <ClInclude Include="OSE-Core\Entity\Component\SpriteRenderer.h" />
-    <ClInclude Include="OSE-Core\Env.h" />
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_common.hpp" />
@@ -681,7 +680,6 @@
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
-    <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component\Component.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
