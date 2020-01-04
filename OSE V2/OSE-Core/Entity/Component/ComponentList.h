@@ -1,7 +1,7 @@
 #pragma once
 #include "OSE-Core/Types.h"
 
-namespace ose::entity
+namespace ose
 {
 	class Component;
 
@@ -34,7 +34,7 @@ namespace ose::entity
 		// entity class manages object, returned object should not be deleted (de-allocated)
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		ose::unowned_ptr<ComponentType> GetComponent() const
+		unowned_ptr<ComponentType> GetComponent() const
 		{
 			// check whether the type matches of each component
 			for(auto && component : components_)
@@ -53,7 +53,7 @@ namespace ose::entity
 		// list will be empty if no component of given type exists
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		std::vector<ose::unowned_ptr<ComponentType>> GetComponents() const
+		std::vector<unowned_ptr<ComponentType>> GetComponents() const
 		{
 			std::vector<ComponentType *> matching_comps;
 
@@ -123,7 +123,7 @@ namespace ose::entity
 		// does NOT delete the component
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
-		bool RemoveComponent(const ose::unowned_ptr<Component> comp);
+		bool RemoveComponent(const unowned_ptr<Component> comp);
 
 	protected:
 		// utility method for deleting all components

@@ -10,9 +10,6 @@
 
 namespace ose::rendering
 {
-	using namespace math;
-	using namespace entity;
-
 	RenderPoolGL::RenderPoolGL()
 	{
 		
@@ -148,7 +145,7 @@ namespace ose::rendering
 	}
 
 	// Add a sprite renderer component to the render pool
-	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, ose::unowned_ptr<SpriteRenderer> sr)
+	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr)
 	{
 		if(sr->GetTexture() == nullptr)
 			return;
@@ -215,7 +212,7 @@ namespace ose::rendering
 	}
 
 	// Add a tile renderer component to the render pool
-	void RenderPoolGL::AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr)
+	void RenderPoolGL::AddTileRenderer(ITransform const & t, unowned_ptr<TileRenderer> tr)
 	{
 		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;

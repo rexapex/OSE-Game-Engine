@@ -25,10 +25,6 @@
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
 #include "Dependencies/rapidxml-1.13/rapidxml_print.hpp"
 
-using namespace ose::game;
-using namespace ose::entity;
-using namespace ose::resources;
-using namespace ose::input;
 using namespace rapidxml;
 
 namespace ose::project
@@ -731,7 +727,7 @@ namespace ose::project
 	}
 	
 	// Parse a custom object node
-	std::unique_ptr<ose::resources::CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	std::unique_ptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
 	{
 		if(obj_node == nullptr)
 			return nullptr;

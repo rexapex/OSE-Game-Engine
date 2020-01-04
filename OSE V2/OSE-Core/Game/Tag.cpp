@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Tag.h"
 
-namespace ose::game
+namespace ose
 {
 	Tag::Tag(const std::string & name) : name_(name)
 	{

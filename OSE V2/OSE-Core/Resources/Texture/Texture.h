@@ -3,7 +3,7 @@
 #include "OSE-Core/Rendering/ETextureFilterMode.h"
 #include "TextureMetaData.h"
 
-namespace ose::resources
+namespace ose
 {
 	// for convenience
 	typedef unsigned char * IMGDATA;

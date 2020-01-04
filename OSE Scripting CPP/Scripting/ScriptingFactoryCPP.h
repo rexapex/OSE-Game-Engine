@@ -1,10 +1,13 @@
 #pragma once
 #include "OSE-Core/Scripting/ScriptingFactory.h"
 
-namespace ose::scripting
+namespace ose
 {
 	class ScriptingEngine;
+}
 
+namespace ose::scripting
+{
 	class ScriptingFactoryCPP : public ScriptingFactory
 	{
 	public:

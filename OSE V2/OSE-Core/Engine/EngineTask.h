@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::engine
+namespace ose
 {
 	class EngineTask
 	{

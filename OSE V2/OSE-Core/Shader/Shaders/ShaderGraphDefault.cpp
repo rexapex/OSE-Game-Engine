@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShaderGraphDefault.h"
 
-namespace ose::shader
+namespace ose
 {
 	ShaderGraphDefault::ShaderGraphDefault() : ShaderGraph("Default Built-in Shader")
 	{

@@ -2,14 +2,8 @@
 
 namespace ose
 {
-	namespace game
-	{
-		class Game;
-	}
-}
+	class Game;
 
-namespace ose
-{
 	// Represents the environment the game is being run in, all methods and fields are static
 	class Env
 	{
@@ -17,7 +11,7 @@ namespace ose
 		Env(Env const &) = delete;
 		Env & operator=(Env const &) = delete;
 
-		static ose::game::Game & GetGame()
+		static Game & GetGame()
 		{
 			return *GetInstance().game_;
 		}
@@ -33,6 +27,6 @@ namespace ose
 			return env;
 		}
 
-		std::unique_ptr<ose::game::Game> game_;
+		std::unique_ptr<Game> game_;
 	};
 }

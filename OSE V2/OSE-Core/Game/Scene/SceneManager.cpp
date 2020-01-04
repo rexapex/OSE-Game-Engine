@@ -5,7 +5,7 @@
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Project/ProjectLoaderFactory.h"
 
-namespace ose::game
+namespace ose
 {
 	SceneManager::SceneManager()
 	{
@@ -23,7 +23,7 @@ namespace ose::game
 	void SceneManager::LoadProject(const std::string & proj_name)
 	{
 		// before project can be loaded, the file format of the project files must de determined
-		std::string proj_file_format = ose::project::ProjectLoader::GetProjectFileFormat(proj_name);
+		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(proj_name);
 
 		if(proj_file_format == "XML") {
 			this->project_ = this->project_loader_->LoadProject(proj_name);

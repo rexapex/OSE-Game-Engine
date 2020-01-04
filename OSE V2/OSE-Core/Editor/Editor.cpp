@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Editor.h"
 
-namespace ose::editor
+namespace ose
 {
 	Editor::Editor()
 	{

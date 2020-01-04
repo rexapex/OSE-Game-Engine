@@ -4,7 +4,7 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectLoader.h"
 
-namespace ose::game
+namespace ose
 {
 	SceneSwitchManager::SceneSwitchManager() : SceneManager()
 	{

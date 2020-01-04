@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::scripting
+namespace ose
 {
 	class ScriptingEngine;
 

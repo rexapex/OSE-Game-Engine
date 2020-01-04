@@ -2,9 +2,9 @@
 
 #include "OSE-Core/Entity/EntityList.h"
 
-namespace ose::game
+namespace ose
 {
-	class Scene : public ose::entity::EntityList
+	class Scene : public EntityList
 	{
 	public:
 		Scene(const std::string & name);
@@ -20,7 +20,7 @@ namespace ose::game
 		// DEBUG METHODS
 		// TODO - REMOVE WHEN READY
 		void Print();
-		void PrintEntity(const entity::Entity & e, int32_t level);
+		void PrintEntity(const Entity & e, int32_t level);
 
 	private:
 		std::string name_;

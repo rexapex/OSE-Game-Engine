@@ -5,11 +5,8 @@
 
 namespace ose
 {
-	namespace entity
-	{
-		class Entity;
-		class CustomComponent;
-	}
+	class Entity;
+	class CustomComponent;
 }
 
 #ifdef CAT
@@ -53,4 +50,8 @@ namespace ose
 		CustomEngine::GetSetCustomEngineFactory(STR(New) STR(NAME) STR(Engine), XCAT(New, XCAT(NAME, Engine))); \
 		return 0; \
 	}();
+
+// Prevents needing to include these in every custom engine script
+using namespace ose;
+using namespace ose::scripting;
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Texture.h"
 
-namespace ose::resources
+namespace ose
 {
 	Texture::Texture(const std::string & name, const std::string & path) : name_(name), path_(path) {}
 

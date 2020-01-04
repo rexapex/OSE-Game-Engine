@@ -1,7 +1,7 @@
 #pragma once
 #include <algorithm>
 
-namespace ose::engine
+namespace ose
 {
 	// each engine has an associated data pool containing all objects to process
 	// e.g. for RenderPool, DataObject will be replaced with RenderObject

@@ -7,7 +7,7 @@
 //#include "OSE-Core/Entity/SpriteRenderer.h"
 #include "RenderPool.h"
 
-namespace ose::rendering
+namespace ose
 {
 	/// Templated on the type of pool on which the rendering engine acts
 	///template <class T>

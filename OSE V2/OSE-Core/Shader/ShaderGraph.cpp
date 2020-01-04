@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShaderGraph.h"
 
-namespace ose::shader
+namespace ose
 {
 	ShaderGraph::ShaderGraph(const std::string & name) : name_(name)
 	{

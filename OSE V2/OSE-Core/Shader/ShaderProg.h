@@ -1,7 +1,7 @@
 #pragma once
 #include "ShaderGraph.h"
 
-namespace ose::shader
+namespace ose
 {
 	class ShaderProg
 	{

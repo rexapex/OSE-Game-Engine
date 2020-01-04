@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::entity
+namespace ose
 {
 	// Forward declare Entity class and EntityID typedef
 	class Entity;

@@ -1,7 +1,7 @@
 #pragma once
 #include "ShaderVarType.h"
 
-namespace ose::shader
+namespace ose
 {
 	class ShaderNode
 	{

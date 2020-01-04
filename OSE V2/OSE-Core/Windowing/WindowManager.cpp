@@ -3,11 +3,8 @@
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Input/InputManager.h"
 
-namespace ose::windowing
+namespace ose
 {
-	using namespace ose::input;
-	using namespace ose::rendering;
-
 	WindowManager::WindowManager() {}
 
 	WindowManager::~WindowManager() {}

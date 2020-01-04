@@ -40,7 +40,7 @@ private:/*																					\
 
 
 
-namespace ose::entity
+namespace ose
 {
 	// Dev Note - Can't make Component abstract even though it should be due to the way Entity clones components
 	class Component

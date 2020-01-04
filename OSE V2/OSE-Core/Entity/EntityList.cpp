@@ -2,7 +2,7 @@
 #include "EntityList.h"
 #include "Entity.h"
 
-namespace ose::entity
+namespace ose
 {
 	EntityList::EntityList() {}
 	EntityList::~EntityList() {}

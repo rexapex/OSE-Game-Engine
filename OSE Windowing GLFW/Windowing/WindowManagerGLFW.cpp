@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "WindowManagerGLFW.h"
 
-using namespace ose::input;
-
 namespace ose::windowing
 {
 	WindowManagerGLFW::WindowManagerGLFW()

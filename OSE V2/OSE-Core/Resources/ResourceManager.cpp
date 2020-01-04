@@ -11,10 +11,8 @@
 #include "Tilemap/TilemapLoader.h"
 #include "FileHandlingUtil.h"
 
-namespace ose::resources
+namespace ose
 {
-	using namespace rendering;
-
 	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path),
 		texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)),
 		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)) {}
@@ -55,7 +53,7 @@ namespace ose::resources
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	ose::unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
+	unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
 	{
 		// search the textures_with_GPU_memory_ list
 		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };

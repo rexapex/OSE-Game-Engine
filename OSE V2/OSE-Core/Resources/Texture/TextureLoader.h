@@ -2,7 +2,7 @@
 
 #include "Texture.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TextureLoader
 	{

@@ -1,7 +1,7 @@
 #pragma once
 #include "EngineTask.h"
 
-namespace ose::engine
+namespace ose
 {
 	// abstract engine class
 	// all engines (rendering, physics, animation, etc.) extend this class

@@ -18,15 +18,7 @@
 #include "OSE-Core/Rendering/RenderingFactory.h"
 #include "OSE-Core/Scripting/ScriptingFactory.h"
 
-using namespace ose::input;
-using namespace ose::project;
-using namespace ose::windowing;
-using namespace ose::rendering;
-using namespace ose::resources;
-using namespace ose::entity;
-using namespace ose::scripting;
-
-namespace ose::game
+namespace ose
 {
 	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
 	{

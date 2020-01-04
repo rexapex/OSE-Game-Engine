@@ -2,7 +2,7 @@
 
 #include "Tilemap.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TilemapLoader
 	{

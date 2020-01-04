@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ModelLoader.h"
 
-namespace ose::resources
+namespace ose
 {
 	ModelLoader::ModelLoader(const std::string & project_path) : project_path_(project_path)
 	{
