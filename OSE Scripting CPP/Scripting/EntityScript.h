@@ -41,6 +41,7 @@ namespace ose
 		std::string GetComponentTypeName() const override { return STR(NAME); } \
 	private: \
 		std::vector<XCAT(NAME, Data)> data_array_; \
+	public: \
 		code \
 	};\
 	std::unique_ptr<ose::scripting::CustomEngine> XCAT(New, XCAT(NAME, Engine))() { \

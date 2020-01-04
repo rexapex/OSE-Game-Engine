@@ -11,7 +11,7 @@ namespace ose::scripting
 		~ScriptingEngineCPP();
 
 		// Initialise all of the custom engines and controls in the script pool
-		void Init() override;
+		void Init(unowned_ptr<Game> game) override;
 
 		// Update all of the custom engines and controls in the script pool
 		void Update() override;

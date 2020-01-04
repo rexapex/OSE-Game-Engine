@@ -14,11 +14,11 @@ namespace ose::scripting
 	}
 
 	// Initialise all of the custom engines and controls in the script pool
-	void ScriptingEngineCPP::Init()
+	void ScriptingEngineCPP::Init(unowned_ptr<Game> game)
 	{
 		for(auto & engine : script_pool_.GetCustomEngines())
 		{
-			engine->Init();
+			engine->Init(game);
 		}
 	}
 

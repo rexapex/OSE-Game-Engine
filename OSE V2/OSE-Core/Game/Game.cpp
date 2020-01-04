@@ -85,7 +85,7 @@ namespace ose
 	void Game::RunGame()
 	{
 		// Initialise the user scripts after the game is initialised but before the game starts
-		scripting_engine_->Init();
+		scripting_engine_->Init(this);
 
 		while(running_)
 		{

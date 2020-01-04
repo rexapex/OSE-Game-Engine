@@ -3,6 +3,8 @@
 
 namespace ose
 {
+	class Game;
+
 	class ScriptingEngine
 	{
 	public:
@@ -10,7 +12,7 @@ namespace ose
 		virtual ~ScriptingEngine();
 
 		// Initialise all of the custom engines and controls in the script pool
-		virtual void Init() = 0;
+		virtual void Init(unowned_ptr<Game> game) = 0;
 
 		// Update all of the custom engines and controls in the script pool
 		virtual void Update() = 0;

@@ -3,6 +3,7 @@
 
 namespace ose
 {
+	class Game;
 	class Entity;
 	class CustomComponent;
 }
@@ -23,7 +24,7 @@ namespace ose::scripting
 		virtual std::string GetComponentTypeName() const = 0;
 		virtual void AddCustomComponent(Entity & entity, CustomComponent & comp) = 0;
 
-		virtual void Init() {}
+		virtual void Init(unowned_ptr<Game> game) {}
 		virtual void Update() {}
 
 		// If name and factory are given, links the engine name to the engine factory
