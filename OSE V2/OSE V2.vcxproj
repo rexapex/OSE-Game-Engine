@@ -197,7 +197,6 @@
     <ClInclude Include="OSE-Core\Rendering\RenderingFactory.h" />
     <ClInclude Include="OSE-Core\Math\ITransform.h" />
     <ClInclude Include="OSE-Core\Math\Transformable.h" />
-    <ClInclude Include="OSE-Core\Engine\EEngineType.h" />
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Custom Data\CustomObject.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
@@ -214,7 +213,6 @@
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
     <ClInclude Include="OSE-Core\Types.h" />
-    <ClInclude Include="OSE-Core\Editor\Editor.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_exponential.hpp" />
@@ -357,12 +355,9 @@
     <ClInclude Include="EngineDependencies\glm\vec3.hpp" />
     <ClInclude Include="EngineDependencies\glm\vec4.hpp" />
     <ClInclude Include="EngineDependencies\glm\vector_relational.hpp" />
-    <ClInclude Include="OSE-Core\Engine\EngineTask.h" />
     <ClInclude Include="OSE-Core\Entity\Component\SpriteRenderer.h" />
     <ClInclude Include="OSE-Core\Env.h" />
     <ClInclude Include="OSE-Core\Entity\EntityList.h" />
-    <ClInclude Include="OSE-Core\Engine\Engine.h" />
-    <ClInclude Include="OSE-Core\Engine\EngineTaskPool.h" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_common.hpp" />
     <ClInclude Include="OSE-Core\EngineDependencies\glm\detail\func_exponential.hpp" />
@@ -686,7 +681,6 @@
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
-    <ClCompile Include="OSE-Core\Editor\Editor.cpp" />
     <ClCompile Include="OSE-Core\Env.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component\Component.cpp" />
