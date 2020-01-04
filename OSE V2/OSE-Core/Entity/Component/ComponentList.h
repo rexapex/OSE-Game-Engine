@@ -11,9 +11,9 @@ namespace ose
 		ComponentList();
 		virtual ~ComponentList() noexcept;
 		ComponentList(const ComponentList & other) noexcept;
-		ComponentList & operator=(const ComponentList & other) noexcept;
 		ComponentList(ComponentList &&) noexcept = default;
-		ComponentList & operator=(ComponentList &&) noexcept = default;
+		ComponentList & operator=(ComponentList &) noexcept = delete;
+		ComponentList & operator=(ComponentList &&) noexcept = delete;
 
 		// get a list of all components
 		const std::vector<std::unique_ptr<Component>> & GetComponents() const { return this->components_; }

@@ -15,9 +15,9 @@ namespace ose
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
 		virtual ~Entity() noexcept;
 		Entity(const Entity & other) noexcept;
-		Entity & operator=(const Entity & other) noexcept;
 		Entity(Entity && other) noexcept = default;
-		Entity & operator=(Entity && other) noexcept = default;
+		Entity & operator=(Entity &) noexcept = delete;
+		Entity & operator=(Entity &&) noexcept = delete;
 
 		const std::string & GetName() const { return this->name_; }
 		const EntityID GetUniqueId() const { return this->unique_id_; }

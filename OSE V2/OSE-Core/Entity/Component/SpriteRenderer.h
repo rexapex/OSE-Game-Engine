@@ -34,8 +34,9 @@ namespace ose
 
 		// Default copy/move constructors
 		SpriteRenderer(SpriteRenderer const & other) noexcept = default;
-		SpriteRenderer & operator=(SpriteRenderer const & other) noexcept = default;
 		SpriteRenderer(SpriteRenderer && other) noexcept = default;
-		SpriteRenderer & operator=(SpriteRenderer && other) noexcept = default;
+
+		SpriteRenderer & operator=(SpriteRenderer &) noexcept = delete;
+		SpriteRenderer & operator=(SpriteRenderer &&) noexcept = delete;
 	};
 }

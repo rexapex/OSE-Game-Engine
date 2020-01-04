@@ -30,9 +30,9 @@ namespace ose
 		Game();
 		virtual ~Game() noexcept;
 		Game(Game &) = delete;
-		Game & operator=(Game &) = delete;
 		Game(Game && other) noexcept = default;
-		Game & operator=(Game && other) noexcept = default;
+		Game & operator=(Game &) = delete;
+		Game & operator=(Game &&) noexcept = delete;
 
 		// Called upon a project being activated
 		// Project is activated upon successful load

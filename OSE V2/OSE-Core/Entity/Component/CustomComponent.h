@@ -32,18 +32,14 @@ namespace ose
 		// Does nothing
 		virtual ~CustomComponent() noexcept {}
 
-		// Default move constructors
+		// Default move constructor
 		CustomComponent(CustomComponent && other) noexcept = default;
-		CustomComponent & operator=(CustomComponent && other) noexcept = default;
 
 		// Need to manually define copy constructors since std::string in non-copyable
 		CustomComponent(CustomComponent const & other) noexcept
 			: Component(other), component_type_name_(other.component_type_name_) {}
-		CustomComponent & operator=(CustomComponent const & other) noexcept
-		{
-			Component::operator=(other);
-			component_type_name_ = other.component_type_name_;
-			return *this;
-		}
+
+		CustomComponent & operator=(CustomComponent &) noexcept = delete;
+		CustomComponent & operator=(CustomComponent &&) noexcept = delete;
 	};
 }

@@ -13,16 +13,6 @@ namespace ose
 		this->name_ = other.name_;
 	}
 
-	Scene & Scene::operator=(const Scene & other) noexcept
-	{
-		// Call the base copy assignment constructor
-		EntityList::operator=(other);
-		this->name_ = other.name_;
-		return *this;
-	}
-
-
-
 
 
 	// DEBUG METHODS

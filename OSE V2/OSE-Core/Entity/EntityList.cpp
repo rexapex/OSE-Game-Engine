@@ -16,21 +16,7 @@ namespace ose
 			this->entities_.push_back(std::make_unique<Entity>(*e));
 		}
 	}
-
-	EntityList & EntityList::operator=(const EntityList & other) noexcept
-	{
-		// perform a deep copy of all entities
-		this->entities_.clear();	// vector should be empty
-		for(const auto & e : other.entities_)
-		{
-			this->entities_.push_back(std::make_unique<Entity>(*e));
-		}
-
-		return *this;
-	}
-
-
-
+	
 	// add an entity to the entity list
 	// name must be unique
 	// method constructs a new object

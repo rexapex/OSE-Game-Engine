@@ -73,8 +73,9 @@ namespace ose
 
 		// Default copy/move constructors
 		TileRenderer(TileRenderer const & other) noexcept = default;
-		TileRenderer & operator=(TileRenderer const & other) noexcept = default;
 		TileRenderer(TileRenderer && other) noexcept = default;
-		TileRenderer & operator=(TileRenderer && other) noexcept = default;
+
+		TileRenderer & operator=(TileRenderer &) noexcept = delete;
+		TileRenderer & operator=(TileRenderer &&) noexcept = delete;
 	};
 }

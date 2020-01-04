@@ -10,9 +10,9 @@ namespace ose
 		Scene(const std::string & name);
 		virtual ~Scene() noexcept;
 		Scene(const Scene & other) noexcept;
-		Scene & operator=(const Scene & other) noexcept;
 		Scene(Scene &&) noexcept = default;
-		Scene & operator=(Scene &&) noexcept = default;
+		Scene & operator=(Scene &) = delete;
+		Scene & operator=(Scene &&) = delete;
 		
 		// Get the name of the scene
 		const std::string & GetName() const { return this->name_; }

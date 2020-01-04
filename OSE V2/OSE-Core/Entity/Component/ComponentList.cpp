@@ -22,23 +22,6 @@ namespace ose
 		}
 	}
 
-	ComponentList & ComponentList::operator=(const ComponentList & other) noexcept
-	{
-		//TODO - remove any existing components
-		this->DeleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
-											//copy each component from other
-		for(const auto & comp : other.components_)
-		{
-			// Component base class won't compile if abstract so check for it here instead (and elsewhere)
-			if(comp->IsClassType(Component::GetClassType())) {
-				//using a clone method prevents slicing
-				this->components_.emplace_back(comp->Clone());
-			}
-		}
-
-		return *this;
-	}
-
 	// utility method for deleting all components
 	void ComponentList::DeleteAllComponents() noexcept
 	{

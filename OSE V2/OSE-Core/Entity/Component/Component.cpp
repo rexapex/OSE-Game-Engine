@@ -8,14 +8,7 @@ namespace ose
 	Component::~Component() {}
 
 	Component::Component(const Component & other) noexcept : name_(other.name_), enabled_(other.enabled_) {}
-
-	Component & Component::operator=(const Component & other) noexcept
-	{
-		name_ = other.name_;
-		enabled_ = other.enabled_;
-		return *this;
-	}
-
+	
 	// clone method which can be overwritten by base classes
 	std::unique_ptr<Component> Component::Clone() const
 	{

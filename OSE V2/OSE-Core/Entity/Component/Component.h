@@ -49,9 +49,9 @@ namespace ose
 		Component(const std::string & name);
 		virtual ~Component();
 		Component(const Component & other) noexcept;
-		Component & operator=(const Component & other) noexcept;
 		Component(Component && other) noexcept = default;
-		Component & operator=(Component && other) noexcept = default;
+		Component & operator=(Component &) noexcept = delete;
+		Component & operator=(Component &&) noexcept = delete;
 
 		// Get the class type of Component
 		static size_t GetClassType() {
