@@ -91,13 +91,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/;$(ProjectDir)/Dependencies/cef/libcef_dll_wrapper/$(Configuration)/;$(ProjectDir)/Dependencies/cef/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;libcef_dll_wrapper.lib;libcef.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -106,13 +106,13 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
-      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/;$(ProjectDir)/Dependencies/cef/libcef_dll_wrapper/$(Configuration)/;$(ProjectDir)/Dependencies/cef/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;libcef_dll_wrapper.lib;libcef.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -123,15 +123,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/;$(ProjectDir)/Dependencies/cef/libcef_dll_wrapper/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -142,21 +142,27 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Core/;$(ProjectDir)/Dependencies/cef/libcef_dll_wrapper/$(Configuration)/</AdditionalLibraryDirectories>
+      <AdditionalDependencies>OSE V2_$(Platform)_$(Configuration).lib;libcef_dll_wrapper.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Editor\Cef\CefApp.h" />
+    <ClInclude Include="Editor\Cef\RenderHandler.h" />
+    <ClInclude Include="Editor\Cef\SimpleHandler.h" />
     <ClInclude Include="Editor\Main.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Editor\Cef\CefApp.cpp" />
+    <ClCompile Include="Editor\Cef\RenderHandler.cpp" />
+    <ClCompile Include="Editor\Cef\SimpleHandler.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

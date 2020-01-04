@@ -3,6 +3,7 @@
 
 # Ignore binaries
 Builds/
+cef/
 
 # Ignore STD Modules
 OSE-V2-STD-Modules/
