@@ -10,13 +10,15 @@ namespace ose
 		PrefabManager();
 		~PrefabManager() noexcept;
 
-		// no copy constructors (add them in later if needed)
+		// no copy constructor (add them in later if needed)
 		PrefabManager(PrefabManager &) = delete;
-		PrefabManager & operator=(PrefabManager &) = delete;
 
-		// move constructors
+		// move constructor
 		PrefabManager(PrefabManager &&) noexcept;
-		PrefabManager & operator=(PrefabManager &&) noexcept;
+
+		// No assignment constructors
+		PrefabManager & operator=(PrefabManager &) = delete;
+		PrefabManager & operator=(PrefabManager &&) = delete;
 
 		// add a temporary prefab entity to the prefab manager
 		// method constructs a new object

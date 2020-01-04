@@ -19,10 +19,11 @@ namespace ose
 		~ResourceManager() noexcept;
 		// copying is not allowed
 		ResourceManager(ResourceManager &) = delete;
-		ResourceManager & operator=(ResourceManager &) = delete;
 		// moving is allowed
 		ResourceManager(ResourceManager &&) noexcept;
-		ResourceManager & operator=(ResourceManager &&) noexcept;
+		// Assignment is not allowed
+		ResourceManager & operator=(ResourceManager &) = delete;
+		ResourceManager & operator=(ResourceManager &&) = delete;
 
 		// import a file into the project resources directory
 		// sub_dir is a sub directory within the resources directory

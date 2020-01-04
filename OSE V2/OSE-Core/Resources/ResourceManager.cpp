@@ -21,17 +21,7 @@ namespace ose
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
 		textures_without_Gpu_memory_(std::move(other.textures_without_Gpu_memory_)), textures_with_Gpu_memory_(std::move(other.textures_with_Gpu_memory_)),
 		texture_loader_(std::move(other.texture_loader_)), tilemap_loader_(std::move(other.tilemap_loader_)) {}
-
-	ResourceManager & ResourceManager::operator=(ResourceManager && other) noexcept
-	{
-		project_path_ = std::move(other.project_path_);
-		textures_without_Gpu_memory_ = std::move(other.textures_without_Gpu_memory_);
-		textures_with_Gpu_memory_ = std::move(other.textures_with_Gpu_memory_);
-		texture_loader_ = std::move(other.texture_loader_);
-		tilemap_loader_ = std::move(other.tilemap_loader_);
-		return *this;
-	}
-
+	
 	//import a file into the project resources directory
 	//sub_dir is a sub directory within the resources directory
 	void ResourceManager::ImportFile(const std::string & file_path, const std::string & sub_dir)
