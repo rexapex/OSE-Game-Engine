@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "PrefabManager.h"
 
-namespace ose::resources
+namespace ose
 {
-	using namespace entity;
-
 	PrefabManager::PrefabManager()
 	{
 

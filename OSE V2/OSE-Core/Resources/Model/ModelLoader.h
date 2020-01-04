@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::resources
+namespace ose
 {
 	class ModelLoader
 	{

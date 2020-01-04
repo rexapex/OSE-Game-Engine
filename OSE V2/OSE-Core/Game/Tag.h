@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::game
+namespace ose
 {
 	class Tag
 	{

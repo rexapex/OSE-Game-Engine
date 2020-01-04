@@ -29,7 +29,7 @@ namespace ose::shader
 		uint32_t shader_prog_ { 0 };
 
 		// Process the incoming connectors of node n
-		void ProcessIncomingConnectors(ShaderGraph & shader_graph, ose::unowned_ptr<ShaderNode> n);
+		void ProcessIncomingConnectors(ShaderGraph & shader_graph, unowned_ptr<ShaderNode> n);
 	};
 }
 

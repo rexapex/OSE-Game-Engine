@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::math
+namespace ose
 {
 	class ITransform
 	{

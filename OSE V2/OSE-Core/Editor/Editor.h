@@ -1,9 +1,9 @@
 #pragma once
 #include "OSE-Core/Engine/Engine.h"
 
-namespace ose::editor
+namespace ose
 {
-	class Editor : public engine::Engine
+	class Editor : public Engine
 	{
 	public:
 		Editor();

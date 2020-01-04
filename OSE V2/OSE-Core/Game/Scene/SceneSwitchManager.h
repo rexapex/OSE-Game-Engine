@@ -2,7 +2,7 @@
 #include "SceneManager.h"
 #include "ESceneSwitchMode.h"
 
-namespace ose::game
+namespace ose
 {
 	class Scene;
 	

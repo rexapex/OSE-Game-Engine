@@ -1,7 +1,10 @@
 #pragma once
 
-enum class EProjectionMode
+namespace ose
 {
-	ORTHOGRAPHIC,		//orthographic projection used for 2D games
-	PERSPECTIVE			//perspective projection used for 3D games
-};
+	enum class EProjectionMode
+	{
+		ORTHOGRAPHIC,		//orthographic projection used for 2D games
+		PERSPECTIVE			//perspective projection used for 3D games
+	};
+}

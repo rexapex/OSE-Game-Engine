@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "NConstColor.h"
 
-namespace ose::shader
+namespace ose
 {
 	NConstColor::NConstColor() : ShaderNode()
 	{

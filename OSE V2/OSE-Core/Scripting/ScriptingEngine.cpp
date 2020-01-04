@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ScriptingEngine.h"
 
-namespace ose::scripting
+namespace ose
 {
 	ScriptingEngine::ScriptingEngine()
 	{

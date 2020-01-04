@@ -2,7 +2,7 @@
 
 #include "ITransform.h"
 
-namespace ose::math
+namespace ose
 {
 	class Transform : public ITransform
 	{

@@ -5,8 +5,6 @@
 
 namespace ose
 {
-	using namespace game;
-
 	Env::Env()
 	{
 		// Construct the game object, projects & scenes will be loaded later

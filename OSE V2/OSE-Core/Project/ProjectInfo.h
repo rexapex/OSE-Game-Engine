@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::project
+namespace ose
 {
 	struct ProjectInfo			//maybe change date types if required
 	{

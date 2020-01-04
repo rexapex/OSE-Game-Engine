@@ -2,9 +2,7 @@
 #include "Scene.h"
 #include "OSE-Core/Entity/Entity.h"
 
-using namespace ose::entity;
-
-namespace ose::game
+namespace ose
 {
 	Scene::Scene(const std::string & name) : EntityList(), name_(name) {}
 

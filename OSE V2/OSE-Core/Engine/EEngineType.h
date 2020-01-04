@@ -1,7 +1,7 @@
 #pragma once
 
 // enum containing all default types of engines
-namespace ose::engine
+namespace ose
 {
 	enum class EEngineType
 	{

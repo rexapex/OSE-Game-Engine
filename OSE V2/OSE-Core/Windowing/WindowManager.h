@@ -4,18 +4,9 @@
 
 namespace ose
 {
-	namespace input
-	{
-		class InputManager;
-	}
-	namespace rendering
-	{
-		class RenderingEngine;
-	}
-}
+	class InputManager;
+	class RenderingEngine;
 
-namespace ose::windowing
-{
 	class WindowManager
 	{
 	public:
@@ -26,13 +17,13 @@ namespace ose::windowing
 		WindowManager & operator=(WindowManager &) = delete;
 		WindowManager & operator=(WindowManager &&) = delete;
 
-		void SetEngineReferences(ose::rendering::RenderingEngine * rendering_engine, ose::input::InputManager * input_manager);
+		void SetEngineReferences(RenderingEngine * rendering_engine, InputManager * input_manager);
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
 		//window callbacks
 		void FramebufferSizeCallbackImpl(int width, int height);
-		void InputCallbackImpl(ose::input::EInputType type, bool triggered);
+		void InputCallbackImpl(EInputType type, bool triggered);
 		//void WindowPosCallbackImpl(int x, int y);
 		//void CursorPosCallbackImpl(double xPos, double yPos);
 		//void MouseButtonCallbackImpl(int button, int action, int mods);
@@ -63,8 +54,8 @@ namespace ose::windowing
 		virtual int	InitWindowingToolkit() const = 0;
 
 		// pointers should not be de-allocated by this class
-		ose::rendering::RenderingEngine * rendering_engine_ { nullptr };
-		ose::input::InputManager * input_manager_ { nullptr };
+		RenderingEngine * rendering_engine_ { nullptr };
+		InputManager * input_manager_ { nullptr };
 	};
 }
 

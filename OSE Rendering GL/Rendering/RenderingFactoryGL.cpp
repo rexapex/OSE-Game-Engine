@@ -10,7 +10,7 @@ namespace ose::rendering
 		return std::make_unique<RenderingEngineGL>();
 	}
 
-	std::unique_ptr<ose::resources::Texture> RenderingFactoryGL::NewTexture(std::string const & name, std::string const & path)
+	std::unique_ptr<Texture> RenderingFactoryGL::NewTexture(std::string const & name, std::string const & path)
 	{
 		return std::make_unique<TextureGL>(name, path);
 	}

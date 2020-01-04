@@ -2,16 +2,9 @@
 
 namespace ose
 {
-	namespace project
-	{
-		class Project;
-		class ProjectLoader;
-	}
-}
-
-namespace ose::game
-{
 	class Scene;
+	class Project;
+	class ProjectLoader;
 
 	class SceneManager
 	{
@@ -29,10 +22,10 @@ namespace ose::game
 		virtual void UnloadAllLoadedScenes() = 0;
 
 	protected:
-		std::unique_ptr<ose::project::Project> project_;
-		std::unique_ptr<ose::project::ProjectLoader> project_loader_;
+		std::unique_ptr<Project> project_;
+		std::unique_ptr<ProjectLoader> project_loader_;
 
 		virtual void OnSceneActivated(Scene & scene) = 0;
-		virtual void OnProjectActivated(ose::project::Project & project) = 0;
+		virtual void OnProjectActivated(Project & project) = 0;
 	};
 }

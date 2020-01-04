@@ -1,7 +1,7 @@
 #pragma once
 #include "OSE-Core/Types.h"
 
-namespace ose::resources
+namespace ose
 {
 	class Tilemap
 	{

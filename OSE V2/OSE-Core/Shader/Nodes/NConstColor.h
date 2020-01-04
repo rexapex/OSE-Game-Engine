@@ -1,7 +1,7 @@
 #pragma once
 #include "OSE-Core/Shader/ShaderNode.h"
 
-namespace ose::shader
+namespace ose
 {
 	class NConstColor : public ShaderNode
 	{

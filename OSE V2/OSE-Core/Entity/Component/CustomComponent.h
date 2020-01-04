@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 
-namespace ose::entity
+namespace ose
 {
 	class CustomComponent : public Component
 	{

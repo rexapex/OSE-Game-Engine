@@ -1,10 +1,13 @@
 #pragma once
 #include "OSE-Core/Resources/Tilemap/TilemapLoaderFactory.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TilemapLoader;
+}
 
+namespace ose::resources
+{
 	class TilemapLoaderFactoryTXT : public TilemapLoaderFactory
 	{
 	public:

@@ -27,7 +27,7 @@ namespace ose::scripting
 	}
 
 	// Add a custom engine component to the script pool
-	void ScriptPoolCPP::AddCustomComponent(ose::entity::Entity & entity, ose::unowned_ptr<ose::entity::CustomComponent> comp)
+	void ScriptPoolCPP::AddCustomComponent(Entity & entity, unowned_ptr<CustomComponent> comp)
 	{
 		// Attempt to find the custom engine for the component
 		std::string const & type_name = comp->GetComponentTypeName();

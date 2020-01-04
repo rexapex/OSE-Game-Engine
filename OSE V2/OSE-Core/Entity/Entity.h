@@ -5,11 +5,11 @@
 #include "Component/ComponentList.h"
 #include "OSE-Core/Math/Transformable.h"
 
-namespace ose::entity
+namespace ose
 {
 	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
 
-	class Entity : public EntityList, public ComponentList, public math::Transformable<std::unique_ptr<Entity>>
+	class Entity : public EntityList, public ComponentList, public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");

@@ -2,7 +2,7 @@
 #include "ProjectLoader.h"
 #include "OSE-Core/Resources/FileHandlingUtil.h"
 
-namespace ose::project
+namespace ose
 {
 	ProjectLoader::ProjectLoader()
 	{

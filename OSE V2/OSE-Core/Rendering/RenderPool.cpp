@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RenderPool.h"
 
-namespace ose::rendering
+namespace ose
 {
 	RenderPool::RenderPool()
 	{

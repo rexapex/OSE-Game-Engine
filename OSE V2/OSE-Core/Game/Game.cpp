@@ -18,15 +18,7 @@
 #include "OSE-Core/Rendering/RenderingFactory.h"
 #include "OSE-Core/Scripting/ScriptingFactory.h"
 
-using namespace ose::input;
-using namespace ose::project;
-using namespace ose::windowing;
-using namespace ose::rendering;
-using namespace ose::resources;
-using namespace ose::entity;
-using namespace ose::scripting;
-
-namespace ose::game
+namespace ose
 {
 	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
 	{
@@ -120,7 +112,7 @@ namespace ose::game
 	// initialise components of an entity along with its sub-entities
 	void Game::InitEntity(Entity & entity)
 	{
-		for(ose::unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -130,7 +122,7 @@ namespace ose::game
 			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(ose::unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -140,7 +132,7 @@ namespace ose::game
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(ose::unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
 			comp->Init();

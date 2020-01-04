@@ -15,10 +15,10 @@ namespace ose::rendering
 		void Init();
 
 		// Add a sprite renderer component to the render pool
-		void AddSpriteRenderer(math::ITransform const & t, ose::unowned_ptr<entity::SpriteRenderer> sr);
+		void AddSpriteRenderer(ose::ITransform const & t, unowned_ptr<SpriteRenderer> sr);
 
 		// Add a tile renderer component to the render pool
-		void AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr);
+		void AddTileRenderer(ose::ITransform const & t, unowned_ptr<TileRenderer> tr);
 
 		// Get the list of render passes s.t. they can be rendered by the rendering engine
 		std::vector<RenderPassGL> const & GetRenderPasses() const { return render_passes_; }

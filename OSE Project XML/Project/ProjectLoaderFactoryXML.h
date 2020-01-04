@@ -1,10 +1,13 @@
 #pragma once
 #include "OSE-Core/Project/ProjectLoaderFactory.h"
 
-namespace ose::project
+namespace ose
 {
 	class ProjectLoader;
+}
 
+namespace ose::project
+{
 	class ProjectLoaderFactoryXML : public ProjectLoaderFactory
 	{
 	public:

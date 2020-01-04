@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "RenderingEngine.h"
 
-namespace ose::rendering
+namespace ose
 {
 	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE), fbwidth_(0), fbheight_(0)
 	{

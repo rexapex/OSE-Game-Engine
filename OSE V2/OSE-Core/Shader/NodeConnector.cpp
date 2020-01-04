@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "NodeConnector.h"
 
-namespace ose::shader
+namespace ose
 {
 	NodeConnector::NodeConnector(ShaderNode * in_node, std::string const & in_node_input,
 								ShaderNode * out_node, std::string const & out_node_output)

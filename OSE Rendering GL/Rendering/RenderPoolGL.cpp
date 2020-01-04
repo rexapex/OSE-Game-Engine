@@ -10,9 +10,6 @@
 
 namespace ose::rendering
 {
-	using namespace math;
-	using namespace entity;
-
 	RenderPoolGL::RenderPoolGL()
 	{
 		
@@ -148,7 +145,7 @@ namespace ose::rendering
 	}
 
 	// Add a sprite renderer component to the render pool
-	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, ose::unowned_ptr<SpriteRenderer> sr)
+	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr)
 	{
 		if(sr->GetTexture() == nullptr)
 			return;
@@ -162,7 +159,7 @@ namespace ose::rendering
 			{
 				// Add the sprite renderer to the existing render object
 				found_group = true;
-				r.textures_.push_back(static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
+				r.textures_.push_back(static_cast<unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
 				//r.transforms_.push_back(t.GetTransformMatrix());
 				r.transforms_.push_back(&t);
 			}
@@ -205,7 +202,7 @@ namespace ose::rendering
 				ERenderObjectType::SPRITE_RENDERER,
 				vbo, vao,
 				primitive, first, count,
-				std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() }
+				std::initializer_list<GLuint>{ static_cast<unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() }
 				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 				//std::initializer_list<ITransform const &>{ t }
 			);
@@ -215,7 +212,7 @@ namespace ose::rendering
 	}
 
 	// Add a tile renderer component to the render pool
-	void RenderPoolGL::AddTileRenderer(ose::math::ITransform const & t, ose::unowned_ptr<ose::entity::TileRenderer> tr)
+	void RenderPoolGL::AddTileRenderer(ITransform const & t, unowned_ptr<TileRenderer> tr)
 	{
 		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;
@@ -328,7 +325,7 @@ namespace ose::rendering
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
 			primitive, first, count,
-			std::initializer_list<GLuint>{ static_cast<ose::unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() }
+			std::initializer_list<GLuint>{ static_cast<unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() }
 			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 			//std::initializer_list<ITransform const &>{ t }
 		);

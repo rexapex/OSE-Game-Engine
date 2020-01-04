@@ -1,7 +1,7 @@
 #pragma once
 #include "ScriptPool.h"
 
-namespace ose::scripting
+namespace ose
 {
 	class ScriptingEngine
 	{

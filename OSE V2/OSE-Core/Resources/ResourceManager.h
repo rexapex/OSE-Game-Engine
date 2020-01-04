@@ -2,13 +2,13 @@
 
 #include "OSE-Core/Types.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TextureLoader;
 	class Texture;
 	class TextureAtlas;
 	struct TextureMetaData;
-	
+
 	class TilemapLoader;
 	class Tilemap;
 
@@ -34,7 +34,7 @@ namespace ose::resources
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		ose::unowned_ptr<Texture const> GetTexture(const std::string name);
+		unowned_ptr<Texture const> GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
@@ -64,7 +64,7 @@ namespace ose::resources
 
 		// Get the tilemap from the resources manager
 		// Given the name of the tilemap, return the tilemap object
-		ose::unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
+		unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
 
 		// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources

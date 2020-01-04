@@ -1,9 +1,7 @@
 #include "stdafx.h"
 #include "Component.h"
 
-using namespace ose::entity;
-
-namespace ose::entity
+namespace ose
 {
 	Component::Component(const std::string & name) : name_(name), enabled_(true) {}
 
