@@ -263,3 +263,4 @@ ModelManifest.xml
 /OSE Rendering GL/Dependencies/glew/include/GL
 /OSE Resources SOIL/Dependencies/soil/lib
 /OSE Resources SOIL/Dependencies/soil
+/OSE Editor Application/Dependencies/cef
