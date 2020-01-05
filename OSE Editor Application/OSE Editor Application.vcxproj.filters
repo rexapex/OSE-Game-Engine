@@ -27,6 +27,9 @@
     <ClInclude Include="Editor\Cef\SimpleHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\Controller\Controller.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\Main.cpp">
@@ -41,5 +44,11 @@
     <ClCompile Include="Editor\Cef\SimpleHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Editor\Controller\Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\View\Html\test.html" />
   </ItemGroup>
 </Project>

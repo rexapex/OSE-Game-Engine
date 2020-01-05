@@ -91,7 +91,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/;$(ProjectDir);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -106,7 +106,7 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/;$(ProjectDir);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -123,7 +123,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/;$(ProjectDir);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -142,7 +142,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/OSE V2/;$(ProjectDir)/Dependencies/cef/;$(ProjectDir);</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -157,13 +157,18 @@
     <ClInclude Include="Editor\Cef\CefApp.h" />
     <ClInclude Include="Editor\Cef\RenderHandler.h" />
     <ClInclude Include="Editor\Cef\SimpleHandler.h" />
+    <ClInclude Include="Editor\Controller\Controller.h" />
     <ClInclude Include="Editor\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\Cef\CefApp.cpp" />
     <ClCompile Include="Editor\Cef\RenderHandler.cpp" />
     <ClCompile Include="Editor\Cef\SimpleHandler.cpp" />
+    <ClCompile Include="Editor\Controller\Controller.cpp" />
     <ClCompile Include="Editor\Main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Editor\View\Html\test.html" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
