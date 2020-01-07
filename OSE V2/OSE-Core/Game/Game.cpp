@@ -182,7 +182,17 @@ namespace ose
 	{
 		DEBUG_LOG("De-activating Entity " << entity.GetName());
 
-		// TODO - Remove components from engines
+		// Remove sprite renderer components from the render pool
+		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+			rendering_engine_->GetRenderPool().RemoveSpriteRenderer(comp);
+
+		// Remove tile renderer components from the render pool
+		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
+
+		// Remove custom components from the script pool
+		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+			scripting_engine_->GetScriptPool().RemoveCustomComponent(comp);
 
 		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
 		for(auto const & sub_entity : entity.GetEntities())

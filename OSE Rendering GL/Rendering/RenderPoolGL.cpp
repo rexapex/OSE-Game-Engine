@@ -332,4 +332,25 @@ namespace ose::rendering
 		// TODO - Remove
 		s.render_objects_.back().transforms_.emplace_back(&t);
 	}
+
+	// Remove a sprite renderer component from the render pool
+	void RenderPoolGL::RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr)
+	{
+		// Try to find the render object the sprite renderer belongs to
+		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
+		bool found_group { false };
+		for(auto & r : s.render_objects_)
+		{
+			if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
+			{
+				// Find the sprite renderer data within the render object
+			}
+		}
+	}
+
+	// Remove a tile renderer component from the render pool
+	void RenderPoolGL::RemoveTileRenderer(unowned_ptr<TileRenderer> tr)
+	{
+		
+	}
 }

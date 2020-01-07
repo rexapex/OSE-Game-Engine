@@ -44,4 +44,19 @@ namespace ose::scripting
 			ERROR_LOG("Error: Failed to find custom engine for custom component: " << type_name);
 		}
 	}
+
+	// Remove a custom engine component from the script pool
+	void ScriptPoolCPP::RemoveCustomComponent(unowned_ptr<CustomComponent> comp)
+	{
+		// Attempt to find the custom engine for the component
+		std::string const & type_name = comp->GetComponentTypeName();
+		auto iter = std::find_if(custom_engines_.begin(), custom_engines_.end(), [type_name](auto & engine) {
+			return engine->GetComponentTypeName() == type_name;
+		});
+		// Remove the component to the engine if it exists
+		if(iter != custom_engines_.end())
+		{
+			(*iter)->RemoveCustomComponent(*comp);
+		}
+	}
 }
