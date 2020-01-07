@@ -44,4 +44,10 @@ namespace ose::scripting
 			ERROR_LOG("Error: Failed to find custom engine for custom component: " << type_name);
 		}
 	}
+
+	// Add a custom control to the script pool
+	void ScriptPoolCPP::AddCustomControl(unowned_ptr<CustomControl> control)
+	{
+
+	}
 }
