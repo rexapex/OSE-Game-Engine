@@ -118,10 +118,15 @@ namespace ose
 			//as active_scene_ is auto deleted when new scene is made active
 			}
 
-			this->active_scene_ = std::move(new_scene);		//finally, move the new_scene to the active_scene pointer
+			// Deactivate the previous scene
+			if(active_scene_)
+				OnSceneDeactivated(*active_scene_);
+
+			// Move the new_scene to the active_scene pointer
+			this->active_scene_ = std::move(new_scene);
 		}
 
 		// Activate the scene
-		OnSceneActivated(*this->active_scene_);
+		OnSceneActivated(*active_scene_);
 	}
 }

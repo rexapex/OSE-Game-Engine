@@ -26,11 +26,13 @@ namespace ose
 		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(proj_name);
 
 		if(proj_file_format == "XML") {
-			this->project_ = this->project_loader_->LoadProject(proj_name);
+			if(project_ != nullptr)
+				OnProjectDeactivated(*project_);
 
-			if(this->project_ == nullptr) {
+			project_ = project_loader_->LoadProject(proj_name);
+
+			if(project_ == nullptr)
 				throw std::exception("Error: Could not load Project");
-			}
 
 			OnProjectActivated(*project_);
 		} else {

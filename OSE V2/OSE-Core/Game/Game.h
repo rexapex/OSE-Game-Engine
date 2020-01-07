@@ -34,17 +34,16 @@ namespace ose
 		Game & operator=(Game &) = delete;
 		Game & operator=(Game &&) noexcept = delete;
 
-		// Called upon a project being activated
-		// Project is activated upon successful load
-		// Only one project can be active at a time
-		virtual void OnProjectActivated(Project & project);
-
-		// Called upon a scene being activated
-		// Depending on switch manager, could be multiple active scenes
-		virtual void OnSceneActivated(Scene & scene);
-
 		// Start execution of the game
 		void StartGame();
+
+		// Activate an entity along with activated sub-entities
+		// Should NEVER be called directly by a script, enable entity instead
+		void OnEntityActivated(Entity & entity);
+
+		// Deactivate an entity along with all its sub-entities
+		// Should NEVER be called directly by a script, disable entity instead
+		void OnEntityDeactivated(Entity & entity);
 
 		// Get the time object
 		Time const & GetTime() { return time_; }
@@ -54,6 +53,24 @@ namespace ose
 
 		// Save a custom data file
 		void SaveCustomDataFile(std::string const & path, CustomObject const & object);
+
+	protected:
+		// Called upon a project being activated
+		// Project is activated upon successful load
+		// Only one project can be active at a time
+		virtual void OnProjectActivated(Project & project);
+
+		// Called upon a project being deactivated
+		// Project is deactivated when a new project is loaded
+		virtual void OnProjectDeactivated(Project & project);
+
+		// Called upon a scene being activated
+		// Depending on switch manager, could be multiple active scenes
+		virtual void OnSceneActivated(Scene & scene);
+
+		// Called upon a scene being deactivated
+		// Depending on switch manager, could be multiple active scenes
+		virtual void OnSceneDeactivated(Scene & scene);
 
 	private:
 		// Window manager handles window creation, events and input
@@ -79,8 +96,5 @@ namespace ose
 
 		// Called from startGame, runs a loop while running_ is true
 		void RunGame();
-
-		// Initialise components of an entity along with its sub-entities
-		void InitEntity(Entity & entity);
 	};
 }

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Entity.h"
+#include "OSE-Core/Game/Game.h"
 
 namespace ose
 {
@@ -27,5 +28,28 @@ namespace ose
 
 		this->local_transform_ = other.local_transform_;
 		this->global_transform_ = other.global_transform_;
+	}
+
+	void Entity::SetEnabled(bool a)
+	{
+		enabled_ = a;
+		if(game_ && a)
+			game_->OnEntityActivated(*this);
+		else if(game_ && !a)
+			game_->OnEntityDeactivated(*this);
+	}
+
+	void Entity::Enable()
+	{
+		enabled_ = true;
+		if(game_)
+			game_->OnEntityActivated(*this);
+	}
+
+	void Entity::Disable()
+	{
+		enabled_ = false;
+		if(game_)
+			game_->OnEntityDeactivated(*this);
 	}
 }

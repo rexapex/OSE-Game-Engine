@@ -53,6 +53,13 @@ namespace ose
 		ApplyInputSettings(project.GetInputSettings());
 	}
 
+	// Called upon a project being deactivated
+	// Project is deactivated when a new project is loaded
+	void Game::OnProjectDeactivated(Project & project)
+	{
+		// TODO
+	}
+
 	// Called upon a scene being activated
 	// Depending on switch manager, could be multiple active scenes
 	void Game::OnSceneActivated(Scene & scene)
@@ -62,10 +69,28 @@ namespace ose
 		// create GPU memory for the new resources
 		project_->CreateGpuResources();
 
+		// Activate entities in the scene iff they are set to enabled
+		for(auto const & entity : scene.GetEntities())
+		{
+			// Ensure the entity has a reference to the game to allow activation/deactivation/updating
+			entity->SetGameReference(this);
+			// Activate the entity if it is marked as enabled
+			if(entity->IsEnabled())
+				OnEntityActivated(*entity);
+		}
+	}
+
+	// Called upon a scene being deactivated
+	// Depending on switch manager, could be multiple active scenes
+	void Game::OnSceneDeactivated(Scene & scene)
+	{
 		// create GPU memory for the new render objects
 		for(auto const & entity : scene.GetEntities())
 		{
-			InitEntity(*entity);
+			// NOTE - Do not need to set game reference to nullptr since entity still has control over activation
+			// Deactivate the entity if it is currently enabled
+			if(entity->IsEnabled())
+				OnEntityDeactivated(*entity);
 		}
 	}
 
@@ -100,18 +125,17 @@ namespace ose
 
 			// render to the back buffer
 			rendering_engine_->Update();
-			///thread_manager_->ProcessRenderTasks();
-
-			///editor_temp.update(stub);
 
 			// TODO - Remove once proper FPS display is implemented
 			window_manager_->SetTitle(std::to_string(time_.GetFps()));
 		}
 	}
 
-	// initialise components of an entity along with its sub-entities
-	void Game::InitEntity(Entity & entity)
+	// Activate an entity along with activated sub-entities
+	void Game::OnEntityActivated(Entity & entity)
 	{
+		DEBUG_LOG("Activating Entity " << entity.GetName());
+
 		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
@@ -142,13 +166,35 @@ namespace ose
 			scripting_engine_->GetScriptPool().AddCustomComponent(entity, comp);
 		}
 
-		// initialise all sub entities
+		// Activate the sub entities iff they are set to active
 		for(auto const & sub_entity : entity.GetEntities())
 		{
-			InitEntity(*sub_entity);
+			// Ensure the entity has a reference to the game to allow activation/deactivation/updating
+			sub_entity->SetGameReference(this);
+			// Activate the entity if it is marked as enabled
+			if(sub_entity->IsEnabled())
+				OnEntityActivated(*sub_entity);
 		}
 	}
 
+	// Deactivate an entity along with all its sub-entities
+	void Game::OnEntityDeactivated(Entity & entity)
+	{
+		DEBUG_LOG("De-activating Entity " << entity.GetName());
+
+		// TODO - Remove components from engines
+
+		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
+		for(auto const & sub_entity : entity.GetEntities())
+		{
+			// Remove the game reference from the entity since it no longer has control over its own activation
+			sub_entity->SetGameReference(nullptr);
+			// Deactivate the entity if it is currently enabled
+			if(sub_entity->IsEnabled())
+				OnEntityDeactivated(*sub_entity);
+		}
+	}
+	
 	// Load a custom data file
 	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
 	{
