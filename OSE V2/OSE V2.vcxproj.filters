@@ -526,7 +526,8 @@
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
     <ClInclude Include="OSE-Core\Input\InputSettings.h" />
-    <ClInclude Include="OSE-Core\Game\Scripts\CustomControl.h" />
+    <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
+    <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

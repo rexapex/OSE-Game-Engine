@@ -32,7 +32,7 @@
 	std::unique_ptr<ose::scripting::ControlScript> XCAT(New, XCAT(NAME, Control))() { \
 		return std::make_unique<XCAT(NAME, Control)>(); \
 	} \
-	auto XCAT(NAME, AddFactoryToMap) = [] { \
+	auto XCAT(NAME, AddControlFactoryToMap) = [] { \
 		ControlScript::GetSetControlScriptFactory(STR(New) STR(NAME) STR(Control), XCAT(New, XCAT(NAME, Control))); \
 		return 0; \
 	}();

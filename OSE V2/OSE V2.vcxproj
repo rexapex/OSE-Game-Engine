@@ -189,7 +189,8 @@
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
-    <ClInclude Include="OSE-Core\Game\Scripts\CustomControl.h" />
+    <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
+    <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\EInputType.h" />

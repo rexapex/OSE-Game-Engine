@@ -10,6 +10,7 @@ namespace rapidxml
 namespace ose
 {
 	struct InputSettings;
+	struct ControlSettings;
 }
 
 namespace ose::project
@@ -29,9 +30,11 @@ namespace ose::project
 
 		void LoadProjectSettings(const std::string & project_path);
 		InputSettings LoadInputSettings(const std::string & project_path);
+		ControlSettings LoadPersistentControls(const std::string & project_path);
+
 		std::unique_ptr<Scene> LoadScene(const Project & project, const std::string & scene_name);
 		std::unique_ptr<Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
-		
+
 		std::unique_ptr<CustomObject> LoadCustomDataFile(const std::string & path);
 		void SaveCustomDataFile(const std::string & path, CustomObject const & object);
 
@@ -46,6 +49,7 @@ namespace ose::project
 		
 		void ParseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);
+		ControlSettings ParseControls(rapidxml::xml_node<> * controls_node);
 
 		std::unique_ptr<CustomObject> ParseCustomObject(rapidxml::xml_node<> * obj_node);
 		void SaveCustomDataObject(rapidxml::xml_document<> & doc, CustomObject const & object, rapidxml::xml_node<> * parent = nullptr, std::string name = "");

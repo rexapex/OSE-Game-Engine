@@ -9,6 +9,7 @@ namespace ose
 	class Entity;
 	struct CustomObject;
 	struct InputSettings;
+	struct ControlSettings;
 
 	// Loads developer written project files into the engine
 	class ProjectLoader
@@ -36,8 +37,11 @@ namespace ose
 		// Loads settings including: physics & rendering engine default settings
 		virtual void LoadProjectSettings(const std::string & project_path) = 0;
 
-		//Loads game developer defined default input controls
+		// Loads game developer defined default input controls
 		virtual InputSettings LoadInputSettings(const std::string & project_path) = 0;
+
+		// Loads the control scripts which persist through all scenes
+		virtual ControlSettings LoadPersistentControls(const std::string & project_path) = 0;
 
 		// Loads a scene file defined by the game developer
 		virtual std::unique_ptr<Scene> LoadScene(const Project & project, const std::string & scene_name) = 0;

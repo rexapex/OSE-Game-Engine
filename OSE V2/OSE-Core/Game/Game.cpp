@@ -51,6 +51,9 @@ namespace ose
 		// Clear the input manager of inputs from previous projects then apply the default project inputs
 		ClearInputs();
 		ApplyInputSettings(project.GetInputSettings());
+
+		// Initialise the persistent control scripts
+		scripting_engine_->GetScriptPool().ApplyControlSettings(project.GetControlSettings(), true);
 	}
 
 	// Called upon a scene being activated
@@ -61,6 +64,9 @@ namespace ose
 
 		// create GPU memory for the new resources
 		project_->CreateGpuResources();
+
+		// Initialise the non-persistent control scripts
+		scripting_engine_->GetScriptPool().ApplyControlSettings(scene.GetControlSettings());
 
 		// create GPU memory for the new render objects
 		for(auto const & entity : scene.GetEntities())

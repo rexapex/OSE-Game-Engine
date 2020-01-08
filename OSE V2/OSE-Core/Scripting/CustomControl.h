@@ -35,7 +35,13 @@ namespace ose
 		CustomControl(CustomControl const & other) noexcept
 			: control_type_name_(other.control_type_name_) {}
 
-		CustomControl & operator=(CustomControl &) noexcept = delete;
+		CustomControl & operator=(CustomControl & other) noexcept
+		{
+			control_type_name_ = other.control_type_name_;
+			data_ = other.data_;
+			return *this;
+		}
+
 		CustomControl & operator=(CustomControl &&) noexcept = delete;
 	};
 }
