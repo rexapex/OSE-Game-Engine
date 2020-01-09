@@ -189,6 +189,8 @@
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
+    <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
+    <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\EInputType.h" />
@@ -528,7 +530,6 @@
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneManager.h" />
-    <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
@@ -707,7 +708,6 @@
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
-    <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp" />
     <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

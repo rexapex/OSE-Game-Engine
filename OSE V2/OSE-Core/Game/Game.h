@@ -1,7 +1,7 @@
 #pragma once
 
 #include "OSE-Core/Types.h"
-#include "Scene/SceneSwitchManager.h"
+#include "Scene/SceneManager.h"
 #include "OSE-Core/Entity/EntityList.h"
 #include "OSE-Core/Input/InputManager.h"
 #include "ThreadManager.h"
@@ -24,7 +24,7 @@ namespace ose
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	// TODO - Use template inheritance to allow game type with different scene switch type
-	class Game : public SceneSwitchManager, public EntityList, public InputManager
+	class Game : public SceneManager, public EntityList, public InputManager
 	{
 	public:
 		Game();

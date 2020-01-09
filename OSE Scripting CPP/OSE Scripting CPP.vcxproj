@@ -172,6 +172,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Scripting\Control\ControlScript.h" />
+    <ClInclude Include="Scripting\Control\CustomControlMacros.h" />
     <ClInclude Include="Scripting\Custom Engine\CustomEngine.h" />
     <ClInclude Include="Scripting\EntityScript.h" />
     <ClInclude Include="Scripting\ScriptingEngineCPP.h" />
@@ -185,6 +187,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Scripting\Control\ControlScript.cpp" />
     <ClCompile Include="Scripting\Custom Engine\CustomEngine.cpp" />
     <ClCompile Include="Scripting\ScriptingEngineCPP.cpp" />
     <ClCompile Include="Scripting\ScriptingFactoryCPP.cpp" />

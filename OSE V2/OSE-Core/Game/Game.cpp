@@ -20,7 +20,7 @@
 
 namespace ose
 {
-	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
+	Game::Game() : SceneManager(), EntityList(), InputManager()
 	{
 		this->running_ = false;
 
@@ -51,6 +51,10 @@ namespace ose
 		// Clear the input manager of inputs from previous projects then apply the default project inputs
 		ClearInputs();
 		ApplyInputSettings(project.GetInputSettings());
+
+		// Initialise the persistent control scripts
+		scripting_engine_->GetScriptPool().ApplyControlSettings(project.GetControlSettings(), true);
+		scripting_engine_->InitPersistentControls(this);
 	}
 
 	// Called upon a project being deactivated
@@ -61,13 +65,17 @@ namespace ose
 	}
 
 	// Called upon a scene being activated
-	// Depending on switch manager, could be multiple active scenes
+	// Only one scene can be active at a time
 	void Game::OnSceneActivated(Scene & scene)
 	{
 		// IMPORTANT - the following code can only be run on the same thread as the render context
 
 		// create GPU memory for the new resources
 		project_->CreateGpuResources();
+
+		// Initialise the non-persistent control scripts
+		scripting_engine_->GetScriptPool().ApplyControlSettings(scene.GetControlSettings());
+		scripting_engine_->InitSceneControls(this);
 
 		// Activate entities in the scene iff they are set to enabled
 		for(auto const & entity : scene.GetEntities())
@@ -109,8 +117,8 @@ namespace ose
 
 	void Game::RunGame()
 	{
-		// Initialise the user scripts after the game is initialised but before the game starts
-		scripting_engine_->Init(this);
+		// Initialise the custom engine scripts after the game is initialised but before the game starts
+		scripting_engine_->InitCustomEngines(this);
 
 		while(running_)
 		{
