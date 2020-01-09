@@ -530,7 +530,6 @@
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneManager.h" />
-    <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
@@ -709,7 +708,6 @@
     <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
-    <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp" />
     <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

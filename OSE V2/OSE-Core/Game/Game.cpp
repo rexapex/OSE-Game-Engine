@@ -20,7 +20,7 @@
 
 namespace ose
 {
-	Game::Game() : SceneSwitchManager(), EntityList(), InputManager()
+	Game::Game() : SceneManager(), EntityList(), InputManager()
 	{
 		this->running_ = false;
 
@@ -58,7 +58,7 @@ namespace ose
 	}
 
 	// Called upon a scene being activated
-	// Depending on switch manager, could be multiple active scenes
+	// Only one scene can be active at a time
 	void Game::OnSceneActivated(Scene & scene)
 	{
 		// IMPORTANT - the following code can only be run on the same thread as the render context
