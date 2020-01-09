@@ -6,7 +6,6 @@
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component\Component.cpp" />
-    <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
     <ClCompile Include="OSE-Core\Game\GameThread.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\Scene.cpp" />
@@ -36,6 +35,7 @@
     <ClCompile Include="OSE-Core\Resources\Tilemap\Tilemap.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
+    <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -526,6 +526,8 @@
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
     <ClInclude Include="OSE-Core\Input\InputSettings.h" />
+    <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
+    <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

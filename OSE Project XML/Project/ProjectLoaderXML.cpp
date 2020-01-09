@@ -18,6 +18,8 @@
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 
+#include "OSE-Core/Scripting/ControlSettings.h"
+
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
@@ -87,8 +89,11 @@ namespace ose::project
 		// Then, load the default input manager
 		InputSettings input_settings = LoadInputSettings(project_path);
 
+		// Then, load the persistent control scripts
+		ControlSettings control_settings = LoadPersistentControls(project_path);
+
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations, input_settings);
+		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations, input_settings, control_settings);
 
 		return proj;
 	}
@@ -336,6 +341,29 @@ namespace ose::project
 		return settings;
 	}
 
+	
+	// Loads the control scripts which persist through all scenes
+	ControlSettings ProjectLoaderXML::LoadPersistentControls(const std::string & project_path)
+	{
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string controls_path { project_path + "/controls.xml" };
+		InputSettings settings;
+
+		try
+		{
+			doc = LoadXmlFile(controls_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return {};
+		}
+
+		auto controls_node = doc->first_node("controls");
+		return ParseControls(controls_node);
+	}
+
 
 	std::unique_ptr<Scene> ProjectLoaderXML::LoadScene(const Project & project, const std::string & scene_name)
 	{
@@ -360,17 +388,23 @@ namespace ose::project
 
 		auto scene_node = doc->first_node("scene");
 		auto scene_name_attrib = (scene_node ? scene_node->first_attribute("name") : nullptr);
-		///auto aliases_node = scene_node->first_node("aliases");
+		if(!scene_node)
+			return nullptr;
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
+		auto controls_node = scene_node->first_node("controls");
 		///auto cached_prefabs_node = scene_node->first_node("cached_prefabs");
 
-		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name);
+		// Load the scene's controls
+		ControlSettings control_settings = ParseControls(controls_node);
+
+		// Create the new scene object
+		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
 
 		// map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
 		ParseResources(resources_node, aliases, project);
-		
+
 		// load the scene's entities
 		if(entities_node != nullptr) {
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
@@ -626,6 +660,9 @@ namespace ose::project
 
 	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
+		if(!resources_node)
+			return;
+
 		// parse texture nodes
 		for(auto texture_node { resources_node->first_node("texture") }; texture_node; texture_node = texture_node->next_sibling("texture"))
 		{
@@ -692,6 +729,26 @@ namespace ose::project
 				}
 			}
 		}
+	}
+
+	ControlSettings ProjectLoaderXML::ParseControls(rapidxml::xml_node<> * controls_node)
+	{
+		ControlSettings settings;
+		if(controls_node)
+		{
+			for(auto control_node = controls_node->first_node("control"); control_node; control_node = control_node->next_sibling("control"))
+			{
+				auto type_attrib = control_node->first_attribute("type");
+				auto deferred_attrib = control_node->first_attribute("deferred");
+				std::string type { (type_attrib ? type_attrib->value() : "") };
+				bool deferred { deferred_attrib ? deferred_attrib->value() == "true" : false };
+				if(deferred)
+					settings.deferred_controls_.emplace_back(type);
+				else
+					settings.controls_.emplace_back(type);
+			}
+		}
+		return settings;
 	}
 	
 

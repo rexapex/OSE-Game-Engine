@@ -16,10 +16,10 @@ namespace ose
 
 	}
 
-	// loads the scene into memory
-	// throws std::exception if no project has been loaded
-	// throws std::invalid_argument exception if the scene does exist
-	// throws std::exception if the scene could not be loaded
+	// Loads the scene into memory
+	// If the scene is already loaded, nothing happens
+	// Throws std::exception if no project has been loaded
+	// Throws std::exception if the scene could not be loaded
 	void SceneSwitchManager::LoadScene(const std::string & scene_name)
 	{
 		// first, check that the scene actually exists
@@ -29,29 +29,23 @@ namespace ose
 			throw std::invalid_argument("Error: The Scene " + scene_name + " does not exist in the current Project");
 		}
 
-		// load the scene using the project loader
-		auto scene = project_loader_->LoadScene(*project_, scene_name);
+		auto index = this->loaded_scenes_.find(scene_name);
 
-		// scene pointer will be nullptr if no scene exists with name scene_name or the scene file failed to load
-		if(scene != nullptr)
+		// Load the scene if it hasn't already been loaded
+		if(index == loaded_scenes_.end())
 		{
+			// load the scene using the project loader
+			auto scene = project_loader_->LoadScene(*project_, scene_name);
+
+			// scene pointer will be nullptr if no scene exists with name scene_name or the scene file failed to load
+			if(!scene)
+			{
+				throw std::exception("Error: Failed to load scene");
+			}
 			scene->Print();
 
-			auto index = this->loaded_scenes_.find(scene_name);
-
-			if(index == loaded_scenes_.end())
-			{
-				loaded_scenes_.emplace(scene_name, std::move(scene));
-				//scene unique_ptr is no longer usable since its pointer has been moved
-			}
-			else
-			{
-				throw std::invalid_argument("Error: scene " + scene_name + " is already loaded");
-			}
-		}
-		else
-		{
-			throw std::exception("Error: Failed to load scene");
+			loaded_scenes_.emplace(scene_name, std::move(scene));
+			//scene unique_ptr is no longer usable since its pointer has been moved
 		}
 	}
 
@@ -105,13 +99,15 @@ namespace ose
 			{
 				//remove all loaded scenes then add the active scene to the loaded scenes list
 				this->loaded_scenes_.clear();
-				this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
+				if(active_scene_)
+					this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
 				break;
 			}
 			case ESceneSwitchMode::REMOVE_NONE_ON_SWITCH:
 			{
 				//add the active scene to the loaded scenes list so all other scenes are now in loaded list
-				this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
+				if(active_scene_)
+					this->loaded_scenes_.emplace(active_scene_->GetName(), std::move(active_scene_));
 				break;
 			}
 			//no case neeeded for -> ESceneSwitchMode::REMOVE_ACTIVE_ON_SWITCH
