@@ -4,7 +4,7 @@ namespace ose
 {
 	class Entity;
 	class CustomComponent;
-	class ControlSettings;
+	struct ControlSettings;
 
 	class ScriptPool
 	{
