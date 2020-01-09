@@ -54,6 +54,7 @@ namespace ose
 
 		// Initialise the persistent control scripts
 		scripting_engine_->GetScriptPool().ApplyControlSettings(project.GetControlSettings(), true);
+		scripting_engine_->InitPersistentControls(this);
 	}
 
 	// Called upon a scene being activated
@@ -67,6 +68,7 @@ namespace ose
 
 		// Initialise the non-persistent control scripts
 		scripting_engine_->GetScriptPool().ApplyControlSettings(scene.GetControlSettings());
+		scripting_engine_->InitSceneControls(this);
 
 		// create GPU memory for the new render objects
 		for(auto const & entity : scene.GetEntities())
@@ -90,8 +92,8 @@ namespace ose
 
 	void Game::RunGame()
 	{
-		// Initialise the user scripts after the game is initialised but before the game starts
-		scripting_engine_->Init(this);
+		// Initialise the custom engine scripts after the game is initialised but before the game starts
+		scripting_engine_->InitCustomEngines(this);
 
 		while(running_)
 		{
