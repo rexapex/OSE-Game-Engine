@@ -6,7 +6,7 @@
 namespace ose
 {
 	class CustomComponent;
-	class ControlSettings;
+	struct ControlSettings;
 }
 
 namespace ose::scripting
