@@ -660,6 +660,9 @@ namespace ose::project
 
 	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
+		if(!resources_node)
+			return;
+
 		// parse texture nodes
 		for(auto texture_node { resources_node->first_node("texture") }; texture_node; texture_node = texture_node->next_sibling("texture"))
 		{
