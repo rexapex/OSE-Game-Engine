@@ -82,7 +82,7 @@ namespace ose
 
 		if(iter == loaded_scenes_.end())
 		{
-			throw std::invalid_argument("Error: scene " + scene_name + " is NOT loaded");
+			throw std::invalid_argument("Error: scene " + scene_name + " is NOT loaded OR the scene is active");
 		}
 		else
 		{
@@ -93,7 +93,7 @@ namespace ose
 
 	void SceneManager::UnloadAllLoadedScenes()
 	{
-		this->loaded_scenes_.clear();		//easy... I hope
+		this->loaded_scenes_.clear();
 	}
 
 
@@ -140,10 +140,14 @@ namespace ose
 			//as active_scene_ is auto deleted when new scene is made active
 			}
 
-			this->active_scene_ = std::move(new_scene);		//finally, move the new_scene to the active_scene pointer
-		}
+			// Deactivate the previously activated scene
+			if(active_scene_)
+				OnSceneDeactivated(*active_scene_);
 
-		// Activate the scene
-		OnSceneActivated(*this->active_scene_);
+			this->active_scene_ = std::move(new_scene);		//finally, move the new_scene to the active_scene pointer
+
+			// Activate the scene
+			OnSceneActivated(*this->active_scene_);
+		}
 	}
 }

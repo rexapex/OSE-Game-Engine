@@ -43,7 +43,7 @@ int main(int argc, char * argv[])
 		getchar();
 		return 1;
 	}
-
+	
 	// all resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();
 	

@@ -32,6 +32,15 @@ namespace ose::rendering
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update
 		std::vector<RenderPassGL> render_passes_;
+
+		// Returns the next available object id
+		static uint32_t NextComponentId()
+		{
+			static uint32_t id { 0 };
+			return id++;
+			// TODO - Test whether out of ids, if ran out should reset all ids and notify entity components
+			// TODO - Alternatively use 64-bit integer which is unlikely to ever reach max value (typedef id)
+		}
 	};
 }
 
