@@ -171,7 +171,7 @@ namespace ose
 			DEBUG_LOG("Initialised CustomComponent");
 
 			// then add the component to the script pool
-			scripting_engine_->GetScriptPool().AddCustomComponent(entity, comp);
+			scripting_engine_->GetScriptPool().AddCustomComponent(&entity, comp);
 		}
 
 		// Activate the sub entities iff they are set to active

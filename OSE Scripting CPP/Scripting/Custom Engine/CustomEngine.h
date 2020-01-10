@@ -22,8 +22,8 @@ namespace ose::scripting
 		virtual ~CustomEngine();
 
 		virtual std::string GetComponentTypeName() const = 0;
-		virtual void AddCustomComponent(Entity & entity, CustomComponent & comp) = 0;
-		void RemoveCustomComponent(CustomComponent & comp) {}
+		virtual void AddCustomComponent(unowned_ptr<Entity> entity, CustomComponent & comp) = 0;
+		virtual void RemoveCustomComponent(CustomComponent & comp) = 0;
 
 		virtual void Init(unowned_ptr<Game> game) {}
 		virtual void Update() {}

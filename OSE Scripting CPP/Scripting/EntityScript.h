@@ -32,13 +32,20 @@ namespace ose
 #define STR(x) TOSTR(x)
 
 #define DATA(code) \
-	struct XCAT(NAME, Data) { code };
+	struct XCAT(NAME, Data) { XCAT(NAME, Data) () {} code };
 
 #define ENGINE(code) \
 	class XCAT(NAME, Engine) : public ose::scripting::CustomEngine { \
 	public: \
 		XCAT(NAME, Engine)() : ose::scripting::CustomEngine() {} \
 		std::string GetComponentTypeName() const override { return STR(NAME); } \
+		void AddCustomComponent(unowned_ptr<Entity> entity, CustomComponent & comp) { \
+			data_array_.emplace_back(XCAT(NAME, Data){}); \
+			InitComponent(entity, data_array_.back()); \
+		} \
+		void RemoveCustomComponent(CustomComponent & comp) { \
+			\
+		} \
 	private: \
 		std::vector<XCAT(NAME, Data)> data_array_; \
 	public: \
