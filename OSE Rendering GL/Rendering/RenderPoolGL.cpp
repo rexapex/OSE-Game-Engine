@@ -17,7 +17,19 @@ namespace ose::rendering
 
 	RenderPoolGL::~RenderPoolGL()
 	{
+		for(auto const & render_pass : render_passes_)
+		{
+			for(auto const & shader_group : render_pass.shader_groups_)
+			{
+				glDeleteProgram(shader_group.shader_prog_);
 
+				for(auto const & render_object : shader_group.render_objects_)
+				{
+					glDeleteBuffers(1, &render_object.vbo_);
+					glDeleteVertexArrays(1, &render_object.vao_);
+				}
+			}
+		}
 	}
 
 	// Initialise the render pool
@@ -133,6 +145,8 @@ namespace ose::rendering
 
 			glDetachShader(prog, vert);
 			glDetachShader(prog, frag);
+			glDeleteShader(vert);
+			glDeleteShader(frag);
 
 			glUseProgram(prog);
 			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
@@ -370,6 +384,8 @@ namespace ose::rendering
 						// If there are no sprite renderers left in the render object, erase the render object
 						if(it->component_ids_.size() == 0)
 						{
+							glDeleteBuffers(1, &it->vbo_);
+							glDeleteVertexArrays(1, &it->vao_);
 							s.render_objects_.erase(it);
 						}
 						// If the sprite renderer was found then exit the method early
@@ -403,6 +419,8 @@ namespace ose::rendering
 						// Can remove the entire render object since each tile renderer has its own render object
 						if(found)
 						{
+							glDeleteBuffers(1, &it->vbo_);
+							glDeleteVertexArrays(1, &it->vao_);
 							s.render_objects_.erase(it);
 							return;
 						}
