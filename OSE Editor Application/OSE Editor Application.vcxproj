@@ -155,14 +155,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Editor\Cef\CefApp.h" />
-    <ClInclude Include="Editor\Cef\RenderHandler.h" />
     <ClInclude Include="Editor\Cef\SimpleHandler.h" />
     <ClInclude Include="Editor\Controller\Controller.h" />
     <ClInclude Include="Editor\Main.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\Cef\CefApp.cpp" />
-    <ClCompile Include="Editor\Cef\RenderHandler.cpp" />
     <ClCompile Include="Editor\Cef\SimpleHandler.cpp" />
     <ClCompile Include="Editor\Controller\Controller.cpp" />
     <ClCompile Include="Editor\Main.cpp" />

@@ -15,6 +15,7 @@
 #include "include/wrapper/cef_stream_resource_handler.h"
 
 #include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/Windowing/WindowManager.h"
 
 using namespace ose::editor;
 
@@ -66,11 +67,17 @@ SimpleApp::SimpleApp() {}
 void SimpleApp::OnContextInitialized() {
 	CEF_REQUIRE_UI_THREAD();
 
+	// Create the controller object
+	controller_ = std::make_unique<Controller>();
+	controller_->LoadProject("OSE-TestProject");
+	controller_->LoadScene("scene1");
+	controller_->SetActiveScene("scene1");
+
 	CefRefPtr<CefCommandLine> command_line =
 		CefCommandLine::GetGlobalCommandLine();
 
 	// SimpleHandler implements browser-level callbacks.
-	CefRefPtr<SimpleHandler> handler(new SimpleHandler(false));
+	CefRefPtr<SimpleHandler> handler(new SimpleHandler(false, *controller_));
 
 	// Specify CEF browser settings here.
 	CefBrowserSettings browser_settings;
@@ -86,17 +93,15 @@ void SimpleApp::OnContextInitialized() {
 	window_info.SetAsPopup(NULL, "OSE");
 #endif
 
-	// Create the first browser window.
+	// Pass the controller window to cef
+#ifdef OS_WIN
+	HWND hwnd = controller_->GetWindowManager().GetHWND();
+	if(hwnd != NULL)
+		window_info.SetAsWindowless(hwnd);
+#endif
 	auto browser = CefBrowserHost::CreateBrowserSync(window_info, handler, "about:blank", browser_settings, NULL, NULL);
 
 	// Navigate to the test html file
 	// TODO - Use relative url and copy html files to output directory
 	browser->GetMainFrame()->LoadURL(R"(file:\\\D:\James\Documents\Visual Studio 2017\Projects\OSE V2\OSE Editor Application\Editor\View\Html\test.html)");
-
-	// Render a frame
-	controller_ = std::make_unique<Controller>();
-	controller_->LoadProject("OSE-TestProject");
-	controller_->LoadScene("scene1");
-	controller_->SetActiveScene("scene1");
-	controller_->Render();
 }

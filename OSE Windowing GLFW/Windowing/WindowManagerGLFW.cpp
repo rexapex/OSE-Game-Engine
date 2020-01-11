@@ -47,6 +47,13 @@ namespace ose::windowing
 		return video_modes;
 	}
 
+#	ifdef _WIN32
+	HWND WindowManagerGLFW::GetHWND() const
+	{
+		return glfwGetWin32Window(window);
+	}
+#	endif
+
 	void WindowManagerGLFW::NewWindow(int window_mode, int video_mode)
 	{
 		GLFWwindow * window;

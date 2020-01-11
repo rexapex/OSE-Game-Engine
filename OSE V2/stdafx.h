@@ -27,6 +27,11 @@
 #include "OSE-Core/EngineDependencies/glm/gtc/type_ptr.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/matrix_transform.hpp"
 
+#ifdef _WIN32
+#	define WIN32_LEAN_AND_MEAN
+#	include <Windows.h>
+#endif
+
 // Convenience method for output
 // Use \n instead of endl so the buffer isn't flushed with every log
 #define LOG(x) do {std::cout << x << "\n";} while(0)

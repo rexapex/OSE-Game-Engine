@@ -7,27 +7,29 @@
 
 #include "include/cef_client.h"
 
+#include "Editor/Controller/Controller.h"
+#include "OSE-Core/Resources/Texture/Texture.h"
+
 #include <list>
 
 class SimpleHandler : public CefClient,
 	public CefDisplayHandler,
 	public CefLifeSpanHandler,
-	public CefLoadHandler {
+	public CefLoadHandler,
+	public CefRenderHandler
+{
 public:
-	explicit SimpleHandler(bool use_views);
+	explicit SimpleHandler(bool use_views, ose::editor::Controller & controller);
 	~SimpleHandler();
 
 	// Provide access to the single global instance of this object.
 	static SimpleHandler* GetInstance();
 
 	// CefClient methods:
-	virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE {
-		return this;
-	}
-	virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE {
-		return this;
-	}
+	virtual CefRefPtr<CefDisplayHandler> GetDisplayHandler() OVERRIDE { return this; }
+	virtual CefRefPtr<CefLifeSpanHandler> GetLifeSpanHandler() OVERRIDE { return this; }
 	virtual CefRefPtr<CefLoadHandler> GetLoadHandler() OVERRIDE { return this; }
+	virtual CefRefPtr<CefRenderHandler> GetRenderHandler() OVERRIDE { return this; }
 
 	// CefDisplayHandler methods:
 	virtual void OnTitleChange(CefRefPtr<CefBrowser> browser,
@@ -50,6 +52,9 @@ public:
 
 	bool IsClosing() const { return is_closing_; }
 
+	void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect);
+	void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height);
+
 private:
 	// Platform-specific implementation.
 	void PlatformTitleChange(CefRefPtr<CefBrowser> browser,
@@ -63,6 +68,10 @@ private:
 	BrowserList browser_list_;
 
 	bool is_closing_;
+
+	ose::editor::Controller & controller_;
+
+	std::unique_ptr<ose::Texture> texture_;
 
 	// Include the default reference counting implementation.
 	IMPLEMENT_REFCOUNTING(SimpleHandler);

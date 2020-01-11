@@ -10,6 +10,7 @@ namespace ose
 	class Entity;
 	class Scene;
 	class Project;
+	class Texture;
 }
 
 namespace ose::editor
@@ -30,7 +31,10 @@ namespace ose::editor
 		virtual void OnSceneActivated(Scene & scene);
 
 		// Render the active scene
-		void Render();
+		void Render(Texture & gui);
+
+		// Get the window manager
+		WindowManager const & GetWindowManager() const { return *window_manager_; }
 
 	private:
 		// Window manager handles window creation, events and input

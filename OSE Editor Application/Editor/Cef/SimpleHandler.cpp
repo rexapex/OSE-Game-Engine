@@ -2,6 +2,7 @@
 // reserved. Use of this source code is governed by a BSD-style license that
 // can be found in the LICENSE file.
 
+#include "stdafx.h"
 #include "SimpleHandler.h"
 
 #include <sstream>
@@ -14,6 +15,12 @@
 #include "include/views/cef_window.h"
 #include "include/wrapper/cef_closure_task.h"
 #include "include/wrapper/cef_helpers.h"
+
+#include "OSE-Core/EngineReferences.h"
+#include "OSE-Core/Rendering/RenderingFactory.h"
+
+using namespace ose;
+using namespace ose::editor;
 
 namespace {
 
@@ -28,8 +35,11 @@ namespace {
 
 }  // namespace
 
-SimpleHandler::SimpleHandler(bool use_views)
-	: use_views_(use_views), is_closing_(false) {
+SimpleHandler::SimpleHandler(bool use_views, Controller & controller)
+	: use_views_(use_views), is_closing_(false),
+	controller_(controller),
+	texture_(RenderingFactories[0]->NewTexture("", ""))
+{
 	DCHECK(!g_instance);
 	g_instance = this;
 }
@@ -138,4 +148,20 @@ void SimpleHandler::CloseAllBrowsers(bool force_close) {
 	BrowserList::const_iterator it = browser_list_.begin();
 	for (; it != browser_list_.end(); ++it)
 		(*it)->GetHost()->CloseBrowser(force_close);
+}
+
+void SimpleHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect)
+{
+	rect = CefRect(0, 0, 1920,  1080);
+}
+
+void SimpleHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height)
+{
+	std::cout << "ON PAINT\n";
+	IMGDATA data = new unsigned char[width*height*4];
+	memcpy(data, buffer, width*height*4);
+	texture_->SetImgData(data, width, height);
+	texture_->CreateTexture();
+	controller_.Render(*texture_);
+	delete[] data;
 }

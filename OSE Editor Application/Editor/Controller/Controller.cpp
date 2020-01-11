@@ -65,8 +65,11 @@ namespace ose::editor
 	}
 
 	// Render the active scene
-	void Controller::Render()
+	void Controller::Render(Texture & gui)
 	{
+		SpriteRenderer sr("GUI", &gui);
+		Transform t;
+		this->rendering_engine_->GetRenderPool().AddSpriteRenderer(t, &sr);
 		this->rendering_engine_->Update();
 		this->window_manager_->Update();
 	}

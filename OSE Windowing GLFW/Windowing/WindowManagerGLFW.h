@@ -25,6 +25,10 @@ namespace ose::windowing
 
 		std::vector<VideoMode> GetAvailableVideoModes();
 
+#	ifdef _WIN32
+		HWND GetHWND() const override;
+#	endif
+
 		int	SetMouseVisibility(int value);
 
 		void SetWindowSize(int width, int height);
