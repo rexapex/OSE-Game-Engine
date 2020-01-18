@@ -103,5 +103,6 @@ void SimpleApp::OnContextInitialized() {
 
 	// Navigate to the test html file
 	// TODO - Use relative url and copy html files to output directory
-	browser->GetMainFrame()->LoadURL(R"(file:\\\D:\James\Documents\Visual Studio 2017\Projects\OSE V2\OSE Editor Application\Editor\View\Html\test.html)");
+	//browser->GetMainFrame()->LoadURL(R"(file:\\\D:\James\Documents\Visual Studio 2017\Projects\OSE V2\OSE Editor Application\Editor\View\Html\test.html)");
+	browser->GetMainFrame()->LoadURL(R"(D:\James\Repos\Webpage\OSE Editor Design\index.html)");
 }
