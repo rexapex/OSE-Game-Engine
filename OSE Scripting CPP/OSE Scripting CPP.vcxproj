@@ -175,7 +175,7 @@
     <ClInclude Include="Scripting\Control\ControlScript.h" />
     <ClInclude Include="Scripting\Control\CustomControlMacros.h" />
     <ClInclude Include="Scripting\Custom Engine\CustomEngine.h" />
-    <ClInclude Include="Scripting\EntityScript.h" />
+    <ClInclude Include="Scripting\Custom Engine\CustomEngineMacros.h" />
     <ClInclude Include="Scripting\ScriptingEngineCPP.h" />
     <ClInclude Include="Scripting\ScriptingFactoryCPP.h" />
     <ClInclude Include="Scripting\ScriptPoolCPP.h" />
