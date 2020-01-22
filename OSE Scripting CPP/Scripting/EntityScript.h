@@ -32,13 +32,30 @@ namespace ose
 #define STR(x) TOSTR(x)
 
 #define DATA(code) \
-	struct XCAT(NAME, Data) { code };
+	struct XCAT(NAME, Data) { \
+		XCAT(NAME, Data) (unowned_ptr<CustomComponent> comp) : READONLY_CUSTOM_COMPONENT(comp) {} \
+		XCAT(NAME, Data) (XCAT(NAME, Data) const &) = default; \
+		XCAT(NAME, Data) (XCAT(NAME, Data) &&) = default; \
+		XCAT(NAME, Data) & operator=(XCAT(NAME, Data) const &) = default; \
+		XCAT(NAME, Data) & operator=(XCAT(NAME, Data) &&) = default; \
+		unowned_ptr<CustomComponent> READONLY_CUSTOM_COMPONENT; \
+		code \
+	};
 
 #define ENGINE(code) \
 	class XCAT(NAME, Engine) : public ose::scripting::CustomEngine { \
 	public: \
 		XCAT(NAME, Engine)() : ose::scripting::CustomEngine() {} \
 		std::string GetComponentTypeName() const override { return STR(NAME); } \
+		void AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp) { \
+			data_array_.emplace_back(comp); \
+			InitComponent(entity, data_array_.back()); \
+		} \
+		void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) { \
+			data_array_.erase(std::remove_if(data_array_.begin(), data_array_.end(), [comp](auto & data) { \
+				return data.READONLY_CUSTOM_COMPONENT == comp; \
+			})); \
+		} \
 	private: \
 		std::vector<XCAT(NAME, Data)> data_array_; \
 	public: \

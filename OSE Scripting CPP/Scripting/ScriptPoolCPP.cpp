@@ -29,7 +29,7 @@ namespace ose::scripting
 	}
 
 	// Add a custom engine component to the script pool
-	void ScriptPoolCPP::AddCustomComponent(Entity & entity, unowned_ptr<CustomComponent> comp)
+	void ScriptPoolCPP::AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp)
 	{
 		// Attempt to find the custom engine for the component
 		std::string const & type_name = comp->GetComponentTypeName();
@@ -39,7 +39,7 @@ namespace ose::scripting
 		// Add the component to the engine if it exists
 		if(iter != custom_engines_.end())
 		{
-			(*iter)->AddCustomComponent(entity, *comp);
+			(*iter)->AddCustomComponent(entity, comp);
 		}
 		else
 		{
@@ -114,6 +114,21 @@ namespace ose::scripting
 			{
 				add_control(control, deferred_controls_);
 			}
+		}
+	}
+
+	// Remove a custom engine component from the script pool
+	void ScriptPoolCPP::RemoveCustomComponent(unowned_ptr<CustomComponent> comp)
+	{
+		// Attempt to find the custom engine for the component
+		std::string const & type_name = comp->GetComponentTypeName();
+		auto iter = std::find_if(custom_engines_.begin(), custom_engines_.end(), [type_name](auto & engine) {
+			return engine->GetComponentTypeName() == type_name;
+		});
+		// Remove the component to the engine if it exists
+		if(iter != custom_engines_.end())
+		{
+			(*iter)->RemoveCustomComponent(comp);
 		}
 	}
 }

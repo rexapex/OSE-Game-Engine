@@ -12,7 +12,7 @@ namespace ose
 	COMPONENT(SpriteRenderer, Component)
 
 	private:
-
+	
 		// A sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
 		unowned_ptr<Texture const> texture_;
@@ -24,7 +24,6 @@ namespace ose
 
 		// Get the texture displayed by the sprite renderer
 		unowned_ptr<Texture const> GetTexture() const { return texture_; }
-
 
 		// Initialise the sprite renderer
 		SpriteRenderer(std::string const & name, unowned_ptr<Texture const> t) : Component(name), texture_(t) {}

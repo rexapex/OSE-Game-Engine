@@ -33,7 +33,9 @@ namespace ose
 		std::unique_ptr<ProjectLoader> project_loader_;
 
 		virtual void OnSceneActivated(Scene & scene) = 0;
+		virtual void OnSceneDeactivated(Scene & scene) = 0;
 		virtual void OnProjectActivated(Project & project) = 0;
+		virtual void OnProjectDeactivated(Project & project) = 0;
 
 	private:
 		// Specifies which scenes should be unloaded on scene switch

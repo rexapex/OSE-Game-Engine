@@ -17,7 +17,19 @@ namespace ose::rendering
 
 	RenderPoolGL::~RenderPoolGL()
 	{
+		for(auto const & render_pass : render_passes_)
+		{
+			for(auto const & shader_group : render_pass.shader_groups_)
+			{
+				glDeleteProgram(shader_group.shader_prog_);
 
+				for(auto const & render_object : shader_group.render_objects_)
+				{
+					glDeleteBuffers(1, &render_object.vbo_);
+					glDeleteVertexArrays(1, &render_object.vao_);
+				}
+			}
+		}
 	}
 
 	// Initialise the render pool
@@ -133,6 +145,8 @@ namespace ose::rendering
 
 			glDetachShader(prog, vert);
 			glDetachShader(prog, frag);
+			glDeleteShader(vert);
+			glDeleteShader(frag);
 
 			glUseProgram(prog);
 			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
@@ -162,6 +176,10 @@ namespace ose::rendering
 				r.textures_.push_back(static_cast<unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
 				//r.transforms_.push_back(t.GetTransformMatrix());
 				r.transforms_.push_back(&t);
+				uint32_t object_id { NextComponentId() };
+				r.component_ids_.push_back(object_id);
+				sr->SetEngineData(object_id);
+				break;
 			}
 		}
 		// If the sprite renderer group could not be found, make one
@@ -195,10 +213,12 @@ namespace ose::rendering
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Add a new render object
-			GLenum primitive{ GL_QUADS };
-			GLint first{ 0 };
-			GLint count{ 4 };
+			GLenum primitive { GL_QUADS };
+			GLint first { 0 };
+			GLint count { 4 };
+			uint32_t object_id { NextComponentId() };
 			s.render_objects_.emplace_back(
+				std::initializer_list<uint32_t>{ object_id },
 				ERenderObjectType::SPRITE_RENDERER,
 				vbo, vao,
 				primitive, first, count,
@@ -208,6 +228,7 @@ namespace ose::rendering
 			);
 			// TODO - Remove
 			s.render_objects_.back().transforms_.emplace_back(&t);
+			sr->SetEngineData(object_id);
 		}
 	}
 
@@ -318,10 +339,12 @@ namespace ose::rendering
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 		// Add a new render object
-		GLenum primitive{ GL_TRIANGLES };
-		GLint first{ 0 };
-		GLint count{ 6 * tilemap_width * tilemap_height };
+		GLenum primitive { GL_TRIANGLES };
+		GLint first { 0 };
+		GLint count { 6 * tilemap_width * tilemap_height };
+		uint32_t object_id { NextComponentId() };
 		s.render_objects_.emplace_back(
+			std::initializer_list<uint32_t>{ object_id },
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
 			primitive, first, count,
@@ -331,5 +354,74 @@ namespace ose::rendering
 		);
 		// TODO - Remove
 		s.render_objects_.back().transforms_.emplace_back(&t);
+		tr->SetEngineData(object_id);
+	}
+
+	// Remove a sprite renderer component from the render pool
+	void RenderPoolGL::RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr)
+	{
+		// Try to find the render object the sprite renderer belongs to
+		bool found { false };
+		for(auto & p : render_passes_) {
+			for(auto & s : p.shader_groups_) {
+				for(auto it = s.render_objects_.begin(); it != s.render_objects_.end(); ++it) {
+					if(it->type_ == ERenderObjectType::SPRITE_RENDERER)
+					{
+						// Find the sprite renderer data within the render object
+						uint32_t object_id { std::any_cast<uint32_t>(sr->GetEngineData()) };
+						for(int i = 0; i < it->component_ids_.size(); i++)
+						{
+							if(it->component_ids_[i] == object_id)
+							{
+								// Remove the component
+								it->component_ids_.erase(it->component_ids_.begin() + i);
+								it->transforms_.erase(it->transforms_.begin() + i);
+								it->textures_.erase(it->textures_.begin() + i);
+								found = true;
+								break;
+							}
+						}
+						// If there are no sprite renderers left in the render object, erase the render object
+						if(it->component_ids_.size() == 0)
+						{
+							glDeleteBuffers(1, &it->vbo_);
+							glDeleteVertexArrays(1, &it->vao_);
+							s.render_objects_.erase(it);
+						}
+						// If the sprite renderer was found then exit the method early
+						if(found)
+						{
+							return;
+						}
+					}
+				}
+			}
+		}
+	}
+
+	// Remove a tile renderer component from the render pool
+	void RenderPoolGL::RemoveTileRenderer(unowned_ptr<TileRenderer> tr)
+	{
+		// Try to find the render object the tile renderer belongs to
+		for(auto & p : render_passes_) {
+			for(auto & s : p.shader_groups_) {
+				for(auto it = s.render_objects_.begin(); it != s.render_objects_.end(); ++it) {
+					if(it->type_ == ERenderObjectType::TILE_RENDERER)
+					{
+						// Find the tile renderer data within the render object
+						uint32_t object_id { std::any_cast<uint32_t>(tr->GetEngineData()) };
+						
+						// Can remove the entire render object since each tile renderer has its own render object
+						if(it->component_ids_[0] == object_id)
+						{
+							glDeleteBuffers(1, &it->vbo_);
+							glDeleteVertexArrays(1, &it->vao_);
+							s.render_objects_.erase(it);
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 }
