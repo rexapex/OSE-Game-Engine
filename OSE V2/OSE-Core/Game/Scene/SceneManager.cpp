@@ -22,16 +22,16 @@ namespace ose
 	// loads the project specified (does not load any scenes)
 	// throws std::exception if the project could not be loaded
 	// throws std::invalid_argument if the project FILE_FORMAT decleration file does not exist
-	void SceneManager::LoadProject(const std::string & proj_name)
+	void SceneManager::LoadProject(const std::string & project_path)
 	{
 		// before project can be loaded, the file format of the project files must de determined
-		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(proj_name);
+		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(project_path);
 
 		if(proj_file_format == "XML") {
 			if(project_ != nullptr)
 				OnProjectDeactivated(*project_);
 
-			project_ = project_loader_->LoadProject(proj_name);
+			project_ = project_loader_->LoadProject(project_path);
 
 			if(project_ == nullptr)
 				throw std::exception("Error: Could not load Project");

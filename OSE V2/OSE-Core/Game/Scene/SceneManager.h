@@ -16,7 +16,7 @@ namespace ose
 		SceneManager & operator=(SceneManager &) = delete;
 
 		// Loads the project specified (does not load any scenes)
-		void LoadProject(const std::string & proj_name);
+		void LoadProject(const std::string & project_path);
 
 		void LoadScene(const std::string & scene_name);
 		void UnloadScene(const std::string & scene_name);

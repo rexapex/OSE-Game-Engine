@@ -1,6 +1,21 @@
 #include "stdafx.h"
 #include "FileHandlingUtil.h"
 
+#include <fstream>
+#include <filesystem>
+
+#ifdef _WIN32
+#define WIN32_LEAN_AND_MEAN
+#include <windows.h>
+#include <ShlObj_core.h>
+#endif
+
+#if defined(__APPLE__) || defined(__linux__)
+#include <pwd.h>
+#include <unistd.h>
+#include <sys/types.h>
+#endif
+
 namespace ose
 {
 	void FileHandlingUtil::LoadTextFile(const std::string & path, std::string & text)
@@ -72,8 +87,24 @@ namespace ose
 	#endif
 	}
 
+	// Get the directory of the executable
+	std::string FileHandlingUtil::GetExecutableDirectory()
+	{
+#		ifdef _WIN32
+			CHAR filename[MAX_PATH];
+			DWORD size = GetModuleFileNameA(NULL, filename, MAX_PATH);
+			if(size > 0)
+			{
+				return GetParentPathFromPath(filename);
+			}
+#		else
+#			error FileHandlingUtil::GetExecutableDirectory only supported on Windows
+#		endif
+		return "";
+	}
+
 	//Copy the file at the from path to the to path
-	void FileHandlingUtil::CopyFile(const std::string & from, const std::string & to)
+	void FileHandlingUtil::CopyFile_(const std::string & from, const std::string & to)
 	{
 		try
 		{

@@ -1,17 +1,4 @@
 #pragma once
-#include <fstream>
-#include <filesystem>
-
-#ifdef _WIN32
-#include <windows.h>
-#include <ShlObj_core.h>
-#endif
-
-#if defined(__APPLE__) || defined(__linux__)
-#include <pwd.h>
-#include <unistd.h>
-#include <sys/types.h>
-#endif
 
 namespace ose
 {
@@ -36,9 +23,12 @@ namespace ose
 		// WARNING: NOT THREAD SAFE
 		static void GetHomeDirectory(std::string & home_dir_path);
 
+		// Get the directory of the executable
+		static std::string GetExecutableDirectory();
+
 		// Copy the file at the from path to the to path
 		// Will create the necessary destination directories
-		static void CopyFile(const std::string & from, const std::string & to);
+		static void CopyFile_(const std::string & from, const std::string & to);
 
 		// Creates directories given in path if they do not already exist
 		static void CreateDirs(const std::string & path);

@@ -28,7 +28,7 @@ namespace ose
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
-		FileHandlingUtil::CopyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
+		FileHandlingUtil::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
 	}
 
 	//imports multiple files into project resources directory

@@ -18,11 +18,11 @@ namespace ose
 		ProjectLoader();
 		virtual ~ProjectLoader() noexcept;
 
-		static std::string GetProjectFileFormat(const std::string & project_name);
+		static std::string GetProjectFileFormat(const std::string & project_path);
 
 		// Loads all properties of the project, but does NOT load a scene
 		// Returns a unique_ptr to the project instance
-		virtual std::unique_ptr<Project> LoadProject(const std::string & project_name) = 0;
+		virtual std::unique_ptr<Project> LoadProject(const std::string & project_path) = 0;
 
 		// Loads the manifest including: version, name, etc.
 		virtual std::unique_ptr<ProjectInfo> LoadProjectManifest(const std::string & project_path) = 0;
