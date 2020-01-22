@@ -70,6 +70,9 @@ namespace ose
 		// initialise the component, should only be called from the main thread
 		virtual void Init() {}
 
+		// Get the name of the component
+		std::string const & GetName() const { return name_; }
+
 		// disable the component (i.e. remove it from corresponding engine data pool
 		virtual void Disable();
 
