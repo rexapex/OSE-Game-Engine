@@ -403,7 +403,6 @@ namespace ose::rendering
 	void RenderPoolGL::RemoveTileRenderer(unowned_ptr<TileRenderer> tr)
 	{
 		// Try to find the render object the tile renderer belongs to
-		bool found { false };
 		for(auto & p : render_passes_) {
 			for(auto & s : p.shader_groups_) {
 				for(auto it = s.render_objects_.begin(); it != s.render_objects_.end(); ++it) {
@@ -412,12 +411,8 @@ namespace ose::rendering
 						// Find the tile renderer data within the render object
 						uint32_t object_id { std::any_cast<uint32_t>(tr->GetEngineData()) };
 						
-						for(int i = 0; i < it->component_ids_.size(); i++)
-						{
-							found = true;
-						}
 						// Can remove the entire render object since each tile renderer has its own render object
-						if(found)
+						if(it->component_ids_[0] == object_id)
 						{
 							glDeleteBuffers(1, &it->vbo_);
 							glDeleteVertexArrays(1, &it->vao_);
