@@ -176,7 +176,7 @@ namespace ose::rendering
 				"	vertexUV = uv;\n"
 				"	vertexCamSpacePos = position;\n"
 				"	vertexNormal = normal;\n"
-				"	gl_Position = (viewProjMatrix * worldTransfor)) * vec4(position, 0.0, 1.0);\n"
+				"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"
 				"}\n"
 				;
 			glShaderSource(vert, 1, &vert_source, NULL);
@@ -269,7 +269,6 @@ namespace ose::rendering
 			glDeleteShader(frag);
 
 			glUseProgram(prog);
-			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
 
 			ShaderGroupGL sg;
 			sg.shader_prog_ = prog;
@@ -517,7 +516,7 @@ namespace ose::rendering
 		glGenBuffers(1, &ibo);
 		// Data consists of indices to vertices, where 3 consecutive indices make up a triangle
 		std::vector<unsigned int> ibo_data;
-		glBindBuffer(GL_ARRAY_BUFFER, ibo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		for(MeshSection section : mesh->GetSections())
 		{
 			for(unsigned int face_index : section.GetFaceIndices())
@@ -525,13 +524,14 @@ namespace ose::rendering
 				ibo_data.push_back(face_index);
 			}
 		}
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, data.size() * sizeof(unsigned int), data.data(), GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, ibo_data.size() * sizeof(unsigned int), ibo_data.data(), GL_STATIC_DRAW);
 
 		// Create a VAO for the render object
 		GLuint vao;
 		glGenVertexArrays(1, &vao);
 		glBindVertexArray(vao);
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		// TODO - Vertex attrib locations are to be controlled by the built shader program
 		glEnableVertexAttribArray(0);
 		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
@@ -547,7 +547,7 @@ namespace ose::rendering
 		// Add a new render object
 		GLenum primitive { GL_TRIANGLES };
 		GLint first { 0 };
-		GLint count { static_cast<GLint>(ibo_data.size()) / 3 };
+		GLint count { static_cast<GLint>(ibo_data.size()) };
 		uint32_t object_id { NextComponentId() };
 		s.render_objects_.emplace_back(
 			std::initializer_list<uint32_t>{ object_id },

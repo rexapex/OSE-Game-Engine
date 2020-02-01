@@ -36,6 +36,7 @@ namespace ose
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
 		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
+		//this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::PERSPECTIVE, fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
