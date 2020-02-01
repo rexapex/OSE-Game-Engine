@@ -53,7 +53,9 @@ namespace ose::rendering
 				glUseProgram(shader_group.shader_prog_);
 
 				// Pass the view projection matrix to the shader program
-				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix_));
+				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
+				glm::mat4 view_proj = projection_matrix_ * camera;
+				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
