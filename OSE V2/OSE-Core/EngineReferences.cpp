@@ -5,6 +5,7 @@
 #include "OSE Project XML/Project/ProjectLoaderFactoryXML.h"
 #include "OSE Resources SOIL/Resources/Texture/TextureLoaderFactorySOIL.h"
 #include "OSE Resources Tilemap TXT/Resources/Tilemap/TilemapLoaderFactoryTXT.h"
+#include "OSE Resources Mesh ASSIMP/Resources/Mesh/MeshLoaderFactoryASSIMP.h"
 #include "OSE Windowing GLFW/Windowing/WindowingFactoryGLFW.h"
 #include "OSE Scripting CPP/Scripting/ScriptingFactoryCPP.h"
 
@@ -21,6 +22,9 @@ namespace ose
 
 	// Create array of tilemap loader factories
 	extern std::unique_ptr<TilemapLoaderFactory> const TilemapLoaderFactories[] { std::make_unique<ose::resources::TilemapLoaderFactoryTXT>() };
+
+	// Create array of mesh loader factories
+	extern std::unique_ptr<MeshLoaderFactory> const MeshLoaderFactories[] { std::make_unique<ose::resources::MeshLoaderFactoryASSIMP>() };
 
 	// Create array of rendering factories
 	extern std::unique_ptr<RenderingFactory> const RenderingFactories[] { std::make_unique<ose::rendering::RenderingFactoryGL>() };

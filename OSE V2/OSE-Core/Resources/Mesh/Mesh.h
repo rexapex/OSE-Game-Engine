@@ -32,10 +32,9 @@ namespace ose
 
 	class Mesh
 	{
-		Mesh(std::string const & path) : path_(path) {}
-		~Mesh() {}
-
 	public:
+		Mesh(std::string const & name, std::string const & path) : name_(name), path_(path) {}
+		~Mesh() {}
 
 		// Get the path of the mesh file
 		std::string const & GetPath() const { return path_; }
@@ -43,11 +42,11 @@ namespace ose
 		// Reserve space for vertex arrays
 		inline void SetNumVertices(size_t n, int types)
 		{
-			positions_.reserve(types & VDT_POSITIONS == VDT_POSITIONS ? n*3 : 0);
-			tex_coords_.reserve(types & VDT_TEX_COORDS == VDT_TEX_COORDS ? n*2 : 0);
-			normals_.reserve(types & VDT_NORMALS == VDT_NORMALS ? n*3 : 0);
-			tangents_.reserve(types & VDT_TANGENTS == VDT_TANGENTS ? n*3 : 0);
-			bitangents_.reserve(types & VDT_BITANGENTS == VDT_BITANGENTS ? n*3 : 0);
+			positions_.reserve((types & VDT_POSITIONS) == VDT_POSITIONS ? n*3 : 0);
+			tex_coords_.reserve((types & VDT_TEX_COORDS) == VDT_TEX_COORDS ? n*2 : 0);
+			normals_.reserve((types & VDT_NORMALS) == VDT_NORMALS ? n*3 : 0);
+			tangents_.reserve((types & VDT_TANGENTS) == VDT_TANGENTS ? n*3 : 0);
+			bitangents_.reserve((types & VDT_BITANGENTS) == VDT_BITANGENTS ? n*3 : 0);
 		}
 
 		// Add a new mesh section
@@ -82,7 +81,8 @@ namespace ose
 
 	private:
 		
-		// Path of the mesh file
+		// Name & path of the mesh file
+		std::string name_;
 		std::string path_;
 
 		// Vertex data arrays
