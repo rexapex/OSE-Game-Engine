@@ -87,7 +87,12 @@ namespace ose::resources
 					return;
 				}
 
-			//	face.mIndices[0]
+				// Add the face to the mesh section
+				// Add the mesh section offset so the index is shifted to the correct set of vertices
+				ose_mesh_section.AddFace(
+					face.mIndices[0] + mesh_section_offset,
+					face.mIndices[1] + mesh_section_offset,
+					face.mIndices[2] + mesh_section_offset);
 			}
 
 			// If the mesh section contains positions, copy them into the positions array
@@ -116,7 +121,17 @@ namespace ose::resources
 				}
 			}
 
-			if(ai_mesh_section->HasTextureCoords())
+			// TODO - Support multiple texture co-ordinates per mesh section
+			if(ai_mesh_section->HasTextureCoords(0))
+			{
+				// TODO - Speed this up with bulk copy
+				for(unsigned int v = 0; v < ai_mesh_section->mNumVertices; ++v)
+				{
+					mesh->AddVertexTexCoord((mesh_section_offset + v) * 2,
+						ai_mesh_section->mTextureCoords[0][v].x,
+						ai_mesh_section->mTextureCoords[0][v].y);
+				}
+			}
 
 			// Increment the mesh section offset by the no. of vertices in the previously processed mesh section
 			mesh_section_offset += ai_mesh_section->mNumVertices;

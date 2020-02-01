@@ -108,7 +108,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +130,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,7 +156,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,7 +182,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>

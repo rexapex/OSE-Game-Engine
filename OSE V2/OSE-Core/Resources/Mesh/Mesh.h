@@ -15,7 +15,19 @@ namespace ose
 	// A Mesh is comprised of 1 or more MeshSections
 	struct MeshSection
 	{
+	public:
 
+		// Add a new face
+		inline void AddFace(unsigned int x, unsigned int y, unsigned int z)
+		{
+			faces_.push_back(x);
+			faces_.push_back(y);
+			faces_.push_back(z);
+		}
+
+	private:
+		// TODO - Have an array of uints and ushorts and use the ushorts if possible
+		std::vector<unsigned int> faces_;
 	};
 
 	class Mesh
