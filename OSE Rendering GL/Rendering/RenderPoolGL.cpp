@@ -172,10 +172,11 @@ namespace ose::rendering
 				"out vec3 vertexCamSpacePos;\n"
 				"uniform mat4 viewProjMatrix;\n"
 				"uniform mat4 worldTransform;\n"
+				"uniform sampler2D texSampler;\n"
 				"void main() {\n"
 				"	vertexUV = uv;\n"
 				"	vertexCamSpacePos = position;\n"
-				"	vertexNormal = normal;\n"
+				"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
 				"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"
 				"}\n"
 				;
@@ -208,11 +209,14 @@ namespace ose::rendering
 				"in vec2 vertexUV;\n"
 				"in vec3 vertexNormal;\n"
 				"in vec3 vertexCamSpacePos;\n"
+				"uniform sampler2D texSampler;\n"
 				"void main() {\n"
-				//"	fragColor = texture(texSampler, vertexUV);\n"
+				"	fragColor = texture(texSampler, vertexUV);\n"
 				//"	float gamma = 2.2;\n"
+				//"	fragColor.rgb\n"
 				//"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
-				"	fragColor = vec4(1, 0, 0, 1);\n"
+				"	fragColor.a = 1.0;\n"
+				//"	fragColor = vec4(1, 0, 0, 1);\n"
 				"}\n"
 				;
 			glShaderSource(frag, 1, &frag_source, NULL);
@@ -269,6 +273,7 @@ namespace ose::rendering
 			glDeleteShader(frag);
 
 			glUseProgram(prog);
+			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
 
 			ShaderGroupGL sg;
 			sg.shader_prog_ = prog;
@@ -558,6 +563,19 @@ namespace ose::rendering
 		//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 		//std::initializer_list<ITransform const &>{ t }
 		);
+
+		// If the mesh renderer contains a material, add the first texture
+		// TODO - Material determines shader group and can contain multiple textures
+		if(mr->GetMaterial())
+		{
+			if(mr->GetMaterial()->GetTextures().size() > 0)
+			{
+				if(mr->GetMaterial()->GetTextures()[0])
+				{
+					s.render_objects_.back().textures_.emplace_back(static_cast<unowned_ptr<TextureGL const>>(mr->GetMaterial()->GetTextures()[0])->GetGlTexId());
+				}
+			}
+		}
 
 		// TODO - Remove
 		s.render_objects_.back().ibo_ = ibo;
