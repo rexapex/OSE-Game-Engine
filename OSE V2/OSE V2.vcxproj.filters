@@ -526,6 +526,7 @@
     <ClInclude Include="OSE-Core\Input\InputSettings.h" />
     <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
+    <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

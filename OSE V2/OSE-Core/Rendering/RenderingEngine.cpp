@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "RenderingEngine.h"
+#include "OSE-Core/Project/ProjectSettings.h"
 
 namespace ose
 {
@@ -11,6 +12,15 @@ namespace ose
 	RenderingEngine::~RenderingEngine()
 	{
 
+	}
+
+	// Apply rendering settings to the rendering engine
+	void RenderingEngine::ApplyRenderingSettings(RenderingSettings const & rendering_settings)
+	{
+		projection_mode_ = rendering_settings.projection_mode_;
+		znear_ = rendering_settings.znear_;
+		zfar_ = rendering_settings.zfar_;
+		UpdateProjectionMatrix();
 	}
 
 	//saves having to resize framebuffers twice
@@ -54,7 +64,7 @@ namespace ose
 			}
 			case EProjectionMode::PERSPECTIVE:
 			{
-				this->UpdatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, 0.0f, 100.0f);
+				this->UpdatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, znear_, zfar_);
 				break;
 			}
 			}
