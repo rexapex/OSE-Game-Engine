@@ -67,7 +67,7 @@ namespace ose
 		{
 			positions_[index+0] = x;
 			positions_[index+1] = y;
-			positions_[index+0] = z;
+			positions_[index+2] = z;
 		}
 
 		// Add a new vertex texture co-ordinate
@@ -82,7 +82,7 @@ namespace ose
 		{
 			normals_[index+0] = x;
 			normals_[index+1] = y;
-			normals_[index+0] = z;
+			normals_[index+2] = z;
 		}
 
 		// Get the total number of vertices in the mesh
