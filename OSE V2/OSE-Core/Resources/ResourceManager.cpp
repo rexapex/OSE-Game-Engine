@@ -12,6 +12,7 @@
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
+#include "Material/Material.h"
 #include "FileHandlingUtil.h"
 
 namespace ose
@@ -217,40 +218,33 @@ namespace ose
 	//loads a meta file for some texture, meta files map properties to values
 	void ResourceManager::LoadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
 	{
-		//load the meta data string
-		std::string contents;
-		try
-		{
-			FileHandlingUtil::LoadTextFile(abs_path, contents);
-		}
-		catch(const std::exception & e)
-		{
-			//error occurred, therefore, return an empty project info stub
-			LOG("FileHandlingUtil::load_text_file -> " << e.what());
-			throw e;
-		}
+		// Load the file (OSE stores meta files as property files)
+		auto props { LoadPropertyFile(abs_path) };
 
-		std::stringstream iss { contents };
-		//yucky solution but if it works it works
-		while(iss)
+		// Parse the properties
+		for(auto & [property, value_str] : props)
 		{
-			std::string property;
-			iss >> property;
-			uint32_t value;
-			iss >> value;
+			try
+			{
+				uint32_t value = std::stoi(value_str);
 
-			if(property == "mag_filter_mode") {
-				meta_data.mag_filter_mode_ = static_cast<ETextureFilterMode>(value);
-			} else if(property == "min_filter_mode") {
-				meta_data.min_filter_mode_ = static_cast<ETextureFilterMode>(value);
-			} else if(property == "mip_mapping_enabled") {
-				meta_data.mip_mapping_enabled_ = static_cast<bool>(value);
-			} else if(property == "min_LOD") {
-				meta_data.min_lod_ = value;
-			} else if(property == "max_LOD") {
-				meta_data.max_lod_ = value;
-			} else if(property == "LOD_bias") {
-				meta_data.lod_bias_ = value;
+				if(property == "mag_filter_mode") {
+					meta_data.mag_filter_mode_ = static_cast<ETextureFilterMode>(value);
+				} else if(property == "min_filter_mode") {
+					meta_data.min_filter_mode_ = static_cast<ETextureFilterMode>(value);
+				} else if(property == "mip_mapping_enabled") {
+					meta_data.mip_mapping_enabled_ = static_cast<bool>(value);
+				} else if(property == "min_LOD") {
+					meta_data.min_lod_ = value;
+				} else if(property == "max_LOD") {
+					meta_data.max_lod_ = value;
+				} else if(property == "LOD_bias") {
+					meta_data.lod_bias_ = value;
+				}
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to convert texture meta property " << property << " of value " << value_str << " to uint32 in meta file " << abs_path);
 			}
 		}
 	}
@@ -383,5 +377,113 @@ namespace ose
 			// Remove the mesh from the map
 			meshes_.erase(iter);
 		}
+	}
+
+	// Get the material from the resource manager
+	// Given the name of the material, return the material object
+	unowned_ptr<Material const> ResourceManager::GetMaterial(const std::string & name)
+	{
+		// Search the materials_ list
+		auto const & iter { materials_.find(name) };
+		if(iter != materials_.end()) {
+			return iter->second.get();
+		}
+
+		return nullptr;
+	}
+
+	// Adds the material at path to the list of active materials, the material must be in the project's resources directory
+	// Path is relative to ProjectPath/Resources
+	// If no name is given, the relative path will be used
+	// IMPORTANT - Can be called from any thread (TODO)
+	void ResourceManager::AddMaterial(const std::string & path, const std::string & name)
+	{
+		std::string abs_path { project_path_ + "/Resources/" + path };
+
+		if(FileHandlingUtil::DoesFileExist(abs_path))
+		{
+			// If no name is given, use the filename
+			std::string name_to_use { name };
+			if(name_to_use == "")
+			{
+				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+			}
+
+			// Only add the new material if the name is not taken
+			auto & iter = materials_.find(name_to_use);
+			if(iter == materials_.end())
+			{
+				materials_.emplace(name_to_use, std::make_unique<Material>(name_to_use, abs_path));
+				DEBUG_LOG("Added material " << name_to_use << " to ResourceManager");
+
+				// Get a references to the newly created material
+				auto & material = materials_.at(name_to_use);
+
+				// Load the material data
+				auto props { LoadPropertyFile(abs_path) };
+				for(auto & [key, value] : props)
+				{
+					if(key == "tex")
+					{
+						AddTexture(value);
+						auto texture { GetTexture(value) };
+						// Add texture to material even if nullptr to preserve texture indices
+						material->AddTexture(texture);
+					}
+				}
+			}
+			else
+			{
+				LOG("Error: material name " + name_to_use + " is already taken");
+			}
+		}
+	}
+
+	// Remove the material from the materials list and free the material's resources
+	// IMPORTANT - Can be called from any thread (TODO)
+	void ResourceManager::RemoveMaterial(const std::string & name)
+	{
+		// Get the material if it exists
+		auto const & iter { materials_.find(name) };
+
+		// If the material exists, remove it from the map
+		if(iter != materials_.end())
+		{
+			// Remove the material from the map
+			materials_.erase(iter);
+		}
+	}
+
+	// Load a property file (similar to an ini file)
+	// Returns properties as a map from key to value
+	std::unordered_map<std::string, std::string> ResourceManager::LoadPropertyFile(const std::string & abs_path)
+	{
+		std::unordered_map<std::string, std::string> props;
+
+		// Load the file into a string
+		std::string contents;
+		try
+		{
+			FileHandlingUtil::LoadTextFile(abs_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			// Error occurred, therefore, return an empty project info stub
+			LOG("FileHandlingUtil::load_text_file - " << e.what());
+			throw e;
+		}
+
+		std::stringstream iss { contents };
+		while(iss)
+		{
+			std::string property;
+			iss >> property;
+			std::string value;
+			iss >> value;
+			if(property != "")
+				props[property] = value;
+		}
+
+		return props;
 	}
 }

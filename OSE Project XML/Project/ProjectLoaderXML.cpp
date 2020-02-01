@@ -714,15 +714,21 @@ namespace ose::project
 		// parse the mesh renderer components of the new entity
 		for(auto component_node = entity_node->first_node("mesh_renderer"); component_node; component_node = component_node->next_sibling("mesh_renderer"))
 		{
-			// has name & mesh attributes
-			auto name_attrib	= component_node->first_attribute("name");
+			// Has name & mesh attributes
+			auto name_attrib = component_node->first_attribute("name");
 			auto mesh_attrib = component_node->first_attribute("mesh");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
-			// if mesh is an alias, find it's replacement text, else use the file text
+			// Optionally has material attribute
+			auto material_attrib = component_node->first_attribute("material");
+			std::string material_name { (material_attrib ? material_attrib->value() : "") };
+
+			// If mesh is an alias, find it's replacement text, else use the file text
 			std::string mesh_text { (mesh_attrib ? mesh_attrib->value() : "") };
 			const auto mesh_text_alias_pos { aliases.find(mesh_text) };
 			const std::string & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
+			
+			// TODO - Get material
 
 			const Mesh * mesh = project.GetResourceManager().GetMesh(mesh_path);
 			if(mesh != nullptr) {
@@ -816,6 +822,26 @@ namespace ose::project
 				}
 
 				project.GetResourceManager().AddMesh(path, "");	// TODO - remove name_ field from mesh class
+			}
+		}
+
+		// parse material nodes
+		for(auto material_node { resources_node->first_node("material") }; material_node; material_node = material_node->next_sibling("material"))
+		{
+			auto const alias_attrib { material_node->first_attribute("alias") };
+			auto const path_attrib  { material_node->first_attribute("path") };
+
+			if(path_attrib)
+			{
+				auto const path { path_attrib->value() };
+
+				// if there is an alias provided, add it to the list of aliases for this file
+				if(alias_attrib) {
+					auto const alias { alias_attrib->value() };
+					aliases.insert({ alias, path });
+				}
+
+				project.GetResourceManager().AddMaterial(path, "");	// TODO - remove name_ field from material class
 			}
 		}
 
