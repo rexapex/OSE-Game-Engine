@@ -529,6 +529,7 @@
     <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\MeshMetaData.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
