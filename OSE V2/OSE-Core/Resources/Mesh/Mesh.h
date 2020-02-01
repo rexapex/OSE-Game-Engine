@@ -42,11 +42,11 @@ namespace ose
 		// Reserve space for vertex arrays
 		inline void SetNumVertices(size_t n, int types)
 		{
-			positions_.reserve((types & VDT_POSITIONS) == VDT_POSITIONS ? n*3 : 0);
-			tex_coords_.reserve((types & VDT_TEX_COORDS) == VDT_TEX_COORDS ? n*2 : 0);
-			normals_.reserve((types & VDT_NORMALS) == VDT_NORMALS ? n*3 : 0);
-			tangents_.reserve((types & VDT_TANGENTS) == VDT_TANGENTS ? n*3 : 0);
-			bitangents_.reserve((types & VDT_BITANGENTS) == VDT_BITANGENTS ? n*3 : 0);
+			positions_.resize((types & VDT_POSITIONS) == VDT_POSITIONS ? n*3 : 0);
+			tex_coords_.resize((types & VDT_TEX_COORDS) == VDT_TEX_COORDS ? n*2 : 0);
+			normals_.resize((types & VDT_NORMALS) == VDT_NORMALS ? n*3 : 0);
+			tangents_.resize((types & VDT_TANGENTS) == VDT_TANGENTS ? n*3 : 0);
+			bitangents_.resize((types & VDT_BITANGENTS) == VDT_BITANGENTS ? n*3 : 0);
 		}
 
 		// Add a new mesh section
