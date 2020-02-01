@@ -721,18 +721,21 @@ namespace ose::project
 
 			// Optionally has material attribute
 			auto material_attrib = component_node->first_attribute("material");
-			std::string material_name { (material_attrib ? material_attrib->value() : "") };
 
-			// If mesh is an alias, find it's replacement text, else use the file text
+			// If mesh is an alias, find its replacement text, else use the file text
 			std::string mesh_text { (mesh_attrib ? mesh_attrib->value() : "") };
 			const auto mesh_text_alias_pos { aliases.find(mesh_text) };
 			const std::string & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
 			
-			// TODO - Get material
+			// If material is an alias, find its replacement text, else us the file text
+			std::string material_text { (material_attrib ? material_attrib->value() : "") };
+			const auto material_text_alias_pos { aliases.find(material_text) };
+			const std::string & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
 
 			const Mesh * mesh = project.GetResourceManager().GetMesh(mesh_path);
+			const Material * material = project.GetResourceManager().GetMaterial(material_path);
 			if(mesh != nullptr) {
-				new_entity->AddComponent<MeshRenderer>(name, mesh);
+				new_entity->AddComponent<MeshRenderer>(name, mesh, material);
 			} else {
 				ERROR_LOG("Error: Mesh " << mesh_path << " has not been loaded");
 			}
