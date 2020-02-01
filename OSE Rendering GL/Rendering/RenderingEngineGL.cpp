@@ -67,12 +67,18 @@ namespace ose::rendering
 						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
 						// Bind the texture
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
+						if(i < render_object.textures_.size())
+						{
+							glActiveTexture(GL_TEXTURE0);
+							glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
+						}
 
 						// Render the object
 						glBindVertexArray(render_object.vao_);
-						glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						if(render_object.ibo_ == 0)
+							glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						else
+							glDrawElements(render_object.render_primitive_, render_object.count_, GL_UNSIGNED_INT, 0);
 					}
 				}
 			}
