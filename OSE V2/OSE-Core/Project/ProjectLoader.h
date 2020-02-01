@@ -4,6 +4,7 @@ namespace ose
 {
 	class Project;
 	struct ProjectInfo;
+	struct ProjectSettings;
 	class Scene;
 	class Tag;
 	class Entity;
@@ -34,8 +35,8 @@ namespace ose
 		// Returns the root tag of the hierarchy
 		virtual std::unique_ptr<Tag> LoadTagDefinitions(const std::string & project_path) = 0;
 
-		// Loads settings including: physics & rendering engine default settings
-		virtual void LoadProjectSettings(const std::string & project_path) = 0;
+		// Loads settings including: physics & rendering engine settings
+		virtual ProjectSettings LoadProjectSettings(const std::string & project_path) = 0;
 
 		// Loads game developer defined default input controls
 		virtual InputSettings LoadInputSettings(const std::string & project_path) = 0;

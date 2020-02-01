@@ -3,6 +3,7 @@
 #include "OSE-Core/Resources/FileHandlingUtil.h"
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Project/ProjectSettings.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Entity/Entity.h"
@@ -75,6 +76,9 @@ namespace ose::project
 		//first, load the manifest
 		std::unique_ptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
 
+		// Then, load the project settings
+		ProjectSettings project_settings = LoadProjectSettings(project_path);
+
 		//then, load the scene declerations
 		std::unique_ptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
 
@@ -88,7 +92,7 @@ namespace ose::project
 		ControlSettings control_settings = LoadPersistentControls(project_path);
 
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations, input_settings, control_settings);
+		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings);
 
 		return proj;
 	}
@@ -233,9 +237,69 @@ namespace ose::project
 	}
 
 
-	void ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
+	ProjectSettings ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
 	{
-		//TODO
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string settings_path { project_path + "/settings.xml" };
+		ProjectSettings settings;
+
+		try
+		{
+			doc = LoadXmlFile(settings_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return settings;
+		}
+
+		auto settings_node = doc->first_node("settings");
+		if(!settings_node)
+			return settings;
+
+		// Process the rendering engine settings
+		auto rendering_node = settings_node->first_node("rendering");
+		if(rendering_node)
+		{
+			auto projection_node = rendering_node->first_node("projection");
+			if(projection_node)
+			{
+				// TODO - Ensure 0 < znear < zfar
+				try
+				{
+					auto type_attrib = projection_node->first_attribute("type");
+					if(type_attrib != nullptr)
+					{
+						int type = std::stoi(type_attrib->value());
+						if(type == 0 || type == 1)
+							settings.rendering_settings_.projection_mode_ = static_cast<EProjectionMode>(type);
+						else
+							ERROR_LOG("Error: Projection mode must be in range [0, 1]");
+					}
+
+					auto znear_attrib = projection_node->first_attribute("znear");
+					if(znear_attrib != nullptr)
+					{
+						float znear = std::stof(znear_attrib->value());
+						settings.rendering_settings_.znear_ = znear;
+					}
+
+					auto zfar_attrib = projection_node->first_attribute("zfar");
+					if(zfar_attrib != nullptr)
+					{
+						float zfar = std::stof(zfar_attrib->value());
+						settings.rendering_settings_.zfar_ = zfar;
+					}
+				}
+				catch(...)
+				{
+					ERROR_LOG("Error: Failed to parse rendering::projection settings");
+				}
+			}
+		}
+
+		return settings;
 	}
 
 

@@ -193,6 +193,7 @@
     <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\MeshMetaData.h" />
+    <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
     <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
     <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />

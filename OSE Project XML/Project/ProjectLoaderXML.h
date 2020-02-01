@@ -11,6 +11,7 @@ namespace ose
 {
 	struct InputSettings;
 	struct ControlSettings;
+	struct ProjectSettings;
 }
 
 namespace ose::project
@@ -28,7 +29,7 @@ namespace ose::project
 		std::unique_ptr<std::map<std::string, std::string>> LoadSceneDeclerations(const std::string & project_path);
 		std::unique_ptr<Tag> LoadTagDefinitions(const std::string & project_path);
 
-		void LoadProjectSettings(const std::string & project_path);
+		ProjectSettings LoadProjectSettings(const std::string & project_path);
 		InputSettings LoadInputSettings(const std::string & project_path);
 		ControlSettings LoadPersistentControls(const std::string & project_path);
 
