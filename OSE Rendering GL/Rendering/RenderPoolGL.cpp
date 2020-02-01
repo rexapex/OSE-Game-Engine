@@ -636,6 +636,28 @@ namespace ose::rendering
 	// Remove a mesh renderer component from the render pool
 	void RenderPoolGL::RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr)
 	{
-	
+		// Try to find the render object the mesh renderer belongs to
+		for(auto & p : render_passes_) {
+			for(auto & s : p.shader_groups_) {
+				for(auto it = s.render_objects_.begin(); it != s.render_objects_.end(); ++it) {
+					if(it->type_ == ERenderObjectType::MESH_RENDERER)
+					{
+						// Find the mesh renderer data within the render object
+						uint32_t object_id { std::any_cast<uint32_t>(mr->GetEngineData()) };
+
+						// Can remove the entire render object since each mesh renderer has its own render object
+						// TODO - Change this once instancing is implemented
+						if(it->component_ids_[0] == object_id)
+						{
+							glDeleteBuffers(1, &it->vbo_);
+							glDeleteBuffers(1, &it->ibo_);
+							glDeleteVertexArrays(1, &it->vao_);
+							s.render_objects_.erase(it);
+							return;
+						}
+					}
+				}
+			}
+		}
 	}
 }

@@ -212,6 +212,10 @@ namespace ose
 		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
 			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
 
+		// Remove mesh renderer components from the render pool
+		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
+
 		// Remove custom components from the script pool
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
 			scripting_engine_->GetScriptPool().RemoveCustomComponent(comp);
