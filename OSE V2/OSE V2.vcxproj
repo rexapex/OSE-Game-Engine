@@ -189,6 +189,9 @@
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshMetaData.h" />
     <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
     <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
@@ -521,7 +524,7 @@
     <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
-    <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoader.h" />
     <ClInclude Include="OSE-Core\Resources\ResourceManager.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\Texture.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoader.h" />
@@ -694,7 +697,7 @@
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\FileHandlingUtil.cpp" />
-    <ClCompile Include="OSE-Core\Resources\Model\ModelLoader.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\TextureLoader.cpp" />
