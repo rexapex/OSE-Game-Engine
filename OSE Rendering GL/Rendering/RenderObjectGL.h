@@ -14,8 +14,9 @@ namespace ose::rendering
 	{
 		ERenderObjectType type_;
 
-		GLuint vbo_;
-		GLuint vao_;
+		GLuint vbo_ { 0 };
+		GLuint ibo_ { 0 };
+		GLuint vao_ { 0 };
 
 		GLenum render_primitive_ { GL_TRIANGLES };
 		GLint first_ { 0 };

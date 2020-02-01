@@ -11,6 +11,7 @@
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
+#include "OSE-Core/Entity/Component/MeshRenderer.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
 #include "OSE-Core/EngineReferences.h"
@@ -167,6 +168,16 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
+		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised MeshRenderer");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddMeshRenderer(entity.GetGlobalTransform(), comp);
+		}
+
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
@@ -200,6 +211,10 @@ namespace ose
 		// Remove tile renderer components from the render pool
 		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
 			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
+
+		// Remove mesh renderer components from the render pool
+		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
 
 		// Remove custom components from the script pool
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())

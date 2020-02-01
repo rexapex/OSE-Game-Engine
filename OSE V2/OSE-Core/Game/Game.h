@@ -18,6 +18,7 @@ namespace ose
 	class Entity;
 	class Component;
 	class SpriteRenderer;
+	class MeshRenderer;
 	class ScriptingEngine;
 	struct CustomObject;
 

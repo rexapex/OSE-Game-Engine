@@ -12,6 +12,9 @@ namespace ose
 	class TilemapLoader;
 	class Tilemap;
 
+	class MeshLoader;
+	class Mesh;
+
 	class ResourceManager
 	{
 	public:
@@ -77,6 +80,20 @@ namespace ose
 		// IMPORANT - can be called from any thread (TODO)
 		void RemoveTilemap(const std::string & name);
 
+		// Get the mesh from the resource manager
+		// Given the name of the mesh, return the mesh object
+		unowned_ptr<Mesh const> GetMesh(const std::string & name);
+
+		// Adds the mesh at path to the list of active meshes, the mesh must be in the project's resources directory
+		// Path is relative to ProjectPath/Resources
+		// If no name is given, the relative path will be used
+		// IMPORTANT - Can be called from any thread (TODO)
+		void AddMesh(const std::string & path, const std::string & name = "");
+
+		// Remove the mesh from the meshes list and free the meshes resources
+		// IMPORTANT - Can be called from any thread (TODO)
+		void RemoveMesh(const std::string & name);
+
 	private:
 		// the root path of the currently loaded project
 		std::string project_path_;
@@ -97,7 +114,13 @@ namespace ose
 		// Maps tilemap name to tilemap object
 		std::map<std::string, std::unique_ptr<Tilemap>> tilemaps_;
 
-		// The TilemapLoader object used for loading tilemap from filees
+		// The TilemapLoader object used for loading tilemap from files
 		std::unique_ptr<TilemapLoader> tilemap_loader_;
+
+		// Maps mesh name to mesh object
+		std::map<std::string, std::unique_ptr<Mesh>> meshes_;
+
+		// The MeshLoader object used for loading meshes from files
+		std::unique_ptr<MeshLoader> mesh_loader_;
 	};
 }

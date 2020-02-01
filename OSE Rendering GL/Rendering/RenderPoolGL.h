@@ -5,7 +5,7 @@
 
 namespace ose::rendering
 {
-	class RenderPoolGL : public RenderPool
+	class RenderPoolGL final : public RenderPool
 	{
 	public:
 		RenderPoolGL();
@@ -15,16 +15,22 @@ namespace ose::rendering
 		void Init();
 
 		// Add a sprite renderer component to the render pool
-		void AddSpriteRenderer(ose::ITransform const & t, unowned_ptr<SpriteRenderer> sr);
+		void AddSpriteRenderer(ose::ITransform const & t, unowned_ptr<SpriteRenderer> sr) override;
 
 		// Add a tile renderer component to the render pool
-		void AddTileRenderer(ose::ITransform const & t, unowned_ptr<TileRenderer> tr);
+		void AddTileRenderer(ose::ITransform const & t, unowned_ptr<TileRenderer> tr) override;
+
+		// Add a mesh renderer component to the render pool
+		void AddMeshRenderer(ose::ITransform const & t, unowned_ptr<MeshRenderer> mr) override;
 
 		// Remove a sprite renderer component from the render pool
 		void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) override;
 
 		// Remove a tile renderer component from the render pool
 		void RemoveTileRenderer(unowned_ptr<TileRenderer> tr) override;
+
+		// Remove a mesh renderer component from the render pool
+		void RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr) override;
 
 		// Get the list of render passes s.t. they can be rendered by the rendering engine
 		std::vector<RenderPassGL> const & GetRenderPasses() const { return render_passes_; }

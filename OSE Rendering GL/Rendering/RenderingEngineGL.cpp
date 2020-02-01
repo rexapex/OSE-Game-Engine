@@ -53,7 +53,9 @@ namespace ose::rendering
 				glUseProgram(shader_group.shader_prog_);
 
 				// Pass the view projection matrix to the shader program
-				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix_));
+				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
+				glm::mat4 view_proj = projection_matrix_ * camera;
+				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
@@ -67,12 +69,18 @@ namespace ose::rendering
 						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
 						// Bind the texture
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
+						if(i < render_object.textures_.size())
+						{
+							glActiveTexture(GL_TEXTURE0);
+							glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
+						}
 
 						// Render the object
 						glBindVertexArray(render_object.vao_);
-						glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						if(render_object.ibo_ == 0)
+							glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						else
+							glDrawElements(render_object.render_primitive_, render_object.count_, GL_UNSIGNED_INT, 0);
 					}
 				}
 			}
