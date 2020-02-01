@@ -576,6 +576,9 @@ namespace ose::project
 				float sx { 1.0f };
 				float sy { 1.0f };
 				float sz { 1.0f };
+				float rx { 0.0f };
+				float ry { 0.0f };
+				float rz { 0.0f };
 
 				auto x_attrib = component_node->first_attribute("x");
 				if(x_attrib != nullptr)
@@ -601,8 +604,21 @@ namespace ose::project
 				if(sz_attrib != nullptr)
 					sz = std::stof(sz_attrib->value());
 
+				auto rx_attrib = component_node->first_attribute("rx");
+				if(rx_attrib != nullptr)
+					rx = std::stof(rx_attrib->value());
+
+				auto ry_attrib = component_node->first_attribute("ry");
+				if(ry_attrib != nullptr)
+					ry = std::stof(ry_attrib->value());
+
+				auto rz_attrib = component_node->first_attribute("rz");
+				if(rz_attrib != nullptr)
+					rz = std::stof(rz_attrib->value());
+
 				new_entity->Translate(x, y, z);
 				new_entity->Scale(sx, sy, sz);
+				new_entity->RotateDeg(rx, ry, rz);
 			}
 			catch(...)
 			{
