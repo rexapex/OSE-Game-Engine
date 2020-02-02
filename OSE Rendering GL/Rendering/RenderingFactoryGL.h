@@ -19,7 +19,7 @@ namespace ose::rendering
 		RenderingFactoryGL(RenderingFactoryGL &&) = default;
 		RenderingFactoryGL & operator=(RenderingFactoryGL &&) = default;
 
-		virtual std::unique_ptr<RenderingEngine> NewRenderingEngine();
+		virtual std::unique_ptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight);
 		virtual std::unique_ptr<Texture> NewTexture(std::string const & name, std::string const & path);
 	};
 }

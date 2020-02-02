@@ -3,14 +3,15 @@
 
 namespace ose::rendering
 {
-	RenderingEngineGL::RenderingEngineGL() : RenderingEngine()
+	RenderingEngineGL::RenderingEngineGL(int fbwidth, int fbheight) : RenderingEngine(fbwidth, fbheight)
 	{
 		// NOTE - If RenderingEngineGL is made multithreadable, may need to move this
 		// TODO - Only load GLEW if used OpenGL functions are not available
 		InitGlew();
 
 		// Initialise the render pool only once OpenGL has been intialised
-		render_pool_.Init();
+		render_pool_.Init(fbwidth, fbheight);
+		UpdateProjectionMatrix();
 
 		// Set the default OpenGL settings
 		glCullFace(GL_BACK);

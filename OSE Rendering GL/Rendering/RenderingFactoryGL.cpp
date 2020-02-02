@@ -5,9 +5,9 @@
 
 namespace ose::rendering
 {
-	std::unique_ptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine()
+	std::unique_ptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine(int fbwidth, int fbheight)
 	{
-		return std::make_unique<RenderingEngineGL>();
+		return std::make_unique<RenderingEngineGL>(fbwidth, fbheight);
 	}
 
 	std::unique_ptr<Texture> RenderingFactoryGL::NewTexture(std::string const & name, std::string const & path)

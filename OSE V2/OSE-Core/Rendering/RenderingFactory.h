@@ -15,7 +15,7 @@ namespace ose
 		RenderingFactory(RenderingFactory &&) = default;
 		RenderingFactory & operator=(RenderingFactory &&) = default;
 
-		virtual std::unique_ptr<RenderingEngine> NewRenderingEngine() = 0;
+		virtual std::unique_ptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight) = 0;
 		virtual std::unique_ptr<Texture> NewTexture(std::string const & name, std::string const & path) = 0;
 	};
 }

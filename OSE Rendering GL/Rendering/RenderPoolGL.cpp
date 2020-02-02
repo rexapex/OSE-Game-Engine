@@ -34,7 +34,7 @@ namespace ose::rendering
 	}
 
 	// Initialise the render pool
-	void RenderPoolGL::Init()
+	void RenderPoolGL::Init(int fbwidth, int fbheight)
 	{
 		// TODO - Remove
 		{
@@ -278,6 +278,209 @@ namespace ose::rendering
 			sg.shader_prog_ = prog;
 			render_passes_[0].shader_groups_.push_back(sg);
 		}
+		
+		// Create a deferred shading render pass
+		{
+			// Create the fbo
+			GLuint fbo;
+			glGenFramebuffers(1, &fbo);
+			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
+
+			// Create a position buffer attachment
+			GLuint pos_buffer;
+			glGenTextures(1, &pos_buffer);
+			glBindTexture(GL_TEXTURE_2D, pos_buffer);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pos_buffer, 0);
+
+			// Create a colour buffer attachment
+			GLuint norm_buffer;
+			glGenTextures(1, &norm_buffer);
+			glBindTexture(GL_TEXTURE_2D, norm_buffer);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, norm_buffer, 0);
+
+			// Create a colour + specular buffer attachment
+			GLuint col_buffer;
+			glGenTextures(1, &col_buffer);
+			glBindTexture(GL_TEXTURE_2D, col_buffer);
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, col_buffer, 0);
+
+			// Tell OpenGL which attachments to use for rendering
+			GLenum attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
+			glDrawBuffers(3, attachments);
+
+			// Create the rbo for storing rendering depth info
+			GLuint rbo_depth;
+			glGenRenderbuffers(1, &rbo_depth);
+			glBindRenderbuffer(GL_RENDERBUFFER, rbo_depth);
+			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, fbwidth, fbheight);
+			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo_depth);
+			glBindRenderbuffer(GL_RENDERBUFFER, 0);
+			
+			// Check the framebuffer was created successful
+			if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
+				LOG("Deferred shading framebuffer creation - SUCCESS");
+			else
+				LOG("Deferred shading framebuffer creation - FAILURE - " << glGetError());
+			glBindFramebuffer(GL_FRAMEBUFFER, 0);
+
+			// Create the VAO and VBO for rendering the fbo
+			float vertices[] =
+			{
+				-1.0f,  1.0f,  0.0f, 1.0f,
+				-1.0f, -1.0f,  0.0f, 0.0f,
+				1.0f, -1.0f,  1.0f, 0.0f,
+
+				-1.0f,  1.0f,  0.0f, 1.0f,
+				1.0f, -1.0f,  1.0f, 0.0f,
+				1.0f,  1.0f,  1.0f, 1.0f
+			};
+
+			// Create the vao and vbo for rendering the frambuffer
+			GLuint vao { 0 };
+			GLuint vbo { 0 };
+			glGenVertexArrays(1, &vao);
+			glGenBuffers(1, &vbo);
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices, GL_STATIC_DRAW);
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			// Builds the deferred rendering shader
+			GLuint vert = glCreateShader(GL_VERTEX_SHADER);
+			char const * vert_source =
+				"#version 330\n"
+				"layout (location = 0) in vec2 position;\n"
+				"layout (location = 1) in vec2 texCoords;\n"
+				"out vec2 TexCoords;\n"
+				"void main() {\n"
+				"	gl_Position = vec4(position.x, position.y, 0.0, 1.0);\n"
+				"	TexCoords = texCoords;\n"
+				"}\n"
+				;
+			glShaderSource(vert, 1, &vert_source, NULL);
+			glCompileShader(vert);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(vert, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
+				std::string msg(errorLog.begin(), errorLog.end());
+				ERROR_LOG(msg);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(vert); // Don't leak the shader.
+				return;
+			}
+
+			GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
+			char const * frag_source =
+				"#version 330\n"
+				"in vec2 TexCoords;\n"
+				"out vec4 outColour;\n"
+				"uniform sampler2D gPos;\n"
+				"uniform sampler2D gNormal;\n"
+				"uniform sampler2D gColourSpec;\n"
+				"void main() {\n"
+				"	vec3 fragPos	   = texture(gPos, TexCoords).rgb;\n"
+				"	vec3 surfaceNormal = texture(gNormal, TexCoords).rgb;\n"
+				"	vec4 texColour	   = vec4(texture(gColourSpec, TexCoords).rgb, 1.0);\n"
+				"	float shininess	   = texture(gColourSpec, TexCoords).a;\n"
+				"	vec4 colour = texColour\n"
+				"	float gamma = 2.2;\n"
+				"	colour.rgb = pow(colour.rgb, vec3(1.0/gamma));	//Apply gamma correction\n"
+				"	outColour = colour;\n"
+				"}\n"
+				;
+			glShaderSource(frag, 1, &frag_source, NULL);
+			glCompileShader(frag);
+
+			isCompiled = 0;
+			glGetShaderiv(frag, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(frag, maxLength, &maxLength, &errorLog[0]);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(frag); // Don't leak the shader.
+				return;
+			}
+
+			GLuint prog = glCreateProgram();
+			glAttachShader(prog, vert);
+			glAttachShader(prog, frag);
+			glLinkProgram(prog);
+
+			GLint isLinked = 0;
+			glGetProgramiv(prog, GL_LINK_STATUS, (int *)&isLinked);
+			if (isLinked == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
+
+				// We don't need the program anymore.
+				glDeleteProgram(prog);
+				// Don't leak shaders either.
+				glDeleteShader(vert);
+				glDeleteShader(frag);
+
+				// Use the infoLog as you see fit.
+
+				// In this simple program, we'll just leave
+				return;
+			}
+
+			glDetachShader(prog, vert);
+			glDetachShader(prog, frag);
+			glDeleteShader(vert);
+			glDeleteShader(frag);
+
+			glUseProgram(prog);
+			glUniform1i(glGetUniformLocation(prog, "gPos"), 0);
+			glUniform1i(glGetUniformLocation(prog, "gNormal"), 1);
+			glUniform1i(glGetUniformLocation(prog, "gColourSpec"), 2);
+
+			ShaderGroupGL sg;
+			sg.shader_prog_ = prog;
+			render_passes_[0].shader_groups_.push_back(sg);
+		}
+	}
+
+	// Set the size of the framebuffer (required if render pool contains deferred shading render pass)
+	void RenderPoolGL::SetFramebufferSize(int width, int height)
+	{
+		// Update the deferred shading framebuffer object
+		// TODO
 	}
 
 	// Add a sprite renderer component to the render pool

@@ -33,9 +33,8 @@ namespace ose
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
+		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
 		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
-		rendering_engine_->SetFramebufferSize(fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 

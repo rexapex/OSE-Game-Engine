@@ -10,7 +10,7 @@ namespace ose::rendering
 	class RenderingEngineGL final : public RenderingEngine
 	{
 	public:
-		RenderingEngineGL();
+		RenderingEngineGL(int fbwidth, int fbheight);
 		~RenderingEngineGL();
 
 		// Engine::update method overriden

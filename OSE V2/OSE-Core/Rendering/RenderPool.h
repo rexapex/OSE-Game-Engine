@@ -14,6 +14,9 @@ namespace ose
 		RenderPool();
 		virtual ~RenderPool();
 
+		// Set the size of the framebuffer (required if render pool contains deferred shading render pass)
+		virtual void SetFramebufferSize(int width, int height) = 0;
+
 		// Add a sprite renderer component to the render pool
 		virtual void AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr) = 0;
 

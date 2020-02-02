@@ -12,7 +12,10 @@ namespace ose::rendering
 		~RenderPoolGL();
 
 		// Initialise the render pool
-		void Init();
+		void Init(int fbwidth, int fbheight);
+
+		// Set the size of the framebuffer (required if render pool contains deferred shading render pass)
+		void SetFramebufferSize(int width, int height) override;
 
 		// Add a sprite renderer component to the render pool
 		void AddSpriteRenderer(ose::ITransform const & t, unowned_ptr<SpriteRenderer> sr) override;

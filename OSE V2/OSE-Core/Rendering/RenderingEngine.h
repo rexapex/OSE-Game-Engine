@@ -15,7 +15,7 @@ namespace ose
 	class RenderingEngine
 	{
 	public:
-		RenderingEngine();
+		RenderingEngine(int fbwidth, int fbheight);
 		virtual ~RenderingEngine();
 
 		/// called every game update for every data object in pool
@@ -37,10 +37,11 @@ namespace ose
 		// NOTE - No render pool object exists in generic RenderEngine, required pool must be member of sub-class
 		virtual RenderPool & GetRenderPool() = 0;
 
-	private:
+	protected:
 		// update the projection matrix based on the projection mode
 		void UpdateProjectionMatrix();
 
+	private:
 		// how the scene will be projected, e.g. ORTHOGRAPHIC, PERSPECTIVE
 		EProjectionMode projection_mode_;
 

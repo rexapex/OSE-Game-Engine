@@ -4,7 +4,7 @@
 
 namespace ose
 {
-	RenderingEngine::RenderingEngine() : projection_mode_(EProjectionMode::PERSPECTIVE), fbwidth_(0), fbheight_(0)
+	RenderingEngine::RenderingEngine(int fbwidth, int fbheight) : projection_mode_(EProjectionMode::PERSPECTIVE), fbwidth_(fbwidth), fbheight_(fbheight)
 	{
 
 	}
@@ -48,6 +48,7 @@ namespace ose
 	{
 		this->fbwidth_ = width;
 		this->fbheight_ = height;
+		this->GetRenderPool().SetFramebufferSize(width, height);
 		this->UpdateProjectionMatrix();
 	}
 
