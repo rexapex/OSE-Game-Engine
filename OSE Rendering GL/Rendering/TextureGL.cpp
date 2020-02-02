@@ -3,12 +3,6 @@
 
 namespace ose::rendering
 {
-	// bind the texture ready for rendering
-	void TextureGL::Bind() const
-	{
-		glBindTexture(GL_TEXTURE_2D, gl_tex_id_);
-	}
-
 	// create the texture in GPU memory
 	// IMPORTANT - cannot be called from constructor since the ResourceLoader is multithreaded but the rendering context is not
 	void TextureGL::CreateTexture()
