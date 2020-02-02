@@ -45,8 +45,6 @@ namespace ose::rendering
 	// Called every game update to render all object in the pool
 	void RenderingEngineGL::Update()
 	{
-		int r = 0;
-
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
 			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
@@ -57,12 +55,9 @@ namespace ose::rendering
 				glUseProgram(shader_group.shader_prog_);
 
 				// Pass the view projection matrix to the shader program
-				if(r == 0)
-				{
-					glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
-					glm::mat4 view_proj = projection_matrix_ * camera;
-					glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
-				}
+				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
+				glm::mat4 view_proj = projection_matrix_ * camera;
+				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
@@ -70,11 +65,8 @@ namespace ose::rendering
 					for(size_t i = 0; i < render_object.transforms_.size(); ++i)
 					{
 						// Pass the world transform of the object to the shader program
-						if(r == 0)
-						{
-							glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
-							glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
-						}
+						glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
+						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
 						// Bind the textures
 						for(size_t t = 0; t < render_object.texture_stride_; ++t)
@@ -92,8 +84,6 @@ namespace ose::rendering
 					}
 				}
 			}
-
-			++r;
 		}
 		glBindVertexArray(0);
 	}

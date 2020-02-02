@@ -232,7 +232,7 @@ namespace ose::rendering
 			render_passes_.emplace_back();
 			ShaderGroupGL s;
 			s.shader_prog_ = prog;
-			render_passes_.back().clear_ = GL_COLOR_BUFFER_BIT;
+			//render_passes_.back().clear_ = GL_COLOR_BUFFER_BIT;	// TODO - Try this with GL_DEPTH_TEST disabled
 
 			GLenum primitive { GL_TRIANGLES };
 			GLint first { 0 };
@@ -522,8 +522,8 @@ namespace ose::rendering
 	// Set the size of the framebuffer (required if render pool contains deferred shading render pass)
 	void RenderPoolGL::SetFramebufferSize(int width, int height)
 	{
-		// Update the deferred shading framebuffer object
-		// TODO
+		// Update the deferred shading framebuffer objects
+		// TODO - Recreate each framebuffer object and attachments then update all render passes to use the correct fbos
 	}
 
 	// Add a sprite renderer component to the render pool
