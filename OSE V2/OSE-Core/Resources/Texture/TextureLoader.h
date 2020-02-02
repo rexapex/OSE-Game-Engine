@@ -18,7 +18,7 @@ namespace ose
 
 		//loads the texture and sets the values of img_data, width and height
 		//path is absolute and is guaranteed to exist
-		virtual void LoadTexture(const std::string & path, IMGDATA * img_data, int32_t * width, int32_t * height) = 0;
+		virtual void LoadTexture(const std::string & path, IMGDATA * img_data, int32_t * width, int32_t * height, int32_t * channels) = 0;
 
 		//free resources used by the texture (img_data)
 		virtual void FreeTexture(IMGDATA img_data) = 0;

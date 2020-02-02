@@ -124,10 +124,13 @@ namespace ose
 				tex->SetMetaData(meta_data);
 
 				// TODO - do the loading with multi-threading
-				int32_t w, h;
+				int32_t w, h, channels;
 				IMGDATA d;
-				texture_loader_->LoadTexture(abs_path, &d, &w, &h);
-				tex->SetImgData(d, w, h);
+				texture_loader_->LoadTexture(abs_path, &d, &w, &h, &channels);
+				if(d == NULL)
+					tex->SetImgData(NULL, 0, 0, 0);
+				else
+					tex->SetImgData(d, w, h, channels);
 			}
 			else
 			{

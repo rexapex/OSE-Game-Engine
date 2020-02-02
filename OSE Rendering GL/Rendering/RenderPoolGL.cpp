@@ -213,9 +213,8 @@ namespace ose::rendering
 				"void main() {\n"
 				"	fragColor = texture(texSampler, vertexUV);\n"
 				//"	float gamma = 2.2;\n"
-				//"	fragColor.rgb\n"
 				//"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
-				"	fragColor.a = 1.0;\n"
+				//"	fragColor.a = 1.0;\n"
 				//"	fragColor = vec4(1, 0, 0, 1);\n"
 				"}\n"
 				;
