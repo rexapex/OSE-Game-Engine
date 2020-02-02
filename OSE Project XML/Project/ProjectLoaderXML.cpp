@@ -750,7 +750,7 @@ namespace ose::project
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
 			// Optionally has color attributes
-			glm::vec3 color { 1.0f, 1.0f, 1.0f };
+			glm::vec3 color { 0.0f, 0.0f, 0.0f };
 			auto color_r_attrib = component_node->first_attribute("color_r");
 			auto color_g_attrib = component_node->first_attribute("color_g");
 			auto color_b_attrib = component_node->first_attribute("color_b");

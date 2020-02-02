@@ -3,6 +3,7 @@
 #include "OSE-Core/Math/ITransform.h"
 #include "RenderPassGL.h"
 #include "OSE-Core/Math/Transform.h"
+#include "Lights/PointLightData.h"
 
 namespace ose::rendering
 {
@@ -27,6 +28,9 @@ namespace ose::rendering
 		// Add a mesh renderer component to the render pool
 		void AddMeshRenderer(ose::ITransform const & t, unowned_ptr<MeshRenderer> mr) override;
 
+		// Add a point light component to the render pool
+		void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) override;
+
 		// Remove a sprite renderer component from the render pool
 		void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) override;
 
@@ -36,12 +40,21 @@ namespace ose::rendering
 		// Remove a mesh renderer component from the render pool
 		void RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr) override;
 
+		// Remove a point light component from the render pool
+		void RemovePointLight(unowned_ptr<PointLight> pl) override;
+
 		// Get the list of render passes s.t. they can be rendered by the rendering engine
 		std::vector<RenderPassGL> const & GetRenderPasses() const { return render_passes_; }
+
+		// Get the list of point lights s.t. they can be rendered by the rendering engine
+		std::vector<PointLightData> const & GetPointLights() const { return point_lights_; }
 
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update
 		std::vector<RenderPassGL> render_passes_;
+
+		// List of all dynamic point lights
+		std::vector<PointLightData> point_lights_;
 
 		// Dummy transform used by deferred shaders
 		Transform deferred_shader_transform_;

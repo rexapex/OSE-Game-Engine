@@ -6,6 +6,8 @@
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
 
+#include "OSE-Core/Entity/Component/PointLight.h"
+
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
 
@@ -155,20 +157,31 @@ namespace ose::rendering
 			char const * frag_source =
 				"#version 330\n"
 				"in vec2 TexCoords;\n"
-				"out vec4 outColour;\n"
+				"out vec4 outColor;\n"
 				"uniform sampler2D gPos;\n"
 				"uniform sampler2D gNormal;\n"
 				"uniform sampler2D gColourSpec;\n"
+				"struct PointLight {\n"
+				"	vec4 position;\n"
+				"	vec4 color;\n"
+				"	float intensity;\n"
+				"};\n"
+				"uniform PointLight pointLights[16];\n"
+				"uniform int numPointLights;\n"
 				"void main() {\n"
 				"	vec3 fragPos	   = texture(gPos, TexCoords).rgb;\n"
 				"	vec3 surfaceNormal = texture(gNormal, TexCoords).rgb;\n"
-				"	vec4 texColour	   = vec4(texture(gColourSpec, TexCoords).rgb, 1.0);\n"
+				"	vec4 texColor	   = vec4(texture(gColourSpec, TexCoords).rgb, 1.0);\n"
 				"	float shininess	   = texture(gColourSpec, TexCoords).a;\n"
-				"	vec4 colour = texColour;\n"
+				"	vec4 color = vec4(0, 0, 0, 1);\n"
+				"	for(int i = 0; i < 16 && i < numPointLights; ++i) {\n"
+				"		color += pointLights[i].color;\n"
+				"	}\n"
+				"	color *= texColor;\n"
 				//"	float gamma = 2.2;\n"
 				//"	colour.rgb = pow(colour.rgb, vec3(1.0/gamma));\n"
 				//"	colour = vec4(1, 1, 0, 1);\n"
-				"	outColour = colour;\n"
+				"	outColor = color;\n"
 				"}\n"
 				;
 			glShaderSource(frag, 1, &frag_source, NULL);
@@ -831,6 +844,18 @@ namespace ose::rendering
 		mr->SetEngineData(object_id);
 	}
 
+	// Add a point light component to the render pool
+	void RenderPoolGL::AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl)
+	{
+		// TODO - Update the position of the light data when the point light's entity moves
+
+		PointLightData data;
+		data.position_ = glm::vec4(t.GetPosition(), 0.0);
+		data.color_ = glm::vec4(pl->GetColor(), 0.0);
+		data.intensity_ = pl->GetIntensity();
+		point_lights_.push_back(data);
+	}
+
 	// Remove a sprite renderer component from the render pool
 	void RenderPoolGL::RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr)
 	{
@@ -925,5 +950,11 @@ namespace ose::rendering
 				}
 			}
 		}
+	}
+
+	// Remove a point light component from the render pool
+	void RenderPoolGL::RemovePointLight(unowned_ptr<PointLight> pl)
+	{
+		// TODO
 	}
 }

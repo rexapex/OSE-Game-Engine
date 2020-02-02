@@ -47,12 +47,24 @@ namespace ose::rendering
 	{
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
+			// Bind the fbo and clear the required buffers
 			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
 			glClear(render_pass.clear_);
+
 			for(auto const & shader_group : render_pass.shader_groups_)
 			{
 				// Bind the shader used by the shader group
 				glUseProgram(shader_group.shader_prog_);
+
+				// Pass the lights to the shader program
+				glUniform1i(glGetUniformLocation(shader_group.shader_prog_, "numPointLights"), std::min(static_cast<int>(render_pool_.GetPointLights().size()), 16));
+				for(size_t l = 0; l < render_pool_.GetPointLights().size() && l < 16; l++)
+				{
+					auto const & light = render_pool_.GetPointLights()[l];
+					glUniform4f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].position"}.c_str()), light.position_.x, light.position_.y, light.position_.z, light.position_.w);
+					glUniform4f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].color"}.c_str()), light.color_.x, light.color_.y, light.color_.z, light.color_.w);
+					glUniform1f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].intensity"}.c_str()), light.intensity_);
+				}
 
 				// Pass the view projection matrix to the shader program
 				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});

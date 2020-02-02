@@ -7,6 +7,7 @@ namespace ose
 	class SpriteRenderer;
 	class TileRenderer;
 	class MeshRenderer;
+	class PointLight;
 
 	class RenderPool
 	{
@@ -26,6 +27,9 @@ namespace ose
 		// Add a mesh renderer component to the render pool
 		virtual void AddMeshRenderer(ITransform const & t, unowned_ptr<MeshRenderer> mr) = 0;
 
+		// Add a point light component to the render pool
+		virtual void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) = 0;
+
 		// Remove a sprite renderer component from the render pool
 		virtual void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) = 0;
 
@@ -34,6 +38,9 @@ namespace ose
 
 		// Remove a mesh renderer component from the render pool
 		virtual void RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr) = 0;
+
+		// Remove a point light component from the render pool
+		virtual void RemovePointLight(unowned_ptr<PointLight> pl) = 0;
 	};
 }
 
