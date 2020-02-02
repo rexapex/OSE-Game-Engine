@@ -470,9 +470,30 @@ namespace ose::rendering
 			glUniform1i(glGetUniformLocation(prog, "gNormal"), 1);
 			glUniform1i(glGetUniformLocation(prog, "gColourSpec"), 2);
 
-			ShaderGroupGL sg;
-			sg.shader_prog_ = prog;
-			render_passes_[0].shader_groups_.push_back(sg);
+			render_passes_.emplace_back();
+			ShaderGroupGL s;
+			s.shader_prog_ = prog;
+			render_passes_.back().shader_groups_.push_back(s);
+
+			GLenum primitive { GL_QUADS };
+			GLint first { 0 };
+			GLint count { 4 };
+			uint32_t object_id { NextComponentId() };
+			s.render_objects_.emplace_back(
+				std::initializer_list<uint32_t>{ object_id },
+				ERenderObjectType::DEFERRED_QUAD,
+				vbo, vao,
+				primitive, first, count,
+				std::initializer_list<GLuint>{
+					pos_buffer,
+					norm_buffer,
+					col_buffer
+				}
+			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+			//std::initializer_list<ITransform const &>{ t }
+			);
+			// TODO - Remove
+			s.render_objects_.back().transforms_.emplace_back(&deferred_shader_transform_);
 		}
 	}
 
@@ -553,6 +574,7 @@ namespace ose::rendering
 			);
 			// TODO - Remove
 			s.render_objects_.back().transforms_.emplace_back(&t);
+			s.render_objects_.back().texture_stride_ = 1;
 			sr->SetEngineData(object_id);
 		}
 	}
@@ -679,6 +701,7 @@ namespace ose::rendering
 		);
 		// TODO - Remove
 		s.render_objects_.back().transforms_.emplace_back(&t);
+		s.render_objects_.back().texture_stride_ = 1;
 		tr->SetEngineData(object_id);
 	}
 
@@ -782,6 +805,7 @@ namespace ose::rendering
 		// TODO - Remove
 		s.render_objects_.back().ibo_ = ibo;
 		s.render_objects_.back().transforms_.emplace_back(&t);
+		s.render_objects_.back().texture_stride_ = 1; // TODO - Change to num textures in material
 		mr->SetEngineData(object_id);
 	}
 

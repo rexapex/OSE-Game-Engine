@@ -27,6 +27,7 @@ namespace ose::rendering
 
 		// TODO - Implement stride (or something similar) to determine which textures belong to same instance within render object
 		std::vector<GLuint> textures_;
+		GLuint texture_stride_ { 0 };
 
 		// TODO - Experiment with handling transforms differently
 		// TODO - Replace with pointer to glm::mat4 s.t. changes made to entity transform immediately have effect on render object

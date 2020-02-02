@@ -2,6 +2,7 @@
 #include "OSE-Core/Rendering/RenderPool.h"
 #include "OSE-Core/Math/ITransform.h"
 #include "RenderPassGL.h"
+#include "OSE-Core/Math/Transform.h"
 
 namespace ose::rendering
 {
@@ -41,6 +42,9 @@ namespace ose::rendering
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update
 		std::vector<RenderPassGL> render_passes_;
+
+		// Dummy transform used by deferred shaders
+		Transform deferred_shader_transform_;
 
 		// Returns the next available object id
 		static uint32_t NextComponentId()
