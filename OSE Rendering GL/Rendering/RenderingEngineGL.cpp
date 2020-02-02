@@ -15,7 +15,7 @@ namespace ose::rendering
 
 		// Set the default OpenGL settings
 		glCullFace(GL_BACK);
-		glEnable(GL_CULL_FACE);
+		glDisable(GL_CULL_FACE);
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -45,18 +45,24 @@ namespace ose::rendering
 	// Called every game update to render all object in the pool
 	void RenderingEngineGL::Update()
 	{
+		int r = 0;
+
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
+			glClear(render_pass.clear_);
 			for(auto const & shader_group : render_pass.shader_groups_)
 			{
 				// Bind the shader used by the shader group
 				glUseProgram(shader_group.shader_prog_);
 
 				// Pass the view projection matrix to the shader program
-				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
-				glm::mat4 view_proj = projection_matrix_ * camera;
-				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
+				if(r == 0)
+				{
+					glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
+					glm::mat4 view_proj = projection_matrix_ * camera;
+					glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
+				}
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
@@ -64,8 +70,11 @@ namespace ose::rendering
 					for(size_t i = 0; i < render_object.transforms_.size(); ++i)
 					{
 						// Pass the world transform of the object to the shader program
-						glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
-						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
+						if(r == 0)
+						{
+							glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
+							glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
+						}
 
 						// Bind the textures
 						for(size_t t = 0; t < render_object.texture_stride_; ++t)
@@ -83,6 +92,8 @@ namespace ose::rendering
 					}
 				}
 			}
+
+			++r;
 		}
 		glBindVertexArray(0);
 	}

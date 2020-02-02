@@ -36,253 +36,11 @@ namespace ose::rendering
 	// Initialise the render pool
 	void RenderPoolGL::Init(int fbwidth, int fbheight)
 	{
-		// TODO - Remove
-		{
-			// TEST - Builds default 2d shader
-			GLuint vert = glCreateShader(GL_VERTEX_SHADER);
-			// TODO - Possibly replace sampler scaling by scaling the instance transform by the texture size
-			char const * vert_source =
-				"#version 330\n"
-				"layout(location = 0) in vec2 position;\n"
-				"layout(location = 1) in vec2 uv;\n"
-				"out vec2 vertexUV;\n"
-				"uniform mat4 viewProjMatrix;\n"
-				"uniform mat4 worldTransform;\n"
-				"uniform sampler2D texSampler;\n"
-				"void main() {\n"
-				"	vertexUV = uv;\n"
-				"	vec4 samplerSize = vec4(textureSize(texSampler, 0), 1, 1);"
-				"	mat4 samplerScale;"
-				"	samplerScale[0][0] = samplerSize[0];"
-				"	samplerScale[1][1] = samplerSize[1];"
-				"	samplerScale[2][2] = samplerSize[2];"
-				"	samplerScale[3][3] = 1.0;"
-				"	gl_Position = (viewProjMatrix * (worldTransform * samplerScale)) * vec4(position, 0.0, 1.0);\n"
-			//	"	gl_Position = ((viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
-				"}\n"
-				;
-			glShaderSource(vert, 1, &vert_source, NULL);
-			glCompileShader(vert);
+		GLuint fbo;
 
-			GLint isCompiled = 0;
-			glGetShaderiv(vert, GL_COMPILE_STATUS, &isCompiled);
-			if(isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> errorLog(maxLength);
-				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
-				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
-
-				// Provide the infolog in whatever manor you deem best.
-				// Exit with failure.
-				glDeleteShader(vert); // Don't leak the shader.
-				return;
-			}
-
-			GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
-			char const * frag_source =
-				"#version 330\n"
-				"layout(location = 0) out vec4 fragColor;\n"
-				"in vec2 vertexUV;\n"
-				"uniform sampler2D texSampler;\n"
-				"void main() {\n"
-				"	fragColor = texture(texSampler, vertexUV);\n"
-				"	float gamma = 2.2;\n"
-				"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
-				//"	fragColor = vec4(1, 0, 0, 1);\n"
-				"}\n"
-				;
-			glShaderSource(frag, 1, &frag_source, NULL);
-			glCompileShader(frag);
-
-			isCompiled = 0;
-			glGetShaderiv(frag, GL_COMPILE_STATUS, &isCompiled);
-			if(isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> errorLog(maxLength);
-				glGetShaderInfoLog(frag, maxLength, &maxLength, &errorLog[0]);
-
-				// Provide the infolog in whatever manor you deem best.
-				// Exit with failure.
-				glDeleteShader(frag); // Don't leak the shader.
-				return;
-			}
-
-			GLuint prog = glCreateProgram();
-			glAttachShader(prog, vert);
-			glAttachShader(prog, frag);
-			glLinkProgram(prog);
-
-			GLint isLinked = 0;
-			glGetProgramiv(prog, GL_LINK_STATUS, (int *)&isLinked);
-			if (isLinked == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> infoLog(maxLength);
-				glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
-
-				// We don't need the program anymore.
-				glDeleteProgram(prog);
-				// Don't leak shaders either.
-				glDeleteShader(vert);
-				glDeleteShader(frag);
-
-				// Use the infoLog as you see fit.
-
-				// In this simple program, we'll just leave
-				return;
-			}
-
-			glDetachShader(prog, vert);
-			glDetachShader(prog, frag);
-			glDeleteShader(vert);
-			glDeleteShader(frag);
-
-			glUseProgram(prog);
-			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
-
-			render_passes_.emplace_back();
-			ShaderGroupGL sg;
-			sg.shader_prog_ = prog;
-			render_passes_[0].shader_groups_.push_back(sg);
-		}
-
-		// TODO - Remove
-		{
-			// TEST - Builds default 3d shader
-			GLuint vert = glCreateShader(GL_VERTEX_SHADER);
-			char const * vert_source =
-				"#version 330\n"
-				"layout(location = 0) in vec3 position;\n"
-				"layout(location = 1) in vec3 normal;\n"
-				"layout(location = 2) in vec2 uv;\n"
-				"out vec2 vertexUV;\n"
-				"out vec3 vertexNormal;\n"
-				"out vec3 vertexCamSpacePos;\n"
-				"uniform mat4 viewProjMatrix;\n"
-				"uniform mat4 worldTransform;\n"
-				"uniform sampler2D texSampler;\n"
-				"void main() {\n"
-				"	vertexUV = uv;\n"
-				"	vertexCamSpacePos = position;\n"
-				"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
-				"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"
-				"}\n"
-				;
-			glShaderSource(vert, 1, &vert_source, NULL);
-			glCompileShader(vert);
-
-			GLint isCompiled = 0;
-			glGetShaderiv(vert, GL_COMPILE_STATUS, &isCompiled);
-			if(isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> errorLog(maxLength);
-				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
-				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
-
-				// Provide the infolog in whatever manor you deem best.
-				// Exit with failure.
-				glDeleteShader(vert); // Don't leak the shader.
-				return;
-			}
-
-			GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
-			char const * frag_source =
-				"#version 330\n"
-				"layout(location = 0) out vec4 fragColor;\n"
-				"in vec2 vertexUV;\n"
-				"in vec3 vertexNormal;\n"
-				"in vec3 vertexCamSpacePos;\n"
-				"uniform sampler2D texSampler;\n"
-				"void main() {\n"
-				"	fragColor = texture(texSampler, vertexUV);\n"
-				//"	float gamma = 2.2;\n"
-				//"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
-				//"	fragColor.a = 1.0;\n"
-				//"	fragColor = vec4(1, 0, 0, 1);\n"
-				"}\n"
-				;
-			glShaderSource(frag, 1, &frag_source, NULL);
-			glCompileShader(frag);
-
-			isCompiled = 0;
-			glGetShaderiv(frag, GL_COMPILE_STATUS, &isCompiled);
-			if(isCompiled == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> errorLog(maxLength);
-				glGetShaderInfoLog(frag, maxLength, &maxLength, &errorLog[0]);
-
-				// Provide the infolog in whatever manor you deem best.
-				// Exit with failure.
-				glDeleteShader(frag); // Don't leak the shader.
-				return;
-			}
-
-			GLuint prog = glCreateProgram();
-			glAttachShader(prog, vert);
-			glAttachShader(prog, frag);
-			glLinkProgram(prog);
-
-			GLint isLinked = 0;
-			glGetProgramiv(prog, GL_LINK_STATUS, (int *)&isLinked);
-			if (isLinked == GL_FALSE)
-			{
-				GLint maxLength = 0;
-				glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
-
-				// The maxLength includes the NULL character
-				std::vector<GLchar> infoLog(maxLength);
-				glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
-
-				// We don't need the program anymore.
-				glDeleteProgram(prog);
-				// Don't leak shaders either.
-				glDeleteShader(vert);
-				glDeleteShader(frag);
-
-				// Use the infoLog as you see fit.
-
-				// In this simple program, we'll just leave
-				return;
-			}
-
-			glDetachShader(prog, vert);
-			glDetachShader(prog, frag);
-			glDeleteShader(vert);
-			glDeleteShader(frag);
-
-			glUseProgram(prog);
-			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
-
-			ShaderGroupGL sg;
-			sg.shader_prog_ = prog;
-			render_passes_[0].shader_groups_.push_back(sg);
-		}
-		
 		// Create a deferred shading render pass
 		{
 			// Create the fbo
-			GLuint fbo;
 			glGenFramebuffers(1, &fbo);
 			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
 
@@ -324,7 +82,7 @@ namespace ose::rendering
 			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, fbwidth, fbheight);
 			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo_depth);
 			glBindRenderbuffer(GL_RENDERBUFFER, 0);
-			
+
 			// Check the framebuffer was created successful
 			if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
 				LOG("Deferred shading framebuffer creation - SUCCESS");
@@ -406,9 +164,10 @@ namespace ose::rendering
 				"	vec3 surfaceNormal = texture(gNormal, TexCoords).rgb;\n"
 				"	vec4 texColour	   = vec4(texture(gColourSpec, TexCoords).rgb, 1.0);\n"
 				"	float shininess	   = texture(gColourSpec, TexCoords).a;\n"
-				"	vec4 colour = texColour\n"
-				"	float gamma = 2.2;\n"
-				"	colour.rgb = pow(colour.rgb, vec3(1.0/gamma));	//Apply gamma correction\n"
+				"	vec4 colour = texColour;\n"
+				//"	float gamma = 2.2;\n"
+				//"	colour.rgb = pow(colour.rgb, vec3(1.0/gamma));\n"
+				//"	colour = vec4(1, 1, 0, 1);\n"
 				"	outColour = colour;\n"
 				"}\n"
 				;
@@ -473,11 +232,11 @@ namespace ose::rendering
 			render_passes_.emplace_back();
 			ShaderGroupGL s;
 			s.shader_prog_ = prog;
-			render_passes_.back().shader_groups_.push_back(s);
+			render_passes_.back().clear_ = GL_COLOR_BUFFER_BIT;
 
-			GLenum primitive { GL_QUADS };
+			GLenum primitive { GL_TRIANGLES };
 			GLint first { 0 };
-			GLint count { 4 };
+			GLint count { 6 };
 			uint32_t object_id { NextComponentId() };
 			s.render_objects_.emplace_back(
 				std::initializer_list<uint32_t>{ object_id },
@@ -489,11 +248,274 @@ namespace ose::rendering
 					norm_buffer,
 					col_buffer
 				}
-			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
-			//std::initializer_list<ITransform const &>{ t }
+				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+				//std::initializer_list<ITransform const &>{ t }
 			);
 			// TODO - Remove
 			s.render_objects_.back().transforms_.emplace_back(&deferred_shader_transform_);
+			s.render_objects_.back().texture_stride_ = 3;
+			render_passes_.back().shader_groups_.push_back(s);
+		}
+
+		// Insert a render pass before the deferred render pass to render objects to
+		render_passes_.insert(render_passes_.begin(), RenderPassGL{});
+		render_passes_[0].fbo_ = fbo;
+
+		// TODO - Remove
+		{
+			// TEST - Builds default 2d shader
+			GLuint vert = glCreateShader(GL_VERTEX_SHADER);
+			// TODO - Possibly replace sampler scaling by scaling the instance transform by the texture size
+			char const * vert_source =
+				"#version 330\n"
+				"layout(location = 0) in vec2 position;\n"
+				"layout(location = 1) in vec2 uv;\n"
+				"out vec2 vertexUV;\n"
+				"out vec3 vertexCamSpacePos;\n"
+				"uniform mat4 viewProjMatrix;\n"
+				"uniform mat4 worldTransform;\n"
+				"uniform sampler2D texSampler;\n"
+				"void main() {\n"
+				"	vertexUV = uv;\n"
+				"	vertexCamSpacePos = vec3(position, 0);\n"
+				"	vec4 samplerSize = vec4(textureSize(texSampler, 0), 1, 1);"
+				"	mat4 samplerScale;"
+				"	samplerScale[0][0] = samplerSize[0];"
+				"	samplerScale[1][1] = samplerSize[1];"
+				"	samplerScale[2][2] = samplerSize[2];"
+				"	samplerScale[3][3] = 1.0;"
+				"	gl_Position = (viewProjMatrix * (worldTransform * samplerScale)) * vec4(position, 0.0, 1.0);\n"
+			//	"	gl_Position = ((viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
+				"}\n"
+				;
+			glShaderSource(vert, 1, &vert_source, NULL);
+			glCompileShader(vert);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(vert, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
+				std::string msg(errorLog.begin(), errorLog.end());
+				ERROR_LOG(msg);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(vert); // Don't leak the shader.
+				return;
+			}
+
+			GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
+			char const * frag_source =
+				"#version 330\n"
+				"layout(location = 0) out vec3 gPos;\n"
+				"layout(location = 1) out vec3 gNormal;\n"
+				"layout(location = 2) out vec4 gColourSpec;\n"
+				"in vec2 vertexUV;\n"
+				"in vec3 vertexCamSpacePos;\n"
+				"uniform sampler2D texSampler;\n"
+				"void main() {\n"
+				"	gPos = vertexCamSpacePos;\n"
+				"	gNormal = vec3(0, 0, 1)\n;"
+				"	gColourSpec = texture(texSampler, vertexUV);\n"
+				//"	fragColor = texture(texSampler, vertexUV);\n"
+				//"	float gamma = 2.2;\n"
+				//"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
+				//"	fragColor = vec4(1, 0, 0, 1);\n"
+				"}\n"
+				;
+			glShaderSource(frag, 1, &frag_source, NULL);
+			glCompileShader(frag);
+
+			isCompiled = 0;
+			glGetShaderiv(frag, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(frag, maxLength, &maxLength, &errorLog[0]);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(frag); // Don't leak the shader.
+				return;
+			}
+
+			GLuint prog = glCreateProgram();
+			glAttachShader(prog, vert);
+			glAttachShader(prog, frag);
+			glLinkProgram(prog);
+
+			GLint isLinked = 0;
+			glGetProgramiv(prog, GL_LINK_STATUS, (int *)&isLinked);
+			if (isLinked == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
+
+				// We don't need the program anymore.
+				glDeleteProgram(prog);
+				// Don't leak shaders either.
+				glDeleteShader(vert);
+				glDeleteShader(frag);
+
+				// Use the infoLog as you see fit.
+
+				// In this simple program, we'll just leave
+				return;
+			}
+
+			glDetachShader(prog, vert);
+			glDetachShader(prog, frag);
+			glDeleteShader(vert);
+			glDeleteShader(frag);
+
+			glUseProgram(prog);
+			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
+
+			ShaderGroupGL sg;
+			sg.shader_prog_ = prog;
+			render_passes_[0].shader_groups_.push_back(sg);
+		}
+
+		// TODO - Remove
+		{
+			// TEST - Builds default 3d shader
+			GLuint vert = glCreateShader(GL_VERTEX_SHADER);
+			char const * vert_source =
+				"#version 330\n"
+				"layout(location = 0) in vec3 position;\n"
+				"layout(location = 1) in vec3 normal;\n"
+				"layout(location = 2) in vec2 uv;\n"
+				"out vec2 vertexUV;\n"
+				"out vec3 vertexNormal;\n"
+				"out vec3 vertexCamSpacePos;\n"
+				"uniform mat4 viewProjMatrix;\n"
+				"uniform mat4 worldTransform;\n"
+				"uniform sampler2D texSampler;\n"
+				"void main() {\n"
+				"	vertexUV = uv;\n"
+				"	vertexCamSpacePos = position;\n"
+				"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
+				"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"
+				"}\n"
+				;
+			glShaderSource(vert, 1, &vert_source, NULL);
+			glCompileShader(vert);
+
+			GLint isCompiled = 0;
+			glGetShaderiv(vert, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(vert, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
+				std::string msg(errorLog.begin(), errorLog.end());
+				ERROR_LOG(msg);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(vert); // Don't leak the shader.
+				return;
+			}
+
+			GLuint frag = glCreateShader(GL_FRAGMENT_SHADER);
+			char const * frag_source =
+				"#version 330\n"
+				"layout(location = 0) out vec3 gPos;\n"
+				"layout(location = 1) out vec3 gNormal;\n"
+				"layout(location = 2) out vec4 gColourSpec;\n"
+				"in vec2 vertexUV;\n"
+				"in vec3 vertexNormal;\n"
+				"in vec3 vertexCamSpacePos;\n"
+				"uniform sampler2D texSampler;\n"
+				"void main() {\n"
+				"	gPos = vertexCamSpacePos;\n"
+				"	gNormal = normalize(vertexNormal);\n"
+				"	gColourSpec.rgb = texture(texSampler, vertexUV).rgb;\n"
+				//"	gColourSpec.a = material.shininess;\n"
+				"	gColourSpec.a = 1.0;\n"
+				//"	fragColor = texture(texSampler, vertexUV);\n"
+				//"	float gamma = 2.2;\n"
+				//"	fragColor.rgb = pow(fragColor.rgb, vec3(1.0/gamma));\n"
+				//"	fragColor.a = 1.0;\n"
+				//"	fragColor = vec4(1, 0, 0, 1);\n"
+				"}\n"
+				;
+			glShaderSource(frag, 1, &frag_source, NULL);
+			glCompileShader(frag);
+
+			isCompiled = 0;
+			glGetShaderiv(frag, GL_COMPILE_STATUS, &isCompiled);
+			if(isCompiled == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetShaderiv(frag, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> errorLog(maxLength);
+				glGetShaderInfoLog(frag, maxLength, &maxLength, &errorLog[0]);
+
+				// Provide the infolog in whatever manor you deem best.
+				// Exit with failure.
+				glDeleteShader(frag); // Don't leak the shader.
+				return;
+			}
+
+			GLuint prog = glCreateProgram();
+			glAttachShader(prog, vert);
+			glAttachShader(prog, frag);
+			glLinkProgram(prog);
+
+			GLint isLinked = 0;
+			glGetProgramiv(prog, GL_LINK_STATUS, (int *)&isLinked);
+			if (isLinked == GL_FALSE)
+			{
+				GLint maxLength = 0;
+				glGetProgramiv(prog, GL_INFO_LOG_LENGTH, &maxLength);
+
+				// The maxLength includes the NULL character
+				std::vector<GLchar> infoLog(maxLength);
+				glGetProgramInfoLog(prog, maxLength, &maxLength, &infoLog[0]);
+
+				// We don't need the program anymore.
+				glDeleteProgram(prog);
+				// Don't leak shaders either.
+				glDeleteShader(vert);
+				glDeleteShader(frag);
+
+				// Use the infoLog as you see fit.
+
+				// In this simple program, we'll just leave
+				return;
+			}
+
+			glDetachShader(prog, vert);
+			glDetachShader(prog, frag);
+			glDeleteShader(vert);
+			glDeleteShader(frag);
+
+			glUseProgram(prog);
+			glUniform1i(glGetUniformLocation(prog, "texSampler"), 0);
+
+			ShaderGroupGL sg;
+			sg.shader_prog_ = prog;
+			render_passes_[0].shader_groups_.push_back(sg);
 		}
 	}
 
