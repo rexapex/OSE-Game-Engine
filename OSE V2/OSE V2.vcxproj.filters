@@ -532,6 +532,7 @@
     <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
     <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\PointLight.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

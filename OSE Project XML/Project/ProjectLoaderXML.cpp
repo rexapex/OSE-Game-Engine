@@ -19,6 +19,7 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
+#include "OSE-Core/Entity/Component/PointLight.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 
 #include "OSE-Core/Scripting/ControlSettings.h"
@@ -739,6 +740,48 @@ namespace ose::project
 			} else {
 				ERROR_LOG("Error: Mesh " << mesh_path << " has not been loaded");
 			}
+		}
+
+		// parse the point light components of the entity
+		for(auto component_node = entity_node->first_node("point_light"); component_node; component_node = component_node->next_sibling("point_light"))
+		{
+			// Has attribute
+			auto name_attrib = component_node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// Optionally has color attributes
+			glm::vec3 color { 1.0f, 1.0f, 1.0f };
+			auto color_r_attrib = component_node->first_attribute("color_r");
+			auto color_g_attrib = component_node->first_attribute("color_g");
+			auto color_b_attrib = component_node->first_attribute("color_b");
+			try
+			{
+				if(color_r_attrib != nullptr)
+					color.r = std::stof(color_r_attrib->value());
+				if(color_g_attrib != nullptr)
+					color.g = std::stof(color_g_attrib->value());
+				if(color_b_attrib != nullptr)
+					color.b = std::stof(color_b_attrib->value());
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse point light " << name << " color data");
+			}
+
+			// Optionally has intensity attribute
+			float intensity { 1.0f };
+			auto intensity_attrib = component_node->first_attribute("intensity");
+			try
+			{
+				if(intensity_attrib != nullptr)
+					intensity = std::stof(intensity_attrib->value());
+			}
+			catch(...)
+			{
+				ERROR_LOG("Error: Failed to parse point light " << name << " intensity data");
+			}
+
+			new_entity->AddComponent<PointLight>(name, color, intensity);
 		}
 
 		// parse the custom component components of the entity
