@@ -6,12 +6,11 @@ namespace ose
 	class ShaderNode
 	{
 	public:
-		// NOTE - All ShaderNode derived constructors must populate inputs_ and outputs_ fields
-		ShaderNode();
-		~ShaderNode();
+		ShaderNode() {}
+		virtual ~ShaderNode() {}
 
-		void SetName(std::string const & name) { name_ = name; }
-		std::string const & GetName() const { return name_; }
+		//void SetName(std::string const & name) { name_ = name; }
+		//std::string const & GetName() const { return name_; }
 
 	protected:
 		// Map from the name of the input to the type of the input
@@ -22,7 +21,7 @@ namespace ose
 
 		// The name of the shader node
 		// Used in shader code generation for variable naming
-		std::string name_ { "" };
+		//std::string name_ { "" };
 	};
 }
 

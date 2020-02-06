@@ -22,10 +22,7 @@
     <ClCompile Include="OSE-Core\Resources\Prefab\PrefabManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderPool.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
-    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="OSE-Core\Windowing\WindowManager.cpp" />
@@ -35,6 +32,7 @@
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -45,11 +43,9 @@
     <ClInclude Include="OSE-Core\Project\ProjectLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
-    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
-    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
     <ClInclude Include="OSE-Core\Types.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
@@ -533,6 +529,11 @@
     <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
     <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
     <ClInclude Include="OSE-Core\Entity\Component\PointLight.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\TextureNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\VectorNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\BRDFNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\RGBANode.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
