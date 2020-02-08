@@ -4,7 +4,7 @@
 
 namespace ose
 {
-	class ShaderGraphPBR3D : public ShaderGraph
+	class ShaderGraphPBR3D final : public ShaderGraph
 	{
 	public:
 		ShaderGraphPBR3D();

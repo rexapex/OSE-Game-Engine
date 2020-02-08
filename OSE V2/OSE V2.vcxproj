@@ -216,6 +216,7 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\BRDFNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\OutputNode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\RGBANode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\TextureNode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\VectorNode.h" />

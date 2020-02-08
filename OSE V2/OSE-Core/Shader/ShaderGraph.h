@@ -9,7 +9,7 @@ namespace ose
 	{
 	public:
 		ShaderGraph(const std::string & name);
-		~ShaderGraph();
+		virtual ~ShaderGraph();
 
 		// ShaderNodeType is the type of ShaderNode to add
 		// Returns a pointer to the ShaderNode
