@@ -9,11 +9,14 @@ namespace ose::shader
 	class ShaderProgGLSL final : public ShaderProg
 	{
 	public:
-		ShaderProgGLSL();
+		ShaderProgGLSL(std::unique_ptr<ShaderGraph> shader_graph);
 		virtual ~ShaderProgGLSL();
 
-		// Build a shader object from a shader graph
-		void BuildShaderGraph(ShaderGraph & shader_graph) override;
+		// Build an OpenGL shader object from a shader graph
+		void CreateShaderProg() override;
+
+		// Destroy the OpenGL shader object
+		void DestroyShaderProg() override;
 
 		// Get the shader program id
 		uint32_t GetShaderProgId() const { return shader_prog_; }
@@ -27,6 +30,10 @@ namespace ose::shader
 
 		// OpenGL shader program id
 		uint32_t shader_prog_ { 0 };
+
+		// Split the shader graph nodes into layers
+		// All nodes in a layer can be computed simultaneously
+		void CreateLayers(std::vector<std::vector<unowned_ptr<ShaderNode>>> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes);
 
 		// Process the incoming connectors of node n
 		void ProcessIncomingConnectors(ShaderGraph & shader_graph, unowned_ptr<ShaderNode> n); 

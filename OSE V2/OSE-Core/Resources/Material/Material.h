@@ -3,6 +3,7 @@
 namespace ose
 {
 	class Texture;
+	class ShaderProg;
 
 	class Material
 	{
@@ -16,10 +17,17 @@ namespace ose
 			textures_.push_back(texture);
 		}
 
+		void SetShaderProg(unowned_ptr<ShaderProg const> shader_prog)
+		{
+			shader_prog_ = shader_prog;
+		}
+
 		std::string const & GetPath() const { return path_; }
 		std::string const & GetName() const { return name_; }
 
 		std::vector<unowned_ptr<Texture const>> const & GetTextures() const { return textures_; }
+
+		unowned_ptr<ShaderProg const> GetShaderProg() const { return shader_prog_; }
 
 	private:
 
@@ -27,5 +35,7 @@ namespace ose
 		std::string name_;
 
 		std::vector<unowned_ptr<Texture const>> textures_;
+
+		unowned_ptr<ShaderProg const> shader_prog_;
 	};
 }

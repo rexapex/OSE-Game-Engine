@@ -21,5 +21,6 @@ namespace ose::rendering
 
 		virtual std::unique_ptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight);
 		virtual std::unique_ptr<Texture> NewTexture(std::string const & name, std::string const & path);
+		virtual std::unique_ptr<ShaderProg> NewShaderProg(std::unique_ptr<ShaderGraph> shader_graph);
 	};
 }

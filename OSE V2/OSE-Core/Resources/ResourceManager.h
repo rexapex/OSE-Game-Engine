@@ -17,6 +17,8 @@ namespace ose
 
 	class Material;
 
+	class ShaderProg;
+
 	class ResourceManager
 	{
 	public:
@@ -110,6 +112,34 @@ namespace ose
 		// IMPORTANT - Can be called from any thread (TODO)
 		void RemoveMaterial(const std::string & name);
 
+		// Get the shader program from the resource manager
+		// Given the name of the shader program, return the shader program object
+		unowned_ptr<ShaderProg const> GetShaderProg(const std::string & name);
+
+		// Adds the shader program at path to the list of active shader programs, the shader program must be in the project's resources directory
+		// Path is relative to ProjectPath/Resources
+		// If path starts with OSE then path will be interpreted as the name of a builtin shader graph
+		// If no name is given, the relative path will be used
+		// IMPORTANT - Can be called from any thread (TODO)
+		void AddShaderProg(const std::string & path);
+
+		// Create the GPU memory for an already loaded (added) shader program
+		// Returns an iterator to the next shader program in the shader_progs_without_gpu_memory map
+		// IMPORANT - can only be called from the thread which contains the render context
+		std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator CreateShaderProg(const std::string & prog_name);
+
+		// Remove the shader program from the shader programs list and free the shader program's resources
+		// IMPORTANT - Can be called from any thread (TODO)
+		void RemoveShaderProg(const std::string & name);
+
+		// Free the GPU memory of the shader program
+		// IMPORANT - can only be called from the thread which contains the render context
+		void DestroyShaderProg(const std::string & prog_name);
+
+		// Create all shader programs which are currently lacking a GPU representation
+		// IMPORTANT - can only be called from the thread which contains the render context
+		void CreateShaderProgs();
+
 	private:
 		// the root path of the currently loaded project
 		std::string project_path_;
@@ -141,7 +171,13 @@ namespace ose
 
 		// Maps material name to material object
 		std::map<std::string, std::unique_ptr<Material>> materials_;
+
+		// Maps shader program name to shader program object
+		std::map<std::string, std::unique_ptr<ShaderProg>> shader_progs_with_gpu_memory_;
 		
+		// Maps shader program name to shader program object
+		std::map<std::string, std::unique_ptr<ShaderProg>> shader_progs_without_gpu_memory_;
+
 		// Load a property file (similar to an ini file)
 		// Returns properties as a map from key to value
 		// Used for loading simple resources with no bespoke resource loader
