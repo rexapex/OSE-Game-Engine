@@ -535,6 +535,9 @@
     <ClInclude Include="OSE-Core\Shader\Nodes\BRDFNode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\RGBANode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\OutputNode.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderType.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderNodeMacros.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderFlag.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

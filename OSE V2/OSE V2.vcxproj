@@ -214,6 +214,8 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderFlag.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderType.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\BRDFNode.h" />
     <ClInclude Include="OSE-Core\Shader\Nodes\OutputNode.h" />
@@ -222,6 +224,7 @@
     <ClInclude Include="OSE-Core\Shader\Nodes\VectorNode.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderNodeMacros.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />

@@ -6,6 +6,8 @@
 
 namespace ose::shader
 {
+	struct ShaderLayer;
+
 	class ShaderProgGLSL final : public ShaderProg
 	{
 	public:
@@ -33,10 +35,15 @@ namespace ose::shader
 
 		// Split the shader graph nodes into layers
 		// All nodes in a layer can be computed simultaneously
-		void CreateLayers(std::vector<std::vector<unowned_ptr<ShaderNode>>> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes);
+		void CreateLayers(std::vector<ShaderLayer> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes);
 
-		// Process the incoming connectors of node n
-		void ProcessIncomingConnectors(ShaderGraph & shader_graph, unowned_ptr<ShaderNode> n); 
+		// Determine which shader type is required for each layer
+		// If nodes within the same shader require different shader types, split the layer into multiple layers
+		void DetermineLayerTypes(std::vector<ShaderLayer> & layers);
+
+		// Generate GLSL source code from a list of shader layers
+		// Outputs source code into _src arguments
+		void GenerateSourceCode(std::vector<ShaderLayer> & layers, std::string & vert_src, std::string & frag_src);
 	};
 }
 

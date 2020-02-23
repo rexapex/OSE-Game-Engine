@@ -191,6 +191,7 @@
     <ClInclude Include="Rendering\ShaderGroupGL.h" />
     <ClInclude Include="Rendering\TextureGL.h" />
     <ClInclude Include="Shader\FragShaderGLSL.h" />
+    <ClInclude Include="Shader\ShaderLayer.h" />
     <ClInclude Include="Shader\ShaderProgGLSL.h" />
     <ClInclude Include="Shader\VertShaderGLSL.h" />
   </ItemGroup>

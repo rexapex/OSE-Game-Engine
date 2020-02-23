@@ -12,6 +12,9 @@ namespace ose
 		//void SetName(std::string const & name) { name_ = name; }
 		//std::string const & GetName() const { return name_; }
 
+		virtual bool IsClassType(const std::size_t classType) const = 0;
+		virtual bool IsShaderType(int type) const = 0;
+
 	protected:
 		// Map from the name of the input to the type of the input
 		std::map<std::string, ShaderVarType> inputs_;
