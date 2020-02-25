@@ -451,10 +451,7 @@ namespace ose
 		}
 
 		// Get a list of child transformable elements
-		virtual const std::vector<std::unique_ptr<T>> & GetChildTransformables() const = 0;
-
-		// Get the parent transformable element (if there is one)
-		virtual ose::unowned_ptr<T> GetParentTransformable() const = 0;
+		virtual const std::vector<T> & GetChildTransformables() const = 0;
 	};
 }
 

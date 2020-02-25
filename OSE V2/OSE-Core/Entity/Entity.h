@@ -36,7 +36,7 @@ namespace ose
 
 		// Get a list of transformable elements
 		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() override { return entities_; }
+		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
 
 	private:
 
