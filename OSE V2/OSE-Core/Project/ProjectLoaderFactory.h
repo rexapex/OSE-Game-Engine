@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::project
+namespace ose
 {
 	class ProjectLoader;
 

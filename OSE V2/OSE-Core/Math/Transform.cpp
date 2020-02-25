@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Transform.h"
 
-namespace ose::math
+namespace ose
 {
 	Transform::Transform() : ITransform(), position_(), orientation_(), scale_(1, 1, 1) {}
 

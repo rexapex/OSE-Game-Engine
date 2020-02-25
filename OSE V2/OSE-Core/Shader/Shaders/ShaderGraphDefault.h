@@ -3,7 +3,7 @@
 #include "OSE-Core/Shader/ShaderGraph.h"
 #include "OSE-Core/Shader/Nodes/NConstColor.h"
 
-namespace ose::shader
+namespace ose
 {
 	class ShaderGraphDefault : public ShaderGraph
 	{

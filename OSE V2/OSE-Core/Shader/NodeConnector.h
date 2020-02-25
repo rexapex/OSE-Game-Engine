@@ -1,7 +1,7 @@
 #pragma once
 #include "ShaderNode.h"
 
-namespace ose::shader
+namespace ose
 {
 	class NodeConnector
 	{

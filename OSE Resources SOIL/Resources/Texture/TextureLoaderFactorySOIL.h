@@ -1,10 +1,13 @@
 #pragma once
 #include "OSE-Core/Resources/Texture/TextureLoaderFactory.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TextureLoader;
+}
 
+namespace ose::resources
+{
 	class TextureLoaderFactorySOIL : public TextureLoaderFactory
 	{
 	public:

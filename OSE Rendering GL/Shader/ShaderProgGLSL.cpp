@@ -128,7 +128,7 @@ namespace ose::shader
 	}
 
 	// Process the incoming connectors of node n
-	void ShaderProgGLSL::ProcessIncomingConnectors(ShaderGraph & shader_graph, ose::unowned_ptr<ShaderNode> n)
+	void ShaderProgGLSL::ProcessIncomingConnectors(ShaderGraph & shader_graph, unowned_ptr<ShaderNode> n)
 	{
 		shader_graph.GetIncomingConnectors(shader_graph.GetOutputColorNode());
 		// TODO - Determine type of shader node and then generate code for it

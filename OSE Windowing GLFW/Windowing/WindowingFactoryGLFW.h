@@ -1,10 +1,13 @@
 #pragma once
 #include "OSE-Core/Windowing/WindowingFactory.h"
 
-namespace ose::windowing
+namespace ose
 {
 	class WindowManager;
+}
 
+namespace ose::windowing
+{
 	class WindowingFactoryGLFW : public WindowingFactory
 	{
 	public:

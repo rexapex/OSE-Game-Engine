@@ -7,11 +7,12 @@
 //#include "OSE-Core/Entity/SpriteRenderer.h"
 #include "RenderPool.h"
 
-namespace ose::rendering
+namespace ose
 {
+	struct RenderingSettings;
+
 	/// Templated on the type of pool on which the rendering engine acts
-	///template <class T>
-	class RenderingEngine/// : public Engine<T>
+	class RenderingEngine
 	{
 	public:
 		RenderingEngine();
@@ -21,6 +22,9 @@ namespace ose::rendering
 		/// IMPORTANT - stub method should not be called...
 		/// ...used to allow update method with RenderObject sub-class to be called
 		virtual void Update() = 0;
+
+		// Apply rendering settings to the rendering engine
+		void ApplyRenderingSettings(RenderingSettings const & rendering_settings);
 
 		// saves having to resize framebuffers twice
 		void SetProjectionModeAndFbSize(const EProjectionMode & projection_mode, const int width, const int height);
@@ -42,6 +46,9 @@ namespace ose::rendering
 
 		// width and height of the window framebuffer
 		int fbwidth_, fbheight_;
+
+		// znear and zfar of a perspective projection
+		float znear_ { 0 }, zfar_ { 0 };
 
 		// child functions to update the projection matrix to either orthographic or perspective
 		virtual void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) = 0;

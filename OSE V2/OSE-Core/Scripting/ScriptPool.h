@@ -2,15 +2,10 @@
 
 namespace ose
 {
-	namespace entity
-	{
-		class Entity;
-		class CustomComponent;
-	}
-}
+	class Entity;
+	class CustomComponent;
+	struct ControlSettings;
 
-namespace ose::scripting
-{
 	class ScriptPool
 	{
 	public:
@@ -18,6 +13,12 @@ namespace ose::scripting
 		virtual ~ScriptPool() {}
 
 		// Add a custom engine component to the script pool
-		virtual void AddCustomComponent(ose::entity::Entity & entity, ose::unowned_ptr<ose::entity::CustomComponent> comp) = 0;
+		virtual void AddCustomComponent(unowned_ptr<Entity>, unowned_ptr<CustomComponent> comp) = 0;
+
+		// Remove a custom engine component from the script pool
+		virtual void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) = 0;
+
+		// Apply a control settings object to initialise an array of controls
+		virtual void ApplyControlSettings(ControlSettings const & settings, bool persistent=false) = 0;
 	};
 }

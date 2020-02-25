@@ -7,6 +7,7 @@ namespace ose::rendering
 	enum class ERenderObjectType
 	{
 		SPRITE_RENDERER,
-		TILE_RENDERER
+		TILE_RENDERER,
+		MESH_RENDERER
 	};
 }

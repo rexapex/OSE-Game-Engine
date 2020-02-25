@@ -2,7 +2,7 @@
 #include "InputManager.h"
 #include "InputSettings.h"
 
-namespace ose::input
+namespace ose
 {
 	InputManager::InputManager()
 	{

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "GameThread.h"
 
-namespace ose::game
+namespace ose
 {
 	GameThread::GameThread(uint32_t thread_id, std::function<void(std::string &)> get_new_task, std::mutex & mu,
 							std::condition_variable & work_to_do, std::function<void(uint32_t thread_id)> on_task_completed)

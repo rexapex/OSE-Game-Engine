@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::input
+namespace ose
 {
 	// No input has value -1
 	// Keyboard input in range 0-999

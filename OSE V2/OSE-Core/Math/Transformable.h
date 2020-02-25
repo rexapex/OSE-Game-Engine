@@ -3,7 +3,7 @@
 #include "ITransform.h"
 #include "Transform.h"
 
-namespace ose::math
+namespace ose
 {
 	// NOTE - If extending Transformable, T should be a pointer type
 	template <class T>

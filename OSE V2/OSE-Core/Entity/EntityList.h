@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::entity
+namespace ose
 {
 	// Forward declare Entity class and EntityID typedef
 	class Entity;
@@ -12,9 +12,9 @@ namespace ose::entity
 		EntityList();
 		virtual ~EntityList() noexcept;
 		EntityList(const EntityList & other) noexcept;
-		EntityList & operator=(const EntityList & other) noexcept;
 		EntityList(EntityList &&) noexcept = default;
-		EntityList & operator=(EntityList &&) noexcept = default;
+		EntityList & operator=(EntityList &) noexcept = delete;
+		EntityList & operator=(EntityList &&) noexcept = delete;
 
 		// add an entity to the entity list
 		// TODO - should name be unique ???

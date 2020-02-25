@@ -2,45 +2,38 @@
 #include "ResourceManager.h"
 #include "OSE-Core/EngineReferences.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
-#include "OSE-Core/Resources/Texture/TextureLoaderFactory.h"
+#include "Texture/TextureLoaderFactory.h"
 #include "Texture/Texture.h"
 #include "Texture/TextureLoader.h"
 #include "Texture/TextureMetaData.h"
 #include "Tilemap/TilemapLoaderFactory.h"
 #include "Tilemap/Tilemap.h"
 #include "Tilemap/TilemapLoader.h"
+#include "Mesh/Mesh.h"
+#include "Mesh/MeshLoader.h"
+#include "Mesh/MeshLoaderFactory.h"
 #include "FileHandlingUtil.h"
 
-namespace ose::resources
+namespace ose
 {
-	using namespace rendering;
-
 	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path),
 		texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)),
-		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)) {}
+		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)),
+		mesh_loader_(MeshLoaderFactories[0]->NewMeshLoader(project_path)) {}
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
 		textures_without_Gpu_memory_(std::move(other.textures_without_Gpu_memory_)), textures_with_Gpu_memory_(std::move(other.textures_with_Gpu_memory_)),
-		texture_loader_(std::move(other.texture_loader_)), tilemap_loader_(std::move(other.tilemap_loader_)) {}
-
-	ResourceManager & ResourceManager::operator=(ResourceManager && other) noexcept
-	{
-		project_path_ = std::move(other.project_path_);
-		textures_without_Gpu_memory_ = std::move(other.textures_without_Gpu_memory_);
-		textures_with_Gpu_memory_ = std::move(other.textures_with_Gpu_memory_);
-		texture_loader_ = std::move(other.texture_loader_);
-		tilemap_loader_ = std::move(other.tilemap_loader_);
-		return *this;
-	}
-
+		texture_loader_(std::move(other.texture_loader_)), tilemap_loader_(std::move(other.tilemap_loader_)),
+		mesh_loader_(std::move(other.mesh_loader_)) {}
+	
 	//import a file into the project resources directory
 	//sub_dir is a sub directory within the resources directory
 	void ResourceManager::ImportFile(const std::string & file_path, const std::string & sub_dir)
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
-		FileHandlingUtil::CopyFile(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
+		FileHandlingUtil::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
 	}
 
 	//imports multiple files into project resources directory
@@ -55,7 +48,7 @@ namespace ose::resources
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	ose::unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
+	unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
 	{
 		// search the textures_with_GPU_memory_ list
 		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };
@@ -264,7 +257,7 @@ namespace ose::resources
 
 	// Get the tilemap from the resources manager
 	// Given the name of the tilemap, return the tilemap object
-	ose::unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
+	unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
 	{
 		// search the tilemaps_ list
 		auto const & iter { tilemaps_.find(name) };
@@ -319,11 +312,76 @@ namespace ose::resources
 		// Get the tilemap if it exists
 		auto const & iter { tilemaps_.find(name) };
 
-		// If the tilemaps exists, remove it from the map
+		// If the tilemap exists, remove it from the map
 		if(iter != tilemaps_.end())
 		{
 			// Remove the texture from the map
 			tilemaps_.erase(iter);
+		}
+	}
+
+	// Get the mesh from the resource manager
+	// Given the name of the mesh, return the mesh object
+	unowned_ptr<Mesh const> ResourceManager::GetMesh(const std::string & name)
+	{
+		// Search the meshes_ list
+		auto const & iter { meshes_.find(name) };
+		if(iter != meshes_.end()) {
+			return iter->second.get();
+		}
+
+		return nullptr;
+	}
+
+	// Adds the mesh at path to the list of active meshes, the mesh must be in the project's resources directory
+	// Path is relative to ProjectPath/Resources
+	// If no name is given, the relative path will be used
+	// IMPORTANT - Can be called from any thread (TODO)
+	void ResourceManager::AddMesh(const std::string & path, const std::string & name)
+	{
+		std::string abs_path { project_path_ + "/Resources/" + path };
+
+		if(FileHandlingUtil::DoesFileExist(abs_path))
+		{
+			// If no name is given, use the filename
+			std::string name_to_use { name };
+			if(name_to_use == "")
+			{
+				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+			}
+
+			// Only add the new mesh if the name is not taken
+			auto & iter = meshes_.find(name_to_use);
+			if(iter == meshes_.end())
+			{
+				meshes_.emplace(name_to_use, std::make_unique<Mesh>(name_to_use, abs_path));
+				DEBUG_LOG("Added mesh " << name_to_use << " to ResourceManager");
+
+				// Get a references to the newly created mesh
+				auto & mesh = meshes_.at(name_to_use);
+
+				// TODO - Do the loading with multi-threading
+				mesh_loader_->LoadMesh(abs_path, mesh.get());
+			}
+			else
+			{
+				LOG("error: mesh name " + name_to_use + " is already taken");
+			}
+		}
+	}
+
+	// Remove the mesh from the meshes list and free the meshes resources
+	// IMPORTANT - Can be called from any thread (TODO)
+	void ResourceManager::RemoveMesh(const std::string & name)
+	{
+		// Get the mesh if it exists
+		auto const & iter { meshes_.find(name) };
+
+		// If the mesh exists, remove it from the map
+		if(iter != meshes_.end())
+		{
+			// Remove the mesh from the map
+			meshes_.erase(iter);
 		}
 	}
 }

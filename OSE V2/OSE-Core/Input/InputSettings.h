@@ -2,7 +2,7 @@
 #include "BooleanInput.h"
 #include "AxisInput.h"
 
-namespace ose::input
+namespace ose
 {
 	struct InputSettings
 	{

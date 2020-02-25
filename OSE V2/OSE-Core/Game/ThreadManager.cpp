@@ -2,10 +2,8 @@
 #include "ThreadManager.h"
 #include "OSE-Core/Rendering/RenderPool.h"
 
-namespace ose::game
+namespace ose
 {
-	using namespace ose::rendering;
-
 	ThreadManager::ThreadManager(RenderPool const & render_pool) : render_pool_(render_pool)
 	{
 		//only need to call in regular constructor

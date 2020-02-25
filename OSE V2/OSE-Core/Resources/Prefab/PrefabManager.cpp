@@ -1,10 +1,8 @@
 #include "stdafx.h"
 #include "PrefabManager.h"
 
-namespace ose::resources
+namespace ose
 {
-	using namespace entity;
-
 	PrefabManager::PrefabManager()
 	{
 
@@ -15,13 +13,6 @@ namespace ose::resources
 
 	// move constructors
 	PrefabManager::PrefabManager(PrefabManager && o) noexcept : temp_prefabs_(std::move(o.temp_prefabs_)), cached_prefabs_(std::move(o.cached_prefabs_)) {}
-
-	PrefabManager & PrefabManager::operator=(PrefabManager && o) noexcept
-	{
-		temp_prefabs_ = std::move(o.temp_prefabs_);
-		cached_prefabs_ = std::move(o.cached_prefabs_);
-		return *this;
-	}
 
 	// add a temporary prefab entity to the prefab manager
 	// method constructs a new object

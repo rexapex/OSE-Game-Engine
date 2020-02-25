@@ -1,10 +1,9 @@
 #include "stdafx.h"
 #include "Entity.h"
+#include "OSE-Core/Game/Game.h"
 
-namespace ose::entity
+namespace ose
 {
-	using namespace math;
-
 	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
 				 : Transformable(), EntityList(), ComponentList(),
 					name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
@@ -31,24 +30,26 @@ namespace ose::entity
 		this->global_transform_ = other.global_transform_;
 	}
 
-
-	//Change (Entity & other) to (Entity other) if add pointers to Entity class
-	Entity & Entity::operator=(const Entity & other) noexcept
+	void Entity::SetEnabled(bool a)
 	{
-		// Call the base copy assignment constructor
-		EntityList::operator=(other);
-		Transformable::operator=(other);
-		ComponentList::operator=(other);
+		enabled_ = a;
+		if(game_ && a)
+			game_->OnEntityActivated(*this);
+		else if(game_ && !a)
+			game_->OnEntityDeactivated(*this);
+	}
 
-		this->name_ = other.name_;
-		this->unique_id_ = Entity::NextEntityId();
-		//std::cerr << this->unique_ID_ << std::endl;
-		this->tag_ = other.tag_;
-		this->prefab_ = other.prefab_;
+	void Entity::Enable()
+	{
+		enabled_ = true;
+		if(game_)
+			game_->OnEntityActivated(*this);
+	}
 
-		this->local_transform_ = other.local_transform_;
-		this->global_transform_ = other.global_transform_;
-
-		return *this;
+	void Entity::Disable()
+	{
+		enabled_ = false;
+		if(game_)
+			game_->OnEntityDeactivated(*this);
 	}
 }

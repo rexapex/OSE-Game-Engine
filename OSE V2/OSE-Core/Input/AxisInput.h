@@ -1,7 +1,7 @@
 #pragma once
 #include "EInputType.h"
 
-namespace ose::input
+namespace ose
 {
 	struct AxisInput
 	{

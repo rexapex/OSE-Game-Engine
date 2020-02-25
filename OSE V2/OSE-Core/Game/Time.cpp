@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Time.h"
 
-namespace ose::game
+namespace ose
 {
 	Time::Time() {}
 

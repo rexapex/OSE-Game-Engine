@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "ShaderNode.h"
 
-namespace ose::shader
+namespace ose
 {
 	ShaderNode::ShaderNode()
 	{

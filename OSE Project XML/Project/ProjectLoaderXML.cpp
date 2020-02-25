@@ -3,6 +3,7 @@
 #include "OSE-Core/Resources/FileHandlingUtil.h"
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
+#include "OSE-Core/Project/ProjectSettings.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Entity/Entity.h"
@@ -13,10 +14,14 @@
 #include "OSE-Core/Input/EInputType.h"
 
 #include "OSE-Core/Resources/Texture/Texture.h"
+#include "OSE-Core/Resources/Mesh/Mesh.h"
 
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
+#include "OSE-Core/Entity/Component/MeshRenderer.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
+
+#include "OSE-Core/Scripting/ControlSettings.h"
 
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 #include "OSE-Core/Resources/ResourceManager.h"
@@ -25,10 +30,6 @@
 #include "Dependencies/rapidxml-1.13/rapidxml.hpp"
 #include "Dependencies/rapidxml-1.13/rapidxml_print.hpp"
 
-using namespace ose::game;
-using namespace ose::entity;
-using namespace ose::resources;
-using namespace ose::input;
 using namespace rapidxml;
 
 namespace ose::project
@@ -68,19 +69,15 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_name)
+	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
 	{
-		std::string home_dir;
-		FileHandlingUtil::GetHomeDirectory(home_dir);
-
-		//TODO - FIND DOCUMENT DIRECTORY FOR MAC & LINUX - DONE - NEEDS TESTING
-		//TODO - CREATE DIRECTORIES IF THEY DON'T EXIST  - DONE - NEEDS TESTING
-		std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + project_name;
-		FileHandlingUtil::CreateDirs(project_path);
 		LOG("Loading Project Directory: " << project_path << std::endl);
 
 		//first, load the manifest
 		std::unique_ptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
+
+		// Then, load the project settings
+		ProjectSettings project_settings = LoadProjectSettings(project_path);
 
 		//then, load the scene declerations
 		std::unique_ptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
@@ -91,8 +88,11 @@ namespace ose::project
 		// Then, load the default input manager
 		InputSettings input_settings = LoadInputSettings(project_path);
 
+		// Then, load the persistent control scripts
+		ControlSettings control_settings = LoadPersistentControls(project_path);
+
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, *scene_declerations, input_settings);
+		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings);
 
 		return proj;
 	}
@@ -237,9 +237,69 @@ namespace ose::project
 	}
 
 
-	void ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
+	ProjectSettings ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
 	{
-		//TODO
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string settings_path { project_path + "/settings.xml" };
+		ProjectSettings settings;
+
+		try
+		{
+			doc = LoadXmlFile(settings_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return settings;
+		}
+
+		auto settings_node = doc->first_node("settings");
+		if(!settings_node)
+			return settings;
+
+		// Process the rendering engine settings
+		auto rendering_node = settings_node->first_node("rendering");
+		if(rendering_node)
+		{
+			auto projection_node = rendering_node->first_node("projection");
+			if(projection_node)
+			{
+				// TODO - Ensure 0 < znear < zfar
+				try
+				{
+					auto type_attrib = projection_node->first_attribute("type");
+					if(type_attrib != nullptr)
+					{
+						int type = std::stoi(type_attrib->value());
+						if(type == 0 || type == 1)
+							settings.rendering_settings_.projection_mode_ = static_cast<EProjectionMode>(type);
+						else
+							ERROR_LOG("Error: Projection mode must be in range [0, 1]");
+					}
+
+					auto znear_attrib = projection_node->first_attribute("znear");
+					if(znear_attrib != nullptr)
+					{
+						float znear = std::stof(znear_attrib->value());
+						settings.rendering_settings_.znear_ = znear;
+					}
+
+					auto zfar_attrib = projection_node->first_attribute("zfar");
+					if(zfar_attrib != nullptr)
+					{
+						float zfar = std::stof(zfar_attrib->value());
+						settings.rendering_settings_.zfar_ = zfar;
+					}
+				}
+				catch(...)
+				{
+					ERROR_LOG("Error: Failed to parse rendering::projection settings");
+				}
+			}
+		}
+
+		return settings;
 	}
 
 
@@ -340,6 +400,29 @@ namespace ose::project
 		return settings;
 	}
 
+	
+	// Loads the control scripts which persist through all scenes
+	ControlSettings ProjectLoaderXML::LoadPersistentControls(const std::string & project_path)
+	{
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string controls_path { project_path + "/controls.xml" };
+		InputSettings settings;
+
+		try
+		{
+			doc = LoadXmlFile(controls_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			ERROR_LOG(e.what());
+			return {};
+		}
+
+		auto controls_node = doc->first_node("controls");
+		return ParseControls(controls_node);
+	}
+
 
 	std::unique_ptr<Scene> ProjectLoaderXML::LoadScene(const Project & project, const std::string & scene_name)
 	{
@@ -364,17 +447,23 @@ namespace ose::project
 
 		auto scene_node = doc->first_node("scene");
 		auto scene_name_attrib = (scene_node ? scene_node->first_attribute("name") : nullptr);
-		///auto aliases_node = scene_node->first_node("aliases");
+		if(!scene_node)
+			return nullptr;
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
+		auto controls_node = scene_node->first_node("controls");
 		///auto cached_prefabs_node = scene_node->first_node("cached_prefabs");
 
-		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name);
+		// Load the scene's controls
+		ControlSettings control_settings = ParseControls(controls_node);
+
+		// Create the new scene object
+		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
 
 		// map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
 		ParseResources(resources_node, aliases, project);
-		
+
 		// load the scene's entities
 		if(entities_node != nullptr) {
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
@@ -487,6 +576,9 @@ namespace ose::project
 				float sx { 1.0f };
 				float sy { 1.0f };
 				float sz { 1.0f };
+				float rx { 0.0f };
+				float ry { 0.0f };
+				float rz { 0.0f };
 
 				auto x_attrib = component_node->first_attribute("x");
 				if(x_attrib != nullptr)
@@ -512,8 +604,21 @@ namespace ose::project
 				if(sz_attrib != nullptr)
 					sz = std::stof(sz_attrib->value());
 
+				auto rx_attrib = component_node->first_attribute("rx");
+				if(rx_attrib != nullptr)
+					rx = std::stof(rx_attrib->value());
+
+				auto ry_attrib = component_node->first_attribute("ry");
+				if(ry_attrib != nullptr)
+					ry = std::stof(ry_attrib->value());
+
+				auto rz_attrib = component_node->first_attribute("rz");
+				if(rz_attrib != nullptr)
+					rz = std::stof(rz_attrib->value());
+
 				new_entity->Translate(x, y, z);
 				new_entity->Scale(sx, sy, sz);
+				new_entity->RotateDeg(rx, ry, rz);
 			}
 			catch(...)
 			{
@@ -606,6 +711,27 @@ namespace ose::project
 			}
 		}
 
+		// parse the mesh renderer components of the new entity
+		for(auto component_node = entity_node->first_node("mesh_renderer"); component_node; component_node = component_node->next_sibling("mesh_renderer"))
+		{
+			// has name & mesh attributes
+			auto name_attrib	= component_node->first_attribute("name");
+			auto mesh_attrib = component_node->first_attribute("mesh");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// if mesh is an alias, find it's replacement text, else use the file text
+			std::string mesh_text { (mesh_attrib ? mesh_attrib->value() : "") };
+			const auto mesh_text_alias_pos { aliases.find(mesh_text) };
+			const std::string & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
+
+			const Mesh * mesh = project.GetResourceManager().GetMesh(mesh_path);
+			if(mesh != nullptr) {
+				new_entity->AddComponent<MeshRenderer>(name, mesh);
+			} else {
+				ERROR_LOG("Error: Mesh " << mesh_path << " has not been loaded");
+			}
+		}
+
 		// parse the custom component components of the entity
 		for(auto component_node = entity_node->first_node("custom"); component_node; component_node = component_node->next_sibling("custom"))
 		{
@@ -630,6 +756,9 @@ namespace ose::project
 
 	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
+		if(!resources_node)
+			return;
+
 		// parse texture nodes
 		for(auto texture_node { resources_node->first_node("texture") }; texture_node; texture_node = texture_node->next_sibling("texture"))
 		{
@@ -670,6 +799,26 @@ namespace ose::project
 			}
 		}
 
+		// parse mesh nodes
+		for(auto mesh_node { resources_node->first_node("mesh") }; mesh_node; mesh_node = mesh_node->next_sibling("mesh"))
+		{
+			auto const alias_attrib { mesh_node->first_attribute("alias") };
+			auto const path_attrib  { mesh_node->first_attribute("path") };
+
+			if(path_attrib)
+			{
+				auto const path { path_attrib->value() };
+
+				// if there is an alias provided, add it to the list of aliases for this file
+				if(alias_attrib) {
+					auto const alias { alias_attrib->value() };
+					aliases.insert({ alias, path });
+				}
+
+				project.GetResourceManager().AddMesh(path, "");	// TODO - remove name_ field from mesh class
+			}
+		}
+
 		// parse prefab nodes
 		for(auto prefab_node { resources_node->first_node("prefab") }; prefab_node; prefab_node = prefab_node->next_sibling("prefab"))
 		{
@@ -696,6 +845,26 @@ namespace ose::project
 				}
 			}
 		}
+	}
+
+	ControlSettings ProjectLoaderXML::ParseControls(rapidxml::xml_node<> * controls_node)
+	{
+		ControlSettings settings;
+		if(controls_node)
+		{
+			for(auto control_node = controls_node->first_node("control"); control_node; control_node = control_node->next_sibling("control"))
+			{
+				auto type_attrib = control_node->first_attribute("type");
+				auto deferred_attrib = control_node->first_attribute("deferred");
+				std::string type { (type_attrib ? type_attrib->value() : "") };
+				bool deferred { deferred_attrib ? deferred_attrib->value() == "true" : false };
+				if(deferred)
+					settings.deferred_controls_.emplace_back(type);
+				else
+					settings.controls_.emplace_back(type);
+			}
+		}
+		return settings;
 	}
 	
 
@@ -731,7 +900,7 @@ namespace ose::project
 	}
 	
 	// Parse a custom object node
-	std::unique_ptr<ose::resources::CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	std::unique_ptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
 	{
 		if(obj_node == nullptr)
 			return nullptr;

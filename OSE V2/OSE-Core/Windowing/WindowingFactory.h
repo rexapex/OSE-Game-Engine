@@ -1,6 +1,6 @@
 #pragma once
 
-namespace ose::windowing
+namespace ose
 {
 	class WindowManager;
 

@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Tilemap.h"
 
-namespace ose::resources
+namespace ose
 {
 	Tilemap::Tilemap(const std::string & name, const std::string & path) : name_(name), path_(path),
 		width_(0), height_(0), tile_grid_(nullptr)

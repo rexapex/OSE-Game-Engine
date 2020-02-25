@@ -3,15 +3,14 @@
 #include "OSE-Core/Resources/ResourceManager.h"
 #include "OSE-Core/Resources/Prefab/PrefabManager.h"
 
-namespace ose::project
+namespace ose
 {
-	using namespace resources;
-	using namespace input;
-
-	Project::Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path,
-		InputSettings const & input_settings)
-		: project_path_(project_path), project_info_(project_info), scene_names_to_path_(scene_names_to_path),
-		input_settings_(input_settings)
+	Project::Project(const std::string & project_path, const ProjectInfo & project_info, ProjectSettings const & project_settings,
+		const std::map<std::string, std::string> & scene_names_to_path,
+		InputSettings const & input_settings, ControlSettings const & control_settings)
+		: project_path_(project_path), project_info_(project_info), project_settings_(project_settings),
+		scene_names_to_path_(scene_names_to_path),
+		input_settings_(input_settings), control_settings_(control_settings)
 	{
 		this->resource_manager_ = std::make_unique<ResourceManager>(project_path);
 		this->prefab_manager_ = std::make_unique<PrefabManager>();

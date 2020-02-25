@@ -1,11 +1,16 @@
 #pragma once
 #include "OSE-Core/Scripting/ScriptPool.h"
 #include "Custom Engine/CustomEngine.h"
+#include "Control/ControlScript.h"
+
+namespace ose
+{
+	class CustomComponent;
+	struct ControlSettings;
+}
 
 namespace ose::scripting
 {
-	class CustomComponent;
-
 	class ScriptPoolCPP final : public ScriptPool
 	{
 	public:
@@ -16,12 +21,28 @@ namespace ose::scripting
 		void Init();
 
 		// Add a custom engine component to the script pool
-		void AddCustomComponent(ose::entity::Entity & entity, ose::unowned_ptr<ose::entity::CustomComponent> comp) override;
+		void AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp) override;
+
+		// Remove a custom engine component from the script pool
+		void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) override;
+
+		// Apply a control settings object to initialise an array of controls
+		void ApplyControlSettings(ControlSettings const & settings, bool persistent=false) override;
 
 		// Get the list of custom engines
 		std::vector<std::unique_ptr<CustomEngine>> const & GetCustomEngines() const { return custom_engines_; }
 
+		// Get the lists of controls
+		std::vector<std::unique_ptr<ControlScript>> const & GetControls() const { return controls_; }
+		std::vector<std::unique_ptr<ControlScript>> const & GetDeferredControls() const { return deferred_controls_; }
+		std::vector<std::unique_ptr<ControlScript>> const & GetPersistentControls() const { return persistent_controls_; }
+		std::vector<std::unique_ptr<ControlScript>> const & GetDeferredPersistentControls() const { return deferred_persistent_controls_; }
+
 	private:
 		std::vector<std::unique_ptr<CustomEngine>> custom_engines_;
+		std::vector<std::unique_ptr<ControlScript>> controls_;
+		std::vector<std::unique_ptr<ControlScript>> deferred_controls_;
+		std::vector<std::unique_ptr<ControlScript>> persistent_controls_;
+		std::vector<std::unique_ptr<ControlScript>> deferred_persistent_controls_;
 	};
 }

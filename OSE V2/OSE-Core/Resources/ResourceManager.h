@@ -2,15 +2,18 @@
 
 #include "OSE-Core/Types.h"
 
-namespace ose::resources
+namespace ose
 {
 	class TextureLoader;
 	class Texture;
 	class TextureAtlas;
 	struct TextureMetaData;
-	
+
 	class TilemapLoader;
 	class Tilemap;
+
+	class MeshLoader;
+	class Mesh;
 
 	class ResourceManager
 	{
@@ -19,10 +22,11 @@ namespace ose::resources
 		~ResourceManager() noexcept;
 		// copying is not allowed
 		ResourceManager(ResourceManager &) = delete;
-		ResourceManager & operator=(ResourceManager &) = delete;
 		// moving is allowed
 		ResourceManager(ResourceManager &&) noexcept;
-		ResourceManager & operator=(ResourceManager &&) noexcept;
+		// Assignment is not allowed
+		ResourceManager & operator=(ResourceManager &) = delete;
+		ResourceManager & operator=(ResourceManager &&) = delete;
 
 		// import a file into the project resources directory
 		// sub_dir is a sub directory within the resources directory
@@ -34,7 +38,7 @@ namespace ose::resources
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		ose::unowned_ptr<Texture const> GetTexture(const std::string name);
+		unowned_ptr<Texture const> GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
@@ -64,7 +68,7 @@ namespace ose::resources
 
 		// Get the tilemap from the resources manager
 		// Given the name of the tilemap, return the tilemap object
-		ose::unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
+		unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
 
 		// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -75,6 +79,20 @@ namespace ose::resources
 		// Remove the tilemap from the tilemaps list and free the tilemap's resources
 		// IMPORANT - can be called from any thread (TODO)
 		void RemoveTilemap(const std::string & name);
+
+		// Get the mesh from the resource manager
+		// Given the name of the mesh, return the mesh object
+		unowned_ptr<Mesh const> GetMesh(const std::string & name);
+
+		// Adds the mesh at path to the list of active meshes, the mesh must be in the project's resources directory
+		// Path is relative to ProjectPath/Resources
+		// If no name is given, the relative path will be used
+		// IMPORTANT - Can be called from any thread (TODO)
+		void AddMesh(const std::string & path, const std::string & name = "");
+
+		// Remove the mesh from the meshes list and free the meshes resources
+		// IMPORTANT - Can be called from any thread (TODO)
+		void RemoveMesh(const std::string & name);
 
 	private:
 		// the root path of the currently loaded project
@@ -96,7 +114,13 @@ namespace ose::resources
 		// Maps tilemap name to tilemap object
 		std::map<std::string, std::unique_ptr<Tilemap>> tilemaps_;
 
-		// The TilemapLoader object used for loading tilemap from filees
+		// The TilemapLoader object used for loading tilemap from files
 		std::unique_ptr<TilemapLoader> tilemap_loader_;
+
+		// Maps mesh name to mesh object
+		std::map<std::string, std::unique_ptr<Mesh>> meshes_;
+
+		// The MeshLoader object used for loading meshes from files
+		std::unique_ptr<MeshLoader> mesh_loader_;
 	};
 }

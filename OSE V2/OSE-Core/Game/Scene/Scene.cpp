@@ -2,28 +2,18 @@
 #include "Scene.h"
 #include "OSE-Core/Entity/Entity.h"
 
-using namespace ose::entity;
-
-namespace ose::game
+namespace ose
 {
-	Scene::Scene(const std::string & name) : EntityList(), name_(name) {}
+	Scene::Scene(const std::string & name, const ControlSettings & control_settings)
+		: EntityList(), name_(name), control_settings_(control_settings) {}
 
 	Scene::~Scene() noexcept {}
 
 	Scene::Scene(const Scene & other) noexcept : EntityList(other)
 	{
 		this->name_ = other.name_;
+		this->control_settings_ = other.control_settings_;
 	}
-
-	Scene & Scene::operator=(const Scene & other) noexcept
-	{
-		// Call the base copy assignment constructor
-		EntityList::operator=(other);
-		this->name_ = other.name_;
-		return *this;
-	}
-
-
 
 
 
