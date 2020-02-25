@@ -235,23 +235,50 @@ namespace ose::math
 		// Modify the local and global transform of the transformable
 		void SetScale(const float scalar)
 		{
-			/*glm::vec3 const & b { local_transform_.GetScale() };
+			glm::vec3 const & b { local_transform_.GetScale() };
 			local_transform_.SetScale(scalar);
-			if(b == glm::vec3(0, 0, 0))
-				
-			else
-				ScaleParent(scalar - b);*/
+			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			ScaleParent(inverse * scalar);
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale(const glm::vec3 & scale);
-		// Modify the local and global transform of the transformable
-		void SetScale(const float x, const float y, const float z);
+		void SetScale(const glm::vec3 & scale)
+		{
+			glm::vec3 const & b { local_transform_.GetScale() };
+			local_transform_.SetScale(scale);
+			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			ScaleParent(inverse * scale);
+		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale2d(const glm::vec2 & scale);
+		void SetScale(const float x, const float y, const float z)
+		{
+			glm::vec3 scale { x, y, z };
+			glm::vec3 const & b { local_transform_.GetScale() };
+			local_transform_.SetScale(scale);
+			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			ScaleParent(inverse * scale);
+		}
+
 		// Modify the local and global transform of the transformable
-		void SetScale2d(const float x, const float y);
+		void SetScale2d(const glm::vec2 & scale2d)
+		{
+			glm::vec3 scale { scale2d.x, scale2d.y, 1 };
+			glm::vec3 const & b { local_transform_.GetScale() };
+			local_transform_.SetScale(scale);
+			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, 1 };
+			ScaleParent(inverse * scale);
+		}
+
+		// Modify the local and global transform of the transformable
+		void SetScale2d(const float x, const float y)
+		{
+			glm::vec3 scale { x, y, 1 };
+			glm::vec3 const & b { local_transform_.GetScale() };
+			local_transform_.SetScale(scale);
+			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, 1 };
+			ScaleParent(inverse * scale);
+		}
 
 		
 	protected:
