@@ -469,12 +469,10 @@ namespace ose::project
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 			{
 				// Parse the xml of the entity and add it to the scene
+#				pragma warning(push)
+#				pragma warning(disable:26444)
 				ParseEntity(scene.get(), entity_node, aliases, project);
-				// create the entity then move it's pointer to the scene
-				//auto entity = ParseEntity(entity_node, aliases, project);
-				//if(entity != nullptr) {
-				//	scene->AddEntity(std::move(entity));
-				//}
+#				pragma warning(pop)
 			}
 		}
 
@@ -759,10 +757,10 @@ namespace ose::project
 		for(auto sub_entity_node = entity_node->first_node("entity"); sub_entity_node; sub_entity_node = sub_entity_node->next_sibling("entity"))
 		{
 			// parse the sub entity's xml
+#			pragma warning(push)
+#			pragma warning(disable:26444)
 			ParseEntity(new_entity, sub_entity_node, aliases, project);
-			// create the sub entity then move it's pointer to the new_entity
-			//auto sub_entity = ParseEntity(sub_entity_node, aliases, project);
-			//new_entity->AddEntity(std::move(sub_entity));
+#			pragma warning(pop)
 		}
 
 		return new_entity_ret;
