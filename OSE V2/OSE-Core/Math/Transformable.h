@@ -173,62 +173,62 @@ namespace ose
 		// Modify the local and global transform of the transformable
 		void SetOrientation(const glm::quat & orientation)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientation(orientation);
-			RotateParent(orientation * glm::inverse(b));
+			RotateParent(orientation * b);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientation(const glm::vec3 & rotation)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientation(rotation);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			RotateParent(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientation(const float pitch, const float yaw, const float roll)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientation(pitch, yaw, roll);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			RotateParent(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientationDeg(const glm::vec3 & rotation)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientationDeg(rotation);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			RotateDegParent(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientationDeg(const float pitch, const float yaw, const float roll)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientationDeg(pitch, yaw, roll);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			RotateDegParent(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientation2d(const float rotation)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientation2d(rotation);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			Rotate2dParent(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
 		void SetOrientation2dDeg(const float rotation)
 		{
-			glm::quat const & b { local_transform_.GetOrientation() };
+			glm::quat const & b { glm::inverse(local_transform_.GetOrientation()) };
 			local_transform_.SetOrientation2dDeg(rotation);
-			RotateParent(glm::inverse(b));
+			RotateParent(b);
 			Rotate2dDegParent(rotation);
 		}
 
@@ -236,8 +236,8 @@ namespace ose
 		void SetScale(const float scalar)
 		{
 			glm::vec3 const & b { local_transform_.GetScale() };
-			local_transform_.SetScale(scalar);
 			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			local_transform_.SetScale(scalar);
 			ScaleParent(inverse * scalar);
 		}
 
@@ -245,8 +245,8 @@ namespace ose
 		void SetScale(const glm::vec3 & scale)
 		{
 			glm::vec3 const & b { local_transform_.GetScale() };
-			local_transform_.SetScale(scale);
 			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			local_transform_.SetScale(scale);
 			ScaleParent(inverse * scale);
 		}
 
@@ -255,8 +255,8 @@ namespace ose
 		{
 			glm::vec3 scale { x, y, z };
 			glm::vec3 const & b { local_transform_.GetScale() };
-			local_transform_.SetScale(scale);
 			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, b.z == 0 ? 1 : 1/b.z };
+			local_transform_.SetScale(scale);
 			ScaleParent(inverse * scale);
 		}
 
@@ -265,8 +265,8 @@ namespace ose
 		{
 			glm::vec3 scale { scale2d.x, scale2d.y, 1 };
 			glm::vec3 const & b { local_transform_.GetScale() };
-			local_transform_.SetScale(scale);
 			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, 1 };
+			local_transform_.SetScale(scale);
 			ScaleParent(inverse * scale);
 		}
 
@@ -275,12 +275,11 @@ namespace ose
 		{
 			glm::vec3 scale { x, y, 1 };
 			glm::vec3 const & b { local_transform_.GetScale() };
-			local_transform_.SetScale(scale);
 			glm::vec3 inverse { b.x == 0 ? 1 : 1/b.x, b.y == 0 ? 1 : 1/b.y, 1 };
+			local_transform_.SetScale(scale);
 			ScaleParent(inverse * scale);
 		}
 
-		
 	protected:
 
 		Transform local_transform_;
