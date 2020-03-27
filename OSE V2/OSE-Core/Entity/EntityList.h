@@ -49,6 +49,11 @@ namespace ose
 		// Return false if no entity with given EntityID exists in this entity list
 		bool RemoveEntity(const EntityID uid);
 
+		// Move an entity from an this entity list to a new entity list
+		// Returns true if the entity is moved successfully
+		// Returns false if the entity does not exist in this list
+		bool MoveEntity(Entity const & entity, EntityList & to);
+
 		// get a list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
 

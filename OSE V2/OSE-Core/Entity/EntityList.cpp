@@ -46,7 +46,7 @@ namespace ose
 		// NOTE - remove moves removed elements to end and returns the new end as an iterator
 		// NOTE - erase then deletes element between first arg and last arg from the vector
 		size_t size_before { entities_.size() };
-		entities_.erase(std::remove_if(entities_.begin(), entities_.end(), [this, entity] (auto & e) {
+		entities_.erase(std::remove_if(entities_.begin(), entities_.end(), [entity] (auto & e) {
 			return e.get() == &entity;
 		}), entities_.end());
 		return (size_before != entities_.size());
@@ -77,5 +77,37 @@ namespace ose
 
 		// else, return false
 		return false;
+	}
+
+	// Move an entity from an this entity list to a new entity list
+	// Returns true if the entity is moved successfully
+	// Returns false if the entity does not exist in this list
+	// NOTE - Untested
+	bool EntityList::MoveEntity(Entity const & entity, EntityList & to)
+	{
+		// No sub entity can be removed if there are no sub entities, therefore return false
+		if(entities_.empty())
+			return false;
+
+		// TODO - Test whether this actually works
+		// NOTE - Remove moves removed elements to end and returns the new end as an iterator
+		// NOTE - Erase then deletes element between first arg and last arg from the vector
+		size_t size_before { entities_.size() };
+		auto iter = std::find_if(entities_.begin(), entities_.end(), [entity] (auto & e) {
+			return e.get() == &entity;
+		});
+
+		// If the entity does not exist in this entity list, return false
+		if(iter == entities_.end())
+			return false;
+
+		// Swap the entity pointer into a local variable then erase the entity from this entity list
+		std::unique_ptr<Entity> up;
+		std::swap(*iter, up);
+		entities_.erase(iter);
+
+		// Add the entity to the new entity list
+		to.entities_.push_back(std::move(up));		
+		return true;
 	}
 }
