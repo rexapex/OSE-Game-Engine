@@ -265,7 +265,7 @@ namespace ose::project
 				}
 				catch(...)
 				{
-					LOG_ERROR("Error: Failed to parse input value as EInputType from integer");
+					LOG_ERROR("Failed to parse input value as EInputType from integer");
 				}
 			}
 			return EInputType::NONE;
@@ -293,7 +293,7 @@ namespace ose::project
 			}
 			else
 			{
-				LOG_ERROR("Error: Failed to parse boolean input, name is a required unique field");
+				LOG_ERROR("Failed to parse boolean input, name is a required unique field");
 			}
 		}
 
@@ -327,7 +327,7 @@ namespace ose::project
 			}
 			else
 			{
-				LOG_ERROR("Error: Failed to parse axis input, name is a required unique field");
+				LOG_ERROR("Failed to parse axis input, name is a required unique field");
 			}
 		}
 
@@ -540,7 +540,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse transform attribute as float, transform component ignored");
+				LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
 			}
 		}
 
@@ -561,7 +561,7 @@ namespace ose::project
 			if(tex != nullptr) {
 				new_entity->AddComponent<SpriteRenderer>(name, tex);
 			} else {
-				LOG_ERROR("Error: Texture", texture, "has not been loaded");
+				LOG_ERROR("Texture", texture, "has not been loaded");
 			}
 		}
 
@@ -601,7 +601,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse num_cols/num_rows/num_tiles/spacing_x/spacing_y attribute(s) as integer");
+				LOG_ERROR("Failed to parse num_cols/num_rows/num_tiles/spacing_x/spacing_y attribute(s) as integer");
 			}
 
 			// If texture is an alias, find it's replacement text, else use the file text
@@ -621,10 +621,10 @@ namespace ose::project
 				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles, spacing_x, spacing_y);
 			} else {
 				if(tex == nullptr) {
-					LOG_ERROR("Error: Texture", texture, "has not been loaded");
+					LOG_ERROR("Texture", texture, "has not been loaded");
 				}
 				if(tmap == nullptr) {
-					LOG_ERROR("Error: Tilemap", tilemap, "has not been loaded");
+					LOG_ERROR("Tilemap", tilemap, "has not been loaded");
 				}
 			}
 		}
@@ -812,7 +812,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse INT data in custom object");
+				LOG_ERROR("Failed to parse INT data in custom object");
 				return nullptr;
 			}
 		}
@@ -828,7 +828,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse FLOAT data in custom object");
+				LOG_ERROR("Failed to parse FLOAT data in custom object");
 				return nullptr;
 			}
 		}
@@ -875,7 +875,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse INT array data in custom object");
+				LOG_ERROR("Failed to parse INT array data in custom object");
 				return nullptr;
 			}
 		}
@@ -898,7 +898,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				LOG_ERROR("Error: Failed to parse FLOAT array data in custom object");
+				LOG_ERROR("Failed to parse FLOAT array data in custom object");
 				return nullptr;
 			}
 		}
