@@ -4,56 +4,92 @@ namespace ose
 {
 	namespace logging
 	{
-		// Convenience method for output
-		inline void Print(std::string text)
+		template <typename T>
+		inline void LogToStream(std::ostream & stream, T t)
 		{
-			std::cout << text << std::endl;
+			stream << t;
+		}
+
+		template <typename T, typename... Args>
+		inline void LogToStream(std::ostream & stream, T t, Args... args)
+		{
+			stream << t << " ";
+			LogToStream(stream, args...);
 		}
 
 		// Convenience method for output
 		// Use \n instead of endl so the buffer isn't flushed with every log
-		inline void Log(std::string text)
+		template <typename T, typename... Args>
+		inline void Log(T t, Args... args)
 		{
-			std::cout << text << "\n";
+#ifdef CONSOLE_LOGGING
+			std::clog << "LOG   : ";
+			LogToStream(std::clog, t, args...);
+			std::clog << "\n";
+#endif
 		}
 
 		// Convenience method for output of error messages
-		inline void LogError(std::string text)
+		template <typename T, typename... Args>
+		inline void LogError(T t, Args... args)
 		{
-			std::cerr << text << std::endl;
+#ifdef CONSOLE_LOGGING
+			std::cerr << "ERROR : ";
+			LogToStream(std::cerr, t, args...);
+			std::cerr << std::endl;
+#endif
 		}
 
 		// Convenience method for output in debug mode only
-		inline void DebugLog(std::string text)
+		template <typename T, typename... Args>
+		inline void DebugLog(T t, Args... args)
 		{
-			std::cout << text << std::endl;
+#ifdef CONSOLE_LOGGING
+			std::clog << "DEBUG : ";
+			LogToStream(std::clog, t, args...);
+			std::clog << std::endl;
+#endif
 		}
 	}
 }
 
+#ifndef __FILE__
+#	define __FILE__ "#"
+#endif
+#ifndef __LINE__
+#	define __LINE__ "#"
+#endif
+#ifdef _MSC_VER
+#	define __func__ "#"//__FUNCTION__
+#endif
+
+#ifndef STR
+#	define STR(x) #x
+#endif
+#ifndef TOSTR
+#	define TOSTR(x) STR(x)
+#endif
+
+#ifndef REL_PATH_NAME
+#	define REL_PATH_NAME __FILE__
+#endif
+
+#define FUNC_DETAIL_STR "\"" REL_PATH_NAME "\" : " TOSTR(__LINE__) " : " __func__ " :"
+
 // Convenience method for output
 // Use \n instead of endl so the buffer isn't flushed with every log
-#define LOG(x) ose::logging::Log(x)
+#define LOG(x, ...) ose::logging::Log(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
 
 // Convenience method for output of error messages
-#define LOG_ERROR(x) ose::logging::LogError(x)
+#define LOG_ERROR(x, ...) ose::logging::LogError(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
 
 // Export functions for testing iff building in debug mode
 #ifdef _WIN32
 #	ifdef _DEBUG
-// Output stream for debug mode only
-// Could possibly convert to inline function for type safety
-#		define DEBUG_LOG(x) ose::logging::DebugLog(x)
-
-// Define warning C4251 when debugging as DEBUG_EXPORT is only needed for unit tests
-// Hopefully unit tests still function correctly ?!?!?!?
-// #pragma warning(disable:4251)
-#		define DEBUG_EXPORT __declspec(dllexport)
+#		define DEBUG_LOG(x, ...) ose::logging::DebugLog(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
 #	else
-#		define DEBUG_EXPORT
-#		define DEBUG_LOG(x) do {} while(0)
-#	endif // DEBUG
+#		define DEBUG_LOG(x, ...) do {} while(0)
+#	endif // _DEBUG
 #else
-#		define DEBUG_EXPORT
-#		define DEBUG_LOG(x) do {} while(0)
-#endif
+#		define DEBUG_LOG(x, ...) do {} while(0)
+#endif // _WIN32
