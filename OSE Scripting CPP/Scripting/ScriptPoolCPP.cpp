@@ -43,7 +43,7 @@ namespace ose::scripting
 		}
 		else
 		{
-			ERROR_LOG("Error: Failed to find custom engine for custom component: " << type_name);
+			LOG_ERROR("Error: Failed to find custom engine for custom component:", type_name);
 		}
 	}
 
@@ -75,11 +75,11 @@ namespace ose::scripting
 				if(factory_iter != factories.end())
 					array.emplace_back(factory_iter->second());
 				else
-					ERROR_LOG("Error: Failed to find custom control: " << control.GetControlTypeName());
+					LOG_ERROR("Error: Failed to find custom control:", control.GetControlTypeName());
 			}
 			else
 			{
-				ERROR_LOG("Error: Attempting to create a control which already exists");
+				LOG_ERROR("Error: Attempting to create a control which already exists");
 			}
 		};
 

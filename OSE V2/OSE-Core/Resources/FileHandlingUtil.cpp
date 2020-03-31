@@ -70,7 +70,7 @@ namespace ose
 		}
 		else
 		{
-			ERROR_LOG("Error: Could not find HOME directory");
+			LOG_ERROR("Error: Could not find HOME directory");
 		}
 
 		//get windows Documents folder

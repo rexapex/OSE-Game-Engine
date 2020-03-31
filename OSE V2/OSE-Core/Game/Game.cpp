@@ -142,7 +142,7 @@ namespace ose
 	// Activate an entity along with activated sub-entities
 	void Game::OnEntityActivated(Entity & entity)
 	{
-		DEBUG_LOG("Activating Entity " << entity.GetName());
+		DEBUG_LOG("Activating Entity", entity.GetName());
 
 		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
@@ -188,7 +188,7 @@ namespace ose
 	// Deactivate an entity along with all its sub-entities
 	void Game::OnEntityDeactivated(Entity & entity)
 	{
-		DEBUG_LOG("De-activating Entity " << entity.GetName());
+		DEBUG_LOG("De-activating Entity", entity.GetName());
 
 		// Remove sprite renderer components from the render pool
 		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
