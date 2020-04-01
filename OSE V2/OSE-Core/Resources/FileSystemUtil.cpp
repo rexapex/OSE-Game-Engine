@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "FileHandlingUtil.h"
+#include "FileSystemUtil.h"
 
 #include <fstream>
 #include <filesystem>
@@ -16,9 +16,12 @@
 #include <sys/types.h>
 #endif
 
-namespace ose
+namespace ose::fs
 {
-	void FileHandlingUtil::LoadTextFile(const std::string & path, std::string & text)
+	// Loads the text file at 'path' and stores text in 'text'
+	// @param {std::string &} path The relative? path of the file to load
+	// @param {std::string &} text The string to be filled with the file's text
+	void LoadTextFile(const std::string & path, std::string & text)
 	{
 		std::ifstream in(path.c_str(), std::ios::in | std::ios::binary);
 
@@ -38,7 +41,7 @@ namespace ose
 
 	// Writes text file at 'path' with the contents 'text'
 	// The file will be created if it does not already exist
-	void FileHandlingUtil::WriteTextFile(const std::string & path, const std::string & text)
+	void WriteTextFile(const std::string & path, const std::string & text)
 	{
 		// https://stackoverflow.com/questions/478075/creating-files-in-c
 		std::ofstream out(path);
@@ -46,14 +49,18 @@ namespace ose
 		out.close();
 	}
 
-	void FileHandlingUtil::GetHomeDirectory(std::string & home_dir_path)
+	// Get the users home directory
+	// Supports compile on Windows, Linux, (TODO MacOS) using ifdef
+	// Returns Documents folder on Windows
+	// WARNING: NOT THREAD SAFE
+	void GetHomeDirectory(std::string & home_dir_path)
 	{
 	#if defined(__APPLE__) || defined(__linux__)
 		//get linux/mac HOME environment variable
 		const char * home_dir = getenv("HOME");
 		if(home_dir == NULL)
 		{
-			std::cerr << "LINUX FileHandlingUtil::getHomeDirectory -> home_dir is NULL" << std::endl;
+			std::cerr << "LINUX fs::GetHomeDirectory -> home_dir is NULL" << std::endl;
 			//not thread safe
 			home_dir = getpwuid(getuid()) != NULL ? getpwuid(getuid())->pw_dir : "/";
 		}
@@ -88,30 +95,30 @@ namespace ose
 	}
 
 	// Get the directory of the executable
-	std::string FileHandlingUtil::GetExecutableDirectory()
+	std::string GetExecutableDirectory()
 	{
 #		ifdef _WIN32
 			CHAR filename[MAX_PATH];
 			DWORD size = GetModuleFileNameA(NULL, filename, MAX_PATH);
 			if(size > 0)
 			{
-				return GetParentPathFromPath(filename);
+				return GetParentPath(filename);
 			}
 #		else
-#			error FileHandlingUtil::GetExecutableDirectory only supported on Windows
+#			error fs::GetExecutableDirectory only supported on Windows
 #		endif
 		return "";
 	}
 
-	//Copy the file at the from path to the to path
-	void FileHandlingUtil::CopyFile_(const std::string & from, const std::string & to)
+	// Copy the file at the from path to the to path
+	void CopyFile_(const std::string & from, const std::string & to)
 	{
 		try
 		{
-			//first, create the necessary directories
-			std::filesystem::create_directories(GetParentPathFromPath(to));
+			// first, create the necessary directories
+			std::filesystem::create_directories(GetParentPath(to));
 
-			//then, copy the file
+			// then, copy the file
 			bool success = std::filesystem::copy_file(from, to);
 
 			if(success)
@@ -129,13 +136,13 @@ namespace ose
 		}
 	}
 
-	//Creates directories given in path if they do not already exist
-	void FileHandlingUtil::CreateDirs(const std::string & path)
+	// Creates directories given in path if they do not already exist
+	void CreateDirs(const std::string & path)
 	{
 		auto & p = std::filesystem::path(path);
 		if(p.has_filename())
 		{
-			std::filesystem::create_directories(GetParentPathFromPath(path));
+			std::filesystem::create_directories(GetParentPath(path));
 		}
 		else
 		{
@@ -143,36 +150,21 @@ namespace ose
 		}
 	}
 
-	//Returns true iff the path exists and is a file
-	bool FileHandlingUtil::DoesFileExist(const std::string & path)
+	// Returns true iff the path exists and is a file
+	bool DoesFileExist(const std::string & path)
 	{
 		return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 	}
 
-	//Get the filename of a path
-	std::string FileHandlingUtil::GetFilenameFromPath(const std::string & path)
+	// Get the filename of a path
+	std::string GetFilenameFromPath(const std::string & path)
 	{
 		return std::filesystem::path(path).filename().string();
 	}
 
-	//Get the parent path of a path
-	std::string FileHandlingUtil::GetParentPathFromPath(const std::string & path)
+	// Get the parent path of a path
+	std::string GetParentPath(const std::string & path)
 	{
 		return std::filesystem::path(path).parent_path().string();
-	}
-
-	// Get a field from the engine's settings ini file
-	// The field must be of the type string
-	std::string FileHandlingUtil::GetEngineSettingsString(const std::string & section, const std::string & name, const std::string & default_value)
-	{
-		// TODO - Make my own INI parse and manager, probably will be easier than this
-
-	#ifdef WIN32
-		/*std::wstring ack = L"foo";
-		LPCTSTR section_, name_, default_value_;
-		swprintf(ack.c_str(), section.size(), L"%hs", section);
-		GetPrivateProfileString(section.c_str(), "server", "127.0.0.1", dbserver, sizeof(dbserver) / sizeof(dbserver[0]), ".\\dbsettings.ini");*/
-	#endif
-		return "";
 	}
 }

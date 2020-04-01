@@ -15,7 +15,6 @@
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
-    <ClCompile Include="OSE-Core\Resources\FileHandlingUtil.cpp" />
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\TextureLoader.cpp" />
@@ -35,6 +34,7 @@
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
+    <ClCompile Include="OSE-Core\Resources\FileSystemUtil.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -355,7 +355,6 @@
     <ClInclude Include="OSE-Core\Rendering\EProjectionMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
-    <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
     <ClInclude Include="OSE-Core\Resources\ResourceManager.h" />
@@ -531,6 +530,7 @@
     <ClInclude Include="OSE-Core\Resources\Mesh\MeshMetaData.h" />
     <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
+    <ClInclude Include="OSE-Core\Resources\FileSystemUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
