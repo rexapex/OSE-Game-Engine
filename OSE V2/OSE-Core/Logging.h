@@ -1,5 +1,7 @@
 #pragma once
 
+#include "OSE-Core/Resources/FileHandlingUtil.h"
+
 namespace ose
 {
 	namespace logging
@@ -20,21 +22,25 @@ namespace ose
 		// Convenience method for output
 		// Use \n instead of endl so the buffer isn't flushed with every log
 		template <typename T, typename... Args>
-		inline void Log(T t, Args... args)
+		inline void Log(char const * filename, char const * line, char const * function, T t, Args... args)
 		{
 #ifdef CONSOLE_LOGGING
-			std::clog << "LOG   : ";
+			std::clog << "LOG   : " << FileHandlingUtil::GetRelativePath(filename, FileHandlingUtil::GetParentPathFromPath(PROJECT_DIR)) << " : " << line << " : " << function << " : ";
 			LogToStream(std::clog, t, args...);
 			std::clog << "\n";
+#endif
+			// If debug build with console logging enabled, don't bother logging to file
+#if !defined(CONSOLE_LOGGING) || !defined(_DEBUG)
+			// TODO - Log to file
 #endif
 		}
 
 		// Convenience method for output of error messages
 		template <typename T, typename... Args>
-		inline void LogError(T t, Args... args)
+		inline void LogError(char const * filename, char const * line, char const * function, T t, Args... args)
 		{
 #ifdef CONSOLE_LOGGING
-			std::cerr << "ERROR : ";
+			std::cerr << "ERROR : " << FileHandlingUtil::GetRelativePath(filename, FileHandlingUtil::GetParentPathFromPath(PROJECT_DIR)) << " : " << line << " : " << function << " : ";
 			LogToStream(std::cerr, t, args...);
 			std::cerr << std::endl;
 #endif
@@ -42,16 +48,20 @@ namespace ose
 
 		// Convenience method for output in debug mode only
 		template <typename T, typename... Args>
-		inline void DebugLog(T t, Args... args)
+		inline void DebugLog(char const * filename, char const * line, char const * function, T t, Args... args)
 		{
 #ifdef CONSOLE_LOGGING
-			std::clog << "DEBUG : ";
+			std::clog << "DEBUG : " << FileHandlingUtil::GetRelativePath(filename, FileHandlingUtil::GetParentPathFromPath(PROJECT_DIR)) << " : " << line << " : " << function << " : ";
 			LogToStream(std::clog, t, args...);
 			std::clog << std::endl;
 #endif
 		}
 	}
 }
+
+#ifndef PROJECT_DIR
+#error "Error: PROJECT_DIR is not defined, add PROJECT_DIR=R\"($(ProjectDir))\"; as a preprocessor token"
+#endif
 
 #ifndef __FILE__
 #	define __FILE__ "#"
@@ -60,7 +70,7 @@ namespace ose
 #	define __LINE__ "#"
 #endif
 #ifdef _MSC_VER
-#	define __func__ "#"//__FUNCTION__
+#	define __func__ __FUNCTION__
 #endif
 
 #ifndef STR
@@ -70,23 +80,16 @@ namespace ose
 #	define TOSTR(x) STR(x)
 #endif
 
-#ifndef REL_PATH_NAME
-#	define REL_PATH_NAME __FILE__
-#endif
-
-#define FUNC_DETAIL_STR "\"" REL_PATH_NAME "\" : " TOSTR(__LINE__) " : " __func__ " :"
-
 // Convenience method for output
 // Use \n instead of endl so the buffer isn't flushed with every log
-#define LOG(x, ...) ose::logging::Log(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
+#define LOG(x, ...) ose::logging::Log(__FILE__, TOSTR(__LINE__), __func__, x, ##__VA_ARGS__)
 
 // Convenience method for output of error messages
-#define LOG_ERROR(x, ...) ose::logging::LogError(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
+#define LOG_ERROR(x, ...) ose::logging::LogError(__FILE__, TOSTR(__LINE__), __func__, x, ##__VA_ARGS__)
 
-// Export functions for testing iff building in debug mode
 #ifdef _WIN32
 #	ifdef _DEBUG
-#		define DEBUG_LOG(x, ...) ose::logging::DebugLog(FUNC_DETAIL_STR, x, ##__VA_ARGS__)
+#		define DEBUG_LOG(x, ...) ose::logging::DebugLog(__FILE__, TOSTR(__LINE__), __func__, x, ##__VA_ARGS__)
 #	else
 #		define DEBUG_LOG(x, ...) do {} while(0)
 #	endif // _DEBUG

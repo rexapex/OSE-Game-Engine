@@ -46,6 +46,10 @@ namespace ose
 		out.close();
 	}
 
+	// Get the users home directory
+	// Supports compile on Windows, Linux, (TODO MacOS) using ifdef
+	// Returns Documents folder on Windows
+	// WARNING: NOT THREAD SAFE
 	void FileHandlingUtil::GetHomeDirectory(std::string & home_dir_path)
 	{
 	#if defined(__APPLE__) || defined(__linux__)
@@ -103,7 +107,7 @@ namespace ose
 		return "";
 	}
 
-	//Copy the file at the from path to the to path
+	// Copy the file at the from path to the to path
 	void FileHandlingUtil::CopyFile_(const std::string & from, const std::string & to)
 	{
 		try
@@ -129,7 +133,7 @@ namespace ose
 		}
 	}
 
-	//Creates directories given in path if they do not already exist
+	// Creates directories given in path if they do not already exist
 	void FileHandlingUtil::CreateDirs(const std::string & path)
 	{
 		auto & p = std::filesystem::path(path);
@@ -143,22 +147,28 @@ namespace ose
 		}
 	}
 
-	//Returns true iff the path exists and is a file
+	// Returns true iff the path exists and is a file
 	bool FileHandlingUtil::DoesFileExist(const std::string & path)
 	{
 		return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 	}
 
-	//Get the filename of a path
+	// Get the filename of a path
 	std::string FileHandlingUtil::GetFilenameFromPath(const std::string & path)
 	{
 		return std::filesystem::path(path).filename().string();
 	}
 
-	//Get the parent path of a path
+	// Get the parent path of a path
 	std::string FileHandlingUtil::GetParentPathFromPath(const std::string & path)
 	{
 		return std::filesystem::path(path).parent_path().string();
+	}
+
+	// Get the relative path from a parent path and an absolute path
+	std::string FileHandlingUtil::GetRelativePath(const std::string & abs_path, const std::string & parent_path)
+	{
+		return std::filesystem::relative(abs_path, parent_path).string();
 	}
 
 	// Get a field from the engine's settings ini file

@@ -42,6 +42,9 @@ namespace ose
 		// Get the parent path of a path
 		static std::string GetParentPathFromPath(const std::string & path);
 
+		//Get the relative path from a parent path and an absolute path
+		static std::string GetRelativePath(const std::string & abs_path, const std::string & parent_path);
+
 		// Get a field from the engine's settings ini file
 		// The field must be of the type string
 		static std::string GetEngineSettingsString(const std::string & section, const std::string & name, const std::string & default_value);
