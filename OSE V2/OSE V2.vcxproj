@@ -219,6 +219,8 @@
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\StringExt.h" />
     <ClInclude Include="OSE-Core\Types.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />

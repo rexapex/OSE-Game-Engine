@@ -531,6 +531,8 @@
     <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
     <ClInclude Include="OSE-Core\Resources\FileSystemUtil.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\StringExt.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
