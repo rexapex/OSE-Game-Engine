@@ -67,7 +67,7 @@ namespace ose::project
 
 		return doc;
 	}
-
+	
 
 	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
 	{

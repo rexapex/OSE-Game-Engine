@@ -22,7 +22,7 @@ namespace ose::project
 	public:
 		ProjectLoaderXML();
 		virtual ~ProjectLoaderXML() noexcept;
-
+		
 		std::unique_ptr<Project> LoadProject(const std::string & project_name);
 		std::unique_ptr<ProjectInfo> LoadProjectManifest(const std::string & project_path);
 
