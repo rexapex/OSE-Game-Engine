@@ -136,17 +136,32 @@ namespace ose::fs
 		}
 	}
 
+	// Creates the file at the path specified if it does not already exist
+	// Returns true if the file is created, false if creation fails, false if file already exists
+	bool CreateFile_(const std::string & path)
+	{
+		if(!DoesFileExist(path))
+		{
+			CreateDirs(path);
+			std::ofstream ofs(path);
+			ofs.close();
+			return true;
+		}
+		return false;
+	}
+
 	// Creates directories given in path if they do not already exist
-	void CreateDirs(const std::string & path)
+	// Returns true if the directories are created, false if some or all failed to create, false if all exist
+	bool CreateDirs(const std::string & path)
 	{
 		auto & p = std::filesystem::path(path);
 		if(p.has_filename())
 		{
-			std::filesystem::create_directories(GetParentPath(path));
+			return std::filesystem::create_directories(GetParentPath(path));
 		}
 		else
 		{
-			std::filesystem::create_directories(path);
+			return std::filesystem::create_directories(path);
 		}
 	}
 

@@ -35,6 +35,7 @@
     <ClCompile Include="OSE-Core\Entity\Entity.cpp" />
     <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
+    <ClCompile Include="OSE-Core\File System\File.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -533,6 +534,7 @@
     <ClInclude Include="OSE-Core\STL Ext Lib\StringExt.h" />
     <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
     <ClInclude Include="OSE-Core\File System\FileSystemUtil.h" />
+    <ClInclude Include="OSE-Core\File System\File.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
