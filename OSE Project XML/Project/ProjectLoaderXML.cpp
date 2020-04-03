@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ProjectLoaderXML.h"
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/Resources/FileSystemUtil.h"
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectSettings.h"
@@ -51,12 +51,12 @@ namespace ose::project
 		//load the xml string
 		try
 		{
-			FileHandlingUtil::LoadTextFile(path, contents);
+			fs::LoadTextFile(path, contents);
 		}
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			LOG("FileHandlingUtil::load_text_file -> " << e.what());
+			LOG("fs::LoadTextFile -> " << e.what());
 			throw e;
 		}
 
@@ -1077,7 +1077,7 @@ namespace ose::project
 		SaveCustomDataObject(*doc, object);
 		std::stringstream ss;
 		ss << *doc;
-		FileHandlingUtil::WriteTextFile(path, ss.str());
+		fs::WriteTextFile(path, ss.str());
 	}
 
 	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, CustomObject const & object, xml_node<> * parent, std::string name)

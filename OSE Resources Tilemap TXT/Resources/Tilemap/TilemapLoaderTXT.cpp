@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "TilemapLoaderTXT.h"
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/Resources/FileSystemUtil.h"
 
 namespace ose::resources
 {
@@ -12,13 +12,13 @@ namespace ose::resources
 	// Path is absolute and is guaranteed to exist
 	void TilemapLoaderTXT::LoadTilemap(const std::string & path, Tilemap & tilemap)
 	{
-		if(FileHandlingUtil::DoesFileExist(path))
+		if(fs::DoesFileExist(path))
 		{
 			// Load the text file
 			std::string text;
 			try
 			{
-				FileHandlingUtil::LoadTextFile(path, text);
+				fs::LoadTextFile(path, text);
 			}
 			catch(...)
 			{

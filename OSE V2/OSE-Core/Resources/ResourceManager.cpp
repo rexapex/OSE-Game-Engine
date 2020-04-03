@@ -12,7 +12,7 @@
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
-#include "FileHandlingUtil.h"
+#include "FileSystemUtil.h"
 
 namespace ose
 {
@@ -33,7 +33,7 @@ namespace ose
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
-		FileHandlingUtil::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
+		fs::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + fs::GetFilenameFromPath(file_path));
 	}
 
 	//imports multiple files into project resources directory
@@ -73,13 +73,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// if no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// only add the new texture if the name is not taken (in either map)
@@ -97,7 +97,7 @@ namespace ose
 				std::string meta_abs_path { abs_path + ".meta" };
 				bool success = false;
 				TextureMetaData meta_data;	//object will have default values
-				if(FileHandlingUtil::DoesFileExist(meta_abs_path))
+				if(fs::DoesFileExist(meta_abs_path))
 				{
 					//load meta data file
 					try
@@ -111,7 +111,7 @@ namespace ose
 				{
 					// create meta data file
 					// NOTE - compiler auto concatenates adjacent string literals
-					FileHandlingUtil::WriteTextFile(meta_abs_path,	"mag_filter_mode 0\n"
+					fs::WriteTextFile(meta_abs_path,	"mag_filter_mode 0\n"
 																	"min_filter_mode 0\n"
 																	"mip_mapping_enabled 1\n"
 																	"min_LOD 0\n"
@@ -221,12 +221,12 @@ namespace ose
 		std::string contents;
 		try
 		{
-			FileHandlingUtil::LoadTextFile(abs_path, contents);
+			fs::LoadTextFile(abs_path, contents);
 		}
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			LOG("FileHandlingUtil::load_text_file -> " << e.what());
+			LOG("fs::LoadTextFile -> " << e.what());
 			throw e;
 		}
 
@@ -276,13 +276,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// if no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// only add the new tilemaps if the name is not taken
@@ -341,13 +341,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// If no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// Only add the new mesh if the name is not taken
