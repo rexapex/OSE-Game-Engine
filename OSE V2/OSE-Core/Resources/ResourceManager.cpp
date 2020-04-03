@@ -88,7 +88,7 @@ namespace ose
 			if(iter == textures_without_Gpu_memory_.end() && iter2 == textures_with_Gpu_memory_.end())
 			{
 				textures_without_Gpu_memory_.emplace(name_to_use, RenderingFactories[0]->NewTexture(name_to_use, abs_path));
-				DEBUG_LOG("Added texture " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added texture", name_to_use, "to ResourceManager");
 				
 				// get a references to the newly created texture
 				auto & tex = textures_without_Gpu_memory_.at(name_to_use);
@@ -155,7 +155,7 @@ namespace ose
 				// remove the texture from the original map
 				return textures_without_Gpu_memory_.erase(tex_iter);
 			} catch(const std::exception & e) {
-				ERROR_LOG(e.what());
+				LOG_ERROR(e.what());
 			}
 		}
 
@@ -226,7 +226,7 @@ namespace ose
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			LOG("fs::LoadTextFile -> " << e.what());
+			LOG("fs::LoadTextFile ->", e.what());
 			throw e;
 		}
 
@@ -290,7 +290,7 @@ namespace ose
 			if(iter == tilemaps_.end())
 			{
 				tilemaps_.emplace(name_to_use, std::make_unique<Tilemap>(name_to_use, abs_path));
-				DEBUG_LOG("Added tilemap " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added tilemap", name_to_use, "to ResourceManager");
 
 				// get a references to the newly created tilemap
 				auto & tilemap = tilemaps_.at(name_to_use);
@@ -355,7 +355,7 @@ namespace ose
 			if(iter == meshes_.end())
 			{
 				meshes_.emplace(name_to_use, std::make_unique<Mesh>(name_to_use, abs_path));
-				DEBUG_LOG("Added mesh " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added mesh", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created mesh
 				auto & mesh = meshes_.at(name_to_use);

@@ -42,5 +42,8 @@ namespace ose
 
 		// Get the parent path of a path
 		std::string GetParentPath(const std::string & path);
+
+		// Get the relative path from a parent path and an absolute path
+		std::string GetRelativePath(const std::string & abs_path, const std::string & parent_path);
 	}
 }

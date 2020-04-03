@@ -535,6 +535,7 @@
     <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
     <ClInclude Include="OSE-Core\File System\FileSystemUtil.h" />
     <ClInclude Include="OSE-Core\File System\File.h" />
+    <ClInclude Include="OSE-Core\Logging.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

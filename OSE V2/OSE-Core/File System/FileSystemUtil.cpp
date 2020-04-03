@@ -77,7 +77,7 @@ namespace ose::fs
 		}
 		else
 		{
-			ERROR_LOG("Error: Could not find HOME directory");
+			LOG_ERROR("Could not find HOME directory");
 		}
 
 		//get windows Documents folder
@@ -180,6 +180,17 @@ namespace ose::fs
 	// Get the parent path of a path
 	std::string GetParentPath(const std::string & path)
 	{
-		return std::filesystem::path(path).parent_path().string();
+		// TODO - Replace with rtrim function when implemented
+		std::string s { path };
+		s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+			return ch != '\\' && ch != '/';
+		}).base(), s.end());
+		return std::filesystem::path(s).parent_path().string();
+	}
+
+	// Get the relative path from a parent path and an absolute path
+	std::string GetRelativePath(const std::string & abs_path, const std::string & parent_path)
+	{
+		return std::filesystem::relative(abs_path, parent_path).string();
 	}
 }

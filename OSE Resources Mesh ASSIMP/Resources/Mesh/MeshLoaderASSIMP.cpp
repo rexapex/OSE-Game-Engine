@@ -34,7 +34,7 @@ namespace ose::resources
 		// Check the import was successful
 		if(!scene)
 		{
-			ERROR_LOG("Error: Failed to load mesh " << path << ", " << importer.GetErrorString());
+			LOG_ERROR("Failed to load mesh", path, "-", importer.GetErrorString());
 			return;
 		}
 
@@ -83,7 +83,7 @@ namespace ose::resources
 				{
 					// NOTE - Should never get here since mesh is loaded with aiProcess_Triangulate
 					// TODO - Could detect which meshes are already triangulated and remove aiProcess_Triangulate from those
-					ERROR_LOG("Error: Failed to process mesh " << mesh->GetPath() << ", only supports meshes composed of triangles");
+					LOG_ERROR("Failed to process mesh", mesh->GetPath(), "- only supports meshes composed of triangles");
 					return;
 				}
 

@@ -21,7 +21,7 @@ namespace ose
 
 	void WindowManager::FramebufferSizeCallbackImpl(int width, int height)
 	{
-		DEBUG_LOG("Framebuffer resized to " << width << "x" << height);
+		DEBUG_LOG("Framebuffer resized to", width, "x", height);
 		this->rendering_engine_->SetFramebufferSize(width, height);
 	}
 	

@@ -24,11 +24,11 @@ int main(int argc, char * argv[])
 	try {
 		game->LoadProject(project_path);
 	} catch(const std::invalid_argument & e) {
-		ERROR_LOG(e.what());
+		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	} catch(const std::exception & e) {
-		ERROR_LOG(e.what());
+		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	}
@@ -37,11 +37,11 @@ int main(int argc, char * argv[])
 	try {
 		game->LoadScene("scene1");
 	} catch(const std::invalid_argument & e) {
-		ERROR_LOG(e.what());
+		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	} catch(const std::exception & e) {
-		ERROR_LOG(e.what());
+		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	}
@@ -50,7 +50,7 @@ int main(int argc, char * argv[])
 	try {
 		game->SetActiveScene("scene1");
 	} catch(const std::invalid_argument & e) {
-		ERROR_LOG(e.what());
+		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	}
