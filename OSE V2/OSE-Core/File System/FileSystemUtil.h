@@ -26,8 +26,13 @@ namespace ose
 		// Will create the necessary destination directories
 		void CopyFile_(const std::string & from, const std::string & to);
 
+		// Creates the file at the path specified if it does not already exist
+		// Returns true if the file is created, false if creation fails, false if file already exists
+		bool CreateFile_(const std::string & path);
+
 		// Creates directories given in path if they do not already exist
-		void CreateDirs(const std::string & path);
+		// Returns true if the directories are created, false if some or all failed to create, false if all exist
+		bool CreateDirs(const std::string & path);
 
 		// Returns true iff the path exists and is a file
 		bool DoesFileExist(const std::string & path);
