@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ProjectLoader.h"
-#include "OSE-Core/Resources/FileSystemUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 namespace ose
 {

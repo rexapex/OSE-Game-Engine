@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "Main.h"
 #include "OSE-Core/Game/Game.h"
-#include "OSE-Core/Resources/FileSystemUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 int main(int argc, char * argv[])
 {

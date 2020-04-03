@@ -12,7 +12,7 @@
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
-#include "FileSystemUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 namespace ose
 {

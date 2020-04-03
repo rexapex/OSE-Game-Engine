@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ProjectLoaderXML.h"
-#include "OSE-Core/Resources/FileSystemUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectSettings.h"
