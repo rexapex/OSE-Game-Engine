@@ -44,6 +44,10 @@ namespace ose
 			LogToStream(std::cerr, t, args...);
 			std::cerr << std::endl;
 #endif
+			// If debug build with console logging enabled, don't bother logging to file
+#if !defined(CONSOLE_LOGGING) || !defined(_DEBUG)
+			// TODO - Log to file
+#endif
 		}
 
 		// Convenience method for output in debug mode only
@@ -55,12 +59,16 @@ namespace ose
 			LogToStream(std::clog, t, args...);
 			std::clog << std::endl;
 #endif
+			// If debug build with console logging enabled, don't bother logging to file
+#if !defined(CONSOLE_LOGGING) || !defined(_DEBUG)
+			// TODO - Log to file
+#endif
 		}
 	}
 }
 
 #ifndef PROJECT_DIR
-#error "Error: PROJECT_DIR is not defined, add PROJECT_DIR=R\"($(ProjectDir))\"; as a preprocessor token"
+#error "PROJECT_DIR is not defined, add PROJECT_DIR=R\"($(ProjectDir))\"; as a preprocessor token"
 #endif
 
 #ifndef __FILE__
