@@ -162,7 +162,12 @@ namespace ose
 	// Get the parent path of a path
 	std::string FileHandlingUtil::GetParentPathFromPath(const std::string & path)
 	{
-		return std::filesystem::path(path).parent_path().string();
+		// TODO - Replace with rtrim function when implemented
+		std::string s { path };
+		s.erase(std::find_if(s.rbegin(), s.rend(), [](int ch) {
+			return ch != '\\' && ch != '/';
+		}).base(), s.end());
+		return std::filesystem::path(s).parent_path().string();
 	}
 
 	// Get the relative path from a parent path and an absolute path
