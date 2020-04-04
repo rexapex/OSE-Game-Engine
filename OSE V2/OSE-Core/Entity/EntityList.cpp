@@ -46,7 +46,7 @@ namespace ose
 		// NOTE - remove moves removed elements to end and returns the new end as an iterator
 		// NOTE - erase then deletes element between first arg and last arg from the vector
 		size_t size_before { entities_.size() };
-		entities_.erase(std::remove_if(entities_.begin(), entities_.end(), [entity] (auto & e) {
+		entities_.erase(std::remove_if(entities_.begin(), entities_.end(), [&entity] (auto & e) {
 			return e.get() == &entity;
 		}), entities_.end());
 		return (size_before != entities_.size());
@@ -93,7 +93,7 @@ namespace ose
 		// NOTE - Remove moves removed elements to end and returns the new end as an iterator
 		// NOTE - Erase then deletes element between first arg and last arg from the vector
 		size_t size_before { entities_.size() };
-		auto iter = std::find_if(entities_.begin(), entities_.end(), [entity] (auto & e) {
+		auto iter = std::find_if(entities_.begin(), entities_.end(), [&entity] (auto & e) {
 			return e.get() == &entity;
 		});
 
