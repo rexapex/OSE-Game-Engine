@@ -89,7 +89,7 @@ namespace ose::rendering
 			if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
 				LOG("Deferred shading framebuffer creation - SUCCESS");
 			else
-				LOG("Deferred shading framebuffer creation - FAILURE - " << glGetError());
+				LOG("Deferred shading framebuffer creation - FAILURE -", glGetError());
 			glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 			// Create the VAO and VBO for rendering the fbo
@@ -145,7 +145,7 @@ namespace ose::rendering
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
 				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
+				LOG_ERROR(msg);
 
 				// Provide the infolog in whatever manor you deem best.
 				// Exit with failure.
@@ -315,7 +315,7 @@ namespace ose::rendering
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
 				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
+				LOG_ERROR(msg);
 
 				// Provide the infolog in whatever manor you deem best.
 				// Exit with failure.
@@ -439,7 +439,7 @@ namespace ose::rendering
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
 				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
+				LOG_ERROR(msg);
 
 				// Provide the infolog in whatever manor you deem best.
 				// Exit with failure.

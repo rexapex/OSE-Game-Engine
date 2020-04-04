@@ -16,40 +16,43 @@ namespace ose
 		EntityList & operator=(EntityList &) noexcept = delete;
 		EntityList & operator=(EntityList &&) noexcept = delete;
 
-		// add an entity to the entity list
+		// Add an entity to the entity list
 		// TODO - should name be unique ???
-		// method constructs a new object
-		// method takes an array of constructor arguments
-		// params: name, tag, prefab
-		// returns: reference to newly created entity
+		// Method constructs a new object
+		// Method takes entity constructor arguments
+		// Returns a reference to the newly created entity
 		template<typename... Args>
-		Entity & AddEntity(Args &&... params);
+		unowned_ptr<Entity> AddEntity(Args &&... params)
+		{
+			// construct a new entity object
+			try {
+				return entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) ).get();
+			} catch(...) {
+				return nullptr;
+			}
+		}
 
-		// add an entity to the entity list
-		// method moves the object passed
-		void AddEntity(std::unique_ptr<Entity> e);
-
-		// add an entity to the entity list
-		// new entity is a deep copy of the entity passed
-		// method constructs a new object
-		// returns: reference to newly created entity
-		Entity & AddEntity(const Entity & other);
+		// Add an entity to the entity list
+		// New entity is a deep copy of the entity passed
+		// Method constructs a new object
+		// Returns a reference to the newly created entity
+		unowned_ptr<Entity> AddEntity(const Entity & other);
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
-		// remove sub entity
-		// return true if sub entity is removed
-		// return false if the sub entity does not belong to this entity
+		// Remove an entity from the entity list
+		// Return true if entity is removed
+		// Return false if the entity does not belong to this entity list
 		bool RemoveEntity(const Entity & entity);
 
-		// remove entity by name
-		// return true if entity with given name is removed
-		// return false if no entity with given name exists
-		bool RemoveEntity(const std::string & name);
-
-		// remove entity by EntityID
-		// return true if entity with given EntityID is removed
-		// return false if no entity with given EntityID exists
+		// Remove entity by EntityID
+		// Return true if entity with given EntityID is removed
+		// Return false if no entity with given EntityID exists in this entity list
 		bool RemoveEntity(const EntityID uid);
+
+		// Move an entity from an this entity list to a new entity list
+		// Returns true if the entity is moved successfully
+		// Returns false if the entity does not exist in this list
+		bool MoveEntity(Entity const & entity, EntityList & to);
 
 		// get a list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }

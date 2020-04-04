@@ -46,7 +46,7 @@ namespace ose
 			}
 
 			//perform the task
-			LOG(task << "," << thread_id_);
+			LOG(task, ",", thread_id_);
 
 			//notify ThreadManager that task has been completed ?
 			on_task_completed_(thread_id_);

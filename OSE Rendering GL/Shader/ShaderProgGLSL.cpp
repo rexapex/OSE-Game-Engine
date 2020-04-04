@@ -83,7 +83,7 @@ namespace ose::shader
 			// If the level is less than zero, the shader is impossible to compile
 			if(level < 0)
 			{
-				ERROR_LOG("Error: Failed to validate shader graph");
+				LOG_ERROR("Failed to validate shader graph");
 				return;
 			}
 

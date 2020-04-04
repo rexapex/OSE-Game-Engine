@@ -14,7 +14,7 @@ namespace ose::resources
 	{
 		*img_data = SOIL_load_image(path.c_str(), width, height, channels, SOIL_LOAD_AUTO);
 		if(*img_data == NULL)
-			ERROR_LOG("Error: Failed to load texture " << path << ", Check bit depth is 24-bit for RGB or 32-bit for RGBA");
+			LOG_ERROR("Failed to load texture", path, "- Check bit depth is 24-bit for RGB or 32-bit for RGBA");
 	}
 
 	// free resources used by the texture (img_data)
