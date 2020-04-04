@@ -460,23 +460,23 @@ namespace ose::project
 		// Create the new scene object
 		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
 
-		// map of aliases (lhs = alias, rhs = replacement), only applicable to current file
+		// Map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
 		ParseResources(resources_node, aliases, project);
 
-		// load the scene's entities
+		// Load the scene's entities
 		if(entities_node != nullptr) {
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 			{
-				// create the entity then move it's pointer to the scene
-				auto entity = ParseEntity(entity_node, aliases, project);
-				if(entity != nullptr) {
-					scene->AddEntity(std::move(entity));
-				}
+				// Parse the xml of the entity and add it to the scene
+#				pragma warning(push)
+#				pragma warning(disable:26444)
+				ParseEntity(scene.get(), entity_node, aliases, project);
+#				pragma warning(pop)
 			}
 		}
 
-		// remove the temporary prefabs since they were only needed for scene loading
+		// Remove the temporary prefabs since they were only needed for scene loading
 		project.GetPrefabManager().ClearTempPrefabs();
 
 		return scene;
@@ -507,7 +507,7 @@ namespace ose::project
 		ParseResources(resources_node, prefab_aliases, project);
 
 		// load the prefab entity as an Entity object
-		auto output_entity = ParseEntity(entity_node, prefab_aliases, project);
+		auto output_entity = ParseEntity(nullptr, entity_node, prefab_aliases, project);
 
 		// check the entity was successfully loaded and that the name is unique
 		if(output_entity && !project.GetPrefabManager().DoesPrefabExist(prefab_path)) {
@@ -518,8 +518,10 @@ namespace ose::project
 	}
 
 
-	// returns: Entity object created
-	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(rapidxml::xml_node<> * entity_node,
+	// Parse the XML of an entity
+	// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
+	// If parent == nullptr, the new entity is returned
+	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
 			std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
 		auto name_attrib = entity_node->first_attribute("name");
@@ -531,17 +533,21 @@ namespace ose::project
 		auto prefab_attrib = entity_node->first_attribute("prefab");
 		const std::string & prefab_text = (prefab_attrib ? prefab_attrib->value(): "");
 
-		// if the prefab is an alias, find it's replacement text, else use the file text
+		// If the prefab is an alias, find it's replacement text, else use the file text
 		const auto prefab_text_alias_pos = aliases.find(prefab_text);
 		const std::string & prefab = prefab_text_alias_pos == aliases.end() ? prefab_text : prefab_text_alias_pos->second;
 
-		// reference to the newly created entity (not yet created)
-		std::unique_ptr<Entity> new_entity = nullptr;
+		// Pointer to the newly created entity (not yet created)
+		unowned_ptr<Entity> new_entity = nullptr;
+		std::unique_ptr<Entity> new_entity_ret = nullptr;
 
 		if(prefab == "")
 		{
-			// if no prefab is specified, then create a new entity object
-			new_entity = std::make_unique<Entity>(name, tag, prefab);
+			// If no prefab is specified, then create a new entity object
+			if(parent)
+				new_entity = parent->AddEntity(name, tag, prefab);
+			else
+				new_entity_ret = std::make_unique<Entity>(name, tag, prefab), new_entity = new_entity_ret.get();
 		}
 		else
 		{
@@ -550,7 +556,11 @@ namespace ose::project
 			{
 				const auto & prefab_object = project.GetPrefabManager().GetPrefab(prefab);
 				DEBUG_LOG("Entity", name, "extends", prefab_object.GetName(), "\n");
-				new_entity = std::make_unique<Entity>(prefab_object);	// create object from copy of prefab
+				// Create object from copy of prefab
+				if(parent)
+					new_entity = parent->AddEntity(prefab_object);
+				else
+					new_entity_ret = std::make_unique<Entity>(prefab_object), new_entity = new_entity_ret.get();
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {
@@ -746,12 +756,14 @@ namespace ose::project
 		// parse any sub-entities
 		for(auto sub_entity_node = entity_node->first_node("entity"); sub_entity_node; sub_entity_node = sub_entity_node->next_sibling("entity"))
 		{
-			// create the sub entity then move it's pointer to the new_entity
-			auto sub_entity = ParseEntity(sub_entity_node, aliases, project);
-			new_entity->AddEntity(std::move(sub_entity));
+			// parse the sub entity's xml
+#			pragma warning(push)
+#			pragma warning(disable:26444)
+			ParseEntity(new_entity, sub_entity_node, aliases, project);
+#			pragma warning(pop)
 		}
 
-		return std::move(new_entity);
+		return new_entity_ret;
 	}
 
 	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
