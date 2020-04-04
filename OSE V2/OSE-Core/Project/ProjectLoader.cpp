@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ProjectLoader.h"
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 namespace ose
 {
@@ -15,7 +15,7 @@ namespace ose
 	std::string ProjectLoader::GetProjectFileFormat(const std::string & project_path)
 	{
 		std::string text;
-		FileHandlingUtil::LoadTextFile(project_path + "/PROJECT_FORMAT", text);
+		fs::LoadTextFile(project_path + "/PROJECT_FORMAT", text);
 		return text;
 	}
 }

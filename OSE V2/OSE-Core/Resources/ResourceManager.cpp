@@ -12,7 +12,7 @@
 #include "Mesh/Mesh.h"
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
-#include "FileHandlingUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 namespace ose
 {
@@ -33,7 +33,7 @@ namespace ose
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
-		FileHandlingUtil::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + FileHandlingUtil::GetFilenameFromPath(file_path));
+		fs::CopyFile_(file_path, project_path_ + "/Resources/" + sub_dir + "/" + fs::GetFilenameFromPath(file_path));
 	}
 
 	//imports multiple files into project resources directory
@@ -73,13 +73,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// if no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// only add the new texture if the name is not taken (in either map)
@@ -88,7 +88,7 @@ namespace ose
 			if(iter == textures_without_Gpu_memory_.end() && iter2 == textures_with_Gpu_memory_.end())
 			{
 				textures_without_Gpu_memory_.emplace(name_to_use, RenderingFactories[0]->NewTexture(name_to_use, abs_path));
-				DEBUG_LOG("Added texture " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added texture", name_to_use, "to ResourceManager");
 				
 				// get a references to the newly created texture
 				auto & tex = textures_without_Gpu_memory_.at(name_to_use);
@@ -97,7 +97,7 @@ namespace ose
 				std::string meta_abs_path { abs_path + ".meta" };
 				bool success = false;
 				TextureMetaData meta_data;	//object will have default values
-				if(FileHandlingUtil::DoesFileExist(meta_abs_path))
+				if(fs::DoesFileExist(meta_abs_path))
 				{
 					//load meta data file
 					try
@@ -111,7 +111,7 @@ namespace ose
 				{
 					// create meta data file
 					// NOTE - compiler auto concatenates adjacent string literals
-					FileHandlingUtil::WriteTextFile(meta_abs_path,	"mag_filter_mode 0\n"
+					fs::WriteTextFile(meta_abs_path,	"mag_filter_mode 0\n"
 																	"min_filter_mode 0\n"
 																	"mip_mapping_enabled 1\n"
 																	"min_LOD 0\n"
@@ -155,7 +155,7 @@ namespace ose
 				// remove the texture from the original map
 				return textures_without_Gpu_memory_.erase(tex_iter);
 			} catch(const std::exception & e) {
-				ERROR_LOG(e.what());
+				LOG_ERROR(e.what());
 			}
 		}
 
@@ -221,12 +221,12 @@ namespace ose
 		std::string contents;
 		try
 		{
-			FileHandlingUtil::LoadTextFile(abs_path, contents);
+			fs::LoadTextFile(abs_path, contents);
 		}
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			LOG("FileHandlingUtil::load_text_file -> " << e.what());
+			LOG("fs::LoadTextFile ->", e.what());
 			throw e;
 		}
 
@@ -276,13 +276,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// if no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// only add the new tilemaps if the name is not taken
@@ -290,7 +290,7 @@ namespace ose
 			if(iter == tilemaps_.end())
 			{
 				tilemaps_.emplace(name_to_use, std::make_unique<Tilemap>(name_to_use, abs_path));
-				DEBUG_LOG("Added tilemap " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added tilemap", name_to_use, "to ResourceManager");
 
 				// get a references to the newly created tilemap
 				auto & tilemap = tilemaps_.at(name_to_use);
@@ -341,13 +341,13 @@ namespace ose
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
-		if(FileHandlingUtil::DoesFileExist(abs_path))
+		if(fs::DoesFileExist(abs_path))
 		{
 			// If no name is given, use the filename
 			std::string name_to_use { name };
 			if(name_to_use == "")
 			{
-				name_to_use = path;//FileHandlingUtil::filenameFromPath(abs_path);
+				name_to_use = path;//fs::FilenameFromPath(abs_path);
 			}
 
 			// Only add the new mesh if the name is not taken
@@ -355,7 +355,7 @@ namespace ose
 			if(iter == meshes_.end())
 			{
 				meshes_.emplace(name_to_use, std::make_unique<Mesh>(name_to_use, abs_path));
-				DEBUG_LOG("Added mesh " << name_to_use << " to ResourceManager");
+				DEBUG_LOG("Added mesh", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created mesh
 				auto & mesh = meshes_.at(name_to_use);

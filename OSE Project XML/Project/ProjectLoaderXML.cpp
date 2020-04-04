@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "ProjectLoaderXML.h"
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectSettings.h"
@@ -51,12 +51,12 @@ namespace ose::project
 		//load the xml string
 		try
 		{
-			FileHandlingUtil::LoadTextFile(path, contents);
+			fs::LoadTextFile(path, contents);
 		}
 		catch(const std::exception & e)
 		{
 			//error occurred, therefore, return an empty project info stub
-			LOG("FileHandlingUtil::load_text_file -> " << e.what());
+			LOG("fs::LoadTextFile ->", e.what());
 			throw e;
 		}
 
@@ -67,11 +67,11 @@ namespace ose::project
 
 		return doc;
 	}
-
+	
 
 	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
 	{
-		LOG("Loading Project Directory: " << project_path << std::endl);
+		LOG("Loading Project Directory:", project_path, "\n");
 
 		//first, load the manifest
 		std::unique_ptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
@@ -109,7 +109,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return std::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
 		}
 
@@ -119,23 +119,23 @@ namespace ose::project
 		//valid project manifest file should contain: name, version, date_created, date_modified
 		xml_node<> * name_node = doc->first_node("name");
 		std::string name = (name_node ? name_node->value() : "UNKNOWN");
-		DEBUG_LOG("name: " << name);
+		DEBUG_LOG("name:", name);
 
 		xml_node<> * engine_version_node = doc->first_node("engine_version");
 		std::string engine_version = (engine_version_node ? engine_version_node->value() : "UNKNOWN");
-		DEBUG_LOG("engine_version: " << engine_version);
+		DEBUG_LOG("engine_version:", engine_version);
 
 		xml_node<> * game_version_node = doc->first_node("game_version");
 		std::string game_version = (game_version_node ? game_version_node->value() : "UNKNOWN");
-		DEBUG_LOG("game_version: " << game_version);
+		DEBUG_LOG("game_version:", game_version);
 
 		xml_node<> * date_created_node = doc->first_node("date_created");
 		std::string date_created = (date_created_node ? date_created_node->value() : "UNKNOWN");
-		DEBUG_LOG("date_created: " << date_created);
+		DEBUG_LOG("date_created:", date_created);
 
 		xml_node<> * date_modified_node = doc->first_node("date_modified");
 		std::string date_modified = (date_modified_node ? date_modified_node->value() : "UNKNOWN");
-		DEBUG_LOG("date_modified: " << date_modified);
+		DEBUG_LOG("date_modified:", date_modified);
 
 		DEBUG_LOG("");
 
@@ -157,7 +157,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return name_to_path_map;
 		}
 
@@ -173,7 +173,7 @@ namespace ose::project
 			{
 				//map name to path
 				name_to_path_map->insert({name_attrib->value(), path_attrib->value()});
-				DEBUG_LOG("Scene {name: " << name_attrib->value() << ", path: " << path_attrib->value() << "}");
+				DEBUG_LOG("Scene { name:", name_attrib->value(), ", path:", path_attrib->value(), " }");
 			}
 		}
 
@@ -194,7 +194,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return nullptr;
 		}
 
@@ -222,7 +222,7 @@ namespace ose::project
 		auto name_attrib = tag_node->first_attribute("name");
 		const std::string & name = (name_attrib ? name_attrib->value() : "");
 
-		DEBUG_LOG("tag -> name: " << name);
+		DEBUG_LOG("tag -> name:", name);
 
 		//add the tags to the tags list
 		tags.emplace_back(name);
@@ -250,7 +250,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return settings;
 		}
 
@@ -275,7 +275,7 @@ namespace ose::project
 						if(type == 0 || type == 1)
 							settings.rendering_settings_.projection_mode_ = static_cast<EProjectionMode>(type);
 						else
-							ERROR_LOG("Error: Projection mode must be in range [0, 1]");
+							LOG_ERROR("Projection mode must be in range [0, 1]");
 					}
 
 					auto znear_attrib = projection_node->first_attribute("znear");
@@ -294,7 +294,7 @@ namespace ose::project
 				}
 				catch(...)
 				{
-					ERROR_LOG("Error: Failed to parse rendering::projection settings");
+					LOG_ERROR("Failed to parse rendering::projection settings");
 				}
 			}
 		}
@@ -316,7 +316,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return settings;
 		}
 
@@ -331,7 +331,7 @@ namespace ose::project
 				}
 				catch(...)
 				{
-					ERROR_LOG("Error: Failed to parse input value as EInputType from integer");
+					LOG_ERROR("Failed to parse input value as EInputType from integer");
 				}
 			}
 			return EInputType::NONE;
@@ -359,7 +359,7 @@ namespace ose::project
 			}
 			else
 			{
-				ERROR_LOG("Error: Failed to parse boolean input, name is a required unique field");
+				LOG_ERROR("Failed to parse boolean input, name is a required unique field");
 			}
 		}
 
@@ -393,7 +393,7 @@ namespace ose::project
 			}
 			else
 			{
-				ERROR_LOG("Error: Failed to parse axis input, name is a required unique field");
+				LOG_ERROR("Failed to parse axis input, name is a required unique field");
 			}
 		}
 
@@ -415,7 +415,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return {};
 		}
 
@@ -441,7 +441,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return nullptr;
 		}
 
@@ -495,7 +495,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return nullptr;
 		}
 
@@ -555,7 +555,7 @@ namespace ose::project
 			if(project.GetPrefabManager().DoesPrefabExist(prefab))
 			{
 				const auto & prefab_object = project.GetPrefabManager().GetPrefab(prefab);
-				DEBUG_LOG("Entity " << name << " extends " << prefab_object.GetName() << std::endl);
+				DEBUG_LOG("Entity", name, "extends", prefab_object.GetName(), "\n");
 				// Create object from copy of prefab
 				if(parent)
 					new_entity = parent->AddEntity(prefab_object);
@@ -564,7 +564,7 @@ namespace ose::project
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {
-				DEBUG_LOG("Prefab " << prefab << " does not exist");
+				DEBUG_LOG("Prefab", prefab, "does not exist");
 			}
 		}
 
@@ -632,7 +632,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse transform attribute as float, transform component ignored");
+				LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
 			}
 		}
 
@@ -653,7 +653,7 @@ namespace ose::project
 			if(tex != nullptr) {
 				new_entity->AddComponent<SpriteRenderer>(name, tex);
 			} else {
-				ERROR_LOG("Error: Texture " << texture << " has not been loaded");
+				LOG_ERROR("Texture", texture, "has not been loaded");
 			}
 		}
 
@@ -693,7 +693,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse num_cols/num_rows/num_tiles/spacing_x/spacing_y attribute(s) as integer");
+				LOG_ERROR("Failed to parse num_cols/num_rows/num_tiles/spacing_x/spacing_y attribute(s) as integer");
 			}
 
 			// If texture is an alias, find it's replacement text, else use the file text
@@ -713,10 +713,10 @@ namespace ose::project
 				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles, spacing_x, spacing_y);
 			} else {
 				if(tex == nullptr) {
-					ERROR_LOG("Error: Texture " << texture << " has not been loaded");
+					LOG_ERROR("Texture", texture, "has not been loaded");
 				}
 				if(tmap == nullptr) {
-					ERROR_LOG("Error: Tilemap " << tilemap << " has not been loaded");
+					LOG_ERROR("Tilemap", tilemap, "has not been loaded");
 				}
 			}
 		}
@@ -738,7 +738,7 @@ namespace ose::project
 			if(mesh != nullptr) {
 				new_entity->AddComponent<MeshRenderer>(name, mesh);
 			} else {
-				ERROR_LOG("Error: Mesh " << mesh_path << " has not been loaded");
+				LOG_ERROR("Mesh", mesh_path, "has not been loaded");
 			}
 		}
 
@@ -892,7 +892,7 @@ namespace ose::project
 		}
 		catch(const std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 			return nullptr;
 		}
 
@@ -906,7 +906,7 @@ namespace ose::project
 		}
 		catch(std::exception & e)
 		{
-			ERROR_LOG(e.what());
+			LOG_ERROR(e.what());
 		}
 		return nullptr;
 	}
@@ -931,7 +931,7 @@ namespace ose::project
 			}
 			else
 			{
-				ERROR_LOG("Error: Custom object field name (" << name << ") is not given or already in use");
+				LOG_ERROR("Custom object field name (", name, ") is not given or already in use");
 				throw std::exception("Failed to parse custom object");
 			}
 		};
@@ -947,7 +947,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse INT data in custom object");
+				LOG_ERROR("Failed to parse INT data in custom object");
 				return nullptr;
 			}
 		}
@@ -963,7 +963,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse FLOAT data in custom object");
+				LOG_ERROR("Failed to parse FLOAT data in custom object");
 				return nullptr;
 			}
 		}
@@ -1010,7 +1010,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse INT array data in custom object");
+				LOG_ERROR("Failed to parse INT array data in custom object");
 				return nullptr;
 			}
 		}
@@ -1033,7 +1033,7 @@ namespace ose::project
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to parse FLOAT array data in custom object");
+				LOG_ERROR("Failed to parse FLOAT array data in custom object");
 				return nullptr;
 			}
 		}
@@ -1089,7 +1089,7 @@ namespace ose::project
 		SaveCustomDataObject(*doc, object);
 		std::stringstream ss;
 		ss << *doc;
-		FileHandlingUtil::WriteTextFile(path, ss.str());
+		fs::WriteTextFile(path, ss.str());
 	}
 
 	void ProjectLoaderXML::SaveCustomDataObject(xml_document<> & doc, CustomObject const & object, xml_node<> * parent, std::string name)

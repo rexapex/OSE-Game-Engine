@@ -75,7 +75,7 @@ namespace ose::rendering
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
 				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
+				LOG_ERROR(msg);
 
 				// Provide the infolog in whatever manor you deem best.
 				// Exit with failure.
@@ -193,7 +193,7 @@ namespace ose::rendering
 				std::vector<GLchar> errorLog(maxLength);
 				glGetShaderInfoLog(vert, maxLength, &maxLength, &errorLog[0]);
 				std::string msg(errorLog.begin(), errorLog.end());
-				ERROR_LOG(msg);
+				LOG_ERROR(msg);
 
 				// Provide the infolog in whatever manor you deem best.
 				// Exit with failure.
