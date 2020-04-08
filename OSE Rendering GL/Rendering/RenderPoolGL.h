@@ -5,6 +5,13 @@
 #include "OSE-Core/Math/Transform.h"
 #include "Lights/PointLightData.h"
 
+namespace ose::shader
+{
+	class BRDFDeferredShaderProgGLSL;
+	class Default2DShaderProgGLSL;
+	class Default3DShaderProgGLSL;
+}
+
 namespace ose::rendering
 {
 	class RenderPoolGL final : public RenderPool
@@ -58,6 +65,11 @@ namespace ose::rendering
 
 		// Dummy transform used by deferred shaders
 		Transform deferred_shader_transform_;
+
+		// Default shader programs
+		std::unique_ptr<shader::BRDFDeferredShaderProgGLSL> deferred_shader_prog_;
+		std::unique_ptr<shader::Default2DShaderProgGLSL> default_2d_shader_prog_;
+		std::unique_ptr<shader::Default3DShaderProgGLSL> default_3d_shader_prog_;
 
 		// Returns the next available object id
 		static uint32_t NextComponentId()

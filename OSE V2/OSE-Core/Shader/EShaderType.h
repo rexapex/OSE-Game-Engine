@@ -8,6 +8,4 @@ namespace ose
 		ST_VERTEX = 1,
 		ST_FRAGMENT = 2
 	};
-
-
 }

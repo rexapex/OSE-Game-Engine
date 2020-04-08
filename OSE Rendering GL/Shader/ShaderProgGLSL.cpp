@@ -3,6 +3,12 @@
 #include "ShaderLayer.h"
 #include "OSE-Core/Shader/EShaderType.h"
 
+#include "OSE-Core/Shader/Nodes/BRDFNode.h"
+#include "OSE-Core/Shader/Nodes/OutputNode.h"
+#include "OSE-Core/Shader/Nodes/RGBANode.h"
+#include "OSE-Core/Shader/Nodes/TextureNode.h"
+#include "OSE-Core/Shader/Nodes/VectorNode.h"
+
 namespace ose::shader
 {
 	ShaderProgGLSL::ShaderProgGLSL(std::unique_ptr<ShaderGraph> shader_graph) : ShaderProg(std::move(shader_graph))
@@ -132,12 +138,57 @@ namespace ose::shader
 	// Outputs source code into _src arguments
 	void ShaderProgGLSL::GenerateSourceCode(std::vector<ShaderLayer> & layers, std::string & vert_src, std::string & frag_src)
 	{
-		vert_src = "";
-		frag_src = "";
+		std::string vert_inputs = "";
+		std::string vert_outputs = "";
+		std::string vert_uniforms = "";
+		std::string vert_functions = "";
+		std::string vert_main_function = "";
+
+		std::string frag_inputs = "";
+		std::string frag_outputs = "";
+		std::string frag_uniforms = "";
+		std::string frag_functions = "";
+		std::string frag_main_function = "";
+
+		auto process_node = [](unowned_ptr<ShaderNode> node, std::string & inputs, std::string & outputs,
+			std::string & uniforms, std::string & functions, std::string & main_function)
+		{
+			if(node->IsClassType(BRDFNode::GetClassType()))
+			{
+
+			}
+			else if(node->IsClassType(OutputNode::GetClassType()))
+			{
+
+			}
+			else if(node->IsClassType(RGBANode::GetClassType()))
+			{
+
+			}
+			else if(node->IsClassType(TextureNode::GetClassType()))
+			{
+
+			}
+			else if(node->IsClassType(TextureNode::GetClassType()))
+			{
+
+			}
+		};
 
 		for(auto & layer : layers)
 		{
-
+			if(layer.type_ != ST_UNKNOWN)
+			{
+				for(auto node : layer.nodes_)
+				{
+					process_node(node,
+						layer.type_ == ST_VERTEX ? vert_inputs : frag_inputs,
+						layer.type_ == ST_VERTEX ? vert_outputs : frag_outputs,
+						layer.type_ == ST_VERTEX ? vert_uniforms : frag_uniforms,
+						layer.type_ == ST_VERTEX ? vert_functions : frag_functions,
+						layer.type_ == ST_VERTEX ? vert_main_function : frag_main_function);
+				}
+			}
 		}
 	}
 }

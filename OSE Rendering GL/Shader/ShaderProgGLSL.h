@@ -1,8 +1,6 @@
 #pragma once
 #include "OSE-Core/Shader/ShaderProg.h"
 #include "OSE-Core/Shader/ShaderNode.h"
-#include "VertShaderGLSL.h"
-#include "FragShaderGLSL.h"
 
 namespace ose::shader
 {
@@ -24,12 +22,6 @@ namespace ose::shader
 		uint32_t GetShaderProgId() const { return shader_prog_; }
 
 	private:
-		// GLSL shader program is composed of a vertex shader and a fragment shader
-		// TODO - Expand functionality to include other shader types
-		// TODO - Possibly only need one class, ShaderGLSL rather than one for each shader type
-		//VertShaderGLSL vert_shader_;
-		//FragShaderGLSL frag_shader_;
-
 		// OpenGL shader program id
 		uint32_t shader_prog_ { 0 };
 
@@ -44,6 +36,9 @@ namespace ose::shader
 		// Generate GLSL source code from a list of shader layers
 		// Outputs source code into _src arguments
 		void GenerateSourceCode(std::vector<ShaderLayer> & layers, std::string & vert_src, std::string & frag_src);
+
+		// Create a GLSL shader object from source code
+		//uint32_t CreateShaderObject();
 	};
 }
 

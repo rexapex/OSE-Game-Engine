@@ -39,13 +39,7 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\FragShaderGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shader\ShaderProgGLSL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader\VertShaderGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\RenderingFactoryGL.h">
@@ -55,6 +49,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Shader\ShaderLayer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shaders\Default3DShaderProgGLSL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -71,16 +74,19 @@
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\FragShaderGLSL.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shader\ShaderProgGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\VertShaderGLSL.cpp">
+    <ClCompile Include="Rendering\RenderingFactoryGL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Rendering\RenderingFactoryGL.cpp">
+    <ClCompile Include="Shader\Shaders\Default2DShaderProgGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\Shaders\Default3DShaderProgGLSL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
