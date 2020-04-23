@@ -3,11 +3,11 @@
 
 namespace ose::shader
 {
-	class BRDFDeferredShaderProgGLSL final : public ShaderProg
+	class BRDFShaderProgGLSL final : public ShaderProg
 	{
 	public:
-		BRDFDeferredShaderProgGLSL();
-		virtual ~BRDFDeferredShaderProgGLSL();
+		BRDFShaderProgGLSL();
+		virtual ~BRDFShaderProgGLSL();
 
 		// Build an OpenGL shader object from a shader graph
 		void CreateShaderProg() override;

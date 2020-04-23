@@ -8,7 +8,7 @@
 
 namespace ose::shader
 {
-	class BRDFDeferredShaderProgGLSL;
+	class BRDFShaderProgGLSL;
 	class Default2DShaderProgGLSL;
 	class Default3DShaderProgGLSL;
 }
@@ -68,7 +68,7 @@ namespace ose::rendering
 		Transform deferred_shader_transform_;
 
 		// Default shader programs
-		std::unique_ptr<shader::BRDFDeferredShaderProgGLSL> deferred_shader_prog_;
+		std::unique_ptr<shader::BRDFShaderProgGLSL> deferred_shader_prog_;
 		std::unique_ptr<shader::Default2DShaderProgGLSL> default_2d_shader_prog_;
 		std::unique_ptr<shader::Default3DShaderProgGLSL> default_3d_shader_prog_;
 

@@ -195,7 +195,7 @@
     <ClInclude Include="Rendering\RenderPoolGL.h" />
     <ClInclude Include="Rendering\ShaderGroupGL.h" />
     <ClInclude Include="Rendering\TextureGL.h" />
-    <ClInclude Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.h" />
+    <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h" />
     <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h" />
     <ClInclude Include="Shader\Shaders\Default3DShaderProgGLSL.h" />
     <ClInclude Include="Shader\ShaderLayer.h" />
@@ -214,7 +214,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.cpp" />
+    <ClCompile Include="Shader\Shaders\BRDFShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\Shaders\Default2DShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\Shaders\Default3DShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\ShaderProgGLSL.cpp" />

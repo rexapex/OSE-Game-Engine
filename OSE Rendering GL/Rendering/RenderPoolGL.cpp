@@ -10,7 +10,7 @@
 
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
-#include "Shader/Shaders/BRDFDeferredShaderProgGLSL.h"
+#include "Shader/Shaders/BRDFShaderProgGLSL.h"
 #include "Shader/Shaders/Default2DShaderProgGLSL.h"
 #include "Shader/Shaders/Default3DShaderProgGLSL.h"
 
@@ -74,7 +74,7 @@ namespace ose::rendering
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Create the deferred rendering shader
-			deferred_shader_prog_ = std::make_unique<shader::BRDFDeferredShaderProgGLSL>();
+			deferred_shader_prog_ = std::make_unique<shader::BRDFShaderProgGLSL>();
 			render_passes_.emplace_back();
 			ShaderGroupGL s;
 			s.shader_prog_ = deferred_shader_prog_->GetShaderProgId();

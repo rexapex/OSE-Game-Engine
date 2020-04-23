@@ -57,10 +57,10 @@
     <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.h">
+    <ClInclude Include="Rendering\FramebufferGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\FramebufferGL.h">
+    <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -89,7 +89,7 @@
     <ClCompile Include="Shader\Shaders\Default3DShaderProgGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shader\Shaders\BRDFDeferredShaderProgGLSL.cpp">
+    <ClCompile Include="Shader\Shaders\BRDFShaderProgGLSL.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
