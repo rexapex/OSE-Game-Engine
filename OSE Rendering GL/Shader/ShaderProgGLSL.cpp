@@ -18,7 +18,7 @@ namespace ose::shader
 
 	ShaderProgGLSL::~ShaderProgGLSL()
 	{
-
+		DestroyShaderProg();
 	}
 
 	// Build a shader object from a shader graph
@@ -45,7 +45,8 @@ namespace ose::shader
 	// Destroy the OpenGL shader object
 	void ShaderProgGLSL::DestroyShaderProg()
 	{
-		// TODO
+		if(shader_prog_)
+			glDeleteShader(shader_prog_);
 	}
 
 	// Split the shader graph nodes into layers

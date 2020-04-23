@@ -148,6 +148,7 @@ namespace ose::shader
 	// Destroy the OpenGL shader object
 	void BRDFDeferredShaderProgGLSL::DestroyShaderProg()
 	{
-		glDeleteProgram(shader_prog_);
+		if(shader_prog_)
+			glDeleteProgram(shader_prog_);
 	}
 }
