@@ -181,6 +181,6 @@ namespace ose
 		// Load a property file (similar to an ini file)
 		// Returns properties as a map from key to value
 		// Used for loading simple resources with no bespoke resource loader
-		std::unordered_map<std::string, std::string> LoadPropertyFile(const std::string & abs_path);
+		std::unordered_multimap<std::string, std::string> LoadPropertyFile(const std::string & abs_path);
 	};
 }

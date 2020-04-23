@@ -600,9 +600,9 @@ namespace ose
 
 	// Load a property file (similar to an ini file)
 	// Returns properties as a map from key to value
-	std::unordered_map<std::string, std::string> ResourceManager::LoadPropertyFile(const std::string & abs_path)
+	std::unordered_multimap<std::string, std::string> ResourceManager::LoadPropertyFile(const std::string & abs_path)
 	{
-		std::unordered_map<std::string, std::string> props;
+		std::unordered_multimap<std::string, std::string> props;
 
 		// Load the file into a string
 		std::string contents;
@@ -629,7 +629,7 @@ namespace ose
 			if(line.size() > property.size() + 1)
 				value = line.substr(property.size()+1, line.size()-property.size());
 			if(property != "")
-				props[property] = value;
+				props.insert({ property, value });//[property] = value;
 		}
 
 		return props;

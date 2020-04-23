@@ -41,7 +41,7 @@ namespace ose::rendering
 	// Initialise the render pool
 	void RenderPoolGL::Init(int fbwidth, int fbheight)
 	{
-		framebuffers_.emplace_back(fbwidth, fbheight);
+		/*framebuffers_.emplace_back(fbwidth, fbheight);
 		auto & fb = framebuffers_.back();
 
 		// Create a deferred shading render pass
@@ -101,11 +101,12 @@ namespace ose::rendering
 			s.render_objects_.back().transforms_.emplace_back(&deferred_shader_transform_);
 			s.render_objects_.back().texture_stride_ = 3;
 			render_passes_.back().shader_groups_.push_back(s);
-		}
+		}*/
 
 		// Insert a render pass before the deferred render pass to render objects to
-		render_passes_.insert(render_passes_.begin(), RenderPassGL{});
-		render_passes_[0].fbo_ = fb.GetFbo();
+		//render_passes_.insert(render_passes_.begin(), RenderPassGL{});
+		//render_passes_[0].fbo_ = fb.GetFbo();
+		render_passes_.emplace_back();
 
 		// TODO - Remove
 		{
@@ -116,14 +117,22 @@ namespace ose::rendering
 			render_passes_[0].shader_groups_.push_back(sg);
 		}
 
-		// TODO - Remove
 		{
+			// Create the default brdf 3d shader prog
+			brdf_shader_prog_ = std::make_unique<shader::BRDFShaderProgGLSL>();
+			ShaderGroupGL sg;
+			sg.shader_prog_ = brdf_shader_prog_->GetShaderProgId();
+			render_passes_[0].shader_groups_.push_back(sg);
+		}
+
+		// TODO - Remove
+		/*{
 			// Create the default 3d shader prog
 			default_3d_shader_prog_ = std::make_unique<shader::Default3DShaderProgGLSL>();
 			ShaderGroupGL sg;
 			sg.shader_prog_ = default_3d_shader_prog_->GetShaderProgId();
 			render_passes_[0].shader_groups_.push_back(sg);
-		}
+		}*/
 	}
 
 	// Set the size of the framebuffer (required if render pool contains deferred shading render pass)
@@ -423,13 +432,15 @@ namespace ose::rendering
 
 		// If the mesh renderer contains a material, add the first texture
 		// TODO - Material determines shader group and can contain multiple textures
+		GLuint texture_stride { 0 };
 		if(mr->GetMaterial())
 		{
-			if(mr->GetMaterial()->GetTextures().size() > 0)
+			for(auto texture : mr->GetMaterial()->GetTextures())
 			{
-				if(mr->GetMaterial()->GetTextures()[0])
+				if(texture)
 				{
-					s.render_objects_.back().textures_.emplace_back(static_cast<unowned_ptr<TextureGL const>>(mr->GetMaterial()->GetTextures()[0])->GetGlTexId());
+					s.render_objects_.back().textures_.emplace_back(static_cast<unowned_ptr<TextureGL const>>(texture)->GetGlTexId());
+					++texture_stride;
 				}
 			}
 		}
@@ -437,7 +448,7 @@ namespace ose::rendering
 		// TODO - Remove
 		s.render_objects_.back().ibo_ = ibo;
 		s.render_objects_.back().transforms_.emplace_back(&t);
-		s.render_objects_.back().texture_stride_ = 1; // TODO - Change to num textures in material
+		s.render_objects_.back().texture_stride_ = texture_stride;
 		mr->SetEngineData(object_id);
 	}
 

@@ -79,7 +79,7 @@ namespace ose::shader
 			"out vec4 fragColor;\n"
 
 			"uniform sampler2D albedoMap;\n"
-			//"uniform sampler2D normalMap;\n"
+			"uniform sampler2D normalMap;\n"
 			"uniform sampler2D metallicMap;\n"
 			"uniform sampler2D roughnessMap;\n"
 			"uniform sampler2D aoMap;\n"
@@ -129,12 +129,13 @@ namespace ose::shader
 			"void main() {\n"
 				// Get the fragment properties from the map textures
 			"	vec3 albedo = texture(albedoMap, vertexUV).rgb;\n"
+			"	vec3 normal = texture(normalMap, vertexUV).xyz;\n"
 			"	float metallic = texture(metallicMap, vertexUV).r;\n"
 			"	float roughness = texture(roughnessMap, vertexUV).r;\n"
 			"	float ao = texture(aoMap, vertexUV).r;\n"
 				// Normalise the vertex direction and normal
 			"	vec3 V = normalize(-vertexWorldPos);\n"		// TODO - Subtract from camera pos
-			"	vec3 N = normalize(vertexNormal);\n"
+			"	vec3 N = normalize(normal);\n"
 				// For non-metallic surfaces, F0 is always 0.04
 			"	vec3 F0 = vec3(0.04);\n"
 			"	F0 = mix(F0, albedo, metallic);\n"
@@ -171,6 +172,7 @@ namespace ose::shader
 			"	color = pow(color, vec3(1.0 / 2.2));\n"
 				// Set the output color
 			"	fragColor = vec4(color, 1.0);\n"
+			"	fragColor = vec4(N, 1);\n"
 			"}\n"
 			;
 		/*	"#version 330\n"
@@ -259,7 +261,7 @@ namespace ose::shader
 
 		glUseProgram(prog);
 		glUniform1i(glGetUniformLocation(prog, "albedoMap"), 0);
-		//glUniform1i(glGetUniformLocation(prog, "normalMap"), 1);
+		glUniform1i(glGetUniformLocation(prog, "normalMap"), 1);
 		glUniform1i(glGetUniformLocation(prog, "metallicMap"), 2);
 		glUniform1i(glGetUniformLocation(prog, "roughnessMap"), 3);
 		glUniform1i(glGetUniformLocation(prog, "aoMap"), 4);
