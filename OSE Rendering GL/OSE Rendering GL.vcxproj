@@ -186,6 +186,7 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rendering\ERenderObjectType.h" />
+    <ClInclude Include="Rendering\FramebufferGL.h" />
     <ClInclude Include="Rendering\Lights\PointLightData.h" />
     <ClInclude Include="Rendering\RenderingEngineGL.h" />
     <ClInclude Include="Rendering\RenderingFactoryGL.h" />

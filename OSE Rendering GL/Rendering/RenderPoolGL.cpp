@@ -41,60 +41,11 @@ namespace ose::rendering
 	// Initialise the render pool
 	void RenderPoolGL::Init(int fbwidth, int fbheight)
 	{
-		GLuint fbo;
+		framebuffers_.emplace_back(fbwidth, fbheight);
+		auto & fb = framebuffers_.back();
 
 		// Create a deferred shading render pass
 		{
-			// Create the fbo
-			glGenFramebuffers(1, &fbo);
-			glBindFramebuffer(GL_FRAMEBUFFER, fbo);
-
-			// Create a position buffer attachment
-			GLuint pos_buffer;
-			glGenTextures(1, &pos_buffer);
-			glBindTexture(GL_TEXTURE_2D, pos_buffer);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, pos_buffer, 0);
-
-			// Create a normal buffer attachment
-			GLuint norm_buffer;
-			glGenTextures(1, &norm_buffer);
-			glBindTexture(GL_TEXTURE_2D, norm_buffer);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT1, GL_TEXTURE_2D, norm_buffer, 0);
-
-			// Create a colour + specular buffer attachment
-			GLuint col_buffer;
-			glGenTextures(1, &col_buffer);
-			glBindTexture(GL_TEXTURE_2D, col_buffer);
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, fbwidth, fbheight, 0, GL_RGB, GL_FLOAT, NULL);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-			glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT2, GL_TEXTURE_2D, col_buffer, 0);
-
-			// Tell OpenGL which attachments to use for rendering
-			GLenum attachments[3] = { GL_COLOR_ATTACHMENT0, GL_COLOR_ATTACHMENT1, GL_COLOR_ATTACHMENT2 };
-			glDrawBuffers(3, attachments);
-
-			// Create the rbo for storing rendering depth info
-			GLuint rbo_depth;
-			glGenRenderbuffers(1, &rbo_depth);
-			glBindRenderbuffer(GL_RENDERBUFFER, rbo_depth);
-			glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, fbwidth, fbheight);
-			glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo_depth);
-			glBindRenderbuffer(GL_RENDERBUFFER, 0);
-
-			// Check the framebuffer was created successfully
-			if(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE)
-				LOG("Deferred shading framebuffer creation - SUCCESS");
-			else
-				LOG("Deferred shading framebuffer creation - FAILURE -", glGetError());
-			glBindFramebuffer(GL_FRAMEBUFFER, 0);
-
 			// Create the VAO and VBO for rendering the fbo
 			float vertices[] =
 			{
@@ -139,9 +90,9 @@ namespace ose::rendering
 				vbo, vao,
 				primitive, first, count,
 				std::initializer_list<GLuint>{
-					pos_buffer,
-					norm_buffer,
-					col_buffer
+					fb.GetPosBuffer(),
+					fb.GetNormBuffer(),
+					fb.GetColBuffer()
 				}
 				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 				//std::initializer_list<ITransform const &>{ t }
@@ -154,7 +105,7 @@ namespace ose::rendering
 
 		// Insert a render pass before the deferred render pass to render objects to
 		render_passes_.insert(render_passes_.begin(), RenderPassGL{});
-		render_passes_[0].fbo_ = fbo;
+		render_passes_[0].fbo_ = fb.GetFbo();
 
 		// TODO - Remove
 		{
@@ -179,7 +130,10 @@ namespace ose::rendering
 	void RenderPoolGL::SetFramebufferSize(int width, int height)
 	{
 		// Update the deferred shading framebuffer objects
-		// TODO - Recreate each framebuffer object and attachments then update all render passes to use the correct fbos
+		for(auto & fb : framebuffers_)
+		{
+			fb.Resize(width, height);
+		}
 	}
 
 	// Add a sprite renderer component to the render pool

@@ -2,6 +2,7 @@
 #include "OSE-Core/Rendering/RenderPool.h"
 #include "OSE-Core/Math/ITransform.h"
 #include "RenderPassGL.h"
+#include "FramebufferGL.h"
 #include "OSE-Core/Math/Transform.h"
 #include "Lights/PointLightData.h"
 
@@ -70,6 +71,9 @@ namespace ose::rendering
 		std::unique_ptr<shader::BRDFDeferredShaderProgGLSL> deferred_shader_prog_;
 		std::unique_ptr<shader::Default2DShaderProgGLSL> default_2d_shader_prog_;
 		std::unique_ptr<shader::Default3DShaderProgGLSL> default_3d_shader_prog_;
+
+		// List of all active framebuffer objects used for deferred rendering
+		std::vector<FramebufferGL> framebuffers_;
 
 		// Returns the next available object id
 		static uint32_t NextComponentId()
