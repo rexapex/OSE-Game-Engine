@@ -143,7 +143,7 @@ namespace ose::shader
 			"vec3 getNormalFromNormalMap() {\n"
 			"	vec3 normal = texture(normalMap, vertexUV).xyz;\n"
 			"	normal = normal * 2.0 - 1.0;\n"
-			"	normal = normalize(vertexTBN * normal);\n"
+			"	normal = vertexTBN * normal;\n"
 			"	return normal;\n"
 			"}\n"
 
@@ -193,7 +193,7 @@ namespace ose::shader
 			"	color = pow(color, vec3(1.0 / 2.2));\n"
 				// Set the output color
 			"	fragColor = vec4(color, 1.0);\n"
-			//"	fragColor = vec4(normal, 1);\n"
+		//	"	fragColor = vec4(N, 1);\n"
 			"}\n"
 			;
 		/*	"#version 330\n"

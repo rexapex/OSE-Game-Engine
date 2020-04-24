@@ -365,20 +365,25 @@ namespace ose::rendering
 		glGenBuffers(1, &vbo);
 		// Data consists of the vertex data is given in the mesh object
 		// TODO - Include tangent, bitangent and any other required data
-		std::vector<float> data(mesh->GetPositionData().size() + mesh->GetNormalData().size() + mesh->GetTexCoordData().size());
+		std::vector<float> data(mesh->GetPositionData().size() + mesh->GetNormalData().size() + mesh->GetTexCoordData().size() + mesh->GetTangentData().size());
 		glBindBuffer(GL_ARRAY_BUFFER, vbo);
-		for(size_t p = 0, n = 0, t = 0; p < mesh->GetPositionData().size() && n < mesh->GetNormalData().size() && t < mesh->GetTexCoordData().size(); p += 3, n += 3, t += 2)
+		for(size_t p = 0, n = 0, t = 0, tan = 0; p < mesh->GetPositionData().size() && n < mesh->GetNormalData().size()
+			&& t < mesh->GetTexCoordData().size() && tan < mesh->GetTangentData().size(); p += 3, n += 3, t += 2, tan += 3)
 		{
-			data[p + n + t + 0] = mesh->GetPositionData()[p + 0];
-			data[p + n + t + 1] = mesh->GetPositionData()[p + 1];
-			data[p + n + t + 2] = mesh->GetPositionData()[p + 2];
+			data[p + n + t + tan + 0] = mesh->GetPositionData()[p + 0];
+			data[p + n + t + tan + 1] = mesh->GetPositionData()[p + 1];
+			data[p + n + t + tan + 2] = mesh->GetPositionData()[p + 2];
 
-			data[p + n + t + 3] = mesh->GetNormalData()[n + 0];
-			data[p + n + t + 4] = mesh->GetNormalData()[n + 1];
-			data[p + n + t + 5] = mesh->GetNormalData()[n + 2];
+			data[p + n + t + tan + 3] = mesh->GetNormalData()[n + 0];
+			data[p + n + t + tan + 4] = mesh->GetNormalData()[n + 1];
+			data[p + n + t + tan + 5] = mesh->GetNormalData()[n + 2];
 
-			data[p + n + t + 6] = mesh->GetTexCoordData()[t + 0];
-			data[p + n + t + 7] = mesh->GetTexCoordData()[t + 1];
+			data[p + n + t + tan + 6] = mesh->GetTexCoordData()[t + 0];
+			data[p + n + t + tan + 7] = mesh->GetTexCoordData()[t + 1];
+
+			data[p + n + t + tan + 8] = mesh->GetTangentData()[tan + 0];
+			data[p + n + t + tan + 9] = mesh->GetTangentData()[tan + 1];
+			data[p + n + t + tan + 10] = mesh->GetTangentData()[tan + 2];
 		}
 		glBufferData(GL_ARRAY_BUFFER, data.size()*sizeof(float), data.data(), GL_STATIC_DRAW);
 
@@ -405,11 +410,13 @@ namespace ose::rendering
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);
 		// TODO - Vertex attrib locations are to be controlled by the built shader program
 		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), 0);
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), 0);
 		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (GLvoid*)(3 * sizeof(float)));
 		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (GLvoid*)(6 * sizeof(float)));
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (GLvoid*)(6 * sizeof(float)));
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 3, GL_FLOAT, GL_FALSE, 11 * sizeof(float), (GLvoid*)(8 * sizeof(float)));
 		// Unbind the vao
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
