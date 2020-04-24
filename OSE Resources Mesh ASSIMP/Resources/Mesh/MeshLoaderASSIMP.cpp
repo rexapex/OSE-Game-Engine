@@ -65,7 +65,7 @@ namespace ose::resources
 		}
 
 		// Reserve space for vertex data s.t. vectors don't have wasted space
-		mesh->SetNumVertices(total_num_vertices, VDT_POSITIONS | VDT_TEX_COORDS | VDT_NORMALS);
+		mesh->SetNumVertices(total_num_vertices, VDT_POSITIONS | VDT_TEX_COORDS | VDT_NORMALS | VDT_TANGENTS);
 
 		// Process the mesh sections
 		unsigned int mesh_section_offset { 0 };
@@ -130,6 +130,19 @@ namespace ose::resources
 					mesh->AddVertexTexCoord((mesh_section_offset + v) * 2,
 						ai_mesh_section->mTextureCoords[0][v].x,
 						ai_mesh_section->mTextureCoords[0][v].y);
+				}
+			}
+
+			// If the mesh section contains tangent vectors, copy them into the tangents array
+			if(ai_mesh_section->HasTangentsAndBitangents())
+			{
+				// TODO - Speed this up with bulk copy
+				for(unsigned int v = 0; v < ai_mesh_section->mNumVertices; ++v)
+				{
+					mesh->AddVertexTangent((mesh_section_offset + v) * 3,
+						ai_mesh_section->mTangents[v].x,
+						ai_mesh_section->mTangents[v].y,
+						ai_mesh_section->mTangents[v].z);
 				}
 			}
 

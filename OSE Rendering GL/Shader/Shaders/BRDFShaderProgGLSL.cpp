@@ -26,16 +26,29 @@ namespace ose::shader
 			"layout(location = 0) in vec3 position;\n"
 			"layout(location = 1) in vec3 normal;\n"
 			"layout(location = 2) in vec2 uv;\n"
+			"layout(location = 3) in vec3 tangent;\n"
 			"out vec2 vertexUV;\n"
 			"out vec3 vertexNormal;\n"
 			"out vec3 vertexWorldPos;\n"
+			"out mat3 vertexTBN;\n"
 			"uniform mat4 viewProjMatrix;\n"
 			"uniform mat4 worldTransform;\n"
 			"uniform sampler2D texSampler;\n"
 			"void main() {\n"
 			"	vertexUV = uv;\n"
 			"	vertexWorldPos = position;\n"
-			"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
+
+			// TODO - Should be model transform, not world transform
+			"	vertexNormal = mat3(transpose(inverse(worldTransform))) * normal;\n"
+
+			"	vec3 T = normalize(vec3(worldTransform * vec4(tangent, 0.0)));\n"
+			"	vec3 N = normalize(vec3(worldTransform * vec4(normal, 0.0)));\n"
+				// Orthogonalise T wrt. N then calculate the bi-tangent vector B and the TBN matrix
+			"	T = normalize(T - dot(T, N) * N);\n"
+			"	vec3 B = cross(N, T);\n"
+			"	vertexTBN = mat3(T, B, N);\n"
+
+		//	"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
 			"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"	// TODO - Multiply by camera transform
 			"}\n"
 			;
@@ -76,6 +89,7 @@ namespace ose::shader
 			"in vec2 vertexUV;\n"
 			"in vec3 vertexNormal;\n"
 			"in vec3 vertexWorldPos;\n"
+			"in mat3 vertexTBN;\n"
 			"out vec4 fragColor;\n"
 
 			"uniform sampler2D albedoMap;\n"
@@ -126,10 +140,17 @@ namespace ose::shader
 			"	return ggx1 * ggx2;\n"
 			"}\n"
 
+			"vec3 getNormalFromNormalMap() {\n"
+			"	vec3 normal = texture(normalMap, vertexUV).xyz;\n"
+			"	normal = normal * 2.0 - 1.0;\n"
+			"	normal = normalize(vertexTBN * normal);\n"
+			"	return normal;\n"
+			"}\n"
+
 			"void main() {\n"
 				// Get the fragment properties from the map textures
 			"	vec3 albedo = texture(albedoMap, vertexUV).rgb;\n"
-			"	vec3 normal = texture(normalMap, vertexUV).xyz;\n"
+			"	vec3 normal = getNormalFromNormalMap();\n"
 			"	float metallic = texture(metallicMap, vertexUV).r;\n"
 			"	float roughness = texture(roughnessMap, vertexUV).r;\n"
 			"	float ao = texture(aoMap, vertexUV).r;\n"
@@ -172,7 +193,7 @@ namespace ose::shader
 			"	color = pow(color, vec3(1.0 / 2.2));\n"
 				// Set the output color
 			"	fragColor = vec4(color, 1.0);\n"
-			"	fragColor = vec4(N, 1);\n"
+			//"	fragColor = vec4(normal, 1);\n"
 			"}\n"
 			;
 		/*	"#version 330\n"

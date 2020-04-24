@@ -19,7 +19,7 @@ namespace ose::rendering
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_DEPTH_TEST);			// TODO - Disable depth test when rendering a deferred texture (make apart of render pass state)
 		glDepthFunc(GL_LESS);
 	}
 
