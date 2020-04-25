@@ -2,6 +2,7 @@
 #include "Main.h"
 #include "OSE-Core/Game/Game.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
+#include "OSE-Core/Game/Camera/EditorCamera.h"
 
 int main(int argc, char * argv[])
 {
@@ -54,6 +55,10 @@ int main(int argc, char * argv[])
 		getchar();
 		return 1;
 	}
+
+	// set the active camera
+	std::unique_ptr<EditorCamera> camera { std::make_unique<EditorCamera>() };
+	game->SetActiveCamera(camera.get());
 
 	// all resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();

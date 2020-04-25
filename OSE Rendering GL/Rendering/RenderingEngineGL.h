@@ -13,9 +13,8 @@ namespace ose::rendering
 		RenderingEngineGL(int fbwidth, int fbheight);
 		~RenderingEngineGL();
 
-		// Engine::update method overriden
-		// Called every game update to render all object in the pool
-		void Update() override;
+		// Render one frame to the screen
+		void Render(glm::mat4 const & camera_transform) override;
 
 		// Get a reference to the render pool, s.t. new render objects can be added
 		RenderPool & GetRenderPool() override { return render_pool_; }

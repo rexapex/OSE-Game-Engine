@@ -195,6 +195,8 @@
     <ClInclude Include="OSE-Core\Entity\Component\PointLight.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
     <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
     <ClInclude Include="OSE-Core\File System\File.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
@@ -702,6 +704,7 @@
     <ClCompile Include="OSE-Core\Entity\Component\ComponentList.cpp" />
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
+    <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />

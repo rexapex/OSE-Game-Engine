@@ -18,10 +18,8 @@ namespace ose
 		RenderingEngine(int fbwidth, int fbheight);
 		virtual ~RenderingEngine();
 
-		/// called every game update for every data object in pool
-		/// IMPORTANT - stub method should not be called...
-		/// ...used to allow update method with RenderObject sub-class to be called
-		virtual void Update() = 0;
+		// Render one frame to the screen
+		virtual void Render(glm::mat4 const & camera_transform) = 0;
 
 		// Apply rendering settings to the rendering engine
 		void ApplyRenderingSettings(RenderingSettings const & rendering_settings);

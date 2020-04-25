@@ -48,9 +48,8 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);	// still required with shaders as far as I'm aware
 	}
 
-	// Engine::update method overriden
-	// Called every game update to render all object in the pool
-	void RenderingEngineGL::Update()
+	// Render one frame to the screen
+	void RenderingEngineGL::Render(glm::mat4 const & camera_transform)
 	{
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
@@ -74,8 +73,8 @@ namespace ose::rendering
 				}
 
 				// Pass the view projection matrix to the shader program
-				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, 0 }, glm::vec3{0, 0, -1}, glm::vec3{0, 1, 0});
-				glm::mat4 view_proj = projection_matrix_ * camera;
+				//glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, 0 }, glm::vec3{0, 0, -1}, glm::vec3{0, 1, 0});
+				glm::mat4 view_proj = projection_matrix_ * camera_transform;
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Render the render objects one by one

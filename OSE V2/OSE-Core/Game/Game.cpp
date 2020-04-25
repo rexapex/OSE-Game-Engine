@@ -40,6 +40,8 @@ namespace ose
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
+
+		this->active_camera_ = &default_camera_;
 	}
 
 	Game::~Game() noexcept {}
@@ -126,17 +128,20 @@ namespace ose
 
 		while(running_)
 		{
-			// renders previous frame to window and poll for new event
+			// Renders previous frame to window and poll for new event
 			window_manager_->Update();
 
-			// update all timing variables
+			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
-			// execute developer created scripts
+			// Execute developer created scripts
 			scripting_engine_->Update();
 
-			// render to the back buffer
-			rendering_engine_->Update();
+			// Update the camera
+			active_camera_->Update();
+
+			// Render to the back buffer
+			rendering_engine_->Render(active_camera_->GetGlobalTransform().GetTransformMatrix());
 
 			// TODO - Remove once proper FPS display is implemented
 			window_manager_->SetTitle(std::to_string(time_.GetFps()));

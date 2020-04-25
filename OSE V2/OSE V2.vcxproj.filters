@@ -34,6 +34,7 @@
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.cpp" />
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
+    <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -543,6 +544,8 @@
     <ClInclude Include="OSE-Core\File System\FileSystemUtil.h" />
     <ClInclude Include="OSE-Core\File System\File.h" />
     <ClInclude Include="OSE-Core\Logging.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />
