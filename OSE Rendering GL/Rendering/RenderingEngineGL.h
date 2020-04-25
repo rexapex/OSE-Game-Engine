@@ -33,7 +33,7 @@ namespace ose::rendering
 
 		// Child functions to update the projection matrix to either orthographic or perspective
 		void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) override;
-		void UpdatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar) override;
+		void UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar) override;
 	};
 }
 

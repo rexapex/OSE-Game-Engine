@@ -35,11 +35,16 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
-	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar)
+	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar)
 	{
 		DEBUG_LOG("updating perspective projection matrix");
+		// hfov = 2 * atan(tan(vfov * 0.5) * aspect_ratio)
+		// vfov = atan(tan(hfov / 2) / aspect_ratio) * 2
+		float aspect_ratio { (float)fbwidth/(float)fbheight };
+		float hfov { glm::radians(hfov_deg) };
+		float vfov { glm::atan(glm::tan(hfov / 2) / aspect_ratio) * 2 };
 		// TODO - test aspect ratio is correct for a variety of resolutions
-		projection_matrix_ = glm::perspective(glm::radians(fovyDeg), (float)fbwidth/(float)fbheight, znear, zfar);
+		projection_matrix_ = glm::perspective(vfov, aspect_ratio, znear, zfar);
 		glViewport(0, 0, fbwidth, fbheight);	// still required with shaders as far as I'm aware
 	}
 
@@ -69,7 +74,7 @@ namespace ose::rendering
 				}
 
 				// Pass the view projection matrix to the shader program
-				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, -10}, glm::vec3{0, 0, 0}, glm::vec3{0, 1, 0});
+				glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, 0 }, glm::vec3{0, 0, -1}, glm::vec3{0, 1, 0});
 				glm::mat4 view_proj = projection_matrix_ * camera;
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 

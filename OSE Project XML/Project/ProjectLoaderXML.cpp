@@ -292,6 +292,13 @@ namespace ose::project
 						float zfar = std::stof(zfar_attrib->value());
 						settings.rendering_settings_.zfar_ = zfar;
 					}
+
+					auto hfov_attrib = projection_node->first_attribute("hfov");
+					if(hfov_attrib != nullptr)
+					{
+						float hfov = std::stof(hfov_attrib->value());
+						settings.rendering_settings_.hfov_ = hfov;
+					}
 				}
 				catch(...)
 				{

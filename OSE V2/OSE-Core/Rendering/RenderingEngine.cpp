@@ -20,6 +20,7 @@ namespace ose
 		projection_mode_ = rendering_settings.projection_mode_;
 		znear_ = rendering_settings.znear_;
 		zfar_ = rendering_settings.zfar_;
+		hfov_deg_ = rendering_settings.hfov_;
 		UpdateProjectionMatrix();
 	}
 
@@ -65,7 +66,7 @@ namespace ose
 			}
 			case EProjectionMode::PERSPECTIVE:
 			{
-				this->UpdatePerspectiveProjectionMatrix(90.0f, fbwidth_, fbheight_, znear_, zfar_);
+				this->UpdatePerspectiveProjectionMatrix(hfov_deg_, fbwidth_, fbheight_, znear_, zfar_);
 				break;
 			}
 			}

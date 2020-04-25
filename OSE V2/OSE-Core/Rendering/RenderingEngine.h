@@ -51,8 +51,11 @@ namespace ose
 		// znear and zfar of a perspective projection
 		float znear_ { 0 }, zfar_ { 0 };
 
+		// horizontal fov (in degrees)
+		float hfov_deg_ { 60.0f };
+
 		// child functions to update the projection matrix to either orthographic or perspective
 		virtual void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) = 0;
-		virtual void UpdatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar) = 0;
+		virtual void UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar) = 0;
 	};
 }
