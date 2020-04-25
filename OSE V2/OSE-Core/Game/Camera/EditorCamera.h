@@ -7,5 +7,6 @@ namespace ose
 	{
 	public:
 		virtual void Update();
+
 	};
 }

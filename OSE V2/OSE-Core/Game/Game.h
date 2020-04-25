@@ -50,7 +50,7 @@ namespace ose
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera
 		// If the user destroys the active camera, the active camera must be set to nullptr (or a valid camera) to prevent errors
-		void SetActiveCamera(unowned_ptr<Camera> c) { active_camera_ = c ? c : &default_camera_; }
+		void SetActiveCamera(unowned_ptr<Camera> c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
 
 		// Get the active camera
 		unowned_ptr<Camera> GetActiveCamera() const { return active_camera_; }

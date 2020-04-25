@@ -3,6 +3,7 @@
 #include "OSE-Core/Game/Game.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Game/Camera/EditorCamera.h"
+#include "OSE-Core/Input/InputSettings.h"
 
 int main(int argc, char * argv[])
 {
@@ -59,6 +60,13 @@ int main(int argc, char * argv[])
 	// set the active camera
 	std::unique_ptr<EditorCamera> camera { std::make_unique<EditorCamera>() };
 	game->SetActiveCamera(camera.get());
+
+	// set inputs for the editor camera to use
+	InputSettings settings;
+	settings.axis_inputs_.emplace("move_x", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
+	settings.axis_inputs_.emplace("move_y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
+	settings.boolean_inputs_.emplace("speed", BooleanInput{ EInputType::LEFT_SHIFT });
+	game->ApplyInputSettings(settings);
 
 	// all resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();
