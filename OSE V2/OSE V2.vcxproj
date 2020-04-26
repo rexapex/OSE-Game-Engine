@@ -191,6 +191,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
     <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\PointLight.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />

@@ -8,6 +8,7 @@ namespace ose
 	class TileRenderer;
 	class MeshRenderer;
 	class PointLight;
+	class DirLight;
 
 	class RenderPool
 	{
@@ -30,6 +31,9 @@ namespace ose
 		// Add a point light component to the render pool
 		virtual void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) = 0;
 
+		// Add a direction light component to the render pool
+		virtual void AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl) = 0;
+
 		// Remove a sprite renderer component from the render pool
 		virtual void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) = 0;
 
@@ -41,6 +45,9 @@ namespace ose
 
 		// Remove a point light component from the render pool
 		virtual void RemovePointLight(unowned_ptr<PointLight> pl) = 0;
+
+		// Remove a direction light component from the render pool
+		virtual void RemoveDirLight(unowned_ptr<DirLight> dl) = 0;
 	};
 }
 

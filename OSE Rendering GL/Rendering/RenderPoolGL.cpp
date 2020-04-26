@@ -7,6 +7,7 @@
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
 
 #include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
@@ -470,6 +471,17 @@ namespace ose::rendering
 		point_lights_.push_back(data);
 	}
 
+	// Add a direction light component to the render pool
+	void RenderPoolGL::AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl)
+	{
+		// TODO - Update the position of the light data when the point light's entity rotates
+
+		DirLightData data;
+		data.direction_ = glm::vec3(t.GetForward());
+		data.color_ = glm::vec3(dl->GetColor());
+		dir_lights_.push_back(data);
+	}
+
 	// Remove a sprite renderer component from the render pool
 	void RenderPoolGL::RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr)
 	{
@@ -568,6 +580,12 @@ namespace ose::rendering
 
 	// Remove a point light component from the render pool
 	void RenderPoolGL::RemovePointLight(unowned_ptr<PointLight> pl)
+	{
+		// TODO
+	}
+
+	// Remove a direction light component from the render pool
+	void RenderPoolGL::RemoveDirLight(unowned_ptr<DirLight> dl)
 	{
 		// TODO
 	}

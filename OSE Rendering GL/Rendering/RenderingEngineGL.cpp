@@ -69,7 +69,13 @@ namespace ose::rendering
 					auto const & light = render_pool_.GetPointLights()[l];
 					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].position"}.c_str()), light.position_.x, light.position_.y, light.position_.z);
 					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].color"}.c_str()), light.color_.x, light.color_.y, light.color_.z);
-					//glUniform1f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].intensity"}.c_str()), light.intensity_);
+				}
+				glUniform1i(glGetUniformLocation(shader_group.shader_prog_, "numDirLights"), std::min(static_cast<int>(render_pool_.GetDirLights().size()), 16));
+				for(size_t l = 0; l < render_pool_.GetDirLights().size() && l < 16; l++)
+				{
+					auto const & light = render_pool_.GetDirLights()[l];
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"dirLights[" + std::to_string(l) + "].direction"}.c_str()), light.direction_.x, light.direction_.y, light.direction_.z);
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"dirLights[" + std::to_string(l) + "].color"}.c_str()), light.color_.x, light.color_.y, light.color_.z);
 				}
 
 				// Pass the view projection matrix to the shader program

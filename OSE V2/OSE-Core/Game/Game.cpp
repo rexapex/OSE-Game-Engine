@@ -13,6 +13,7 @@
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
 #include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
 #include "OSE-Core/EngineReferences.h"
@@ -191,6 +192,16 @@ namespace ose
 
 			// then add the component to the render pool
 			rendering_engine_->GetRenderPool().AddPointLight(entity.GetGlobalTransform(), comp);
+		}
+
+		for(unowned_ptr<DirLight> comp : entity.GetComponents<DirLight>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialise DirLight");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddDirLight(entity.GetGlobalTransform(), comp);
 		}
 
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())

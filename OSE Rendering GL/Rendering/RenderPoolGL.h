@@ -5,6 +5,7 @@
 #include "FramebufferGL.h"
 #include "OSE-Core/Math/Transform.h"
 #include "Lights/PointLightData.h"
+#include "Lights/DirLightData.h"
 
 namespace ose::shader
 {
@@ -39,6 +40,9 @@ namespace ose::rendering
 		// Add a point light component to the render pool
 		void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) override;
 
+		// Add a direction light component to the render pool
+		void AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl) override;
+
 		// Remove a sprite renderer component from the render pool
 		void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) override;
 
@@ -51,11 +55,17 @@ namespace ose::rendering
 		// Remove a point light component from the render pool
 		void RemovePointLight(unowned_ptr<PointLight> pl) override;
 
+		// Remove a direction light component from the render pool
+		void RemoveDirLight(unowned_ptr<DirLight> dl) override;
+
 		// Get the list of render passes s.t. they can be rendered by the rendering engine
 		std::vector<RenderPassGL> const & GetRenderPasses() const { return render_passes_; }
 
 		// Get the list of point lights s.t. they can be rendered by the rendering engine
 		std::vector<PointLightData> const & GetPointLights() const { return point_lights_; }
+
+		// Get the list of direction lights s.t. they can be rendered by the rendering engine
+		std::vector<DirLightData> const & GetDirLights() const { return dir_lights_; }
 
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update
@@ -63,6 +73,9 @@ namespace ose::rendering
 
 		// List of all dynamic point lights
 		std::vector<PointLightData> point_lights_;
+
+		// List of all dynamic direction lights
+		std::vector<DirLightData> dir_lights_;
 
 		// Dummy transform used by deferred shaders
 		Transform deferred_shader_transform_;

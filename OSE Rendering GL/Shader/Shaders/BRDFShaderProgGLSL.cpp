@@ -105,6 +105,13 @@ namespace ose::shader
 			"uniform PointLight pointLights[16];\n"
 			"uniform int numPointLights;\n"
 
+			"struct DirLight {\n"
+			"	vec3 direction;\n"
+			"	vec3 color;\n"
+			"};\n"
+			"uniform DirLight dirLights[16];\n"
+			"uniform int numDirLights;\n"
+
 			"float pi = 3.14159265359;\n"
 
 			// Approximates the ratio of reflection (specular) to refraction (diffuse)
@@ -168,6 +175,28 @@ namespace ose::shader
 			"		float distance = length(pointLights[i].position.xyz - vertexWorldPos);\n"
 			"		float attenuation = 1.0 / (distance * distance);\n"
 			"		vec3 radiance = pointLights[i].color.rgb * attenuation;\n"
+					// Calculate the Cook-Torrance BRDF
+			"		float NDF = distributionGGX(N, H, roughness);\n"
+			"		float G = geometrySmith(N, V, L, roughness);\n"
+			"		vec3 F = fresnelSchlick(max(dot(H, V), 0.0), F0);\n"
+					// Calculate the ratio of specular and diffuse lighting
+			"		vec3 kS = F;\n"
+			"		vec3 kD = vec3(1.0) - kS;\n"
+			"		kD *= 1.0 - metallic;\n"
+					// Calculate the specular highlight
+			"		vec3 num = NDF * G * F;\n"
+			"		float denom = 4.0 * max(dot(N, V), 0.0) * max(dot(N, L), 0.0);\n"
+			"		vec3 specular = num / max(denom, 0.001);\n"
+					// Add to the total radiance at the frament
+			"		float NdotL = max(dot(N, L), 0.0);\n"
+			"		Lo += (kD * albedo / pi + specular) * radiance * NdotL;\n"
+			"	}\n"
+				// Calculate the illumination from each direction light
+			"	for(int i = 0; i < numDirLights && i < 16; ++i) {\n"
+					// Calculate the radiance at the fragment due to the light source
+			"		vec3 L = normalize(dirLights[i].direction);\n"
+			"		vec3 H = normalize(V + L);\n"
+			"		vec3 radiance = dirLights[i].color.rgb;\n"
 					// Calculate the Cook-Torrance BRDF
 			"		float NDF = distributionGGX(N, H, roughness);\n"
 			"		float G = geometrySmith(N, V, L, roughness);\n"

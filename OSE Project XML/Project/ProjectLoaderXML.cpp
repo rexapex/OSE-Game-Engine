@@ -20,6 +20,7 @@
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
 #include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 
 #include "OSE-Core/Scripting/ControlSettings.h"
@@ -786,6 +787,35 @@ namespace ose::project
 			}
 
 			new_entity->AddComponent<PointLight>(name, color);
+		}
+
+		// parse the direction light components of the entity
+		for(auto component_node = entity_node->first_node("dir_light"); component_node; component_node = component_node->next_sibling("dir_light"))
+		{
+			// Has attribute
+			auto name_attrib = component_node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// Optionally has color attributes
+			glm::vec3 color { 0.0f, 0.0f, 0.0f };
+			auto color_r_attrib = component_node->first_attribute("color_r");
+			auto color_g_attrib = component_node->first_attribute("color_g");
+			auto color_b_attrib = component_node->first_attribute("color_b");
+			try
+			{
+				if(color_r_attrib != nullptr)
+					color.r = std::stof(color_r_attrib->value());
+				if(color_g_attrib != nullptr)
+					color.g = std::stof(color_g_attrib->value());
+				if(color_b_attrib != nullptr)
+					color.b = std::stof(color_b_attrib->value());
+			}
+			catch(...)
+			{
+				LOG_ERROR("Failed to parse direction light", name, "color data");
+			}
+
+			new_entity->AddComponent<DirLight>(name, color);
 		}
 
 		// parse the custom component components of the entity
