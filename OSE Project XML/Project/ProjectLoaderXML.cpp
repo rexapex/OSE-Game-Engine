@@ -785,20 +785,7 @@ namespace ose::project
 				LOG_ERROR("Failed to parse point light", name, "color data");
 			}
 
-			// Optionally has intensity attribute
-			float intensity { 1.0f };
-			auto intensity_attrib = component_node->first_attribute("intensity");
-			try
-			{
-				if(intensity_attrib != nullptr)
-					intensity = std::stof(intensity_attrib->value());
-			}
-			catch(...)
-			{
-				LOG_ERROR("Failed to parse point light", name, "intensity data");
-			}
-
-			new_entity->AddComponent<PointLight>(name, color, intensity);
+			new_entity->AddComponent<PointLight>(name, color);
 		}
 
 		// parse the custom component components of the entity

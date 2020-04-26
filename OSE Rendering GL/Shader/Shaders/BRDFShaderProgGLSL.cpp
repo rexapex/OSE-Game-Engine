@@ -99,9 +99,8 @@ namespace ose::shader
 			"uniform sampler2D aoMap;\n"
 
 			"struct PointLight {\n"
-			"	vec4 position;\n"
-			"	vec4 color;\n"
-			"	float intensity;\n"
+			"	vec3 position;\n"
+			"	vec3 color;\n"
 			"};\n"
 			"uniform PointLight pointLights[16];\n"
 			"uniform int numPointLights;\n"
@@ -168,7 +167,7 @@ namespace ose::shader
 			"		vec3 H = normalize(V + L);\n"
 			"		float distance = length(pointLights[i].position.xyz - vertexWorldPos);\n"
 			"		float attenuation = 1.0 / (distance * distance);\n"
-			"		vec3 radiance = pointLights[i].color.rgb * pointLights[i].intensity * attenuation;\n"
+			"		vec3 radiance = pointLights[i].color.rgb * attenuation;\n"
 					// Calculate the Cook-Torrance BRDF
 			"		float NDF = distributionGGX(N, H, roughness);\n"
 			"		float G = geometrySmith(N, V, L, roughness);\n"

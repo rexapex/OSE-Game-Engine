@@ -465,9 +465,8 @@ namespace ose::rendering
 		// TODO - Update the position of the light data when the point light's entity moves
 
 		PointLightData data;
-		data.position_ = glm::vec4(t.GetPosition(), 0.0);
-		data.color_ = glm::vec4(pl->GetColor(), 0.0);
-		data.intensity_ = pl->GetIntensity();
+		data.position_ = glm::vec3(t.GetPosition());
+		data.color_ = glm::vec3(pl->GetColor());
 		point_lights_.push_back(data);
 	}
 

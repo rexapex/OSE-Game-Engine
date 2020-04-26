@@ -63,6 +63,9 @@
     <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Rendering\Lights\DirLightData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\RenderingEngineGL.cpp">

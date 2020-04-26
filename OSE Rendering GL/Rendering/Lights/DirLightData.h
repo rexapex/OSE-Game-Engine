@@ -2,9 +2,9 @@
 
 namespace ose::rendering
 {
-	struct PointLightData
+	struct DirLightData
 	{
-		glm::vec3 position_;
+		glm::vec3 direction_;
 		glm::vec3 color_;
 	};
 }
