@@ -5,6 +5,11 @@
 #include "RenderPoolGL.h"
 #include "TextureGL.h"
 
+namespace ose
+{
+	class Camera;
+}
+
 namespace ose::rendering
 {
 	class RenderingEngineGL final : public RenderingEngine
@@ -14,7 +19,7 @@ namespace ose::rendering
 		~RenderingEngineGL();
 
 		// Render one frame to the screen
-		void Render(glm::mat4 const & camera_transform) override;
+		void Render(Camera const & active_camera) override;
 
 		// Get a reference to the render pool, s.t. new render objects can be added
 		RenderPool & GetRenderPool() override { return render_pool_; }

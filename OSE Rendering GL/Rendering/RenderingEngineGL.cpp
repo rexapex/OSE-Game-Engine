@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "RenderingEngineGL.h"
+#include "OSE-Core/Game/Camera/Camera.h"
 
 namespace ose::rendering
 {
@@ -49,7 +50,7 @@ namespace ose::rendering
 	}
 
 	// Render one frame to the screen
-	void RenderingEngineGL::Render(glm::mat4 const & camera_transform)
+	void RenderingEngineGL::Render(Camera const & active_camera)
 	{
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
@@ -79,9 +80,12 @@ namespace ose::rendering
 				}
 
 				// Pass the view projection matrix to the shader program
-				//glm::mat4 camera = glm::lookAt(glm::vec3{ 0, 0, 0 }, glm::vec3{0, 0, -1}, glm::vec3{0, 1, 0});
-				glm::mat4 view_proj = projection_matrix_ * camera_transform;
+				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetTransformMatrix();
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
+
+				// Pass the camera position to the shader program
+				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetPosition().x,
+					active_camera.GetGlobalTransform().GetPosition().y, active_camera.GetGlobalTransform().GetPosition().z);
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)

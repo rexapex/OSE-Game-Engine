@@ -10,6 +10,7 @@
 namespace ose
 {
 	struct RenderingSettings;
+	class Camera;
 
 	/// Templated on the type of pool on which the rendering engine acts
 	class RenderingEngine
@@ -19,7 +20,7 @@ namespace ose
 		virtual ~RenderingEngine();
 
 		// Render one frame to the screen
-		virtual void Render(glm::mat4 const & camera_transform) = 0;
+		virtual void Render(Camera const & active_camera) = 0;
 
 		// Apply rendering settings to the rendering engine
 		void ApplyRenderingSettings(RenderingSettings const & rendering_settings);

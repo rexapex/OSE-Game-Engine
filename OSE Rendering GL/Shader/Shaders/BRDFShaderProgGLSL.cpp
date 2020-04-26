@@ -36,9 +36,9 @@ namespace ose::shader
 			"uniform sampler2D texSampler;\n"
 			"void main() {\n"
 			"	vertexUV = uv;\n"
-			"	vertexWorldPos = position;\n"
+			"	vertexWorldPos = vec3(worldTransform * vec4(position, 1.0));\n"
 
-			// TODO - Should be model transform, not world transform
+				// TODO - Confirm that this is the correct transform (possibly should be model transform)
 			"	vertexNormal = mat3(transpose(inverse(worldTransform))) * normal;\n"
 
 			"	vec3 T = normalize(vec3(worldTransform * vec4(tangent, 0.0)));\n"
@@ -48,8 +48,7 @@ namespace ose::shader
 			"	vec3 B = cross(N, T);\n"
 			"	vertexTBN = mat3(T, B, N);\n"
 
-		//	"	vertexNormal = normal;\n"	// TODO - Check OSE V1 for multiplication to apply
-			"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"	// TODO - Multiply by camera transform
+			"	gl_Position = (viewProjMatrix * worldTransform) * vec4(position, 1.0);\n"
 			"}\n"
 			;
 			/*"#version 330\n"
@@ -112,6 +111,8 @@ namespace ose::shader
 			"uniform DirLight dirLights[16];\n"
 			"uniform int numDirLights;\n"
 
+			"uniform vec3 cameraPos;\n"
+
 			"float pi = 3.14159265359;\n"
 
 			// Approximates the ratio of reflection (specular) to refraction (diffuse)
@@ -161,7 +162,7 @@ namespace ose::shader
 			"	float roughness = texture(roughnessMap, vertexUV).r;\n"
 			"	float ao = texture(aoMap, vertexUV).r;\n"
 				// Normalise the vertex direction and normal
-			"	vec3 V = normalize(-vertexWorldPos);\n"		// TODO - Subtract from camera pos
+			"	vec3 V = normalize(cameraPos - vertexWorldPos);\n"
 			"	vec3 N = normalize(normal);\n"
 				// For non-metallic surfaces, F0 is always 0.04
 			"	vec3 F0 = vec3(0.04);\n"
@@ -170,9 +171,9 @@ namespace ose::shader
 			"	vec3 Lo = vec3(0.0);\n"
 			"	for(int i = 0; i < numPointLights && i < 16; ++i) {\n"
 					// Calculate the radiance at the fragment due to the light source
-			"		vec3 L = normalize(pointLights[i].position.xyz - vertexWorldPos);\n"
+			"		vec3 L = normalize(pointLights[i].position - vertexWorldPos);\n"
 			"		vec3 H = normalize(V + L);\n"
-			"		float distance = length(pointLights[i].position.xyz - vertexWorldPos);\n"
+			"		float distance = length(pointLights[i].position - vertexWorldPos);\n"
 			"		float attenuation = 1.0 / (distance * distance);\n"
 			"		vec3 radiance = pointLights[i].color.rgb * attenuation;\n"
 					// Calculate the Cook-Torrance BRDF

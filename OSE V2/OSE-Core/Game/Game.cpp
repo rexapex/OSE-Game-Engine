@@ -142,7 +142,7 @@ namespace ose
 			active_camera_->Update();
 
 			// Render to the back buffer
-			rendering_engine_->Render(active_camera_->GetGlobalTransform().GetTransformMatrix());
+			rendering_engine_->Render(*active_camera_);
 
 			// TODO - Remove once proper FPS display is implemented
 			window_manager_->SetTitle(std::to_string(time_.GetFps()));
