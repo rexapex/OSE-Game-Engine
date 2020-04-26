@@ -67,7 +67,7 @@ namespace ose
 	}
 
 
-	// Rotate by a orientatoin specifying the change
+	// Rotate by a orientation specifying the change
 	void Transform::Rotate(const glm::quat & change)
 	{
 		orientation_ *= change;
