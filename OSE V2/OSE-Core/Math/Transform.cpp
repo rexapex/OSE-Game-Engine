@@ -276,7 +276,7 @@ namespace ose
 	{
 		return glm::translate(glm::mat4(), position_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
 	}
-
+	
 	glm::vec3 Transform::GetUp() const
 	{
 		return glm::cross(orientation_, glm::vec3(0, 1, 0));
