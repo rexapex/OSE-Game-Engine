@@ -65,7 +65,8 @@ int main(int argc, char * argv[])
 	InputSettings settings;
 	settings.axis_inputs_.emplace("move_x", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
 	settings.axis_inputs_.emplace("move_y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
-	settings.boolean_inputs_.emplace("speed", BooleanInput{ EInputType::LEFT_SHIFT });
+	settings.boolean_inputs_.emplace("LSHIFT", BooleanInput{ EInputType::LEFT_SHIFT });
+	settings.boolean_inputs_.emplace("MIDDLE_MOUSE", BooleanInput{ EInputType::MOUSE_BUTTON_MIDDLE });
 	game->ApplyInputSettings(settings);
 
 	// all resources have been loaded and entities initialised, therefore, start the game

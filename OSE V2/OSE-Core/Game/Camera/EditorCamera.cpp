@@ -7,9 +7,26 @@ namespace ose
 	void EditorCamera::Update()
 	{
 		float delta { static_cast<float>(game_->GetTime().GetDeltaTime()) };
-		float move_x { static_cast<float>(game_->GetAxisValue("move_x")) };
-		float move_y { static_cast<float>(game_->GetAxisValue("move_y")) };
-		float speed { game_->IsBooleanInputTriggered("speed") ? 5.0f : 1.0f };
-		Translate(move_x * delta * speed, 0, move_y * delta * speed);
+
+		bool middle_mouse { game_->IsBooleanInputTriggered("MIDDLE_MOUSE") };
+		bool lshift { game_->IsBooleanInputTriggered("LSHIFT") };
+
+		if(middle_mouse)
+		{
+			if(lshift)
+			{
+				Translate(
+					glm::vec3{ game_->GetMouseDx() * delta, 0, 0 } * global_transform_.GetRight()
+					+ glm::vec3{ 0, -game_->GetMouseDy() * delta, 0 } * global_transform_.GetUp()
+				);
+			}
+			else
+			{
+				Rotate(
+					glm::vec3{ -game_->GetMouseDy() * delta, 0, 0 } * global_transform_.GetRight()
+					+ glm::vec3{ 0, game_->GetMouseDx() * delta, 0 } * global_transform_.GetUp()
+				);
+			}
+		}
 	}
 }

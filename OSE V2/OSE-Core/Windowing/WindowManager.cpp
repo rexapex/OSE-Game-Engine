@@ -31,7 +31,12 @@ namespace ose
 	}
 
 	//void WindowManager::WindowPosCallbackImpl(int x, int y) {}
-	//void WindowManager::CursorPosCallbackImpl(double xPos, double yPos) {}
+	
+	void WindowManager::CursorPosCallbackImpl(double xPos, double yPos)
+	{
+		input_manager_->SetMousePos(xPos, yPos);
+	}
+
 	//void WindowManager::MouseButtonCallbackImpl(int button, int action, int mods) {}
 	//void WindowManager::MouseScrollCallbackImpl(double xOffset, double yOffset) {}
 	//void WindowManager::KeyCallbackImpl(int key, int scancode, int action, int mods) {}

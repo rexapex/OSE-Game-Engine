@@ -46,6 +46,15 @@ namespace ose
 		// Set input type to triggered or un-triggered
 		void SetInputType(EInputType type, bool triggered);
 
+		// Set the position of the mouse
+		void SetMousePos(double x, double y);
+
+		// Get the mouse position/movement variables
+		double GetMouseX() const { return mouse_x_; }
+		double GetMouseY() const { return mouse_y_; }
+		double GetMouseDx() const { return mouse_dx_; }
+		double GetMouseDy() const { return mouse_dy_; }
+
 		// Apply an InputSettings object to the input manager
 		// New inputs will be added and existing inputs will be overriden
 		void ApplyInputSettings(InputSettings const & settings);
@@ -56,5 +65,10 @@ namespace ose
 	private:
 		std::unordered_map<std::string, BooleanInput> boolean_inputs_;
 		std::unordered_map<std::string, AxisInput> axis_inputs_;
+
+		double mouse_x_		{ 0.0 };
+		double mouse_y_		{ 0.0 };
+		double mouse_dx_	{ 0.0 };
+		double mouse_dy_	{ 0.0 };
 	};
 }
