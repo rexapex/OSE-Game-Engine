@@ -21,7 +21,7 @@ namespace ose
 
 	void WindowManager::FramebufferSizeCallbackImpl(int width, int height)
 	{
-		DEBUG_LOG("Framebuffer resized to " << width << "x" << height);
+		DEBUG_LOG("Framebuffer resized to", width, "x", height);
 		this->rendering_engine_->SetFramebufferSize(width, height);
 	}
 	
@@ -31,7 +31,12 @@ namespace ose
 	}
 
 	//void WindowManager::WindowPosCallbackImpl(int x, int y) {}
-	//void WindowManager::CursorPosCallbackImpl(double xPos, double yPos) {}
+	
+	void WindowManager::CursorPosCallbackImpl(double xPos, double yPos)
+	{
+		input_manager_->SetMousePos(xPos, yPos);
+	}
+
 	//void WindowManager::MouseButtonCallbackImpl(int button, int action, int mods) {}
 	//void WindowManager::MouseScrollCallbackImpl(double xOffset, double yOffset) {}
 	//void WindowManager::KeyCallbackImpl(int key, int scancode, int action, int mods) {}

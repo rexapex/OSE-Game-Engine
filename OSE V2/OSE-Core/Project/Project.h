@@ -1,7 +1,9 @@
 #pragma once
 
 #include "ProjectInfo.h"
+#include "ProjectSettings.h"
 #include "OSE-Core/Input/InputSettings.h"
+#include "OSE-Core/Scripting/ControlSettings.h"
 
 namespace ose
 {
@@ -15,8 +17,9 @@ namespace ose
 	class Project
 	{
 	public:
-		Project(const std::string & project_path, const ProjectInfo & project_info, const std::map<std::string, std::string> & scene_names_to_path,
-			InputSettings const & input_settings);
+		Project(const std::string & project_path, const ProjectInfo & project_info, ProjectSettings const & project_settings,
+			const std::map<std::string, std::string> & scene_names_to_path,
+			InputSettings const & input_settings, ControlSettings const & control_settings);
 		virtual ~Project() noexcept;
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
@@ -27,7 +30,10 @@ namespace ose
 		const std::map<std::string, std::string> & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
 		ResourceManager & GetResourceManager() const { return *resource_manager_; }
 		PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
+
+		ProjectSettings const & GetProjectSettings() const { return project_settings_; }
 		InputSettings const & GetInputSettings() const { return input_settings_; }
+		ControlSettings const & GetControlSettings() const { return control_settings_; }
 
 		// Create gpu resources for each loaded resource object
 		void CreateGpuResources();
@@ -42,6 +48,9 @@ namespace ose
 		// project info (name, version, date_created, date_modified, etc...)
 		ProjectInfo project_info_;
 
+		// project settings (settings for each engine)
+		ProjectSettings project_settings_;
+
 		// resource manager
 		std::unique_ptr<ResourceManager> resource_manager_;
 
@@ -53,6 +62,9 @@ namespace ose
 
 		// The default input settings configured in the project
 		InputSettings input_settings_;
+
+		// The control scripts which persist across scenes
+		ControlSettings control_settings_;
 
 		// engine settings
 		// rendering/physics settings

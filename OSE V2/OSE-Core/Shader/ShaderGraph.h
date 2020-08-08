@@ -9,16 +9,16 @@ namespace ose
 	{
 	public:
 		ShaderGraph(const std::string & name);
-		~ShaderGraph();
+		virtual ~ShaderGraph();
 
 		// ShaderNodeType is the type of ShaderNode to add
 		// Returns a pointer to the ShaderNode
 		// Do not delete or move the pointer returned
 		// To delete the node, use the RemoveNode method
-		template <typename ShaderNodeType, typename ...Args>
+		template <typename T, typename ...Args>
 		unowned_ptr<ShaderNode> AddNode(Args &&... params)
 		{
-			nodes_.emplace_back( std::make_unique<ShaderNodeType>(std::forward<Args>(params)...) );
+			nodes_.emplace_back( std::make_unique<T>(std::forward<Args>(params)...) );
 			return nodes_.back().get();
 		}
 

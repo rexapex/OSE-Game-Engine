@@ -1,16 +1,18 @@
 #include "pch.h"
 #include "RenderingEngineGL.h"
+#include "OSE-Core/Game/Camera/Camera.h"
 
 namespace ose::rendering
 {
-	RenderingEngineGL::RenderingEngineGL() : RenderingEngine()
+	RenderingEngineGL::RenderingEngineGL(int fbwidth, int fbheight) : RenderingEngine(fbwidth, fbheight)
 	{
 		// NOTE - If RenderingEngineGL is made multithreadable, may need to move this
 		// TODO - Only load GLEW if used OpenGL functions are not available
 		InitGlew();
 
 		// Initialise the render pool only once OpenGL has been intialised
-		render_pool_.Init();
+		render_pool_.Init(fbwidth, fbheight);
+		UpdateProjectionMatrix();
 
 		// Set the default OpenGL settings
 		glCullFace(GL_BACK);
@@ -18,6 +20,8 @@ namespace ose::rendering
 		glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		glEnable(GL_DEPTH_TEST);			// TODO - Disable depth test when rendering a deferred texture (make apart of render pass state)
+		glDepthFunc(GL_LEQUAL);
 	}
 
 	RenderingEngineGL::~RenderingEngineGL() {}
@@ -32,47 +36,79 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
-	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar)
+	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar)
 	{
 		DEBUG_LOG("updating perspective projection matrix");
+		// hfov = 2 * atan(tan(vfov * 0.5) * aspect_ratio)
+		// vfov = atan(tan(hfov / 2) / aspect_ratio) * 2
+		float aspect_ratio { (float)fbwidth/(float)fbheight };
+		float hfov { glm::radians(hfov_deg) };
+		float vfov { glm::atan(glm::tan(hfov / 2) / aspect_ratio) * 2 };
 		// TODO - test aspect ratio is correct for a variety of resolutions
-		projection_matrix_ = glm::perspective(glm::radians(fovyDeg), (float)fbwidth/(float)fbheight, znear, zfar);
+		projection_matrix_ = glm::perspective(vfov, aspect_ratio, znear, zfar);
 		glViewport(0, 0, fbwidth, fbheight);	// still required with shaders as far as I'm aware
 	}
 
-	// Engine::update method overriden
-	// Called every game update to render all object in the pool
-	void RenderingEngineGL::Update()
+	// Render one frame to the screen
+	void RenderingEngineGL::Render(Camera const & active_camera)
 	{
 		for(auto const & render_pass : render_pool_.GetRenderPasses())
 		{
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+			// Bind the fbo and clear the required buffers
+			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
+			glClear(render_pass.clear_);
+
 			for(auto const & shader_group : render_pass.shader_groups_)
 			{
 				// Bind the shader used by the shader group
 				glUseProgram(shader_group.shader_prog_);
 
+				// Pass the lights to the shader program
+				glUniform1i(glGetUniformLocation(shader_group.shader_prog_, "numPointLights"), std::min(static_cast<int>(render_pool_.GetPointLights().size()), 16));
+				for(size_t l = 0; l < render_pool_.GetPointLights().size() && l < 16; l++)
+				{
+					auto const & light = render_pool_.GetPointLights()[l];
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].position"}.c_str()), light.position_.x, light.position_.y, light.position_.z);
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"pointLights[" + std::to_string(l) + "].color"}.c_str()), light.color_.x, light.color_.y, light.color_.z);
+				}
+				glUniform1i(glGetUniformLocation(shader_group.shader_prog_, "numDirLights"), std::min(static_cast<int>(render_pool_.GetDirLights().size()), 16));
+				for(size_t l = 0; l < render_pool_.GetDirLights().size() && l < 16; l++)
+				{
+					auto const & light = render_pool_.GetDirLights()[l];
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"dirLights[" + std::to_string(l) + "].direction"}.c_str()), light.direction_.x, light.direction_.y, light.direction_.z);
+					glUniform3f(glGetUniformLocation(shader_group.shader_prog_, std::string{"dirLights[" + std::to_string(l) + "].color"}.c_str()), light.color_.x, light.color_.y, light.color_.z);
+				}
+
 				// Pass the view projection matrix to the shader program
-				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(projection_matrix_));
+				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetTransformMatrix();
+				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
+
+				// Pass the camera position to the shader program
+				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetPosition().x,
+					active_camera.GetGlobalTransform().GetPosition().y, active_camera.GetGlobalTransform().GetPosition().z);
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
 				{
-					// TODO - Allow a single render object to bind multiple textures simultaneously
-					// TODO - Could use a vector num_textures_ that gives the number of textures used by object i
-					for(size_t i = 0; i < render_object.transforms_.size(); i++)
+					for(size_t i = 0; i < render_object.transforms_.size(); ++i)
 					{
 						// Pass the world transform of the object to the shader program
 						glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
 						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
-						// Bind the texture
-						glActiveTexture(GL_TEXTURE0);
-						glBindTexture(GL_TEXTURE_2D, render_object.textures_[i]);
+						// Bind the textures
+						for(size_t t = 0; t < render_object.texture_stride_; ++t)
+						{
+							glActiveTexture(GL_TEXTURE0 + t);
+							glBindTexture(GL_TEXTURE_2D, render_object.textures_[i * render_object.texture_stride_ + t]);
+						}
 
 						// Render the object
 						glBindVertexArray(render_object.vao_);
-						glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						if(render_object.ibo_ == 0)
+							glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						else
+							glDrawElements(render_object.render_primitive_, render_object.count_, GL_UNSIGNED_INT, 0);
 					}
 				}
 			}

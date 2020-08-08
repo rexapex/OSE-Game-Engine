@@ -1,12 +1,13 @@
 #include "stdafx.h"
 #include "ShaderGraph.h"
+#include "Nodes/OutputNode.h"
 
 namespace ose
 {
 	ShaderGraph::ShaderGraph(const std::string & name) : name_(name)
 	{
 		// Every shader graph contains a single color output node, the first node in the graph
-		AddNode<ShaderNode>();
+		AddNode<OutputNode>();
 	}
 
 	ShaderGraph::~ShaderGraph()
@@ -78,11 +79,11 @@ namespace ose
 		std::vector<unowned_ptr<NodeConnector>> incoming_connectors;
 		for(auto & c : connectors_)
 		{
-			unowned_ptr<ShaderNode> out_node;
-			std::string out_name;
-			c.GetOutput(&out_node, out_name);
-			// If the output of node is n, add c to the list
-			if(out_node == n)
+			unowned_ptr<ShaderNode> in_node;
+			std::string in_name;
+			c.GetInput(&in_node, in_name);
+			// If the input node is n, add c to the list
+			if(in_node == n)
 			{
 				incoming_connectors.push_back(&c);
 			}

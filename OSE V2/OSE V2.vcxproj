@@ -58,15 +58,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="GlobalProperties.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -108,7 +112,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -130,7 +134,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -156,7 +160,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -182,13 +186,27 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)/Builds/Module/;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OSE Project XML_$(Platform)_$(Configuration).lib;OSE Rendering GL_$(Platform)_$(Configuration).lib;OSE Resources SOIL_$(Platform)_$(Configuration).lib;OSE Scripting CPP_$(Platform)_$(Configuration).lib;OSE Windowing GLFW_$(Platform)_$(Configuration).lib;OSE Resources Tilemap TXT_$(Platform)_$(Configuration).lib;OSE Resources Mesh ASSIMP_$(Platform)_$(Configuration).lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\CustomComponent.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\MeshRenderer.h" />
+    <ClInclude Include="OSE-Core\Entity\Component\PointLight.h" />
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
+    <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
+    <ClInclude Include="OSE-Core\File System\File.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshMetaData.h" />
+    <ClInclude Include="OSE-Core\Project\ProjectSettings.h" />
+    <ClInclude Include="OSE-Core\Logging.h" />
+    <ClInclude Include="OSE-Core\Scripting\ControlSettings.h" />
+    <ClInclude Include="OSE-Core\Scripting\CustomControl.h" />
     <ClInclude Include="OSE-Core\Input\AxisInput.h" />
     <ClInclude Include="OSE-Core\Input\BooleanInput.h" />
     <ClInclude Include="OSE-Core\Input\EInputType.h" />
@@ -205,13 +223,22 @@
     <ClInclude Include="OSE-Core\Resources\Tilemap\Tilemap.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoader.h" />
     <ClInclude Include="OSE-Core\Resources\Tilemap\TilemapLoaderFactory.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderFlag.h" />
+    <ClInclude Include="OSE-Core\Shader\EShaderType.h" />
     <ClInclude Include="OSE-Core\Shader\NodeConnector.h" />
-    <ClInclude Include="OSE-Core\Shader\Nodes\NConstColor.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\BRDFNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\OutputNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\RGBANode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\TextureNode.h" />
+    <ClInclude Include="OSE-Core\Shader\Nodes\VectorNode.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderGraph.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
+    <ClInclude Include="OSE-Core\Shader\ShaderNodeMacros.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
-    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
+    <ClInclude Include="OSE-Core\STL Ext Lib\StringExt.h" />
     <ClInclude Include="OSE-Core\Types.h" />
     <ClInclude Include="EngineDependencies\glm\common.hpp" />
     <ClInclude Include="EngineDependencies\glm\detail\func_common.hpp" />
@@ -516,10 +543,10 @@
     <ClInclude Include="OSE-Core\Rendering\EProjectionMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureEdgeSamplingMode.h" />
     <ClInclude Include="OSE-Core\Rendering\ETextureFilterMode.h" />
-    <ClInclude Include="OSE-Core\Resources\FileHandlingUtil.h" />
+    <ClInclude Include="OSE-Core\File System\FileSystemUtil.h" />
     <ClInclude Include="OSE-Core\Rendering\RenderingEngine.h" />
     <ClInclude Include="OSE-Core\Rendering\VideoMode.h" />
-    <ClInclude Include="OSE-Core\Resources\Model\ModelLoader.h" />
+    <ClInclude Include="OSE-Core\Resources\Mesh\MeshLoader.h" />
     <ClInclude Include="OSE-Core\Resources\ResourceManager.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\Texture.h" />
     <ClInclude Include="OSE-Core\Resources\Texture\TextureLoader.h" />
@@ -528,7 +555,6 @@
     <ClInclude Include="OSE-Core\Rendering\RenderPool.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowingFactory.h" />
     <ClInclude Include="OSE-Core\Game\Scene\SceneManager.h" />
-    <ClInclude Include="OSE-Core\Game\Scene\SceneSwitchManager.h" />
     <ClInclude Include="OSE-Core\Scripting\ScriptingEngine.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="OSE-Core\Windowing\WindowManager.h" />
@@ -678,6 +704,8 @@
   <ItemGroup>
     <ClCompile Include="OSE-Core\Entity\Component\ComponentList.cpp" />
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
+    <ClCompile Include="OSE-Core\File System\File.cpp" />
+    <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
@@ -692,8 +720,8 @@
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
-    <ClCompile Include="OSE-Core\Resources\FileHandlingUtil.cpp" />
-    <ClCompile Include="OSE-Core\Resources\Model\ModelLoader.cpp" />
+    <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\Texture.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\TextureLoader.cpp" />
@@ -702,12 +730,9 @@
     <ClCompile Include="OSE-Core\Resources\Tilemap\Tilemap.cpp" />
     <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Nodes\NConstColor.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
-    <ClCompile Include="OSE-Core\Shader\ShaderNode.cpp" />
-    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphDefault.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
-    <ClCompile Include="OSE-Core\Game\Scene\SceneSwitchManager.cpp" />
     <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

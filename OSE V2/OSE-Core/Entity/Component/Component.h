@@ -70,11 +70,21 @@ namespace ose
 		// initialise the component, should only be called from the main thread
 		virtual void Init() {}
 
+		// Get the name of the component
+		std::string const & GetName() const { return name_; }
+
 		// disable the component (i.e. remove it from corresponding engine data pool
 		virtual void Disable();
 
 		// enable the component (i.e. add it to its corresponding engine data pool)
 		virtual void Enable();
+
+		// Set engine data
+		// NOTE - Should NEVER be called from a script
+		void SetEngineData(std::any && data) { engine_data_ = data; }
+
+		// Get engine data
+		std::any GetEngineData() const { return engine_data_; }
 
 	private:
 		// fields shared by all component types
@@ -82,6 +92,10 @@ namespace ose
 
 		// true iff the component has been added to some engine data pool
 		bool enabled_;
+
+		// Data used by an engine to identify which engine object belongs to which components
+		// Each engine can define data to be any type they want
+		std::any engine_data_;
 	};
 }
 

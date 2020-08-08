@@ -5,7 +5,8 @@ namespace ose::rendering
 {
 	struct ShaderGroupGL
 	{
-		uint32_t shader_prog_;
+		GLuint shader_prog_		{ 0 };
+
 		std::vector<RenderObjectGL> render_objects_;
 	};
 }
