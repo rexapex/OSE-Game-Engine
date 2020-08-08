@@ -19,6 +19,8 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
+#include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 
 #include "OSE-Core/Scripting/ControlSettings.h"
@@ -290,6 +292,13 @@ namespace ose::project
 					{
 						float zfar = std::stof(zfar_attrib->value());
 						settings.rendering_settings_.zfar_ = zfar;
+					}
+
+					auto hfov_attrib = projection_node->first_attribute("hfov");
+					if(hfov_attrib != nullptr)
+					{
+						float hfov = std::stof(hfov_attrib->value());
+						settings.rendering_settings_.hfov_ = hfov;
 					}
 				}
 				catch(...)
@@ -724,22 +733,89 @@ namespace ose::project
 		// parse the mesh renderer components of the new entity
 		for(auto component_node = entity_node->first_node("mesh_renderer"); component_node; component_node = component_node->next_sibling("mesh_renderer"))
 		{
-			// has name & mesh attributes
-			auto name_attrib	= component_node->first_attribute("name");
+			// Has name & mesh attributes
+			auto name_attrib = component_node->first_attribute("name");
 			auto mesh_attrib = component_node->first_attribute("mesh");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
-			// if mesh is an alias, find it's replacement text, else use the file text
+			// Optionally has material attribute
+			auto material_attrib = component_node->first_attribute("material");
+
+			// If mesh is an alias, find its replacement text, else use the file text
 			std::string mesh_text { (mesh_attrib ? mesh_attrib->value() : "") };
 			const auto mesh_text_alias_pos { aliases.find(mesh_text) };
 			const std::string & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
+			
+			// If material is an alias, find its replacement text, else us the file text
+			std::string material_text { (material_attrib ? material_attrib->value() : "") };
+			const auto material_text_alias_pos { aliases.find(material_text) };
+			const std::string & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
 
 			const Mesh * mesh = project.GetResourceManager().GetMesh(mesh_path);
+			const Material * material = project.GetResourceManager().GetMaterial(material_path);
 			if(mesh != nullptr) {
-				new_entity->AddComponent<MeshRenderer>(name, mesh);
+				new_entity->AddComponent<MeshRenderer>(name, mesh, material);
 			} else {
 				LOG_ERROR("Mesh", mesh_path, "has not been loaded");
 			}
+		}
+
+		// parse the point light components of the entity
+		for(auto component_node = entity_node->first_node("point_light"); component_node; component_node = component_node->next_sibling("point_light"))
+		{
+			// Has attribute
+			auto name_attrib = component_node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// Optionally has color attributes
+			glm::vec3 color { 0.0f, 0.0f, 0.0f };
+			auto color_r_attrib = component_node->first_attribute("color_r");
+			auto color_g_attrib = component_node->first_attribute("color_g");
+			auto color_b_attrib = component_node->first_attribute("color_b");
+			try
+			{
+				if(color_r_attrib != nullptr)
+					color.r = std::stof(color_r_attrib->value());
+				if(color_g_attrib != nullptr)
+					color.g = std::stof(color_g_attrib->value());
+				if(color_b_attrib != nullptr)
+					color.b = std::stof(color_b_attrib->value());
+			}
+			catch(...)
+			{
+				LOG_ERROR("Failed to parse point light", name, "color data");
+			}
+
+			new_entity->AddComponent<PointLight>(name, color);
+		}
+
+		// parse the direction light components of the entity
+		for(auto component_node = entity_node->first_node("dir_light"); component_node; component_node = component_node->next_sibling("dir_light"))
+		{
+			// Has attribute
+			auto name_attrib = component_node->first_attribute("name");
+			std::string name { (name_attrib ? name_attrib->value() : "") };
+
+			// Optionally has color attributes
+			glm::vec3 color { 0.0f, 0.0f, 0.0f };
+			auto color_r_attrib = component_node->first_attribute("color_r");
+			auto color_g_attrib = component_node->first_attribute("color_g");
+			auto color_b_attrib = component_node->first_attribute("color_b");
+			try
+			{
+				if(color_r_attrib != nullptr)
+					color.r = std::stof(color_r_attrib->value());
+				if(color_g_attrib != nullptr)
+					color.g = std::stof(color_g_attrib->value());
+				if(color_b_attrib != nullptr)
+					color.b = std::stof(color_b_attrib->value());
+			}
+			catch(...)
+			{
+				LOG_ERROR("Failed to parse direction light", name, "color data");
+			}
+
+			new_entity->AddComponent<DirLight>(name, color);
 		}
 
 		// parse the custom component components of the entity
@@ -828,6 +904,26 @@ namespace ose::project
 				}
 
 				project.GetResourceManager().AddMesh(path, "");	// TODO - remove name_ field from mesh class
+			}
+		}
+
+		// parse material nodes
+		for(auto material_node { resources_node->first_node("material") }; material_node; material_node = material_node->next_sibling("material"))
+		{
+			auto const alias_attrib { material_node->first_attribute("alias") };
+			auto const path_attrib  { material_node->first_attribute("path") };
+
+			if(path_attrib)
+			{
+				auto const path { path_attrib->value() };
+
+				// if there is an alias provided, add it to the list of aliases for this file
+				if(alias_attrib) {
+					auto const alias { alias_attrib->value() };
+					aliases.insert({ alias, path });
+				}
+
+				project.GetResourceManager().AddMaterial(path, "");	// TODO - remove name_ field from material class
 			}
 		}
 

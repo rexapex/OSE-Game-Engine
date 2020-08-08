@@ -68,7 +68,7 @@ namespace ose
 }
 
 #ifndef PROJECT_DIR
-#error "PROJECT_DIR is not defined, add PROJECT_DIR=R\"($(ProjectDir))\"; as a preprocessor token"
+#error "PROJECT_DIR is not defined, add PROJECT_DIR=R"($(ProjectDir))"; as a preprocessor token"
 #endif
 
 #ifndef __FILE__

@@ -104,6 +104,15 @@ namespace ose
 		}
 	}
 
+	// Set the position of the mouse
+	void InputManager::SetMousePos(double x, double y)
+	{
+		mouse_dx_ = x - mouse_x_;
+		mouse_dy_ = y - mouse_y_;
+		mouse_x_ = x;
+		mouse_y_ = y;
+	}
+
 	// Apply an InputSettings object to the input manager
 	// New inputs will be added and existing inputs will be overriden
 	void InputManager::ApplyInputSettings(InputSettings const & settings)

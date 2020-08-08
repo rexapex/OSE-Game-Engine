@@ -22,9 +22,6 @@ namespace ose
 		Texture(Texture &&) noexcept = default;
 		Texture & operator=(Texture &&) noexcept = default;
 
-		// in order to be useful, the texture must be bindable
-		virtual void Bind() const = 0;
-
 		// the texture can be created in the GPU memory
 		virtual void CreateTexture() = 0;
 
@@ -40,9 +37,10 @@ namespace ose
 		const int32_t GetWidth() const { return width_; }
 		const int32_t GetHeight() const { return height_; }
 		IMGDATA const GetImgData() const { return img_data_; }
+		int32_t const GetNumChannels() const { return channels_; }
 
 		//set the img data, width and height after the texture has been loaded
-		void SetImgData(IMGDATA const img_data, int32_t width, int32_t height) { img_data_ = img_data, width_ = width, height_ = height; }
+		void SetImgData(IMGDATA const img_data, int32_t width, int32_t height, int32_t channels) { img_data_ = img_data, width_ = width, height_ = height; channels_ = channels; }
 
 		const ETextureFilterMode GetMagFilterMode() const { return meta_data_.mag_filter_mode_; }
 		const ETextureFilterMode GetMinFilterMode() const { return meta_data_.min_filter_mode_; }
@@ -69,6 +67,7 @@ namespace ose
 
 		IMGDATA img_data_ { nullptr };
 		int32_t width_ { 0 }, height_ { 0 };
+		int32_t channels_ { 0 };
 
 		//meta data stored in a separate object for easier (and probably quicker) loading
 		TextureMetaData meta_data_;

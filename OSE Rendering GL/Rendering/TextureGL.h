@@ -15,9 +15,6 @@ namespace ose::rendering
 		// get the OpenGL texture ID
 		const uint32_t GetGlTexId() const { return gl_tex_id_; }
 
-		// bind the texture ready for rendering
-		void Bind() const override;
-
 		// create the texture in GPU memory
 		// IMPORTANT - cannot be called from constructor since the ResourceLoader is multithreaded but the rendering context is not
 		void CreateTexture() override;

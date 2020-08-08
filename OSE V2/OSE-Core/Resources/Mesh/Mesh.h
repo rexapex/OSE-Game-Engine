@@ -52,7 +52,7 @@ namespace ose
 			tex_coords_.resize((types & VDT_TEX_COORDS) == VDT_TEX_COORDS ? n*2 : 0);
 			normals_.resize((types & VDT_NORMALS) == VDT_NORMALS ? n*3 : 0);
 			tangents_.resize((types & VDT_TANGENTS) == VDT_TANGENTS ? n*3 : 0);
-			bitangents_.resize((types & VDT_BITANGENTS) == VDT_BITANGENTS ? n*3 : 0);
+			//bitangents_.resize((types & VDT_BITANGENTS) == VDT_BITANGENTS ? n*3 : 0);
 		}
 
 		// Add a new mesh section
@@ -85,6 +85,14 @@ namespace ose
 			normals_[index+2] = z;
 		}
 
+		// Add a new vertex tangent vector
+		inline void AddVertexTangent(size_t index, float x, float y, float z)
+		{
+			tangents_[index+0] = x;
+			tangents_[index+1] = y;
+			tangents_[index+2] = z;
+		}
+
 		// Get the total number of vertices in the mesh
 		size_t GetNumVertices() const { return num_vertices_; }
 
@@ -93,7 +101,7 @@ namespace ose
 		std::vector<float> const & GetTexCoordData() const { return tex_coords_; }
 		std::vector<float> const & GetNormalData() const { return normals_; }
 		std::vector<float> const & GetTangentData() const { return tangents_; }
-		std::vector<float> const & GetBitangentData() const { return bitangents_; }
+		//std::vector<float> const & GetBitangentData() const { return bitangents_; }
 
 		// Get the array of mesh sections which make up the mesh
 		std::vector<MeshSection> const & GetSections() const { return sections_; }
@@ -113,7 +121,7 @@ namespace ose
 		std::vector<float> tex_coords_;
 		std::vector<float> normals_;
 		std::vector<float> tangents_;
-		std::vector<float> bitangents_;
+		//std::vector<float> bitangents_;
 
 		// Array of mesh sections
 		std::vector<MeshSection> sections_;

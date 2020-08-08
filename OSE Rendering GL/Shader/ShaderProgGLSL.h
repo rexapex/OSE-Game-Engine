@@ -1,35 +1,44 @@
 #pragma once
 #include "OSE-Core/Shader/ShaderProg.h"
 #include "OSE-Core/Shader/ShaderNode.h"
-#include "VertShaderGLSL.h"
-#include "FragShaderGLSL.h"
 
 namespace ose::shader
 {
-	class ShaderProgGLSL : public ShaderProg
+	struct ShaderLayer;
+
+	class ShaderProgGLSL final : public ShaderProg
 	{
 	public:
-		ShaderProgGLSL();
+		ShaderProgGLSL(std::unique_ptr<ShaderGraph> shader_graph);
 		virtual ~ShaderProgGLSL();
 
-		// Build a shader object from a shader graph
-		virtual void BuildShaderGraph(ShaderGraph & shader_graph);
+		// Build an OpenGL shader object from a shader graph
+		void CreateShaderProg() override;
+
+		// Destroy the OpenGL shader object
+		void DestroyShaderProg() override;
 
 		// Get the shader program id
 		uint32_t GetShaderProgId() const { return shader_prog_; }
 
 	private:
-		// GLSL shader program is composed of a vertex shader and a fragment shader
-		// TODO - Expand functionality to include other shader types
-		// TODO - Possibly only need one class, ShaderGLSL rather than one for each shader type
-		VertShaderGLSL vert_shader_;
-		FragShaderGLSL frag_shader_;
-
 		// OpenGL shader program id
 		uint32_t shader_prog_ { 0 };
 
-		// Process the incoming connectors of node n
-		void ProcessIncomingConnectors(ShaderGraph & shader_graph, unowned_ptr<ShaderNode> n);
+		// Split the shader graph nodes into layers
+		// All nodes in a layer can be computed simultaneously
+		void CreateLayers(std::vector<ShaderLayer> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes);
+
+		// Determine which shader type is required for each layer
+		// If nodes within the same shader require different shader types, split the layer into multiple layers
+		void DetermineLayerTypes(std::vector<ShaderLayer> & layers);
+
+		// Generate GLSL source code from a list of shader layers
+		// Outputs source code into _src arguments
+		void GenerateSourceCode(std::vector<ShaderLayer> & layers, std::string & vert_src, std::string & frag_src);
+
+		// Create a GLSL shader object from source code
+		//uint32_t CreateShaderObject();
 	};
 }
 
