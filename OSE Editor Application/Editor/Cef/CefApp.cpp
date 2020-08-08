@@ -17,6 +17,7 @@
 #include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Windowing/WindowManager.h"
 
+using namespace ose;
 using namespace ose::editor;
 
 namespace {
@@ -69,7 +70,11 @@ void SimpleApp::OnContextInitialized() {
 
 	// Create the controller object
 	controller_ = std::make_unique<Controller>();
-	controller_->LoadProject("OSE-TestProject");
+	std::string home_dir;
+	fs::GetHomeDirectory(home_dir);
+	std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + "OSE-TestProject";
+	fs::CreateDirs(project_path);
+	controller_->LoadProject(project_path);
 	controller_->LoadScene("scene1");
 	controller_->SetActiveScene("scene1");
 
