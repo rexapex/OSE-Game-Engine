@@ -160,7 +160,7 @@ void SimpleHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type
 	std::cout << "ON PAINT\n";
 	IMGDATA data = new unsigned char[width*height*4];
 	memcpy(data, buffer, width*height*4);
-	texture_->SetImgData(data, width, height);
+	texture_->SetImgData(data, width, height, 3);
 	texture_->CreateTexture();
 	controller_.Render(*texture_);
 	delete[] data;

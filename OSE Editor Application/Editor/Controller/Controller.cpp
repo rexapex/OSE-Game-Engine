@@ -28,9 +28,11 @@ namespace ose::editor
 
 		this->input_manager_ = std::make_unique<InputManager>();
 
-		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
+		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
 		this->window_manager_->SetEngineReferences(rendering_engine_.get(), input_manager_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
+
+		this->active_camera_ = &default_camera_;
 	}
 
 	Controller::~Controller()
@@ -46,6 +48,13 @@ namespace ose::editor
 		// Clear the input manager of inputs from previous projects then apply the default project inputs
 		input_manager_->ClearInputs();
 		input_manager_->ApplyInputSettings(project.GetInputSettings());
+	}
+
+	// Called upon a project being deactivated
+	// Project is deactivated when a new project is loaded
+	void Controller::OnProjectDeactivated(Project & project)
+	{
+		// TODO
 	}
 
 	// Called upon a scene being activated
@@ -64,13 +73,20 @@ namespace ose::editor
 		}
 	}
 
+	// Called upon a scene being deactivated
+	// Depending on switch manager, could be multiple active scenes
+	void Controller::OnSceneDeactivated(Scene & scene)
+	{
+		// TODO
+	}
+
 	// Render the active scene
 	void Controller::Render(Texture & gui)
 	{
 		SpriteRenderer sr("GUI", &gui);
 		Transform t;
 		this->rendering_engine_->GetRenderPool().AddSpriteRenderer(t, &sr);
-		this->rendering_engine_->Update();
+		this->rendering_engine_->Render(*active_camera_);
 		this->window_manager_->Update();
 	}
 

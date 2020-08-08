@@ -37,6 +37,9 @@ namespace ose
 		// Returns true iff the path exists and is a file
 		bool DoesFileExist(const std::string & path);
 
+		// Returns the current working directory
+		std::string GetCWD();
+
 		// Get the filename of a path
 		std::string GetFilenameFromPath(const std::string & path);
 

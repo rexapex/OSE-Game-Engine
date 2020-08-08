@@ -14,7 +14,7 @@
 #include "include/wrapper/cef_helpers.h"
 #include "include/wrapper/cef_stream_resource_handler.h"
 
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Windowing/WindowManager.h"
 
 using namespace ose::editor;

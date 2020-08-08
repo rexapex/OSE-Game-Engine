@@ -171,6 +171,12 @@ namespace ose::fs
 		return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 	}
 
+	// Returns the current working directory
+	std::string GetCWD()
+	{
+		return std::filesystem::current_path().string();
+	}
+
 	// Get the filename of a path
 	std::string GetFilenameFromPath(const std::string & path)
 	{
