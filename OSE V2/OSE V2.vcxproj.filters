@@ -547,6 +547,7 @@
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
     <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
+    <ClInclude Include="OSE-Core\Windowing\WindowCallbackAdaptor.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

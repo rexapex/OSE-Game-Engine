@@ -17,19 +17,24 @@
 #include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Windowing/WindowManager.h"
 
+#include "CefAdaptor.h"
+
 using namespace ose;
 using namespace ose::editor;
 
-namespace {
+namespace
+{
 
 	// When using the Views framework this object provides the delegate
 	// implementation for the CefWindow that hosts the Views-based browser.
-	class SimpleWindowDelegate : public CefWindowDelegate {
+	class SimpleWindowDelegate : public CefWindowDelegate
+	{
 	public:
 		explicit SimpleWindowDelegate(CefRefPtr<CefBrowserView> browser_view)
 			: browser_view_(browser_view) {}
 
-		void OnWindowCreated(CefRefPtr<CefWindow> window) OVERRIDE {
+		void OnWindowCreated(CefRefPtr<CefWindow> window) OVERRIDE
+		{
 			// Add the browser view and show the window.
 			window->AddChildView(browser_view_);
 			window->Show();
@@ -38,11 +43,13 @@ namespace {
 			browser_view_->RequestFocus();
 		}
 
-		void OnWindowDestroyed(CefRefPtr<CefWindow> window) OVERRIDE {
+		void OnWindowDestroyed(CefRefPtr<CefWindow> window) OVERRIDE
+		{
 			browser_view_ = NULL;
 		}
 
-		bool CanClose(CefRefPtr<CefWindow> window) OVERRIDE {
+		bool CanClose(CefRefPtr<CefWindow> window) OVERRIDE
+		{
 			// Allow the window to close if the browser says it's OK.
 			CefRefPtr<CefBrowser> browser = browser_view_->GetBrowser();
 			if (browser)
@@ -50,7 +57,8 @@ namespace {
 			return true;
 		}
 
-		CefSize GetPreferredSize(CefRefPtr<CefView> view) OVERRIDE {
+		CefSize GetPreferredSize(CefRefPtr<CefView> view) OVERRIDE
+		{
 			return CefSize(800, 600);
 		}
 
@@ -65,18 +73,12 @@ namespace {
 
 SimpleApp::SimpleApp() {}
 
-void SimpleApp::OnContextInitialized() {
+void SimpleApp::OnContextInitialized()
+{
 	CEF_REQUIRE_UI_THREAD();
 
 	// Create the controller object
-	controller_ = std::make_unique<Controller>();
-	std::string home_dir;
-	fs::GetHomeDirectory(home_dir);
-	std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + "OSE-TestProject";
-	fs::CreateDirs(project_path);
-	controller_->LoadProject(project_path);
-	controller_->LoadScene("scene1");
-	controller_->SetActiveScene("scene1");
+	controller_ = std::make_unique<Controller>(std::make_unique<CefAdaptor>(this));
 
 	CefRefPtr<CefCommandLine> command_line =
 		CefCommandLine::GetGlobalCommandLine();
@@ -110,4 +112,20 @@ void SimpleApp::OnContextInitialized() {
 	// TODO - Use relative url and copy html files to output directory
 	//browser->GetMainFrame()->LoadURL(R"(file:\\\D:\James\Documents\Visual Studio 2017\Projects\OSE V2\OSE Editor Application\Editor\View\Html\test.html)");
 	browser->GetMainFrame()->LoadURL(R"(D:\James\Repos\Webpage\OSE Editor Design\index.html)");
+
+	// Load a project and start the controller
+	std::string home_dir;
+	fs::GetHomeDirectory(home_dir);
+	std::string project_path = home_dir + "/Origami_Sheep_Engine/Projects/" + "OSE-TestProject";
+	fs::CreateDirs(project_path);
+	controller_->LoadProject(project_path);
+	controller_->LoadScene("scene1");
+	controller_->SetActiveScene("scene1");
+	controller_->StartController();
+}
+
+// Update the cef app
+void SimpleApp::Update()
+{
+	CefDoMessageLoopWork();
 }

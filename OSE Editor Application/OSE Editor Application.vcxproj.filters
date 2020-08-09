@@ -27,6 +27,9 @@
     <ClInclude Include="Editor\Controller\Controller.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Editor\Cef\CefAdaptor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Editor\Main.cpp">
@@ -39,6 +42,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Editor\Controller\Controller.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor\Cef\CefAdaptor.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

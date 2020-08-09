@@ -22,12 +22,14 @@
 using namespace ose;
 using namespace ose::editor;
 
-namespace {
+namespace
+{
 
 	SimpleHandler* g_instance = NULL;
 
 	// Returns a data: URI with the specified contents.
-	std::string GetDataURI(const std::string& data, const std::string& mime_type) {
+	std::string GetDataURI(const std::string& data, const std::string& mime_type)
+	{
 		return "data:" + mime_type + ";base64," +
 			CefURIEncode(CefBase64Encode(data.data(), data.size()), false)
 			.ToString();
@@ -44,17 +46,20 @@ SimpleHandler::SimpleHandler(bool use_views, Controller & controller)
 	g_instance = this;
 }
 
-SimpleHandler::~SimpleHandler() {
+SimpleHandler::~SimpleHandler()
+{
 	g_instance = NULL;
 }
 
 // static
-SimpleHandler* SimpleHandler::GetInstance() {
+SimpleHandler* SimpleHandler::GetInstance()
+{
 	return g_instance;
 }
 
 void SimpleHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
-	const CefString& title) {
+	const CefString& title)
+{
 	CEF_REQUIRE_UI_THREAD();
 
 	if (use_views_) {
@@ -72,14 +77,16 @@ void SimpleHandler::OnTitleChange(CefRefPtr<CefBrowser> browser,
 	}
 }
 
-void SimpleHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser) {
+void SimpleHandler::OnAfterCreated(CefRefPtr<CefBrowser> browser)
+{
 	CEF_REQUIRE_UI_THREAD();
 
 	// Add to the list of existing browsers.
 	browser_list_.push_back(browser);
 }
 
-bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser) {
+bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser)
+{
 	CEF_REQUIRE_UI_THREAD();
 
 	// Closing the main window requires special handling. See the DoClose()
@@ -95,7 +102,8 @@ bool SimpleHandler::DoClose(CefRefPtr<CefBrowser> browser) {
 	return false;
 }
 
-void SimpleHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser) {
+void SimpleHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
+{
 	CEF_REQUIRE_UI_THREAD();
 
 	// Remove from the list of existing browsers.
@@ -134,8 +142,10 @@ void SimpleHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
 	frame->LoadURL(GetDataURI(ss.str(), "text/html"));
 }
 
-void SimpleHandler::CloseAllBrowsers(bool force_close) {
-	if (!CefCurrentlyOn(TID_UI)) {
+void SimpleHandler::CloseAllBrowsers(bool force_close)
+{
+	if (!CefCurrentlyOn(TID_UI))
+	{
 		// Execute on the UI thread.
 		CefPostTask(TID_UI, base::Bind(&SimpleHandler::CloseAllBrowsers, this,
 			force_close));
@@ -158,10 +168,10 @@ void SimpleHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect)
 void SimpleHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height)
 {
 	std::cout << "ON PAINT\n";
-	IMGDATA data = new unsigned char[width*height*4];
-	memcpy(data, buffer, width*height*4);
-	texture_->SetImgData(data, width, height, 4);
-	texture_->CreateTexture();
-	controller_.Render(*texture_);
+	IMGDATA data = new unsigned char[4l*width*height];
+	memcpy(data, buffer, 4l*width*height);
+	//texture_->SetImgData(data, width, height, 4);
+	//texture_->CreateTexture();
+	controller_.UpdateGuiTexture(data, width, height);
 	delete[] data;
 }

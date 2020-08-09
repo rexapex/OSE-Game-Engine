@@ -17,9 +17,11 @@
 #include "OSE-Core/Windowing/WindowingFactory.h"
 #include "OSE-Core/Rendering/RenderingFactory.h"
 
+#include "Editor/Cef/CefAdaptor.h"
+
 namespace ose::editor
 {
-	Controller::Controller()
+	Controller::Controller(std::unique_ptr<CefAdaptor> cef_adaptor) : cef_adaptor_(std::move(cef_adaptor))
 	{
 		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
 		this->window_manager_->NewWindow(1);
@@ -31,6 +33,11 @@ namespace ose::editor
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
 		this->window_manager_->SetEngineReferences(rendering_engine_.get(), input_manager_.get());
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
+
+		this->gui_texture_ = RenderingFactories[0]->NewTexture("", "");
+		this->gui_renderer_ = std::make_unique<SpriteRenderer>("GUI", gui_texture_.get());
+		this->rendering_engine_->GetRenderPool().AddSpriteRenderer(gui_transform_, gui_renderer_.get());
+		this->gui_transform_.SetTranslation(0, 0, 1);
 
 		this->active_camera_ = &default_camera_;
 	}
@@ -80,14 +87,44 @@ namespace ose::editor
 		// TODO
 	}
 
-	// Render the active scene
-	void Controller::Render(Texture & gui)
+	// Update the editor gui texture data
+	void Controller::UpdateGuiTexture(IMGDATA data, int32_t width, int32_t height)
 	{
-		SpriteRenderer sr("GUI", &gui);
-		Transform t;
-		this->rendering_engine_->GetRenderPool().AddSpriteRenderer(t, &sr);
-		this->rendering_engine_->Render(*active_camera_);
-		this->window_manager_->Update();
+		gui_texture_->SetImgData(data, width, height, 4);
+		gui_texture_->CreateTexture();
+		rendering_engine_->GetRenderPool().RemoveSpriteRenderer(gui_renderer_.get());
+		rendering_engine_->GetRenderPool().AddSpriteRenderer(gui_transform_, gui_renderer_.get());
+	}
+
+	void Controller::StartController()
+	{
+		if(!running_)
+		{
+			running_ = true;
+			RunController();
+		}
+		else
+		{
+			LOG("Error: cannot start controller, controller is already running");
+		}
+	}
+
+	void Controller::RunController()
+	{
+		while(running_)
+		{
+			// Renders previous frame to window and poll for new event
+			window_manager_->Update();
+
+			// Update the camera
+			active_camera_->Update();
+
+			// Update cef
+			cef_adaptor_->Update();
+
+			// Render to the back buffer
+			rendering_engine_->Render(*active_camera_);
+		}
 	}
 
 	// initialise components of an entity along with its sub-entities

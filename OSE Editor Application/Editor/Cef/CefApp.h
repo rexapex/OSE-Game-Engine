@@ -9,18 +9,23 @@
 #include "Editor/Controller/Controller.h"
 
 // Implement application-level callbacks for the browser process.
-class SimpleApp : public CefApp, public CefBrowserProcessHandler {
+class SimpleApp : public CefApp, public CefBrowserProcessHandler
+{
 public:
 	SimpleApp();
 
 	// CefApp methods:
 	virtual CefRefPtr<CefBrowserProcessHandler> GetBrowserProcessHandler()
-		OVERRIDE {
+		OVERRIDE
+	{
 		return this;
 	}
 
 	// CefBrowserProcessHandler methods:
 	virtual void OnContextInitialized() OVERRIDE;
+
+	// Update the cef app
+	void Update();
 
 private:
 	// Include the default reference counting implementation.

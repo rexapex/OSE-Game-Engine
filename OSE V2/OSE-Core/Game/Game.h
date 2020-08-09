@@ -110,7 +110,7 @@ namespace ose
 		// True iff the game is currently running (paused is a subset of running)
 		bool running_;
 
-		// Called from startGame, runs a loop while running_ is true
+		// Called from StartGame, runs a loop while running_ is true
 		void RunGame();
 	};
 }
