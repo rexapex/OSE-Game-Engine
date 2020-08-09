@@ -4,8 +4,7 @@
 
 namespace ose
 {
-	class InputManager;
-	class RenderingEngine;
+	class WindowCallbackAdaptor;
 
 	class WindowManager
 	{
@@ -17,7 +16,7 @@ namespace ose
 		WindowManager & operator=(WindowManager &) = delete;
 		WindowManager & operator=(WindowManager &&) = delete;
 
-		void SetEngineReferences(RenderingEngine * rendering_engine, InputManager * input_manager);
+		void SetEngineReferences(WindowCallbackAdaptor * adaptor);
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
@@ -51,15 +50,15 @@ namespace ose
 
 		virtual void NewWindow(int windowMode, int video_mode = -1) = 0;
 
-		virtual void Update() = 0;
+		// Returns true iff the window is closed
+		virtual bool Update() = 0;
 
 		virtual double GetTimeSeconds() const = 0;
 	private:
 		virtual int	InitWindowingToolkit() const = 0;
 
-		// pointers should not be de-allocated by this class
-		RenderingEngine * rendering_engine_ { nullptr };
-		InputManager * input_manager_ { nullptr };
+		// Reference to the adaptor object which ill process window callbacks
+		WindowCallbackAdaptor * callback_adaptor_;
 	};
 }
 

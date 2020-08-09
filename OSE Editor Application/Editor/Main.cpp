@@ -48,14 +48,15 @@ int main(int argc, char * argv[])
 	// SimpleApp implements application-level callbacks for the browser process.
 	// It will create the first browser instance in OnContextInitialized() after
 	// CEF has initialized.
-	CefRefPtr<SimpleApp> app(new SimpleApp);
+	{
+		SimpleApp app;
 
-	// Initialize CEF.
-	CefInitialize(main_args, settings, app.get(), sandbox_info);
+		// Initialize CEF.
+		CefInitialize(main_args, settings, &app, sandbox_info);
 
-	// Run the CEF message loop. This will block until CefQuitMessageLoop() is
-	// called.
-	CefRunMessageLoop();
+		// Start the cef app
+		app.StartApp();
+	}
 
 	// Shut down CEF.
 	CefShutdown();

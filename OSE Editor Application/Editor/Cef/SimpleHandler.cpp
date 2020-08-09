@@ -115,10 +115,11 @@ void SimpleHandler::OnBeforeClose(CefRefPtr<CefBrowser> browser)
 		}
 	}
 
-	if (browser_list_.empty()) {
-		// All browser windows have closed. Quit the application message loop.
-		CefQuitMessageLoop();
-	}
+	// NOTE - Not using CefMessageLoop
+	//if (browser_list_.empty()) {
+	//	// All browser windows have closed. Quit the application message loop.
+	//	CefQuitMessageLoop();
+	//}
 }
 
 void SimpleHandler::OnLoadError(CefRefPtr<CefBrowser> browser,
@@ -162,16 +163,14 @@ void SimpleHandler::CloseAllBrowsers(bool force_close)
 
 void SimpleHandler::GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect)
 {
-	rect = CefRect(0, 0, 1920,  1080);
+	rect = CefRect(0, 0, fbwidth_, fbheight_);
 }
 
 void SimpleHandler::OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height)
 {
 	std::cout << "ON PAINT\n";
-	IMGDATA data = new unsigned char[4l*width*height];
-	memcpy(data, buffer, 4l*width*height);
-	//texture_->SetImgData(data, width, height, 4);
-	//texture_->CreateTexture();
+	IMGDATA data = new unsigned char[4l*(size_t)width*(size_t)height];
+	memcpy(data, buffer, 4l*(size_t)width*(size_t)height);
 	controller_.UpdateGuiTexture(data, width, height);
 	delete[] data;
 }

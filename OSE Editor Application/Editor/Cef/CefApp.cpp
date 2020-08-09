@@ -24,7 +24,6 @@ using namespace ose::editor;
 
 namespace
 {
-
 	// When using the Views framework this object provides the delegate
 	// implementation for the CefWindow that hosts the Views-based browser.
 	class SimpleWindowDelegate : public CefWindowDelegate
@@ -68,10 +67,14 @@ namespace
 		IMPLEMENT_REFCOUNTING(SimpleWindowDelegate);
 		DISALLOW_COPY_AND_ASSIGN(SimpleWindowDelegate);
 	};
-
 }  // namespace
 
 SimpleApp::SimpleApp() {}
+
+SimpleApp::~SimpleApp()
+{
+	browser_->GetHost()->CloseBrowser(true);
+}
 
 void SimpleApp::OnContextInitialized()
 {
@@ -84,7 +87,7 @@ void SimpleApp::OnContextInitialized()
 		CefCommandLine::GetGlobalCommandLine();
 
 	// SimpleHandler implements browser-level callbacks.
-	CefRefPtr<SimpleHandler> handler(new SimpleHandler(false, *controller_));
+	handler_ = new SimpleHandler(false, *controller_);
 
 	// Specify CEF browser settings here.
 	CefBrowserSettings browser_settings;
@@ -106,13 +109,17 @@ void SimpleApp::OnContextInitialized()
 	if(hwnd != NULL)
 		window_info.SetAsWindowless(hwnd);
 #endif
-	auto browser = CefBrowserHost::CreateBrowserSync(window_info, handler, "about:blank", browser_settings, NULL, NULL);
+	browser_ = CefBrowserHost::CreateBrowserSync(window_info, handler_, "about:blank", browser_settings, NULL, NULL);
 
 	// Navigate to the test html file
 	// TODO - Use relative url and copy html files to output directory
 	//browser->GetMainFrame()->LoadURL(R"(file:\\\D:\James\Documents\Visual Studio 2017\Projects\OSE V2\OSE Editor Application\Editor\View\Html\test.html)");
-	browser->GetMainFrame()->LoadURL(R"(D:\James\Repos\Webpage\OSE Editor Design\index.html)");
+	browser_->GetMainFrame()->LoadURL(R"(D:\James\Repos\Webpage\OSE Editor Design\index.html)");
+}
 
+// Start the app (controller)
+void SimpleApp::StartApp()
+{
 	// Load a project and start the controller
 	std::string home_dir;
 	fs::GetHomeDirectory(home_dir);
@@ -128,4 +135,11 @@ void SimpleApp::OnContextInitialized()
 void SimpleApp::Update()
 {
 	CefDoMessageLoopWork();
+}
+
+// Invalidate the current gui texture
+void SimpleApp::Invalidate(int fbwidth, int fbheight)
+{
+	handler_->SetFramebufferSize(fbwidth, fbheight);
+	browser_->GetHost()->Invalidate(CefBrowserHost::PaintElementType::PET_VIEW);
 }

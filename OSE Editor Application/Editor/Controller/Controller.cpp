@@ -31,7 +31,7 @@ namespace ose::editor
 		this->input_manager_ = std::make_unique<InputManager>();
 
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
-		this->window_manager_->SetEngineReferences(rendering_engine_.get(), input_manager_.get());
+		this->window_manager_->SetEngineReferences(this);
 		this->rendering_engine_->SetProjectionModeAndFbSize(EProjectionMode::ORTHOGRAPHIC, fbwidth, fbheight);
 
 		this->gui_texture_ = RenderingFactories[0]->NewTexture("", "");
@@ -114,7 +114,11 @@ namespace ose::editor
 		while(running_)
 		{
 			// Renders previous frame to window and poll for new event
-			window_manager_->Update();
+			if(window_manager_->Update())
+			{
+				running_ = false;
+				break;
+			}
 
 			// Update the camera
 			active_camera_->Update();
@@ -155,5 +159,24 @@ namespace ose::editor
 		{
 			InitEntity(*sub_entity);
 		}
+	}
+
+	// Called on framebuffer resize
+	void Controller::OnFramebufferResize(int width, int height)
+	{
+		rendering_engine_->SetFramebufferSize(width, height);
+		cef_adaptor_->SetFramebufferSize(width, height);
+	}
+
+	// Called on user input change
+	void Controller::OnInputChange(EInputType type, bool triggered)
+	{
+		input_manager_->SetInputType(type, triggered);
+	}
+
+	// Called on mouse position change
+	void Controller::OnMousePosChange(double x, double y)
+	{
+		input_manager_->SetMousePos(x, y);
 	}
 }

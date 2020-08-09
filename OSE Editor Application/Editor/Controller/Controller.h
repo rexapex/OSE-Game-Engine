@@ -4,6 +4,7 @@
 #include "OSE-Core/Game/Camera/Camera.h"
 #include "OSE-Core/Resources/Texture/Texture.h"
 #include "OSE-Core/Math/Transform.h"
+#include "OSE-Core/Windowing/WindowCallbackAdaptor.h"
 
 class SimpleApp;
 class CefBrowser;
@@ -23,7 +24,7 @@ namespace ose
 
 namespace ose::editor
 {
-	class Controller final : public SceneManager
+	class Controller final : public SceneManager, public WindowCallbackAdaptor
 	{
 	public:
 		Controller(std::unique_ptr<CefAdaptor> cef_adaptor);
@@ -51,6 +52,15 @@ namespace ose::editor
 
 		// Update the editor gui texture data
 		void UpdateGuiTexture(IMGDATA data, int32_t width, int32_t height);
+
+		// Called on framebuffer resize
+		void OnFramebufferResize(int width, int height) override;
+
+		// Called on user input change
+		void OnInputChange(EInputType type, bool triggered) override;
+
+		// Called on mouse position change
+		void OnMousePosChange(double x, double y) override;
 
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera

@@ -11,6 +11,8 @@ namespace ose
 
 		void Update();
 
+		void SetFramebufferSize(int width, int height);
+
 	private:
 		SimpleApp * cef_app_;
 	};

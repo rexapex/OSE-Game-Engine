@@ -4,6 +4,7 @@
 #include "Scene/SceneManager.h"
 #include "OSE-Core/Entity/EntityList.h"
 #include "OSE-Core/Input/InputManager.h"
+#include "OSE-Core/Windowing/WindowCallbackAdaptor.h"
 #include "ThreadManager.h"
 #include "Time.h"
 #include "Camera/Camera.h"
@@ -26,7 +27,7 @@ namespace ose
 	// Represents a runtime object of a game
 	// Provides a simple way of interacting with the game
 	// TODO - Use template inheritance to allow game type with different scene switch type
-	class Game : public SceneManager, public EntityList, public InputManager
+	class Game : public SceneManager, public EntityList, public InputManager, public WindowCallbackAdaptor
 	{
 	public:
 		Game();
@@ -46,6 +47,15 @@ namespace ose
 		// Deactivate an entity along with all its sub-entities
 		// Should NEVER be called directly by a script, disable entity instead
 		void OnEntityDeactivated(Entity & entity);
+
+		// Called on framebuffer resize
+		void OnFramebufferResize(int width, int height) override;
+
+		// Called on user input change
+		void OnInputChange(EInputType type, bool triggered) override;
+
+		// Called on mouse position change
+		void OnMousePosChange(double x, double y) override;
 
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera

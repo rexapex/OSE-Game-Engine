@@ -36,7 +36,7 @@ namespace ose
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
 		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
-		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
+		this->window_manager_->SetEngineReferences(this);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
@@ -130,7 +130,11 @@ namespace ose
 		while(running_)
 		{
 			// Renders previous frame to window and poll for new event
-			window_manager_->Update();
+			if(window_manager_->Update())
+			{
+				running_ = false;
+				break;
+			}
 
 			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
@@ -259,6 +263,24 @@ namespace ose
 			if(sub_entity->IsEnabled())
 				OnEntityDeactivated(*sub_entity);
 		}
+	}
+
+	// Called on framebuffer resize
+	void Game::OnFramebufferResize(int width, int height)
+	{
+		rendering_engine_->SetFramebufferSize(width, height);
+	}
+
+	// Called on user input change
+	void Game::OnInputChange(EInputType type, bool triggered)
+	{
+		SetInputType(type, triggered);
+	}
+
+	// Called on mouse position change
+	void Game::OnMousePosChange(double x, double y)
+	{
+		SetMousePos(x, y);
 	}
 	
 	// Load a custom data file

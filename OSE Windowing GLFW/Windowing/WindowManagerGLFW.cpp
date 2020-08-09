@@ -144,24 +144,23 @@ namespace ose::windowing
 
 
 
-	void WindowManagerGLFW::Update()
+	// Returns true iff the window is closed
+	bool WindowManagerGLFW::Update()
 	{
 		//swap buffers to update the screen and then poll for new events
 		glfwSwapBuffers(window);
 		glfwPollEvents();
 
-		//check if game should be closed
+		//check if window should be closed
 		if(glfwWindowShouldClose(window))
-		{
-			glfwDestroyWindow(window);
-			window = nullptr;
-			exit(0);
-		}
+			return true;
 
 		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
 		double xpos, ypos;
 		glfwGetCursorPos(window, &xpos, &ypos);		//Callback function not called frequently enough to update camera
 		window_manager->CursorPosCallbackImpl(xpos, ypos);
+
+		return false;
 	}
 
 

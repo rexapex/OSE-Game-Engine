@@ -8,6 +8,6 @@ namespace ose
 	public:
 		virtual void OnFramebufferResize(int width, int height) = 0;
 		virtual void OnInputChange(EInputType type, bool triggered) = 0;
-		virtual void OnCursorPosChange(double x, double y) = 0;
+		virtual void OnMousePosChange(double x, double y) = 0;
 	};
 }

@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "WindowManager.h"
-#include "OSE-Core/Rendering/RenderingEngine.h"
-#include "OSE-Core/Input/InputManager.h"
+#include "WindowCallbackAdaptor.h"
 
 namespace ose
 {
@@ -9,32 +8,28 @@ namespace ose
 
 	WindowManager::~WindowManager() {}
 
-	void WindowManager::SetEngineReferences(RenderingEngine * rendering_engine, InputManager * input_manager)
+	void WindowManager::SetEngineReferences(WindowCallbackAdaptor * adaptor)
 	{
-		if(rendering_engine) {
-			this->rendering_engine_ = rendering_engine;
-		}
-		if(input_manager) {
-			this->input_manager_= input_manager;
-		}
+		if(adaptor)
+			this->callback_adaptor_ = adaptor;
 	}
 
 	void WindowManager::FramebufferSizeCallbackImpl(int width, int height)
 	{
 		DEBUG_LOG("Framebuffer resized to", width, "x", height);
-		this->rendering_engine_->SetFramebufferSize(width, height);
+		this->callback_adaptor_->OnFramebufferResize(width, height);
 	}
 	
 	void WindowManager::InputCallbackImpl(EInputType type, bool triggered)
 	{
-		input_manager_->SetInputType(type, triggered);
+		callback_adaptor_->OnInputChange(type, triggered);
 	}
 
 	//void WindowManager::WindowPosCallbackImpl(int x, int y) {}
 	
 	void WindowManager::CursorPosCallbackImpl(double xPos, double yPos)
 	{
-		input_manager_->SetMousePos(xPos, yPos);
+		callback_adaptor_->OnMousePosChange(xPos, yPos);
 	}
 
 	//void WindowManager::MouseButtonCallbackImpl(int button, int action, int mods) {}

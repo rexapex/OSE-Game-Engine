@@ -13,4 +13,9 @@ namespace ose
 	{
 		cef_app_->Update();
 	}
+
+	void CefAdaptor::SetFramebufferSize(int width, int height)
+	{
+		cef_app_->Invalidate(width, height);
+	}
 }

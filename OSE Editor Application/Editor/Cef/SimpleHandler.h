@@ -55,6 +55,8 @@ public:
 	void GetViewRect(CefRefPtr<CefBrowser> browser, CefRect &rect);
 	void OnPaint(CefRefPtr<CefBrowser> browser, PaintElementType type, const RectList &dirtyRects, const void *buffer, int width, int height);
 
+	void SetFramebufferSize(int fbwidth, int fbheight) { fbwidth_ = fbwidth; fbheight_ = fbheight; }
+
 private:
 	// Platform-specific implementation.
 	void PlatformTitleChange(CefRefPtr<CefBrowser> browser,
@@ -72,6 +74,9 @@ private:
 	ose::editor::Controller & controller_;
 
 	std::unique_ptr<ose::Texture> texture_;
+
+	int fbwidth_ { 1920 };
+	int fbheight_ { 1080 };
 
 	// Include the default reference counting implementation.
 	IMPLEMENT_REFCOUNTING(SimpleHandler);

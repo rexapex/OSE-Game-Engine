@@ -41,7 +41,8 @@ namespace ose::windowing
 		const GLFWwindow & GetWindow() const { return *window; }
 		void NewWindow(int windowMode, int video_mode);
 
-		void Update();
+		// Returns true iff the window is closed
+		bool Update();
 
 		double GetTimeSeconds() const {return glfwGetTime();}
 	private:
