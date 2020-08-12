@@ -35,7 +35,8 @@
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
     <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
-    <ClCompile Include="OSE-Core\Game\Scene\Chunk.cpp" />
+    <ClCompile Include="OSE-Core\Game\Scene\Chunk\Chunk.cpp" />
+    <ClCompile Include="OSE-Core\Game\Scene\Chunk\ChunkManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -548,7 +549,9 @@
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
     <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
-    <ClInclude Include="OSE-Core\Game\Scene\Chunk.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\Chunk.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManager.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManagerSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

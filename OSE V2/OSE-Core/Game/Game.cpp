@@ -7,7 +7,7 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Scripting/ScriptingEngine.h"
-#include "OSE-Core/Game/Scene/Chunk.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
@@ -265,13 +265,15 @@ namespace ose
 	// Activate a chunk along with activated sub-entities
 	void Game::OnChunkActivated(Chunk & chunk)
 	{
-		// TODO
+		// TODO - Load in a separate thread
+		// TODO - Create chunk manager class to handle loading / unloading of chunks
 	}
 
 	// Deactivate a chunk along with all its sub-entities
 	void Game::OnChunkDeactivated(Chunk & chunk)
 	{
-		// TODO
+		// TODO - Load in a separate thread
+		// TODO - Create chunk manager class to handle loading / unloading of chunks
 	}
 	
 	// Load a custom data file
