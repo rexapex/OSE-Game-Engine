@@ -10,7 +10,7 @@ namespace ose
 	public:
 		ChunkManager();
 		virtual ~ChunkManager() noexcept;
-		ChunkManager(ChunkManager &) = delete;
+		ChunkManager(ChunkManager const &) noexcept;
 		ChunkManager & operator=(ChunkManager &) = delete;
 
 		// Determine whether chunks should be loaded/unloaded

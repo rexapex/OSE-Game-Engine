@@ -2,10 +2,11 @@
 
 #include "OSE-Core/Entity/EntityList.h"
 #include "OSE-Core/Scripting/ControlSettings.h"
+#include "OSE-Core/Game/Scene/Chunk/ChunkManager.h"
 
 namespace ose
 {
-	class Scene : public EntityList
+	class Scene : public EntityList, public ChunkManager
 	{
 	public:
 		Scene(const std::string & name, const ControlSettings & control_settings);

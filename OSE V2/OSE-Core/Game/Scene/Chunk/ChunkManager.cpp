@@ -14,6 +14,17 @@ namespace ose
 	{
 	
 	}
+
+	ChunkManager::ChunkManager(ChunkManager const & other)
+	{
+		// Perform a deep copy of all chunks
+		loaded_chunks_.clear();
+		unloaded_chunks_.clear();
+		for(auto const & c : other.loaded_chunks_)
+			loaded_chunks_.push_back(std::make_unique<Chunk>(*c));
+		for(auto const & c : other.unloaded_chunks_)
+			unloaded_chunks_.push_back(std::make_unique<Chunk>(*c));
+	}
 	
 	// Determine whether chunks should be loaded/unloaded
 	void ChunkManager::UpdateChunks()
