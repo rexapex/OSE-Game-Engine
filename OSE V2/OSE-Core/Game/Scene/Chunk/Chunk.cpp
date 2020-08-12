@@ -5,7 +5,7 @@
 namespace ose
 {
 
-	Chunk::Chunk(const std::string & name) : EntityList(), name_(name)
+	Chunk::Chunk(const std::string & name) : EntityList(), Transformable(), name_(name)
 	{
 	
 	}
