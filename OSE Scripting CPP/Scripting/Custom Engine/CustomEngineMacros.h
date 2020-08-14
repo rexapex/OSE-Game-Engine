@@ -1,7 +1,7 @@
 // NOTE - No #pragma once or include guards
 // If a script file includes another script file, macros should be redefined s.t. NAME is set correctly
 
-#include "Custom Engine/CustomEngine.h"
+#include "CustomEngine.h"
 
 namespace ose
 {
