@@ -492,6 +492,12 @@ namespace ose::project
 	}
 
 
+	std::unique_ptr<Chunk> ProjectLoaderXML::LoadChunk(Scene const & scene, std::string const & chunk_name)
+	{
+		// TODO
+	}
+
+
 	std::unique_ptr<Entity> ProjectLoaderXML::LoadEntityPrefab(const std::string & prefab_path, const Project & project)
 	{
 		std::unique_ptr<xml_document<>> doc;
