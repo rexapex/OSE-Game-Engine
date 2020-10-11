@@ -36,7 +36,7 @@ namespace ose::project
 		ControlSettings LoadPersistentControls(const std::string & project_path);
 
 		std::unique_ptr<Scene> LoadScene(const Project & project, const std::string & scene_name);
-		std::unique_ptr<Chunk> LoadChunk(Scene const & scene, std::string const & chunk_name);
+		void LoadChunk(Chunk & chunk);
 		std::unique_ptr<Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
 
 		std::unique_ptr<CustomObject> LoadCustomDataFile(const std::string & path);

@@ -461,20 +461,22 @@ namespace ose::project
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
 		auto controls_node = scene_node->first_node("controls");
+		auto chunks_node = scene_node->first_node("chunks");
 		///auto cached_prefabs_node = scene_node->first_node("cached_prefabs");
 
 		// Load the scene's controls
 		ControlSettings control_settings = ParseControls(controls_node);
 
 		// Create the new scene object
-		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
+		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings, this);
 
 		// Map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
 		ParseResources(resources_node, aliases, project);
 
 		// Load the scene's entities
-		if(entities_node != nullptr) {
+		if(entities_node != nullptr)
+		{
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 			{
 				// Parse the xml of the entity and add it to the scene
@@ -485,6 +487,19 @@ namespace ose::project
 			}
 		}
 
+		// Load the scene's chunk declerations
+		if(chunks_node != nullptr)
+		{
+			for(auto chunk_node = chunks_node->first_node("chunk"); chunk_node; chunk_node = chunk_node->next_sibling("chunk"))
+			{
+				// Parse the xml of the chunk and add it to the scene
+				auto name_attrib = chunk_node->first_attribute("name");
+				const std::string & name = (name_attrib ? name_attrib->value() : "");
+				const std::string path = scene_path + "/Chunks/" + name + ".xml";
+				scene->AddChunk(name, path);
+			}
+		}
+
 		// Remove the temporary prefabs since they were only needed for scene loading
 		project.GetPrefabManager().ClearTempPrefabs();
 
@@ -492,9 +507,19 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Chunk> ProjectLoaderXML::LoadChunk(Scene const & scene, std::string const & chunk_name)
+	void ProjectLoaderXML::LoadChunk(Chunk & chunk)
 	{
-		// TODO
+		/*std::string path = project.GetProjectPath() + "/" + pos->second + ".xml";
+
+		try
+		{
+			doc = LoadXmlFile(scene_path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			LOG_ERROR(e.what());
+			return nullptr;
+		}*/
 	}
 
 

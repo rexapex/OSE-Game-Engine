@@ -1,17 +1,33 @@
 #pragma once
 #include "ChunkManagerSettings.h"
+#include "Chunk.h"
 
 namespace ose
 {
-	class Chunk;
+	class ProjectLoader;
 
 	class ChunkManager
 	{
 	public:
-		ChunkManager();
+		ChunkManager(ProjectLoader * project_loader);
 		virtual ~ChunkManager() noexcept;
-		ChunkManager(ChunkManager const &) noexcept;
+		ChunkManager(ChunkManager const &);
 		ChunkManager & operator=(ChunkManager &) = delete;
+
+		// Add a chunk to the unloaded chunks list
+		// Method constructs a new object
+		// Method takes chunk constructor arguments
+		// Returns a reference to the newly created chunk
+		template<typename... Args>
+		unowned_ptr<Chunk> AddChunk(Args &&... params)
+		{
+			// Construct a new chunk object
+			try {
+				return unloaded_chunks_.emplace_back( std::make_unique<Chunk>(std::forward<Args>(params)...) ).get();
+			} catch(...) {
+				return nullptr;
+			}
+		}
 
 		// Determine whether chunks should be loaded/unloaded
 		void UpdateChunks();
@@ -26,5 +42,8 @@ namespace ose
 
 		// Settings determine when chunks are loaded/unloaded
 		ChunkManagerSettings settings_;
+
+		// Required to load chunks from the filesystem
+		ProjectLoader * project_loader_ { nullptr };
 	};
 }

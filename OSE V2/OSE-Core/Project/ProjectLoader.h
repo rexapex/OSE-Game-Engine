@@ -49,7 +49,7 @@ namespace ose
 		virtual std::unique_ptr<Scene> LoadScene(const Project & project, const std::string & scene_name) = 0;
 
 		// Loads a chunk of a loaded scene
-		virtual std::unique_ptr<Chunk> LoadChunk(Scene const & scene, std::string const & chunk_name) = 0;
+		virtual void LoadChunk(Chunk & chunk) = 0;
 
 		// Loads an entity prefab which can be used multiple times
 		virtual std::unique_ptr<Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project) = 0;
