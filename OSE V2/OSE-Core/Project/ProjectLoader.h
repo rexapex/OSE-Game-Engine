@@ -6,11 +6,11 @@ namespace ose
 	struct ProjectInfo;
 	struct ProjectSettings;
 	class Scene;
-	class Tag;
 	class Entity;
 	struct CustomObject;
 	struct InputSettings;
 	struct ControlSettings;
+	struct TagSettings;
 
 	// Loads developer written project files into the engine
 	class ProjectLoader
@@ -32,8 +32,7 @@ namespace ose
 		virtual std::unique_ptr<std::map<std::string, std::string>> LoadSceneDeclerations(const std::string & project_path) = 0;
 
 		// Loads the hierarchy of all tags in the game (entities specified in entity_prefab or scene file can be given tags)
-		// Returns the root tag of the hierarchy
-		virtual std::unique_ptr<Tag> LoadTagDefinitions(const std::string & project_path) = 0;
+		virtual TagSettings LoadTagSettings(const std::string & project_path) = 0;
 
 		// Loads settings including: physics & rendering engine settings
 		virtual ProjectSettings LoadProjectSettings(const std::string & project_path) = 0;

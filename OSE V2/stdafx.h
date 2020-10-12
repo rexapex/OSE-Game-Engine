@@ -5,6 +5,7 @@
 #include <map>
 #include <array>
 #include <unordered_map>
+#include <bitset>
 
 #include <numeric>
 #include <algorithm>

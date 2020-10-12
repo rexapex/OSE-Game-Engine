@@ -4,6 +4,7 @@
 #include "ProjectSettings.h"
 #include "OSE-Core/Input/InputSettings.h"
 #include "OSE-Core/Scripting/ControlSettings.h"
+#include "OSE-Core/Game/Tagging/TagManager.h"
 
 namespace ose
 {
@@ -19,7 +20,8 @@ namespace ose
 	public:
 		Project(const std::string & project_path, const ProjectInfo & project_info, ProjectSettings const & project_settings,
 			const std::map<std::string, std::string> & scene_names_to_path,
-			InputSettings const & input_settings, ControlSettings const & control_settings);
+			InputSettings const & input_settings, ControlSettings const & control_settings,
+			TagSettings const & tag_settings);
 		virtual ~Project() noexcept;
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
@@ -34,6 +36,8 @@ namespace ose
 		ProjectSettings const & GetProjectSettings() const { return project_settings_; }
 		InputSettings const & GetInputSettings() const { return input_settings_; }
 		ControlSettings const & GetControlSettings() const { return control_settings_; }
+
+		TagManager const & GetTagManager() const { return tag_manager_; }
 
 		// Create gpu resources for each loaded resource object
 		void CreateGpuResources();
@@ -65,6 +69,9 @@ namespace ose
 
 		// The control scripts which persist across scenes
 		ControlSettings control_settings_;
+
+		// The tag manager manages the tag hierarchy and assigns each tag string a bitfield id
+		TagManager tag_manager_;
 
 		// engine settings
 		// rendering/physics settings

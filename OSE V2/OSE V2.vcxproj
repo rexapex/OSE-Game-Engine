@@ -198,6 +198,8 @@
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
+    <ClInclude Include="OSE-Core\Game\Tagging\TagManager.h" />
+    <ClInclude Include="OSE-Core\Game\Tagging\TagSettings.h" />
     <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
     <ClInclude Include="OSE-Core\File System\File.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
@@ -533,7 +535,7 @@
     <ClInclude Include="OSE-Core\Game\Game.h" />
     <ClInclude Include="OSE-Core\Game\GameThread.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Scene.h" />
-    <ClInclude Include="OSE-Core\Game\Tag.h" />
+    <ClInclude Include="OSE-Core\Game\Tagging\Tag.h" />
     <ClInclude Include="OSE-Core\Game\ThreadManager.h" />
     <ClInclude Include="OSE-Core\Game\Time.h" />
     <ClInclude Include="OSE-Core\Math\Transform.h" />
@@ -706,6 +708,7 @@
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
     <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
+    <ClCompile Include="OSE-Core\Game\Tagging\TagManager.cpp" />
     <ClCompile Include="OSE-Core\Input\InputManager.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
     <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
@@ -714,7 +717,6 @@
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
     <ClCompile Include="OSE-Core\Game\GameThread.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\Scene.cpp" />
-    <ClCompile Include="OSE-Core\Game\Tag.cpp" />
     <ClCompile Include="OSE-Core\Game\ThreadManager.cpp" />
     <ClCompile Include="OSE-Core\Game\Time.cpp" />
     <ClCompile Include="OSE-Core\Math\Transform.cpp" />

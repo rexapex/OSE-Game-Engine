@@ -1,5 +1,6 @@
 #pragma once
 #include "OSE-Core/Project/ProjectLoader.h"
+#include "OSE-Core/Game/Tagging/TagSettings.h"
 
 namespace rapidxml
 {
@@ -29,7 +30,7 @@ namespace ose::project
 		std::unique_ptr<ProjectInfo> LoadProjectManifest(const std::string & project_path);
 
 		std::unique_ptr<std::map<std::string, std::string>> LoadSceneDeclerations(const std::string & project_path);
-		std::unique_ptr<Tag> LoadTagDefinitions(const std::string & project_path);
+		TagSettings LoadTagSettings(const std::string & project_path);
 
 		ProjectSettings LoadProjectSettings(const std::string & project_path);
 		InputSettings LoadInputSettings(const std::string & project_path);
@@ -53,7 +54,7 @@ namespace ose::project
 		std::unique_ptr<Entity> ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
 				std::unordered_map<std::string, std::string> & aliases, const Project & project);
 		
-		void ParseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);
+		void ParseTag(std::vector<TagSettings::TagNode> & tags, rapidxml::xml_node<> * tag_node);
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);
 		ControlSettings ParseControls(rapidxml::xml_node<> * controls_node);
 

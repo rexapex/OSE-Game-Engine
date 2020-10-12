@@ -4,6 +4,7 @@
 #include "EntityList.h"
 #include "Component/ComponentList.h"
 #include "OSE-Core/Math/Transformable.h"
+#include "OSE-Core/Game/Tagging/Tag.h"
 
 namespace ose
 {
@@ -13,7 +14,7 @@ namespace ose
 	class Entity : public EntityList, public ComponentList, public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
-		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
+		Entity(const std::string & name, const Tag tag, const std::string & prefab = "");
 		virtual ~Entity() noexcept;
 		Entity(const Entity & other) noexcept;
 		Entity(Entity && other) noexcept = default;
@@ -22,9 +23,10 @@ namespace ose
 
 		const std::string & GetName() const { return this->name_; }
 		const EntityID GetUniqueId() const { return this->unique_id_; }
+		Tag GetTag() const { return tag_; }
 
 		void SetName(const std::string & name) { this->name_ = name; }
-		void SetTag(const std::string & tag) { this->tag_ = tag; }
+		void SetTag(const Tag tag) { this->tag_ = tag; }
 
 		bool IsEnabled() const { return enabled_; }
 		void SetEnabled(bool a);
@@ -43,7 +45,7 @@ namespace ose
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 
-		std::string tag_;		// the lowest level tag applied to this entity (or "")
+		Tag tag_;				// the lowest level tag applied to this entity
 		std::string prefab_;	// the name of the prefab this entity inherits from (or "")
 
 		bool enabled_ { true };	// True iff the entity is enabled (i.e. it appears in the scene)

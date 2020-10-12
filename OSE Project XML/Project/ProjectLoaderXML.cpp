@@ -4,7 +4,6 @@
 #include "OSE-Core/Project/ProjectInfo.h"
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectSettings.h"
-#include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/Entity/Entity.h"
 
@@ -84,8 +83,8 @@ namespace ose::project
 		//then, load the scene declerations
 		std::unique_ptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
 
-		//then, load the tag definitions
-		std::unique_ptr<Tag> root_tag = LoadTagDefinitions(project_path);
+		// Then, load the tag settings
+		TagSettings tag_settings = LoadTagSettings(project_path);
 
 		// Then, load the default input manager
 		InputSettings input_settings = LoadInputSettings(project_path);
@@ -94,7 +93,7 @@ namespace ose::project
 		ControlSettings control_settings = LoadPersistentControls(project_path);
 
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings);
+		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings, tag_settings);
 
 		return proj;
 	}
@@ -185,10 +184,11 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Tag> ProjectLoaderXML::LoadTagDefinitions(const std::string & project_path)
+	TagSettings ProjectLoaderXML::LoadTagSettings(const std::string & project_path)
 	{
 		std::unique_ptr<xml_document<>> doc;
 		std::string contents;
+		TagSettings settings;
 
 		try
 		{
@@ -197,7 +197,7 @@ namespace ose::project
 		catch(const std::exception & e)
 		{
 			LOG_ERROR(e.what());
-			return nullptr;
+			return settings;
 		}
 
 		DEBUG_LOG("**********  Tag Definitions  **********");
@@ -206,20 +206,20 @@ namespace ose::project
 		auto root_tag_name_attrib = (root_tag_node ? root_tag_node->first_attribute("name") : nullptr);
 
 		//every tag hierarchy should be contained in a root_tag with name ""
-		std::unique_ptr<Tag> root_tag = std::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
+		//std::unique_ptr<Tag> root_tag = std::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
 
 		for(auto tag_node = doc->first_node("tag"); tag_node; tag_node = tag_node->next_sibling("tag"))
 		{
-			ParseTag(root_tag->GetSubTags(), tag_node);
+			ParseTag(settings.root_node_.sub_nodes_, tag_node);
 		}
 
 		DEBUG_LOG("");
 
-		return root_tag;
+		return settings;
 	}
 
 
-	void ProjectLoaderXML::ParseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node)
+	void ProjectLoaderXML::ParseTag(std::vector<TagSettings::TagNode> & tags, rapidxml::xml_node<> * tag_node)
 	{
 		auto name_attrib = tag_node->first_attribute("name");
 		const std::string & name = (name_attrib ? name_attrib->value() : "");
@@ -227,9 +227,9 @@ namespace ose::project
 		DEBUG_LOG("tag -> name:", name);
 
 		//add the tags to the tags list
-		tags.emplace_back(name);
+		tags.emplace_back(TagSettings::TagNode(name));
 		auto & new_tag = tags.back();
-		auto & sub_list = new_tag.GetSubTags();
+		auto & sub_list = new_tag.sub_nodes_;
 
 		//parse any sub-tags
 		for(auto sub_tag_node = tag_node->first_node("tag"); sub_tag_node; sub_tag_node = sub_tag_node->next_sibling("tag"))
@@ -537,7 +537,8 @@ namespace ose::project
 		const std::string & name = (name_attrib ? name_attrib->value() : "");
 
 		auto tag_attrib = entity_node->first_attribute("tag");
-		const std::string & tag = (tag_attrib ? tag_attrib->value() : "");
+		const std::string & tag_name = (tag_attrib ? tag_attrib->value() : "");
+		Tag tag = project.GetTagManager().GetTag(tag_name);
 
 		auto prefab_attrib = entity_node->first_attribute("prefab");
 		const std::string & prefab_text = (prefab_attrib ? prefab_attrib->value(): "");
