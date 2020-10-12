@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Chunk.h"
+#include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Game/Game.h"
 
 namespace ose

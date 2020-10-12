@@ -51,9 +51,8 @@ namespace ose
 		// first, check that the scene actually exists
 		auto map = project_->GetSceneNamesToPathMap();
 		auto pos = map.find(scene_name);
-		if(pos == map.end()) {
+		if(pos == map.end())
 			throw std::invalid_argument("Error: The Scene " + scene_name + " does not exist in the current Project");
-		}
 
 		auto index = this->loaded_scenes_.find(scene_name);
 
@@ -62,6 +61,7 @@ namespace ose
 		{
 			// load the scene using the project loader
 			auto scene = project_loader_->LoadScene(*project_, scene_name);
+			scene->SetSceneManager(this);
 
 			// scene pointer will be nullptr if no scene exists with name scene_name or the scene file failed to load
 			if(!scene)
@@ -112,7 +112,7 @@ namespace ose
 			auto new_scene = std::move(iter->second);		//move scene ptr to new_scene pointer
 			this->loaded_scenes_.erase(iter);				//then remove the entry in the map
 
-															//decide what to do about other scenes
+			//decide what to do about other scenes
 			switch(this->scene_switch_mode_)
 			{
 			case ESceneSwitchMode::REMOVE_ALL_ON_SWITCH:

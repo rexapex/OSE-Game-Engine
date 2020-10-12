@@ -5,6 +5,7 @@
 namespace ose
 {
 	class ProjectLoader;
+	class SceneManager;
 
 	class ChunkManager
 	{
@@ -34,6 +35,10 @@ namespace ose
 
 		// Set the chunk manager settings
 		void SetSettings(ChunkManagerSettings settings) { settings_ = settings; }
+
+	protected:
+		virtual void OnChunkActivated(Chunk & chunk) = 0;
+		virtual void OnChunkDeactivated(Chunk & chunk) = 0;
 
 	private:
 		// Chunks split into 2 lists, loaded and unloaded

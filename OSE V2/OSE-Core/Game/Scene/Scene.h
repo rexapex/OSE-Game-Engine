@@ -7,6 +7,7 @@
 namespace ose
 {
 	class ProjectLoader;
+	class SceneManager;
 
 	class Scene : public EntityList, public ChunkManager
 	{
@@ -24,10 +25,17 @@ namespace ose
 		// Get the control script settings of the scene
 		const ControlSettings & GetControlSettings() const { return control_settings_; }
 
+		// Set the scene manager managing this scene
+		void SetSceneManager(SceneManager * s) { scene_manager_ = s; }
+
 		// DEBUG METHODS
 		// TODO - REMOVE WHEN READY
 		void Print();
 		void PrintEntity(const Entity & e, int32_t level);
+
+	protected:
+		virtual void OnChunkActivated(Chunk & chunk) override;
+		virtual void OnChunkDeactivated(Chunk & chunk) override;
 
 	private:
 		// Name of the scene
@@ -36,6 +44,9 @@ namespace ose
 
 		// Array of control scripts required by the scene in the order they should be run
 		ControlSettings control_settings_;
+
+		// The scene manager which is managing this scene
+		SceneManager * scene_manager_ { nullptr };
 	};
 }
 

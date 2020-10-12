@@ -6,11 +6,11 @@ namespace ose
 {
 	class Game;
 
-	class Chunk : public EntityList, public Transformable<std::unique_ptr<Entity>>
+	class Chunk final : public EntityList, public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
 		Chunk(const std::string & name, const std::string & path);
-		~Chunk() noexcept;
+		virtual ~Chunk() noexcept;
 		Chunk(const Chunk & other) = default;
 		Chunk(Chunk &&) noexcept = default;
 		Chunk & operator=(Chunk &) = delete;

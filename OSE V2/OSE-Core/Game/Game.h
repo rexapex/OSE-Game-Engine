@@ -50,11 +50,11 @@ namespace ose
 
 		// Activate a chunk along with activated sub-entities
 		// Should NEVER be called directly by a script, enable chunk instead
-		void OnChunkActivated(Chunk & chunk);
+		virtual void OnChunkActivated(Chunk & chunk) override;
 
 		// Deactivate a chunk along with all its sub-entities
 		// Should NEVER be called directly by a script, disable chunk instead
-		void OnChunkDeactivated(Chunk & chunk);
+		virtual void OnChunkDeactivated(Chunk & chunk) override;
 
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera

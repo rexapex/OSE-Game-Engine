@@ -42,7 +42,7 @@ namespace ose
 					project_loader_->LoadChunk(*chunk);
 					unloaded_chunks_.erase(iter);
 					loaded_chunks_.push_back(std::move(chunk));
-					// TODO - Call OnChunkActivated
+					OnChunkActivated(*chunk);
 				}
 				else
 				{
@@ -58,7 +58,7 @@ namespace ose
 					chunk->Unload();
 					loaded_chunks_.erase(iter);
 					unloaded_chunks_.push_back(std::move(chunk));
-					// TODO - Call OnChunkDeactivated
+					OnChunkDeactivated(*chunk);
 				}
 				else
 				{
