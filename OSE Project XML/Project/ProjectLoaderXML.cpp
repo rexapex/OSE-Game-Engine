@@ -202,12 +202,6 @@ namespace ose::project
 
 		DEBUG_LOG("**********  Tag Definitions  **********");
 
-		auto root_tag_node = doc->first_node("tag");
-		auto root_tag_name_attrib = (root_tag_node ? root_tag_node->first_attribute("name") : nullptr);
-
-		//every tag hierarchy should be contained in a root_tag with name ""
-		//std::unique_ptr<Tag> root_tag = std::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
-
 		for(auto tag_node = doc->first_node("tag"); tag_node; tag_node = tag_node->next_sibling("tag"))
 		{
 			ParseTag(settings.root_node_.sub_nodes_, tag_node);

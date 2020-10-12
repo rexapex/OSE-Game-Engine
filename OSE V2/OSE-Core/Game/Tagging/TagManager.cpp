@@ -30,9 +30,9 @@ namespace ose
 	void TagManager::ApplyTagSettings(TagSettings const & settings)
 	{
 		std::function<void(TagSettings::TagNode const &, Tag)> parse_node = [this, &parse_node](TagSettings::TagNode const & node, Tag parent) {
-			Tag t = AddTag(node.name_, parent);
 			for(auto const & n : node.sub_nodes_)
 			{
+				Tag t = AddTag(n.name_, parent);	// Prevents adding settings root node (which would equate add an additional root node)
 				parse_node(n, t);
 			}
 		};
