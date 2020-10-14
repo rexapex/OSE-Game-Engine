@@ -6,7 +6,7 @@
 
 namespace ose
 {
-	ChunkManager::ChunkManager(ProjectLoader * project_loader) : settings_(), project_loader_(project_loader)
+	ChunkManager::ChunkManager() : settings_()
 	{
 	
 	}
@@ -19,7 +19,6 @@ namespace ose
 	ChunkManager::ChunkManager(ChunkManager const & other)
 	{
 		settings_ = other.settings_;
-		project_loader_ = other.project_loader_;
 		// Perform a deep copy of all chunks
 		loaded_chunks_.clear();
 		unloaded_chunks_.clear();
@@ -39,10 +38,10 @@ namespace ose
 				std::unique_ptr<Chunk> & chunk = *iter;
 				if(glm::distance2(chunk->GetGlobalTransform().GetPosition(), settings_.agent_->GetGlobalTransform().GetPosition()) <= std::pow(settings_.load_distance_, 2))
 				{
-					project_loader_->LoadChunk(*chunk);
-					unloaded_chunks_.erase(iter);
-					loaded_chunks_.push_back(std::move(chunk));
+					chunk->Load();
 					OnChunkActivated(*chunk);
+					std::move(iter, iter+1, std::back_inserter(loaded_chunks_));
+					iter = unloaded_chunks_.erase(iter);
 				}
 				else
 				{
@@ -56,9 +55,9 @@ namespace ose
 				if(glm::distance2(chunk->GetGlobalTransform().GetPosition(), settings_.agent_->GetGlobalTransform().GetPosition()) >= std::pow(settings_.unload_distance_, 2))
 				{
 					chunk->Unload();
-					loaded_chunks_.erase(iter);
-					unloaded_chunks_.push_back(std::move(chunk));
 					OnChunkDeactivated(*chunk);
+					std::move(iter, iter+1, std::back_inserter(unloaded_chunks_));
+					iter = loaded_chunks_.erase(iter);
 				}
 				else
 				{

@@ -42,12 +42,12 @@ namespace ose
 		virtual void OnProjectActivated(Project & project) = 0;
 		virtual void OnProjectDeactivated(Project & project) = 0;
 
+		// The current scene being played (updated, rendered, etc...)
+		std::unique_ptr<Scene> active_scene_;
+
 	private:
 		// Specifies which scenes should be unloaded on scene switch
 		ESceneSwitchMode scene_switch_mode_;
-
-		// The current scene being played (updated, rendered, etc...)
-		std::unique_ptr<Scene> active_scene_;
 
 		// Contains every scene which has been loaded but NOT the active scene
 		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;

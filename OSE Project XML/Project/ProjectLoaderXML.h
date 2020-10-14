@@ -36,7 +36,7 @@ namespace ose::project
 		ControlSettings LoadPersistentControls(const std::string & project_path);
 
 		std::unique_ptr<Scene> LoadScene(const Project & project, const std::string & scene_name);
-		void LoadChunk(Chunk & chunk);
+		void LoadChunk(Chunk & chunk, Project const & project);
 		std::unique_ptr<Entity> LoadEntityPrefab(const std::string & prefab_path, const Project & project);
 
 		std::unique_ptr<CustomObject> LoadCustomDataFile(const std::string & path);
@@ -53,6 +53,9 @@ namespace ose::project
 		// If parent == nullptr, the new entity is returned
 		std::unique_ptr<Entity> ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
 				std::unordered_map<std::string, std::string> & aliases, const Project & project);
+
+		// Parse the XML of a transformable (entity / chunk)
+		void ParseTransform(glm::vec3 & out_translation, glm::vec3 & out_scale, glm::vec3 & out_rotation, rapidxml::xml_node<> * transform_node);
 		
 		void ParseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);
 		void ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project);

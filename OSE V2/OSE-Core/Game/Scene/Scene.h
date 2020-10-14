@@ -12,7 +12,7 @@ namespace ose
 	class Scene : public EntityList, public ChunkManager
 	{
 	public:
-		Scene(const std::string & name, const ControlSettings & control_settings, ProjectLoader * project_loader);
+		Scene(const std::string & name, const ControlSettings & control_settings);
 		virtual ~Scene() noexcept;
 		Scene(const Scene & other) noexcept;
 		Scene(Scene &&) noexcept = default;

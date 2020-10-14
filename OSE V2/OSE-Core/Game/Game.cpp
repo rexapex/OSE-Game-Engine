@@ -136,6 +136,9 @@ namespace ose
 			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
+			// Update the chunks of the active scene (TODO - Do this at a fixed rate to reduce computation)
+			active_scene_->UpdateChunks();
+
 			// Execute developer created scripts
 			scripting_engine_->Update();
 

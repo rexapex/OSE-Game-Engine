@@ -5,8 +5,8 @@
 
 namespace ose
 {
-	Scene::Scene(const std::string & name, const ControlSettings & control_settings, ProjectLoader * project_loader)
-		: EntityList(), ChunkManager(project_loader), name_(name), control_settings_(control_settings) {}
+	Scene::Scene(const std::string & name, const ControlSettings & control_settings)
+		: EntityList(), ChunkManager(), name_(name), control_settings_(control_settings) {}
 
 	Scene::~Scene() noexcept {}
 

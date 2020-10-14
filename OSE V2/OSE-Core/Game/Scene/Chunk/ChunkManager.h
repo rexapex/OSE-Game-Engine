@@ -10,7 +10,7 @@ namespace ose
 	class ChunkManager
 	{
 	public:
-		ChunkManager(ProjectLoader * project_loader);
+		ChunkManager();
 		virtual ~ChunkManager() noexcept;
 		ChunkManager(ChunkManager const &);
 		ChunkManager & operator=(ChunkManager &) = delete;
@@ -33,8 +33,8 @@ namespace ose
 		// Determine whether chunks should be loaded/unloaded
 		void UpdateChunks();
 
-		// Set the chunk manager settings
-		void SetSettings(ChunkManagerSettings settings) { settings_ = settings; }
+		// Apply the settings to the chunk manager
+		void ApplyChunkManagerSettings(ChunkManagerSettings settings) { settings_ = settings; }
 
 	protected:
 		virtual void OnChunkActivated(Chunk & chunk) = 0;
@@ -47,8 +47,5 @@ namespace ose
 
 		// Settings determine when chunks are loaded/unloaded
 		ChunkManagerSettings settings_;
-
-		// Required to load chunks from the filesystem
-		ProjectLoader * project_loader_ { nullptr };
 	};
 }
