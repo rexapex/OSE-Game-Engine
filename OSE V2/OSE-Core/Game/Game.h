@@ -6,6 +6,7 @@
 #include "OSE-Core/Input/InputManager.h"
 #include "ThreadManager.h"
 #include "Time.h"
+#include "Camera/Camera.h"
 #include <ctime>
 
 namespace ose
@@ -45,6 +46,14 @@ namespace ose
 		// Deactivate an entity along with all its sub-entities
 		// Should NEVER be called directly by a script, disable entity instead
 		void OnEntityDeactivated(Entity & entity);
+
+		// Set the active camera
+		// If c is nullptr, the active camera is set to the default camera
+		// If the user destroys the active camera, the active camera must be set to nullptr (or a valid camera) to prevent errors
+		void SetActiveCamera(unowned_ptr<Camera> c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
+
+		// Get the active camera
+		unowned_ptr<Camera> GetActiveCamera() const { return active_camera_; }
 
 		// Get the time object
 		Time const & GetTime() { return time_; }
@@ -88,6 +97,12 @@ namespace ose
 
 		// TODO - current iteration of render pool
 		///std::unique_ptr<RenderPool> render_pool_;
+
+		// The active camera (rendering is done relative to the active camera transform)
+		unowned_ptr<Camera> active_camera_ { nullptr };
+
+		// The default camera
+		Camera default_camera_;
 
 		// Time handles calculation of delta time, fps etc. and provides a way for scripts to get the timing variables
 		Time time_;

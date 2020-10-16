@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "TilemapLoaderTXT.h"
-#include "OSE-Core/Resources/FileHandlingUtil.h"
+#include "OSE-Core/File System/FileSystemUtil.h"
 
 namespace ose::resources
 {
@@ -12,17 +12,17 @@ namespace ose::resources
 	// Path is absolute and is guaranteed to exist
 	void TilemapLoaderTXT::LoadTilemap(const std::string & path, Tilemap & tilemap)
 	{
-		if(FileHandlingUtil::DoesFileExist(path))
+		if(fs::DoesFileExist(path))
 		{
 			// Load the text file
 			std::string text;
 			try
 			{
-				FileHandlingUtil::LoadTextFile(path, text);
+				fs::LoadTextFile(path, text);
 			}
 			catch(...)
 			{
-				ERROR_LOG("Error: Failed to load tilemap " << path);
+				LOG_ERROR("Failed to load tilemap", path);
 				return;
 			}
 			
@@ -67,7 +67,7 @@ namespace ose::resources
 						// Ensure the cell index is not out of bounds
 						if(x >= width)
 						{
-							ERROR_LOG("Error: Invalid tilemap file, varying row length");
+							LOG_ERROR("Invalid tilemap file, varying row length");
 							tilemap.DeleteTileGrid();
 							return;
 						}
@@ -79,7 +79,7 @@ namespace ose::resources
 						}
 						catch(...)
 						{
-							ERROR_LOG("Error: Invalid tilemap file, cell is not a number");
+							LOG_ERROR("Invalid tilemap file, cell is not a number");
 							tilemap.DeleteTileGrid();
 							return;
 						}
@@ -91,7 +91,7 @@ namespace ose::resources
 		}
 		else
 		{
-			ERROR_LOG("Error: Tilemap " << path << " does not exist");
+			LOG_ERROR("Tilemap", path, "does not exist");
 		}
 	}
 }

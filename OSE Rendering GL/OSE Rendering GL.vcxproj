@@ -60,15 +60,19 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OSE V2\GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OSE V2\GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OSE V2\GlobalProperties.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\OSE V2\GlobalProperties.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -182,6 +186,9 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Rendering\ERenderObjectType.h" />
+    <ClInclude Include="Rendering\FramebufferGL.h" />
+    <ClInclude Include="Rendering\Lights\DirLightData.h" />
+    <ClInclude Include="Rendering\Lights\PointLightData.h" />
     <ClInclude Include="Rendering\RenderingEngineGL.h" />
     <ClInclude Include="Rendering\RenderingFactoryGL.h" />
     <ClInclude Include="Rendering\RenderObjectGL.h" />
@@ -189,9 +196,11 @@
     <ClInclude Include="Rendering\RenderPoolGL.h" />
     <ClInclude Include="Rendering\ShaderGroupGL.h" />
     <ClInclude Include="Rendering\TextureGL.h" />
-    <ClInclude Include="Shader\FragShaderGLSL.h" />
+    <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h" />
+    <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h" />
+    <ClInclude Include="Shader\Shaders\Default3DShaderProgGLSL.h" />
+    <ClInclude Include="Shader\ShaderLayer.h" />
     <ClInclude Include="Shader\ShaderProgGLSL.h" />
-    <ClInclude Include="Shader\VertShaderGLSL.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Rendering\RenderingEngineGL.cpp" />
@@ -206,9 +215,10 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="Shader\FragShaderGLSL.cpp" />
+    <ClCompile Include="Shader\Shaders\BRDFShaderProgGLSL.cpp" />
+    <ClCompile Include="Shader\Shaders\Default2DShaderProgGLSL.cpp" />
+    <ClCompile Include="Shader\Shaders\Default3DShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\ShaderProgGLSL.cpp" />
-    <ClCompile Include="Shader\VertShaderGLSL.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

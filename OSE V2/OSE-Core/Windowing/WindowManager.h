@@ -25,7 +25,7 @@ namespace ose
 		void FramebufferSizeCallbackImpl(int width, int height);
 		void InputCallbackImpl(EInputType type, bool triggered);
 		//void WindowPosCallbackImpl(int x, int y);
-		//void CursorPosCallbackImpl(double xPos, double yPos);
+		void CursorPosCallbackImpl(double xPos, double yPos);
 		//void MouseButtonCallbackImpl(int button, int action, int mods);
 		//void MouseScrollCallbackImpl(double xOffset, double yOffset);
 		//void KeyCallbackImpl(int key, int scancode, int action, int mods);

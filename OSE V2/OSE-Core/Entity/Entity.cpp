@@ -22,7 +22,6 @@ namespace ose
 	{
 		this->name_ = other.name_;
 		this->unique_id_ = Entity::NextEntityId();
-		//std::cerr << this->unique_ID_ << std::endl;
 		this->tag_ = other.tag_;
 		this->prefab_ = other.prefab_;
 

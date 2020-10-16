@@ -151,10 +151,10 @@ namespace ose::windowing
 			exit(0);
 		}
 
-		//std::cerr << "HOW!?!?!?\n";
-		//double xpos, ypos;
-		//glfwGetCursorPos(window, &xpos, &ypos);		//Callback function not called frequently enough to update camera
-		//inputManager->cursorPosCallbackImpl(xpos, ypos);
+		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		double xpos, ypos;
+		glfwGetCursorPos(window, &xpos, &ypos);		//Callback function not called frequently enough to update camera
+		window_manager->CursorPosCallbackImpl(xpos, ypos);
 	}
 
 

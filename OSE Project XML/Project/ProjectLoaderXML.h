@@ -12,6 +12,8 @@ namespace ose
 	struct InputSettings;
 	struct ControlSettings;
 	struct ProjectSettings;
+
+	class EntityList;
 }
 
 namespace ose::project
@@ -22,7 +24,7 @@ namespace ose::project
 	public:
 		ProjectLoaderXML();
 		virtual ~ProjectLoaderXML() noexcept;
-
+		
 		std::unique_ptr<Project> LoadProject(const std::string & project_name);
 		std::unique_ptr<ProjectInfo> LoadProjectManifest(const std::string & project_path);
 
@@ -40,12 +42,15 @@ namespace ose::project
 		void SaveCustomDataFile(const std::string & path, CustomObject const & object);
 
 	private:
-		//Parse the XML file at 'path' and store the contents in 'content'
-		//NOTE - contents must remain in memory while accessing doc as it used in-place parsing
-		//@returns {std::unique_ptr<rapidxml::xml_document<>>} Pointer to the parsed document
+		// Parse the XML file at 'path' and store the contents in 'content'
+		// NOTE - contents must remain in memory while accessing doc as it used in-place parsing
+		// Returns {std::unique_ptr<rapidxml::xml_document<>>} Pointer to the parsed document
 		std::unique_ptr<rapidxml::xml_document<>> LoadXmlFile(const std::string & path, std::string & contents);
 
-		std::unique_ptr<Entity> ParseEntity(rapidxml::xml_node<> * entity_node,
+		// Parse the XML of an entity
+		// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
+		// If parent == nullptr, the new entity is returned
+		std::unique_ptr<Entity> ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
 				std::unordered_map<std::string, std::string> & aliases, const Project & project);
 		
 		void ParseTag(std::vector<Tag> & tags, rapidxml::xml_node<> * tag_node);

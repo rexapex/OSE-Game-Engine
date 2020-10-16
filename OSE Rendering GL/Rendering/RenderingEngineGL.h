@@ -5,17 +5,21 @@
 #include "RenderPoolGL.h"
 #include "TextureGL.h"
 
+namespace ose
+{
+	class Camera;
+}
+
 namespace ose::rendering
 {
 	class RenderingEngineGL final : public RenderingEngine
 	{
 	public:
-		RenderingEngineGL();
+		RenderingEngineGL(int fbwidth, int fbheight);
 		~RenderingEngineGL();
 
-		// Engine::update method overriden
-		// Called every game update to render all object in the pool
-		void Update() override;
+		// Render one frame to the screen
+		void Render(Camera const & active_camera) override;
 
 		// Get a reference to the render pool, s.t. new render objects can be added
 		RenderPool & GetRenderPool() override { return render_pool_; }
@@ -33,7 +37,7 @@ namespace ose::rendering
 
 		// Child functions to update the projection matrix to either orthographic or perspective
 		void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) override;
-		void UpdatePerspectiveProjectionMatrix(const float fovyDeg, const int fbwidth, const int fbheight, const float znear, const float zfar) override;
+		void UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar) override;
 	};
 }
 

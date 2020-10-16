@@ -40,5 +40,6 @@ namespace ose
 	void Project::CreateGpuResources()
 	{
 		resource_manager_->CreateTextures();
+		resource_manager_->CreateShaderProgs();
 	}
 }

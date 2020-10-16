@@ -50,7 +50,7 @@ namespace ose
 			threads_.emplace_back(std::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
 		}
 
-		DEBUG_LOG("created " << num_threads << " threads");
+		DEBUG_LOG("created", num_threads, "threads");
 	}
 
 
@@ -77,7 +77,7 @@ namespace ose
 		{
 			std::unique_lock<std::mutex> lock(mu_);
 			tasks_.push_back(t);
-			LOG("added " << t);
+			LOG("Added New Task:", t);
 		}
 		work_to_do_.notify_one();
 	}
@@ -89,7 +89,7 @@ namespace ose
 		tasks_in_progress_ --;
 		if(tasks_in_progress_ == 0 && tasks_.size() == 0)
 		{
-			LOG("all tasks complete\n");
+			LOG("All tasks complete\n");
 		}
 	}
 

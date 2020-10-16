@@ -12,6 +12,7 @@ namespace ose
 		// EProjectionMode::PERSPECTIVE settings
 		float znear_	{ 0.01f };
 		float zfar_		{ 100.0f };
+		float hfov_		{ 60.0f };
 	};
 
 	struct ProjectSettings

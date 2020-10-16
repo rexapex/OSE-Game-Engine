@@ -12,6 +12,8 @@
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
 #include "OSE-Core/Entity/Component/MeshRenderer.h"
+#include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 #include "OSE-Core/Entity/Component/CustomComponent.h"
 #include "OSE-Core/Resources/Custom Data/CustomObject.h"
 #include "OSE-Core/EngineReferences.h"
@@ -33,13 +35,14 @@ namespace ose
 		int fbwidth { this->window_manager_->GetFramebufferWidth() };
 		int fbheight { this->window_manager_->GetFramebufferHeight() };
 
-		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine());
+		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
 		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
-		rendering_engine_->SetFramebufferSize(fbwidth, fbheight);
 
 		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
 		this->time_.Init(this->window_manager_->GetTimeSeconds());
+
+		this->active_camera_ = &default_camera_;
 	}
 
 	Game::~Game() noexcept {}
@@ -126,17 +129,20 @@ namespace ose
 
 		while(running_)
 		{
-			// renders previous frame to window and poll for new event
+			// Renders previous frame to window and poll for new event
 			window_manager_->Update();
 
-			// update all timing variables
+			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
-			// execute developer created scripts
+			// Execute developer created scripts
 			scripting_engine_->Update();
 
-			// render to the back buffer
-			rendering_engine_->Update();
+			// Update the camera
+			active_camera_->Update();
+
+			// Render to the back buffer
+			rendering_engine_->Render(*active_camera_);
 
 			// TODO - Remove once proper FPS display is implemented
 			window_manager_->SetTitle(std::to_string(time_.GetFps()));
@@ -146,7 +152,7 @@ namespace ose
 	// Activate an entity along with activated sub-entities
 	void Game::OnEntityActivated(Entity & entity)
 	{
-		DEBUG_LOG("Activating Entity " << entity.GetName());
+		DEBUG_LOG("Activating Entity", entity.GetName());
 
 		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
 		{
@@ -178,6 +184,26 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddMeshRenderer(entity.GetGlobalTransform(), comp);
 		}
 
+		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised PointLight");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddPointLight(entity.GetGlobalTransform(), comp);
+		}
+
+		for(unowned_ptr<DirLight> comp : entity.GetComponents<DirLight>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialise DirLight");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddDirLight(entity.GetGlobalTransform(), comp);
+		}
+
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
@@ -202,7 +228,7 @@ namespace ose
 	// Deactivate an entity along with all its sub-entities
 	void Game::OnEntityDeactivated(Entity & entity)
 	{
-		DEBUG_LOG("De-activating Entity " << entity.GetName());
+		DEBUG_LOG("De-activating Entity", entity.GetName());
 
 		// Remove sprite renderer components from the render pool
 		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
@@ -215,6 +241,10 @@ namespace ose
 		// Remove mesh renderer components from the render pool
 		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
 			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
+
+		// Remove point light components from the render pool
+		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+			rendering_engine_->GetRenderPool().RemovePointLight(comp);
 
 		// Remove custom components from the script pool
 		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())

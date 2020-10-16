@@ -8,6 +8,7 @@ namespace ose::rendering
 	{
 		SPRITE_RENDERER,
 		TILE_RENDERER,
-		MESH_RENDERER
+		MESH_RENDERER,
+		DEFERRED_QUAD
 	};
 }
