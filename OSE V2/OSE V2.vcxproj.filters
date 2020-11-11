@@ -4,7 +4,6 @@
     <ClCompile Include="OSE-Core\Entity\Component\ComponentList.cpp" />
     <ClCompile Include="OSE-Core\EngineReferences.cpp" />
     <ClCompile Include="OSE-Core\Rendering\RenderingEngine.cpp" />
-    <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
     <ClCompile Include="OSE-Core\Entity\Component\Component.cpp" />
     <ClCompile Include="OSE-Core\Game\Game.cpp" />
     <ClCompile Include="OSE-Core\Game\GameThread.cpp" />
@@ -35,6 +34,7 @@
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
     <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
+    <ClCompile Include="OSE-Core\Entity\EntityList.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -547,6 +547,7 @@
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
     <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
+    <ClInclude Include="OSE-Core\Game\GameObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

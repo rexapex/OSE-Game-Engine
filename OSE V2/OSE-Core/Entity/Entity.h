@@ -1,22 +1,22 @@
 #pragma once
 #include "OSE-Core/Types.h"
 #include "Component/Component.h"
-#include "EntityList.h"
-#include "Component/ComponentList.h"
 #include "OSE-Core/Math/Transformable.h"
+#include "OSE-Core/Game/GameObject.h"
+#include "Component/ComponentList.h"
 
 namespace ose
 {
 	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
 	class Game;
 
-	class Entity : public EntityList, public ComponentList, public Transformable<std::unique_ptr<Entity>>
+	class Entity : public GameObject, public ComponentList
 	{
 	public:
-		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
+		Entity(GameObject * parent, std::string_view name, std::string_view tag = "", std::string_view prefab = "");
 		virtual ~Entity() noexcept;
-		Entity(const Entity & other) noexcept;
-		Entity(Entity && other) noexcept = default;
+		Entity(GameObject * parent, const Entity & other) noexcept;
+		Entity(Entity && other) noexcept = delete;
 		Entity & operator=(Entity &) noexcept = delete;
 		Entity & operator=(Entity &&) noexcept = delete;
 
@@ -34,12 +34,10 @@ namespace ose
 		// Should NEVER be called directly by a script
 		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
 
-		// Get a list of transformable elements
-		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
+		// Get the parent transformable element
+		//virtual Entity * GetParentTransformable() const override { return parent_; }
 
 	private:
-
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 

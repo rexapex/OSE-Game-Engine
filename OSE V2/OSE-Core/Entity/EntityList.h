@@ -4,6 +4,7 @@ namespace ose
 {
 	// Forward declare Entity class and EntityID typedef
 	class Entity;
+	class GameObject;
 	typedef uint32_t EntityID;
 
 	class EntityList
@@ -17,26 +18,8 @@ namespace ose
 		EntityList & operator=(EntityList &&) noexcept = delete;
 
 		// Add an entity to the entity list
-		// TODO - should name be unique ???
-		// Method constructs a new object
-		// Method takes entity constructor arguments
-		// Returns a reference to the newly created entity
-		template<typename... Args>
-		unowned_ptr<Entity> AddEntity(Args &&... params)
-		{
-			// construct a new entity object
-			try {
-				return entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) ).get();
-			} catch(...) {
-				return nullptr;
-			}
-		}
-
-		// Add an entity to the entity list
-		// New entity is a deep copy of the entity passed
-		// Method constructs a new object
-		// Returns a reference to the newly created entity
-		unowned_ptr<Entity> AddEntity(const Entity & other);
+		virtual Entity * AddEntity(std::string_view name, std::string_view tag, std::string_view prefab) = 0;
+		virtual Entity * AddEntity(Entity const & other) = 0;
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
 		// Remove an entity from the entity list
@@ -54,11 +37,32 @@ namespace ose
 		// Returns false if the entity does not exist in this list
 		bool MoveEntity(Entity const & entity, EntityList & to);
 
-		// get a list of entities
+		// Get the list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
 
 	protected:
+		// Add an entity to the entity list
+		// TODO - should name be unique ???
+		// Method constructs a new object
+		// Method takes entity constructor arguments
+		// Returns a reference to the newly created entity
+		Entity * AddEntity(GameObject * parent, std::string_view name, std::string_view tag, std::string_view prefab)
+		{
+			// construct a new entity object
+			try {
+				return entities_.emplace_back( std::make_unique<Entity>(parent, name, tag, prefab) ).get();
+			} catch(...) {
+				return nullptr;
+			}
+		}
+
+		// Add an entity to the entity list
+		// New entity is a deep copy of the entity passed
+		// Method constructs a new object
+		// Returns a reference to the newly created entity
+		Entity * AddEntity(GameObject * parent, const Entity & other);
+
+		// The list of entities
 		std::vector<std::unique_ptr<Entity>> entities_;
 	};
 }
-
