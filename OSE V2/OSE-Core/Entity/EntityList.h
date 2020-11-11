@@ -1,4 +1,5 @@
 #pragma once
+#include "OSE-Core/Math/Transformable.h"
 
 namespace ose
 {
@@ -6,12 +7,12 @@ namespace ose
 	class Entity;
 	typedef uint32_t EntityID;
 
-	class EntityList
+	class EntityList : public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
-		EntityList();
+		EntityList(EntityList * parent);
 		virtual ~EntityList() noexcept;
-		EntityList(const EntityList & other) noexcept;
+		EntityList(EntityList * parent, const EntityList & other) noexcept;
 		EntityList(EntityList &&) noexcept = default;
 		EntityList & operator=(EntityList &) noexcept = delete;
 		EntityList & operator=(EntityList &&) noexcept = delete;
@@ -26,7 +27,8 @@ namespace ose
 		{
 			// construct a new entity object
 			try {
-				return entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) ).get();
+				entities_.push_back(std::make_unique<Entity>(this, std::forward<Args>(params)...));
+				return entities_.back().get();
 			} catch(...) {
 				return nullptr;
 			}
@@ -57,8 +59,16 @@ namespace ose
 		// get a list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
 
+		// Get a list of transformable elements
+		// Returns a list of child entities
+		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
+
+		// Get a pointer to the parent transformable element
+		virtual Transformable * GetParentTransformable() const override { return parent_; }
+
 	protected:
 		std::vector<std::unique_ptr<Entity>> entities_;
+		EntityList * parent_ { nullptr };
 	};
 }
 

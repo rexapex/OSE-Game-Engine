@@ -5,11 +5,11 @@
 namespace ose
 {
 	Scene::Scene(const std::string & name, const ControlSettings & control_settings)
-		: EntityList(), name_(name), control_settings_(control_settings) {}
+		: EntityList(nullptr), name_(name), control_settings_(control_settings) {}
 
 	Scene::~Scene() noexcept {}
 
-	Scene::Scene(const Scene & other) noexcept : EntityList(other)
+	Scene::Scene(const Scene & other) noexcept : EntityList(nullptr, other)
 	{
 		this->name_ = other.name_;
 		this->control_settings_ = other.control_settings_;

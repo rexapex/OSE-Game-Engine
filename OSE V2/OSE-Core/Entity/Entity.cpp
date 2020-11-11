@@ -4,8 +4,8 @@
 
 namespace ose
 {
-	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
-				 : Transformable(), EntityList(), ComponentList(),
+	Entity::Entity(EntityList * parent, const std::string & name, const std::string & tag, const std::string & prefab)
+				 : EntityList(parent), ComponentList(),
 					name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
 	{
 
@@ -18,7 +18,7 @@ namespace ose
 	}
 
 
-	Entity::Entity(const Entity & other) noexcept : Transformable(other), EntityList(other), ComponentList(other)
+	Entity::Entity(EntityList * parent, const Entity & other) noexcept : EntityList(parent, other), ComponentList(other)
 	{
 		this->name_ = other.name_;
 		this->unique_id_ = Entity::NextEntityId();

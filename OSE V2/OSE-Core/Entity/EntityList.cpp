@@ -4,16 +4,16 @@
 
 namespace ose
 {
-	EntityList::EntityList() {}
+	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent) {}
 	EntityList::~EntityList() {}
 
-	EntityList::EntityList(const EntityList & other) noexcept
+	EntityList::EntityList(EntityList * parent, const EntityList & other) noexcept : Transformable(other), parent_(parent)
 	{
 		// perform a deep copy of all entities
 		this->entities_.clear();	// vector should be empty
 		for(const auto & e : other.entities_)
 		{
-			this->entities_.push_back(std::make_unique<Entity>(*e));
+			this->entities_.push_back(std::make_unique<Entity>(this, *e));
 		}
 	}
 
@@ -25,7 +25,8 @@ namespace ose
 	{
 		// construct a new entity object
 		try {
-			return entities_.emplace_back( std::make_unique<Entity>(other) ).get();
+			entities_.push_back(std::make_unique<Entity>(this, other));
+			return entities_.back().get();
 		} catch(...) {
 			return nullptr;
 		}
