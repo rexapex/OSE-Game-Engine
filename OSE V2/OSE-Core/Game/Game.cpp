@@ -24,7 +24,7 @@
 
 namespace ose
 {
-	Game::Game() : SceneManager(), EntityList(), InputManager()
+	Game::Game() : SceneManager(), EntityList(nullptr), InputManager()
 	{
 		this->running_ = false;
 

@@ -3,6 +3,7 @@
 #include "Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Project/ProjectLoader.h"
+#include "OSE-Core/Math/ITransform.h"
 
 namespace ose
 {
@@ -36,7 +37,7 @@ namespace ose
 			for(auto & iter = unloaded_chunks_.begin(); iter != unloaded_chunks_.end();)
 			{
 				std::unique_ptr<Chunk> & chunk = *iter;
-				if(glm::distance2(chunk->GetGlobalTransform().GetPosition(), settings_.agent_->GetGlobalTransform().GetPosition()) <= std::pow(settings_.load_distance_, 2))
+				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), settings_.agent_->GetGlobalTransform().GetTranslation()) <= std::pow(settings_.load_distance_, 2))
 				{
 					chunk->Load();
 					OnChunkActivated(*chunk);
@@ -52,7 +53,7 @@ namespace ose
 			for(auto & iter = loaded_chunks_.begin(); iter != loaded_chunks_.end();)
 			{
 				std::unique_ptr<Chunk> & chunk = *iter;
-				if(glm::distance2(chunk->GetGlobalTransform().GetPosition(), settings_.agent_->GetGlobalTransform().GetPosition()) >= std::pow(settings_.unload_distance_, 2))
+				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), settings_.agent_->GetGlobalTransform().GetTranslation()) >= std::pow(settings_.unload_distance_, 2))
 				{
 					chunk->Unload();
 					OnChunkDeactivated(*chunk);

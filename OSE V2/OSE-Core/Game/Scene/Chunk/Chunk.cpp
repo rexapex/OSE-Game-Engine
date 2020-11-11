@@ -7,7 +7,7 @@
 namespace ose
 {
 
-	Chunk::Chunk(const std::string & name, const std::string & path, Project const & project, ProjectLoader & project_loader) : EntityList(), Transformable(), name_(name), path_(path), project_(project), project_loader_(project_loader)
+	Chunk::Chunk(const std::string & name, const std::string & path, Project const & project, ProjectLoader & project_loader) : EntityList(nullptr), name_(name), path_(path), project_(project), project_loader_(project_loader)
 	{
 	
 	}
@@ -15,6 +15,12 @@ namespace ose
 	Chunk::~Chunk()
 	{
 	
+	}
+
+	Chunk::Chunk(const Chunk & other) : EntityList(nullptr),
+		name_(other.name_), path_(other.path_), project_(other.project_), project_loader_(other.project_loader_)
+	{
+
 	}
 
 	// Load the chunk from the filesystem

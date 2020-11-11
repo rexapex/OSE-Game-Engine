@@ -8,12 +8,12 @@ namespace ose
 	class Project;
 	class ProjectLoader;
 
-	class Chunk final : public EntityList, public Transformable<std::unique_ptr<Entity>>
+	class Chunk final : public EntityList
 	{
 	public:
 		Chunk(const std::string & name, const std::string & path, Project const & project, ProjectLoader & project_loader);
 		virtual ~Chunk() noexcept;
-		Chunk(const Chunk & other) = default;
+		Chunk(const Chunk & other);
 		Chunk(Chunk &&) noexcept = default;
 		Chunk & operator=(Chunk &) = delete;
 		Chunk & operator=(Chunk &&) = delete;
@@ -28,10 +28,6 @@ namespace ose
 		const std::string & GetName() const { return this->name_; }
 
 		const std::string & GetPath() const { return this->path_; }
-
-		// Get a list of transformable elements
-		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() override { return entities_; }
 
 	private:
 		// Name of the chunk file (excluding the file extension)

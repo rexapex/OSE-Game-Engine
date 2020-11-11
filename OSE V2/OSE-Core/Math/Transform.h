@@ -9,9 +9,9 @@ namespace ose
 	public:
 		// Constructors & destructor
 		Transform();
-		Transform(const glm::vec3 & position);
-		Transform(const glm::vec3 & position, const glm::vec3 & rotation_radians, const glm::vec3 & scale);
-		Transform(const glm::vec3 & position, const glm::quat & orientation, const glm::vec3 & scale);
+		Transform(const glm::vec3 & translation);
+		Transform(const glm::vec3 & translation, const glm::vec3 & rotation_radians, const glm::vec3 & scale);
+		Transform(const glm::vec3 & translation, const glm::quat & orientation, const glm::vec3 & scale);
 		~Transform();
 
 		// Copy from ITransform to Transform object
@@ -25,11 +25,11 @@ namespace ose
 		Transform(Transform && other) noexcept;
 		Transform & operator=(Transform && other) noexcept;
 
-		const glm::vec3 & GetPosition() const override { return position_; };
+		const glm::vec3 & GetTranslation() const override { return translation_; };
 		const glm::quat & GetOrientation() const override { return orientation_; };
 		const glm::vec3 & GetScale() const override { return scale_; };
 
-		glm::mat4 GetPositionMatrix() const override;
+		glm::mat4 GetTranslationMatrix() const override;
 		glm::mat4 GetOrientationMatrix() const override;
 		glm::mat4 GetScaleMatrix() const override;
 
@@ -92,7 +92,7 @@ namespace ose
 		void SetScale2d(const float x, const float y);
 
 	private:
-		glm::vec3 position_;
+		glm::vec3 translation_;
 		glm::quat orientation_;
 		glm::vec3 scale_;
 	};

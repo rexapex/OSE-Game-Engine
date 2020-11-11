@@ -6,6 +6,7 @@
 #include "OSE-Core/Project/ProjectSettings.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 
 #include "OSE-Core/Input/InputSettings.h"
@@ -524,9 +525,9 @@ namespace ose::project
 
 					ParseTransform(translation, scale, rotation, transform_node);
 
-					chunk->Translate(translation);
-					chunk->Scale(scale);
-					chunk->RotateDeg(rotation);
+					chunk->SetTranslation(translation);
+					chunk->SetScale(scale);
+					chunk->SetOrientationDeg(rotation);
 				}
 			}
 		}
@@ -643,7 +644,7 @@ namespace ose::project
 			if(parent)
 				new_entity = parent->AddEntity(name, tag, prefab);
 			else
-				new_entity_ret = std::make_unique<Entity>(name, tag, prefab), new_entity = new_entity_ret.get();
+				new_entity_ret = std::make_unique<Entity>(nullptr, name, tag, prefab), new_entity = new_entity_ret.get();
 		}
 		else
 		{
@@ -656,7 +657,7 @@ namespace ose::project
 				if(parent)
 					new_entity = parent->AddEntity(prefab_object);
 				else
-					new_entity_ret = std::make_unique<Entity>(prefab_object), new_entity = new_entity_ret.get();
+					new_entity_ret = std::make_unique<Entity>(nullptr, prefab_object), new_entity = new_entity_ret.get();
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {

@@ -1,11 +1,11 @@
 #pragma once
 #include "ChunkManagerSettings.h"
-#include "Chunk.h"
 
 namespace ose
 {
 	class ProjectLoader;
 	class SceneManager;
+	class Chunk;
 
 	class ChunkManager
 	{
