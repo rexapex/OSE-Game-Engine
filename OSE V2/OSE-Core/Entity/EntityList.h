@@ -27,7 +27,8 @@ namespace ose
 		{
 			// construct a new entity object
 			try {
-				return entities_.emplace_back( std::make_unique<Entity>(std::forward<Args>(params)...) ).get();
+				entities_.push_back(std::make_unique<Entity>(this, std::forward<Args>(params)...));
+				return entities_.back().get();
 			} catch(...) {
 				return nullptr;
 			}

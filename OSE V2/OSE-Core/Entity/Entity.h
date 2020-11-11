@@ -12,9 +12,9 @@ namespace ose
 	class Entity : public EntityList, public ComponentList
 	{
 	public:
-		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
+		Entity(EntityList * parent, const std::string & name, const std::string & tag = "", const std::string & prefab = "");
 		virtual ~Entity() noexcept;
-		Entity(const Entity & other) noexcept;
+		Entity(EntityList * parent, const Entity & other) noexcept;
 		Entity(Entity && other) noexcept = default;
 		Entity & operator=(Entity &) noexcept = delete;
 		Entity & operator=(Entity &&) noexcept = delete;
@@ -34,6 +34,7 @@ namespace ose
 		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
 
 	private:
+		EntityList * parent_ { nullptr };
 
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution

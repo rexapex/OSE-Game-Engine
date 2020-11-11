@@ -556,7 +556,7 @@ namespace ose::project
 			if(parent)
 				new_entity = parent->AddEntity(name, tag, prefab);
 			else
-				new_entity_ret = std::make_unique<Entity>(name, tag, prefab), new_entity = new_entity_ret.get();
+				new_entity_ret = std::make_unique<Entity>(nullptr, name, tag, prefab), new_entity = new_entity_ret.get();
 		}
 		else
 		{
@@ -569,7 +569,7 @@ namespace ose::project
 				if(parent)
 					new_entity = parent->AddEntity(prefab_object);
 				else
-					new_entity_ret = std::make_unique<Entity>(prefab_object), new_entity = new_entity_ret.get();
+					new_entity_ret = std::make_unique<Entity>(nullptr, prefab_object), new_entity = new_entity_ret.get();
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {
@@ -635,12 +635,12 @@ namespace ose::project
 				if(rz_attrib != nullptr)
 					rz = std::stof(rz_attrib->value());
 
-				//new_entity->Translate(x, y, z);
-				//new_entity->Scale(sx, sy, sz);
-				//new_entity->RotateDeg(rx, ry, rz);
-				new_entity->SetTranslation(x, y, z);
-				new_entity->SetScale(sx, sy, sz);
-				new_entity->SetOrientationDeg(rx, ry, rz);
+				new_entity->Translate(x, y, z);
+				new_entity->Scale(sx, sy, sz);
+				new_entity->RotateDeg(rx, ry, rz);
+				//new_entity->SetTranslation(x, y, z);
+				//new_entity->SetScale(sx, sy, sz);
+				//new_entity->SetOrientationDeg(rx, ry, rz);
 			}
 			catch(...)
 			{

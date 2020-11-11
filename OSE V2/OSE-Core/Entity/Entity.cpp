@@ -4,7 +4,7 @@
 
 namespace ose
 {
-	Entity::Entity(const std::string & name, const std::string & tag, const std::string & prefab)
+	Entity::Entity(EntityList * parent, const std::string & name, const std::string & tag, const std::string & prefab)
 				 : EntityList(), ComponentList(),
 					name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
 	{
@@ -18,7 +18,7 @@ namespace ose
 	}
 
 
-	Entity::Entity(const Entity & other) noexcept : EntityList(other), ComponentList(other)
+	Entity::Entity(EntityList * parent, const Entity & other) noexcept : EntityList(other), ComponentList(other), parent_(parent)
 	{
 		this->name_ = other.name_;
 		this->unique_id_ = Entity::NextEntityId();
