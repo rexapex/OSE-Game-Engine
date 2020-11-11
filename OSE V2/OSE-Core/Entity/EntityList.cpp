@@ -4,17 +4,22 @@
 
 namespace ose
 {
-	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent) {}
+	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent)
+	{
+		ResetGlobalTransform();
+	}
+
 	EntityList::~EntityList() {}
 
 	EntityList::EntityList(EntityList * parent, const EntityList & other) noexcept : Transformable(other), parent_(parent)
 	{
-		// perform a deep copy of all entities
-		this->entities_.clear();	// vector should be empty
+		// Perform a deep copy of all entities
+		this->entities_.clear();
 		for(const auto & e : other.entities_)
 		{
 			this->entities_.push_back(std::make_unique<Entity>(this, *e));
 		}
+		ResetGlobalTransform();
 	}
 
 	// Add an entity to the entity list

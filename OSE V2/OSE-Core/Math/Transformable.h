@@ -11,6 +11,7 @@ namespace ose
 	{
 	public:
 		Transformable() {}
+
 		virtual ~Transformable() {}
 
 		// Copy/move constructors
@@ -249,8 +250,19 @@ namespace ose
 
 	protected:
 
-		Transform local_transform_;
-		Transform global_transform_;
+		// Reset the global transform, i.e. set the global transform to the parent's global transform followed by the local transform
+		void ResetGlobalTransform()
+		{
+			SetGlobalTranslation();
+			SetGlobalOrientation();
+			SetGlobalScale();
+		}
+
+		// Get a list of child transformable elements
+		virtual const std::vector<T> & GetChildTransformables() const = 0;
+
+		// Get a pointer to the parent transformable element
+		virtual Transformable * GetParentTransformable() const = 0;
 
 	private:
 
@@ -399,11 +411,9 @@ namespace ose
 				child->SetGlobalScale();
 		}
 
-		// Get a list of child transformable elements
-		virtual const std::vector<T> & GetChildTransformables() const = 0;
-
-		// Get a pointer to the parent transformable element
-		virtual Transformable * GetParentTransformable() const = 0;
+	protected:
+		Transform local_transform_;
+		Transform global_transform_;
 	};
 }
 
