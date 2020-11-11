@@ -1,4 +1,5 @@
 #pragma once
+#include "OSE-Core/Math/Transformable.h"
 
 namespace ose
 {
@@ -6,7 +7,7 @@ namespace ose
 	class Entity;
 	typedef uint32_t EntityID;
 
-	class EntityList
+	class EntityList : public Transformable<std::unique_ptr<Entity>>
 	{
 	public:
 		EntityList();
@@ -56,6 +57,10 @@ namespace ose
 
 		// get a list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
+
+		// Get a list of transformable elements
+		// Returns a list of child entities
+		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
 
 	protected:
 		std::vector<std::unique_ptr<Entity>> entities_;

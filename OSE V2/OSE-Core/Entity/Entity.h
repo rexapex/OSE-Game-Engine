@@ -3,14 +3,13 @@
 #include "Component/Component.h"
 #include "EntityList.h"
 #include "Component/ComponentList.h"
-#include "OSE-Core/Math/Transformable.h"
 
 namespace ose
 {
 	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
 	class Game;
 
-	class Entity : public EntityList, public ComponentList, public Transformable<std::unique_ptr<Entity>>
+	class Entity : public EntityList, public ComponentList
 	{
 	public:
 		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
@@ -33,10 +32,6 @@ namespace ose
 
 		// Should NEVER be called directly by a script
 		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
-
-		// Get a list of transformable elements
-		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
 
 	private:
 
