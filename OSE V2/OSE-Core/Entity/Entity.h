@@ -34,8 +34,6 @@ namespace ose
 		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
 
 	private:
-		EntityList * parent_ { nullptr };
-
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 

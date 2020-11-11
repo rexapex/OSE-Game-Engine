@@ -451,6 +451,9 @@ namespace ose
 
 		// Get a list of child transformable elements
 		virtual const std::vector<T> & GetChildTransformables() const = 0;
+
+		// Get a pointer to the parent transformable element
+		virtual Transformable * GetParentTransformable() const = 0;
 	};
 }
 

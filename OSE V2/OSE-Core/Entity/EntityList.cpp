@@ -4,10 +4,10 @@
 
 namespace ose
 {
-	EntityList::EntityList() : Transformable() {}
+	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent) {}
 	EntityList::~EntityList() {}
 
-	EntityList::EntityList(const EntityList & other) noexcept : Transformable(other)
+	EntityList::EntityList(EntityList * parent, const EntityList & other) noexcept : Transformable(other), parent_(parent)
 	{
 		// perform a deep copy of all entities
 		this->entities_.clear();	// vector should be empty

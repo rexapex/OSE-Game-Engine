@@ -9,12 +9,15 @@ namespace ose
 	class Camera : public Transformable<std::unique_ptr<Camera>>
 	{
 	public:
-		Camera() {}
+		Camera() : Transformable() {}
 		virtual ~Camera() {}
 
 		// Get a list of transformable elements
 		// Returns an empty dummy list
 		virtual const std::vector<std::unique_ptr<Camera>> & GetChildTransformables() const override { return dummy_; }
+
+		// Get a pointer to the parent transformable element
+		virtual Transformable * GetParentTransformable() const override { return nullptr; }
 
 		// Update the camera
 		virtual void Update() {}
@@ -23,7 +26,7 @@ namespace ose
 		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
 
 	protected:
-		unowned_ptr<Game> game_;
+		unowned_ptr<Game> game_ { nullptr };
 
 	private:
 		std::vector<std::unique_ptr<Camera>> dummy_;
