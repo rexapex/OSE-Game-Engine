@@ -1,11 +1,11 @@
 #pragma once
 
-#include "OSE-Core/Game/GameObject.h"
+#include "OSE-Core/Entity/EntityList.h"
 #include "OSE-Core/Scripting/ControlSettings.h"
 
 namespace ose
 {
-	class Scene : public GameObject
+	class Scene : public EntityList
 	{
 	public:
 		Scene(const std::string & name, const ControlSettings & control_settings);

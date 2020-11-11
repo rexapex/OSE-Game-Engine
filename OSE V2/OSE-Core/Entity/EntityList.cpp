@@ -21,11 +21,11 @@ namespace ose
 	// New entity is a deep copy of the entity passed
 	// Method constructs a new object
 	// Returns a reference to the newly created entity
-	Entity * EntityList::AddEntity(GameObject * parent, const Entity & other)
+	unowned_ptr<Entity> EntityList::AddEntity(const Entity & other)
 	{
 		// construct a new entity object
 		try {
-			return entities_.emplace_back( std::make_unique<Entity>(parent, other) ).get();
+			return entities_.emplace_back( std::make_unique<Entity>(other) ).get();
 		} catch(...) {
 			return nullptr;
 		}

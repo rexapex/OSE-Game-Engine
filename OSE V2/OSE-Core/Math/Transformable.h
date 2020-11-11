@@ -6,7 +6,7 @@
 namespace ose
 {
 	// NOTE - If extending Transformable, T should be a pointer type
-	template <class ChildType>
+	template <class T>
 	class Transformable
 	{
 	public:
@@ -450,10 +450,7 @@ namespace ose
 		}
 
 		// Get a list of child transformable elements
-		virtual const std::vector<ChildType> & GetChildTransformables() const = 0;
-
-		// Get the parent transformable element
-		//virtual Transformable * GetParentTransformable() const = 0;
+		virtual const std::vector<T> & GetChildTransformables() const = 0;
 	};
 }
 
