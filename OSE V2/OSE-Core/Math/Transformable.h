@@ -370,9 +370,9 @@ namespace ose
 		{
 			Transformable * parent { GetParentTransformable() };
 			if(parent)
-				global_transform_.SetTranslation(parent->GetGlobalTransform().GetPosition() + local_transform_.GetPosition());
+				global_transform_.SetTranslation(parent->GetGlobalTransform().GetTranslation() + local_transform_.GetTranslation());
 			else
-				global_transform_.SetTranslation(local_transform_.GetPosition());
+				global_transform_.SetTranslation(local_transform_.GetTranslation());
 			for(auto & child : GetChildTransformables())
 				child->SetGlobalTranslation();
 		}

@@ -635,9 +635,6 @@ namespace ose::project
 				if(rz_attrib != nullptr)
 					rz = std::stof(rz_attrib->value());
 
-				//new_entity->Translate(x, y, z);
-				//new_entity->Scale(sx, sy, sz);
-				//new_entity->RotateDeg(rx, ry, rz);
 				new_entity->SetTranslation(x, y, z);
 				new_entity->SetScale(sx, sy, sz);
 				new_entity->SetOrientationDeg(rx, ry, rz);

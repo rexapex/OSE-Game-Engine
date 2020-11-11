@@ -84,8 +84,8 @@ namespace ose::rendering
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Pass the camera position to the shader program
-				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetPosition().x,
-					active_camera.GetGlobalTransform().GetPosition().y, active_camera.GetGlobalTransform().GetPosition().z);
+				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetTranslation().x,
+					active_camera.GetGlobalTransform().GetTranslation().y, active_camera.GetGlobalTransform().GetTranslation().z);
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)
