@@ -34,8 +34,8 @@ namespace ose
 		virtual void OnChunkDeactivated(Chunk & chunk) = 0;
 
 	protected:
-		std::unique_ptr<Project> project_;
-		std::unique_ptr<ProjectLoader> project_loader_;
+		uptr<Project> project_;
+		uptr<ProjectLoader> project_loader_;
 
 		virtual void OnSceneActivated(Scene & scene) = 0;
 		virtual void OnSceneDeactivated(Scene & scene) = 0;
@@ -43,13 +43,13 @@ namespace ose
 		virtual void OnProjectDeactivated(Project & project) = 0;
 
 		// The current scene being played (updated, rendered, etc...)
-		std::unique_ptr<Scene> active_scene_;
+		uptr<Scene> active_scene_;
 
 	private:
 		// Specifies which scenes should be unloaded on scene switch
 		ESceneSwitchMode scene_switch_mode_;
 
 		// Contains every scene which has been loaded but NOT the active scene
-		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;
+		std::map<std::string, uptr<Scene>> loaded_scenes_;
 	};
 }

@@ -75,7 +75,7 @@ namespace ose::rendering
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Create the deferred rendering shader
-			deferred_shader_prog_ = std::make_unique<shader::BRDFShaderProgGLSL>();
+			deferred_shader_prog_ = ose::make_unique<shader::BRDFShaderProgGLSL>();
 			render_passes_.emplace_back();
 			ShaderGroupGL s;
 			s.shader_prog_ = deferred_shader_prog_->GetShaderProgId();
@@ -112,7 +112,7 @@ namespace ose::rendering
 		// TODO - Remove
 		{
 			// Create the default 2d shader prog
-			default_2d_shader_prog_ = std::make_unique<shader::Default2DShaderProgGLSL>();
+			default_2d_shader_prog_ = ose::make_unique<shader::Default2DShaderProgGLSL>();
 			ShaderGroupGL sg;
 			sg.shader_prog_ = default_2d_shader_prog_->GetShaderProgId();
 			render_passes_[0].shader_groups_.push_back(sg);
@@ -120,7 +120,7 @@ namespace ose::rendering
 
 		{
 			// Create the default brdf 3d shader prog
-			brdf_shader_prog_ = std::make_unique<shader::BRDFShaderProgGLSL>();
+			brdf_shader_prog_ = ose::make_unique<shader::BRDFShaderProgGLSL>();
 			ShaderGroupGL sg;
 			sg.shader_prog_ = brdf_shader_prog_->GetShaderProgId();
 			render_passes_[0].shader_groups_.push_back(sg);
@@ -129,7 +129,7 @@ namespace ose::rendering
 		// TODO - Remove
 		/*{
 			// Create the default 3d shader prog
-			default_3d_shader_prog_ = std::make_unique<shader::Default3DShaderProgGLSL>();
+			default_3d_shader_prog_ = ose::make_unique<shader::Default3DShaderProgGLSL>();
 			ShaderGroupGL sg;
 			sg.shader_prog_ = default_3d_shader_prog_->GetShaderProgId();
 			render_passes_[0].shader_groups_.push_back(sg);

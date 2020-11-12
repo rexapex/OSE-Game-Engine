@@ -81,9 +81,9 @@ namespace ose::rendering
 		Transform deferred_shader_transform_;
 
 		// Default shader programs
-		std::unique_ptr<shader::BRDFShaderProgGLSL> brdf_shader_prog_;
-		std::unique_ptr<shader::Default2DShaderProgGLSL> default_2d_shader_prog_;
-		std::unique_ptr<shader::Default3DShaderProgGLSL> default_3d_shader_prog_;
+		uptr<shader::BRDFShaderProgGLSL> brdf_shader_prog_;
+		uptr<shader::Default2DShaderProgGLSL> default_2d_shader_prog_;
+		uptr<shader::Default3DShaderProgGLSL> default_3d_shader_prog_;
 
 		// List of all active framebuffer objects used for deferred rendering
 		std::vector<FramebufferGL> framebuffers_;

@@ -8,7 +8,7 @@ namespace ose
 namespace ose::scripting
 {
 	class ControlScript;
-	using ControlScriptFactory = std::unique_ptr<ControlScript>(*)();
+	using ControlScriptFactory = uptr<ControlScript>(*)();
 
 	class ControlScript
 	{

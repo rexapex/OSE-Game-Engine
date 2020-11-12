@@ -14,6 +14,6 @@ namespace ose
 		WindowingFactory(WindowingFactory &&) = default;
 		WindowingFactory & operator=(WindowingFactory &&) = default;
 
-		virtual std::unique_ptr<WindowManager> NewWindowManager() = 0;
+		virtual uptr<WindowManager> NewWindowManager() = 0;
 	};
 }

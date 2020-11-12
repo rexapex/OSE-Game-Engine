@@ -52,10 +52,10 @@ namespace ose
 		ProjectSettings project_settings_;
 
 		// resource manager
-		std::unique_ptr<ResourceManager> resource_manager_;
+		uptr<ResourceManager> resource_manager_;
 
 		// prefab manager
-		std::unique_ptr<PrefabManager> prefab_manager_;
+		uptr<PrefabManager> prefab_manager_;
 
 		// scene list (maps name to path ?)
 		std::map<std::string, std::string> scene_names_to_path_;

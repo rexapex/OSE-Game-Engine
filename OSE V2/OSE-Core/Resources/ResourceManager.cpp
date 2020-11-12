@@ -144,7 +144,7 @@ namespace ose
 	// create the GPU memory for an already loaded (added) texture
 	// returns an iterator to the next texture in the textures_without_GPU_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::CreateTexture(const std::string & tex_name)
+	std::map<std::string, uptr<Texture>>::const_iterator ResourceManager::CreateTexture(const std::string & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with no representation in GPU memory can be created
@@ -210,7 +210,7 @@ namespace ose
 	// IMPORTANT - can only be called from the thread which contains the render context
 	void ResourceManager::CreateTextures()
 	{
-		std::map<std::string, std::unique_ptr<Texture>>::const_iterator it;
+		std::map<std::string, uptr<Texture>>::const_iterator it;
 
 		// create a GPU texture for each texture without a GPU texture representation
 		for(it = textures_without_Gpu_memory_.begin(); it != textures_without_Gpu_memory_.end(); )
@@ -288,7 +288,7 @@ namespace ose
 			auto & iter = tilemaps_.find(name_to_use);
 			if(iter == tilemaps_.end())
 			{
-				tilemaps_.emplace(name_to_use, std::make_unique<Tilemap>(name_to_use, abs_path));
+				tilemaps_.emplace(name_to_use, ose::make_unique<Tilemap>(name_to_use, abs_path));
 				DEBUG_LOG("Added tilemap", name_to_use, "to ResourceManager");
 
 				// get a references to the newly created tilemap
@@ -353,7 +353,7 @@ namespace ose
 			auto & iter = meshes_.find(name_to_use);
 			if(iter == meshes_.end())
 			{
-				meshes_.emplace(name_to_use, std::make_unique<Mesh>(name_to_use, abs_path));
+				meshes_.emplace(name_to_use, ose::make_unique<Mesh>(name_to_use, abs_path));
 				DEBUG_LOG("Added mesh", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created mesh
@@ -418,7 +418,7 @@ namespace ose
 			auto & iter = materials_.find(name_to_use);
 			if(iter == materials_.end())
 			{
-				materials_.emplace(name_to_use, std::make_unique<Material>(name_to_use, abs_path));
+				materials_.emplace(name_to_use, ose::make_unique<Material>(name_to_use, abs_path));
 				DEBUG_LOG("Added material", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created material
@@ -503,7 +503,7 @@ namespace ose
 				// Load a built-in shader
 				if(path == "OSE PBR 3D Shader")
 				{
-					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(std::make_unique<ShaderGraphPBR3D>()));
+					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraphPBR3D>()));
 				}
 				else
 				{
@@ -525,7 +525,7 @@ namespace ose
 	// Create the GPU memory for an already loaded (added) shader program
 	// Returns an iterator to the next shader program in the shader_progs_without_gpu_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator ResourceManager::CreateShaderProg(const std::string & prog_name)
+	std::map<std::string, uptr<ShaderProg>>::const_iterator ResourceManager::CreateShaderProg(const std::string & prog_name)
 	{
 		// Get the shader program if it exists
 		// Only shader program with no representation in GPU memory can be created
@@ -588,7 +588,7 @@ namespace ose
 	// IMPORTANT - can only be called from the thread which contains the render context
 	void ResourceManager::CreateShaderProgs()
 	{
-		std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator it;
+		std::map<std::string, uptr<ShaderProg>>::const_iterator it;
 
 		// Create a GPU shader program object for each shader program without a GPU texture representation
 		for(it = shader_progs_without_gpu_memory_.begin(); it != shader_progs_without_gpu_memory_.end(); )

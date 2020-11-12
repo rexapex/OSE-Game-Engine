@@ -14,6 +14,6 @@ namespace ose
 		ScriptingFactory(ScriptingFactory &&) = default;
 		ScriptingFactory & operator=(ScriptingFactory &&) = default;
 
-		virtual std::unique_ptr<ScriptingEngine> NewScriptingEngine() = 0;
+		virtual uptr<ScriptingEngine> NewScriptingEngine() = 0;
 	};
 }

@@ -28,7 +28,7 @@ namespace ose
 
 		// add a temporary prefab entity to the prefab manager
 		// method moves the object passed
-		void AddTempPrefab(std::unique_ptr<Entity> e, std::string const & path);
+		void AddTempPrefab(uptr<Entity> e, std::string const & path);
 
 		// add a persistent (cached) prefab entity to the prefab manager
 		// method constructs a new object
@@ -38,7 +38,7 @@ namespace ose
 
 		// add a persistent (cached) prefab entity to the prefab manager
 		// method moves the object passed
-		void AddCachedPrefab(std::unique_ptr<Entity> e, std::string const & path);
+		void AddCachedPrefab(uptr<Entity> e, std::string const & path);
 
 		// get a reference to the entity prefab with path given
 		// checks both temporary and cached entities
@@ -56,10 +56,10 @@ namespace ose
 
 		// map from path to temporary entity prefabs
 		// after prefab has been copied to create the new entity, the prefab object will be destroyed
-		std::unordered_map<std::string, std::unique_ptr<Entity>> temp_prefabs_;
+		std::unordered_map<std::string, uptr<Entity>> temp_prefabs_;
 
 		// map from path to cached entity prefabs
 		// these prefabs object will persist until all scenes listing the object as cached are unloaded
-		std::unordered_map<std::string, std::unique_ptr<Entity>> cached_prefabs_;
+		std::unordered_map<std::string, uptr<Entity>> cached_prefabs_;
 	};
 }

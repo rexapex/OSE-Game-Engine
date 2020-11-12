@@ -52,7 +52,7 @@ namespace ose::scripting
 	{
 		auto factories = ControlScript::GetSetControlScriptFactory();
 
-		auto add_control = [this, &factories](CustomControl const & control, std::vector<std::unique_ptr<ControlScript>> & array) {
+		auto add_control = [this, &factories](CustomControl const & control, std::vector<uptr<ControlScript>> & array) {
 			// Attempt to find the control script
 			std::string const & type_name = control.GetControlTypeName();
 			auto iter = std::find_if(controls_.begin(), controls_.end(), [type_name](auto & control) {

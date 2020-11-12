@@ -4,8 +4,8 @@
 
 namespace ose::scripting
 {
-	std::unique_ptr<ScriptingEngine> ScriptingFactoryCPP::NewScriptingEngine()
+	uptr<ScriptingEngine> ScriptingFactoryCPP::NewScriptingEngine()
 	{
-		return std::make_unique<ScriptingEngineCPP>();
+		return ose::make_unique<ScriptingEngineCPP>();
 	}
 }

@@ -9,7 +9,7 @@ namespace ose::shader
 	class ShaderProgGLSL final : public ShaderProg
 	{
 	public:
-		ShaderProgGLSL(std::unique_ptr<ShaderGraph> shader_graph);
+		ShaderProgGLSL(uptr<ShaderGraph> shader_graph);
 		virtual ~ShaderProgGLSL();
 
 		// Build an OpenGL shader object from a shader graph

@@ -47,7 +47,7 @@ namespace ose
 		//create the threads
 		for(uint32_t t = 1; t <= num_threads; t++)
 		{
-			threads_.emplace_back(std::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
+			threads_.emplace_back(ose::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
 		}
 
 		DEBUG_LOG("created", num_threads, "threads");

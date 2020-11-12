@@ -4,8 +4,8 @@
 
 namespace ose::resources
 {
-	std::unique_ptr<TilemapLoader> TilemapLoaderFactoryTXT::NewTilemapLoader(std::string const & project_path)
+	uptr<TilemapLoader> TilemapLoaderFactoryTXT::NewTilemapLoader(std::string const & project_path)
 	{
-		return std::make_unique<TilemapLoaderTXT>(project_path);
+		return ose::make_unique<TilemapLoaderTXT>(project_path);
 	}
 }

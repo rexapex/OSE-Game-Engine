@@ -16,7 +16,7 @@ namespace ose
 		ComponentList & operator=(ComponentList &&) noexcept = delete;
 
 		// get a list of all components
-		const std::vector<std::unique_ptr<Component>> & GetComponents() const { return this->components_; }
+		const std::vector<uptr<Component>> & GetComponents() const { return this->components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -25,7 +25,7 @@ namespace ose
 		template<class ComponentType, typename... Args>
 		void AddComponent(Args &&... params)
 		{
-			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+			components_.emplace_back( ose::make_unique<ComponentType>(std::forward<Args>(params)...) );
 		}
 
 		// get the first component of specified type
@@ -130,6 +130,6 @@ namespace ose
 		void DeleteAllComponents() noexcept;
 
 		// list of all components attached to this entity, components need not be active
-		std::vector<std::unique_ptr<Component>> components_;
+		std::vector<uptr<Component>> components_;
 	};
 }

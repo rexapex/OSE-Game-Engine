@@ -6,7 +6,7 @@ namespace ose
 	class ShaderProg
 	{
 	public:
-		ShaderProg(std::unique_ptr<ShaderGraph> shader_graph) : shader_graph_(std::move(shader_graph)) {}
+		ShaderProg(uptr<ShaderGraph> shader_graph) : shader_graph_(std::move(shader_graph)) {}
 		virtual ~ShaderProg() {}
 
 		// Build a gpu shader object from a shader graph
@@ -18,7 +18,7 @@ namespace ose
 	protected:
 
 		// The shader graph used to build the shader program (can be nullptr if program is defined by other means than shader graph)
-		std::unique_ptr<ShaderGraph> shader_graph_;
+		uptr<ShaderGraph> shader_graph_;
 	};
 }
 

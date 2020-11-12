@@ -11,7 +11,7 @@
 
 namespace ose::shader
 {
-	ShaderProgGLSL::ShaderProgGLSL(std::unique_ptr<ShaderGraph> shader_graph) : ShaderProg(std::move(shader_graph))
+	ShaderProgGLSL::ShaderProgGLSL(uptr<ShaderGraph> shader_graph) : ShaderProg(std::move(shader_graph))
 	{
 
 	}

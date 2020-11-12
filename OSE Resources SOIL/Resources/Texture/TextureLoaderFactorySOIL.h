@@ -18,6 +18,6 @@ namespace ose::resources
 		TextureLoaderFactorySOIL(TextureLoaderFactorySOIL &&) = default;
 		TextureLoaderFactorySOIL & operator=(TextureLoaderFactorySOIL &&) = default;
 
-		virtual std::unique_ptr<TextureLoader> NewTextureLoader(std::string const & project_path);
+		virtual uptr<TextureLoader> NewTextureLoader(std::string const & project_path);
 	};
 }

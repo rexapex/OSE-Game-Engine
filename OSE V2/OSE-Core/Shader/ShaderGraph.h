@@ -18,7 +18,7 @@ namespace ose
 		template <typename T, typename ...Args>
 		ShaderNode * AddNode(Args &&... params)
 		{
-			nodes_.emplace_back( std::make_unique<T>(std::forward<Args>(params)...) );
+			nodes_.emplace_back( ose::make_unique<T>(std::forward<Args>(params)...) );
 			return nodes_.back().get();
 		}
 
@@ -32,7 +32,7 @@ namespace ose
 		bool Connect(ShaderNode * out_node, std::string const & out_node_output, ShaderNode * in_node, std::string const & in_node_input);
 
 		// Returns a const list of all nodes in the shader graph
-		std::vector<std::unique_ptr<ShaderNode>> const & GetNodes() const { return nodes_; }
+		std::vector<uptr<ShaderNode>> const & GetNodes() const { return nodes_; }
 
 		// Returns a const list of all connectors in the shader graph
 		std::vector<NodeConnector> const & GetConnectors() const { return connectors_; }
@@ -48,7 +48,7 @@ namespace ose
 		std::string name_;
 
 		// List of all nodes in the graph
-		std::vector<std::unique_ptr<ShaderNode>> nodes_;
+		std::vector<uptr<ShaderNode>> nodes_;
 
 		// List of connectors between nodes
 		std::vector<NodeConnector> connectors_;

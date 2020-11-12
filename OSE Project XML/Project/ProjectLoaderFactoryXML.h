@@ -18,6 +18,6 @@ namespace ose::project
 		ProjectLoaderFactoryXML(ProjectLoaderFactoryXML &&) = default;
 		ProjectLoaderFactoryXML & operator=(ProjectLoaderFactoryXML &&) = default;
 
-		virtual std::unique_ptr<ProjectLoader> NewProjectLoader();
+		virtual uptr<ProjectLoader> NewProjectLoader();
 	};
 }

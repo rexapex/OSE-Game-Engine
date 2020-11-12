@@ -29,7 +29,7 @@ namespace ose
 		this->running_ = false;
 
 		///this->render_pool_ = std::move(RenderPoolFactories[0]());
-		///this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
+		///this->thread_manager_ = ose::make_unique<ThreadManager>(*render_pool_);
 		
 		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
 		this->window_manager_->NewWindow(1);
@@ -315,7 +315,7 @@ namespace ose
 	}
 	
 	// Load a custom data file
-	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
+	uptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
 	{
 		return project_loader_->LoadCustomDataFile(path);
 	}

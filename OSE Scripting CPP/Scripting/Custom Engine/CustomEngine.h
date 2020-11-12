@@ -11,7 +11,7 @@ namespace ose
 namespace ose::scripting
 {
 	class CustomEngine;
-	using CustomEngineFactory = std::unique_ptr<CustomEngine>(*)();
+	using CustomEngineFactory = uptr<CustomEngine>(*)();
 
 	class CustomEngine
 	{

@@ -11,12 +11,12 @@ namespace ose
 				double,
 				bool,
 				std::string,
-				std::unique_ptr<CustomObject>,
+				uptr<CustomObject>,
 				std::vector<int64_t>,
 				std::vector<double>,
 				std::vector<bool>,
 				std::vector<std::string>,
-				std::vector<std::unique_ptr<CustomObject>>
+				std::vector<uptr<CustomObject>>
 			>
 		> data_;
 	};

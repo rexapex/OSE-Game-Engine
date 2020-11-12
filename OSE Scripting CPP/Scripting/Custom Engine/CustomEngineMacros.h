@@ -61,8 +61,8 @@ namespace ose
 	public: \
 		code \
 	};\
-	std::unique_ptr<ose::scripting::CustomEngine> XCAT(New, XCAT(NAME, Engine))() { \
-		return std::make_unique<XCAT(NAME, Engine)>(); \
+	uptr<ose::scripting::CustomEngine> XCAT(New, XCAT(NAME, Engine))() { \
+		return ose::make_unique<XCAT(NAME, Engine)>(); \
 	} \
 	auto XCAT(NAME, AddFactoryToMap) = [] { \
 		CustomEngine::GetSetCustomEngineFactory(STR(New) STR(NAME) STR(Engine), XCAT(New, XCAT(NAME, Engine))); \

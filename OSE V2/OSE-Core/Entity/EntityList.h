@@ -7,7 +7,7 @@ namespace ose
 	class Entity;
 	typedef uint32_t EntityID;
 
-	class EntityList : public Transformable<std::unique_ptr<Entity>>
+	class EntityList : public Transformable<uptr<Entity>>
 	{
 	public:
 		EntityList(EntityList * parent);
@@ -27,7 +27,7 @@ namespace ose
 		{
 			// construct a new entity object
 			try {
-				entities_.push_back(std::make_unique<Entity>(this, std::forward<Args>(params)...));
+				entities_.push_back(ose::make_unique<Entity>(this, std::forward<Args>(params)...));
 				return entities_.back().get();
 			} catch(...) {
 				return nullptr;
@@ -57,7 +57,7 @@ namespace ose
 		bool MoveEntity(Entity const & entity, EntityList & to);
 
 		// Get the list of entities
-		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
+		const std::vector<uptr<Entity>> & GetEntities() const { return this->entities_; }
 
 		// Find all the entities in this entity list and sub lists with the given name
 		// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
@@ -69,13 +69,13 @@ namespace ose
 	protected:
 		// Get a list of transformable elements
 		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() const override { return entities_; }
+		virtual const std::vector<uptr<Entity>> & GetChildTransformables() const override { return entities_; }
 
 		// Get a pointer to the parent transformable element
 		virtual Transformable * GetParentTransformable() const override { return parent_; }
 
 	protected:
-		std::vector<std::unique_ptr<Entity>> entities_;
+		std::vector<uptr<Entity>> entities_;
 		EntityList * parent_ { nullptr };
 	};
 }
