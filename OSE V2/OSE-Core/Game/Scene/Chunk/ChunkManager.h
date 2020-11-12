@@ -36,6 +36,9 @@ namespace ose
 		// Apply the settings to the chunk manager
 		void ApplyChunkManagerSettings(ChunkManagerSettings settings) { settings_ = settings; }
 
+		// Find all the entities within loaded chunks with the given name
+		std::vector<Entity *> FindLoadedChunkEntitiesWithName(std::string_view name);
+
 	protected:
 		virtual void OnChunkActivated(Chunk & chunk) = 0;
 		virtual void OnChunkDeactivated(Chunk & chunk) = 0;

@@ -67,4 +67,15 @@ namespace ose
 			}
 		}
 	}
+	
+	std::vector<Entity *> ChunkManager::FindLoadedChunkEntitiesWithName(std::string_view name)
+	{
+		std::vector<Entity *> vec;
+		for(auto & chunk : loaded_chunks_)
+		{
+			std::vector<Entity *> v { chunk->FindDescendentEntitiesWithName(name) };
+			std::copy(v.begin(), v.end(), vec.end());
+		}
+		return vec;
+	}
 }

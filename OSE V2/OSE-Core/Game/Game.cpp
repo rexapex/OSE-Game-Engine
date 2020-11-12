@@ -305,7 +305,9 @@ namespace ose
 		if(active_scene_)
 		{
 			std::vector<Entity *> scene_entities { active_scene_->FindDescendentEntitiesWithName(name) };
-			std::copy(scene_entities.begin(), scene_entities.end(), vec.begin());
+			std::copy(scene_entities.begin(), scene_entities.end(), vec.end());
+			std::vector<Entity *> chunk_entities { active_scene_->FindLoadedChunkEntitiesWithName(name) };
+			std::copy(chunk_entities.begin(), chunk_entities.end(), vec.end());
 		}
 		return vec;
 	}
