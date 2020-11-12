@@ -296,6 +296,19 @@ namespace ose
 				OnEntityDeactivated(*sub_entity);
 		}
 	}
+
+	// Find all the entities with the given name
+	// Includes persistent entities, scene entities, and loaded chunk entities
+	std::vector<Entity *> Game::FindAllEntitiesWithName(std::string_view name)
+	{
+		std::vector<Entity *> vec { FindDescendentEntitiesWithName(name) };
+		if(active_scene_)
+		{
+			std::vector<Entity *> scene_entities { active_scene_->FindDescendentEntitiesWithName(name) };
+			std::copy(scene_entities.begin(), scene_entities.end(), vec.begin());
+		}
+		return vec;
+	}
 	
 	// Load a custom data file
 	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)

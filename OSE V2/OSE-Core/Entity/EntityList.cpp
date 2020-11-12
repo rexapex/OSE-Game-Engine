@@ -116,4 +116,20 @@ namespace ose
 		to.entities_.push_back(std::move(up));		
 		return true;
 	}
+
+	// Find all the entities in this entity list and sub lists with the given name
+	// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
+	std::vector<Entity *> EntityList::FindDescendentEntitiesWithName(std::string_view name)
+	{
+		std::vector<Entity *> vec;
+		std::function<void(EntityList *)> parse_entity = [this, &parse_entity, &vec](EntityList * entity) {
+			for(auto const & e : entities_)
+			{
+				vec.push_back(e.get());
+				parse_entity(e.get());
+			}
+		};
+		parse_entity(this);
+		return vec;
+	}
 }

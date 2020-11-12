@@ -56,8 +56,12 @@ namespace ose
 		// Returns false if the entity does not exist in this list
 		bool MoveEntity(Entity const & entity, EntityList & to);
 
-		// get a list of entities
+		// Get the list of entities
 		const std::vector<std::unique_ptr<Entity>> & GetEntities() const { return this->entities_; }
+
+		// Find all the entities in this entity list and sub lists with the given name
+		// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
+		std::vector<Entity *> FindDescendentEntitiesWithName(std::string_view name);
 
 	protected:
 		// Get a list of transformable elements

@@ -56,6 +56,10 @@ namespace ose
 		// Should NEVER be called directly by a script, disable chunk instead
 		virtual void OnChunkDeactivated(Chunk & chunk) override;
 
+		// Find all the entities with the given name
+		// Includes persistent entities, scene entities, and loaded chunk entities
+		std::vector<Entity *> FindAllEntitiesWithName(std::string_view name);
+
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera
 		// If the user destroys the active camera, the active camera must be set to nullptr (or a valid camera) to prevent errors
