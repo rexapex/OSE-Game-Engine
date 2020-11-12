@@ -4,8 +4,8 @@
 
 namespace ose::project
 {
-	std::unique_ptr<ProjectLoader> ProjectLoaderFactoryXML::NewProjectLoader()
+	uptr<ProjectLoader> ProjectLoaderFactoryXML::NewProjectLoader()
 	{
-		return std::make_unique<ProjectLoaderXML>();
+		return ose::make_unique<ProjectLoaderXML>();
 	}
 }

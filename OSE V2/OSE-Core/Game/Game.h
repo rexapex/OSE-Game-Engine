@@ -63,16 +63,16 @@ namespace ose
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera
 		// If the user destroys the active camera, the active camera must be set to nullptr (or a valid camera) to prevent errors
-		void SetActiveCamera(unowned_ptr<Camera> c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
+		void SetActiveCamera(Camera * c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
 
 		// Get the active camera
-		unowned_ptr<Camera> GetActiveCamera() const { return active_camera_; }
+		Camera * GetActiveCamera() const { return active_camera_; }
 
 		// Get the time object
 		Time const & GetTime() { return time_; }
 
 		// Load a custom data file
-		std::unique_ptr<CustomObject> LoadCustomDataFile(std::string const & path);
+		uptr<CustomObject> LoadCustomDataFile(std::string const & path);
 
 		// Save a custom data file
 		void SaveCustomDataFile(std::string const & path, CustomObject const & object);
@@ -97,22 +97,22 @@ namespace ose
 
 	private:
 		// Window manager handles window creation, events and input
-		std::unique_ptr<WindowManager> window_manager_;
+		uptr<WindowManager> window_manager_;
 
 		// Thread manager handles multithreading and updating of engines
-		///std::unique_ptr<ThreadManager> thread_manager_;
+		///uptr<ThreadManager> thread_manager_;
 
 		// Rendering engine handles all rendering of entity render objects
-		std::unique_ptr<RenderingEngine> rendering_engine_;
+		uptr<RenderingEngine> rendering_engine_;
 
 		// Scripting engine handles execution of game developer created scripts
-		std::unique_ptr<ScriptingEngine> scripting_engine_;
+		uptr<ScriptingEngine> scripting_engine_;
 
 		// TODO - current iteration of render pool
-		///std::unique_ptr<RenderPool> render_pool_;
+		///uptr<RenderPool> render_pool_;
 
 		// The active camera (rendering is done relative to the active camera transform)
-		unowned_ptr<Camera> active_camera_ { nullptr };
+		Camera * active_camera_ { nullptr };
 
 		// The default camera
 		Camera default_camera_;

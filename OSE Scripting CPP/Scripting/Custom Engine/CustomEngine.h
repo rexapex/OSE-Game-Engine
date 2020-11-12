@@ -11,7 +11,7 @@ namespace ose
 namespace ose::scripting
 {
 	class CustomEngine;
-	using CustomEngineFactory = std::unique_ptr<CustomEngine>(*)();
+	using CustomEngineFactory = uptr<CustomEngine>(*)();
 
 	class CustomEngine
 	{
@@ -22,10 +22,10 @@ namespace ose::scripting
 		virtual ~CustomEngine();
 
 		virtual std::string GetComponentTypeName() const = 0;
-		virtual void AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp) = 0;
-		virtual void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) = 0;
+		virtual void AddCustomComponent(Entity * entity, CustomComponent * comp) = 0;
+		virtual void RemoveCustomComponent(CustomComponent * comp) = 0;
 
-		virtual void Init(unowned_ptr<Game> game) {}
+		virtual void Init(Game * game) {}
 		virtual void Update() {}
 
 		// If name and factory are given, links the engine name to the engine factory

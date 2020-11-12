@@ -18,6 +18,6 @@ namespace ose::resources
 		TilemapLoaderFactoryTXT(TilemapLoaderFactoryTXT &&) = default;
 		TilemapLoaderFactoryTXT & operator=(TilemapLoaderFactoryTXT &&) = default;
 
-		virtual std::unique_ptr<TilemapLoader> NewTilemapLoader(std::string const & project_path);
+		virtual uptr<TilemapLoader> NewTilemapLoader(std::string const & project_path);
 	};
 }

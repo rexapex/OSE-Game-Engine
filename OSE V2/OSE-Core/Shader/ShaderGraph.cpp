@@ -17,7 +17,7 @@ namespace ose
 
 	// Remove a shader node from the shader
 	// Returns true iff the node exists and is removed successfully
-	bool ShaderGraph::RemoveNode(unowned_ptr<ShaderNode> node)
+	bool ShaderGraph::RemoveNode(ShaderNode * node)
 	{
 		// No node can be removed if there are no nodes therefore return false
 		// Nullptr cannot be in list of nodes_ therefore exit if node == nullptr
@@ -48,7 +48,7 @@ namespace ose
 
 	// Connect the 2 nodes passed together
 	// Returns true iff the nodes were connected
-	bool ShaderGraph::Connect(unowned_ptr<ShaderNode> out_node, std::string const & out_node_output, unowned_ptr<ShaderNode> in_node, std::string const & in_node_input)
+	bool ShaderGraph::Connect(ShaderNode * out_node, std::string const & out_node_output, ShaderNode * in_node, std::string const & in_node_input)
 	{
 		// If either node is nullptr, return early
 		if(out_node == nullptr || in_node == nullptr) {
@@ -74,12 +74,12 @@ namespace ose
 	}
 
 	// Get a list of all nodes which connect to into node n
-	std::vector<unowned_ptr<NodeConnector>> const ShaderGraph::GetIncomingConnectors(unowned_ptr<ShaderNode> n)
+	std::vector<NodeConnector *> const ShaderGraph::GetIncomingConnectors(ShaderNode * n)
 	{
-		std::vector<unowned_ptr<NodeConnector>> incoming_connectors;
+		std::vector<NodeConnector *> incoming_connectors;
 		for(auto & c : connectors_)
 		{
-			unowned_ptr<ShaderNode> in_node;
+			ShaderNode * in_node;
 			std::string in_name;
 			c.GetInput(&in_node, in_name);
 			// If the input node is n, add c to the list

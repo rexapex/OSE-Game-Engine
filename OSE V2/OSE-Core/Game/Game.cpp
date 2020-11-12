@@ -29,7 +29,7 @@ namespace ose
 		this->running_ = false;
 
 		///this->render_pool_ = std::move(RenderPoolFactories[0]());
-		///this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
+		///this->thread_manager_ = ose::make_unique<ThreadManager>(*render_pool_);
 		
 		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
 		this->window_manager_->NewWindow(1);
@@ -161,7 +161,7 @@ namespace ose
 	{
 		DEBUG_LOG("Activating Entity", entity.GetName());
 
-		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -171,7 +171,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -181,7 +181,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -191,7 +191,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddMeshRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+		for(PointLight * comp : entity.GetComponents<PointLight>())
 		{
 			// initialise the component
 			comp->Init();
@@ -201,7 +201,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddPointLight(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<DirLight> comp : entity.GetComponents<DirLight>())
+		for(DirLight * comp : entity.GetComponents<DirLight>())
 		{
 			// initialise the component
 			comp->Init();
@@ -211,7 +211,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddDirLight(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(CustomComponent * comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
 			comp->Init();
@@ -238,23 +238,23 @@ namespace ose
 		DEBUG_LOG("De-activating Entity", entity.GetName());
 
 		// Remove sprite renderer components from the render pool
-		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
 			rendering_engine_->GetRenderPool().RemoveSpriteRenderer(comp);
 
 		// Remove tile renderer components from the render pool
-		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
 			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
 
 		// Remove mesh renderer components from the render pool
-		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
 			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
 
 		// Remove point light components from the render pool
-		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+		for(PointLight * comp : entity.GetComponents<PointLight>())
 			rendering_engine_->GetRenderPool().RemovePointLight(comp);
 
 		// Remove custom components from the script pool
-		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(CustomComponent * comp : entity.GetComponents<CustomComponent>())
 			scripting_engine_->GetScriptPool().RemoveCustomComponent(comp);
 
 		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
@@ -315,7 +315,7 @@ namespace ose
 	}
 	
 	// Load a custom data file
-	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
+	uptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
 	{
 		return project_loader_->LoadCustomDataFile(path);
 	}

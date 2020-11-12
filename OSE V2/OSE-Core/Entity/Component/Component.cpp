@@ -10,10 +10,10 @@ namespace ose
 	Component::Component(const Component & other) noexcept : name_(other.name_), enabled_(other.enabled_) {}
 	
 	// clone method which can be overwritten by base classes
-	std::unique_ptr<Component> Component::Clone() const
+	uptr<Component> Component::Clone() const
 	{
 		return nullptr;
-		///return std::make_unique<Component>(*this);
+		///return ose::make_unique<Component>(*this);
 	}
 
 	// disable the component (i.e. remove it from corresponding engine data pool

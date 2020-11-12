@@ -17,15 +17,15 @@ namespace ose::resources
 
 		// Loads the mesh and sets the data in mesh*
 		// Path is absolute and is guaranteed to exist
-		void LoadMesh(std::string const & path, unowned_ptr<Mesh> mesh);
+		void LoadMesh(std::string const & path, Mesh * mesh);
 
 		// Free the resources used by the mesh object
-		void FreeMesh(unowned_ptr<Mesh> mesh);
+		void FreeMesh(Mesh * mesh);
 
 	private:
 		std::string project_path_;
 
 		// Process an ASSIMP scene
-		void ProcessScene(aiScene const * scene, unowned_ptr<Mesh> mesh);
+		void ProcessScene(aiScene const * scene, Mesh * mesh);
 	};
 }

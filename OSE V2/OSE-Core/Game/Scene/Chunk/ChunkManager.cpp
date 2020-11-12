@@ -25,9 +25,9 @@ namespace ose
 		loaded_chunks_.clear();
 		unloaded_chunks_.clear();
 		for(auto const & c : other.loaded_chunks_)
-			loaded_chunks_.push_back(std::make_unique<Chunk>(*c));
+			loaded_chunks_.push_back(ose::make_unique<Chunk>(*c));
 		for(auto const & c : other.unloaded_chunks_)
-			unloaded_chunks_.push_back(std::make_unique<Chunk>(*c));
+			unloaded_chunks_.push_back(ose::make_unique<Chunk>(*c));
 	}
 	
 	// Determine whether chunks should be loaded/unloaded
@@ -37,7 +37,7 @@ namespace ose
 		{
 			for(auto & iter = unloaded_chunks_.begin(); iter != unloaded_chunks_.end();)
 			{
-				std::unique_ptr<Chunk> & chunk = *iter;
+				uptr<Chunk> & chunk = *iter;
 				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), agent_->GetGlobalTransform().GetTranslation()) <= std::pow(settings_.load_distance_, 2))
 				{
 					chunk->Load();
@@ -53,7 +53,7 @@ namespace ose
 
 			for(auto & iter = loaded_chunks_.begin(); iter != loaded_chunks_.end();)
 			{
-				std::unique_ptr<Chunk> & chunk = *iter;
+				uptr<Chunk> & chunk = *iter;
 				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), agent_->GetGlobalTransform().GetTranslation()) >= std::pow(settings_.unload_distance_, 2))
 				{
 					OnChunkDeactivated(*chunk);

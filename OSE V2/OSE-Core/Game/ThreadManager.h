@@ -26,7 +26,7 @@ namespace ose
 		uint32_t tasks_in_progress_;
 
 		//array of threads which will carry out expensive processing
-		std::vector<std::unique_ptr<GameThread>> threads_;
+		std::vector<uptr<GameThread>> threads_;
 
 		//for testing purposes let tasks by strings to print
 		std::vector<std::string> tasks_;

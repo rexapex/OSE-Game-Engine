@@ -18,6 +18,6 @@ namespace ose::windowing
 		WindowingFactoryGLFW(WindowingFactoryGLFW &&) = default;
 		WindowingFactoryGLFW & operator=(WindowingFactoryGLFW &&) = default;
 
-		virtual std::unique_ptr<WindowManager> NewWindowManager();
+		virtual uptr<WindowManager> NewWindowManager();
 	};
 }

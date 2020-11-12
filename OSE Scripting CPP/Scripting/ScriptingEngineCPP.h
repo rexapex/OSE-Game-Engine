@@ -11,13 +11,13 @@ namespace ose::scripting
 		~ScriptingEngineCPP();
 
 		// Initialise all of the custom engines in the script pool
-		void InitCustomEngines(unowned_ptr<Game> game) override;
+		void InitCustomEngines(Game * game) override;
 
 		// Initialise all of the persistent controls in the script pool
-		void InitPersistentControls(unowned_ptr<Game> game) override;
+		void InitPersistentControls(Game * game) override;
 
 		// Initialise all of the non-persistent (scene) controls in the script pool
-		void InitSceneControls(unowned_ptr<Game> game) override;
+		void InitSceneControls(Game * game) override;
 
 		// Update all of the custom engines and controls in the script pool
 		void Update() override;

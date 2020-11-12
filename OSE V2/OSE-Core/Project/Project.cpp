@@ -12,8 +12,8 @@ namespace ose
 		scene_names_to_path_(scene_names_to_path),
 		input_settings_(input_settings), control_settings_(control_settings)
 	{
-		this->resource_manager_ = std::make_unique<ResourceManager>(project_path);
-		this->prefab_manager_ = std::make_unique<PrefabManager>();
+		this->resource_manager_ = ose::make_unique<ResourceManager>(project_path);
+		this->prefab_manager_ = ose::make_unique<PrefabManager>();
 	}
 
 

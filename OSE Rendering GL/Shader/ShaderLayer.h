@@ -6,6 +6,6 @@ namespace ose::shader
 	struct ShaderLayer
 	{
 		int type_ { ST_UNKNOWN };
-		std::vector<unowned_ptr<ShaderNode>> nodes_;
+		std::vector<ShaderNode *> nodes_;
 	};
 }

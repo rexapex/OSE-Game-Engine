@@ -17,7 +17,7 @@ namespace ose
 		this->entities_.clear();
 		for(const auto & e : other.entities_)
 		{
-			this->entities_.push_back(std::make_unique<Entity>(this, *e));
+			this->entities_.push_back(ose::make_unique<Entity>(this, *e));
 		}
 		ResetGlobalTransform();
 	}
@@ -26,11 +26,11 @@ namespace ose
 	// New entity is a deep copy of the entity passed
 	// Method constructs a new object
 	// Returns a reference to the newly created entity
-	unowned_ptr<Entity> EntityList::AddEntity(const Entity & other)
+	Entity * EntityList::AddEntity(const Entity & other)
 	{
 		// construct a new entity object
 		try {
-			entities_.push_back(std::make_unique<Entity>(this, other));
+			entities_.push_back(ose::make_unique<Entity>(this, other));
 			return entities_.back().get();
 		} catch(...) {
 			return nullptr;
@@ -108,7 +108,7 @@ namespace ose
 			return false;
 
 		// Swap the entity pointer into a local variable then erase the entity from this entity list
-		std::unique_ptr<Entity> up;
+		uptr<Entity> up;
 		std::swap(*iter, up);
 		entities_.erase(iter);
 

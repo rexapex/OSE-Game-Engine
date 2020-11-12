@@ -14,6 +14,6 @@ namespace ose
 		TextureLoaderFactory(TextureLoaderFactory &&) = default;
 		TextureLoaderFactory & operator=(TextureLoaderFactory &&) = default;
 
-		virtual std::unique_ptr<TextureLoader> NewTextureLoader(std::string const & project_path) = 0;
+		virtual uptr<TextureLoader> NewTextureLoader(std::string const & project_path) = 0;
 	};
 }

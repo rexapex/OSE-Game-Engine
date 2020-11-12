@@ -15,18 +15,18 @@ namespace ose
 	
 		// A sprite renderer is composed of a 2D texture
 		// NOTE - this pointer is owned and managed by the resource manager
-		unowned_ptr<Texture const> texture_;
+		Texture const * texture_;
 
 	public:
 
 		// Set the texture displayed by the sprite renderer
-		void SetTexture(unowned_ptr<Texture const> texture) { texture_ = texture; }
+		void SetTexture(Texture const * texture) { texture_ = texture; }
 
 		// Get the texture displayed by the sprite renderer
-		unowned_ptr<Texture const> GetTexture() const { return texture_; }
+		Texture const * GetTexture() const { return texture_; }
 
 		// Initialise the sprite renderer
-		SpriteRenderer(std::string const & name, unowned_ptr<Texture const> t) : Component(name), texture_(t) {}
+		SpriteRenderer(std::string const & name, Texture const * t) : Component(name), texture_(t) {}
 
 		// Does nothing
 		virtual ~SpriteRenderer() noexcept {}

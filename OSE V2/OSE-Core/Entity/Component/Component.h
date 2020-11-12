@@ -22,9 +22,9 @@ public:                                                                         
 		return ParentClass::IsClassType(classType);											\
 	}																						\
 																							\
-	virtual std::unique_ptr<Component> Clone() const override								\
+	virtual uptr<Component> Clone() const override											\
 	{																						\
-		return std::make_unique<ClassName>(*this);											\
+		return ose::make_unique<ClassName>(*this);											\
 	}																						\
 private:/*																					\
 	/* Private delete means cannot be deleted other than by friend classes /				\
@@ -65,7 +65,7 @@ namespace ose
 		}
 
 		// clone method which can be overwritten by base classes
-		virtual std::unique_ptr<Component> Clone() const;
+		virtual uptr<Component> Clone() const;
 
 		// initialise the component, should only be called from the main thread
 		virtual void Init() {}

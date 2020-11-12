@@ -14,14 +14,14 @@ namespace ose::scripting
 	}
 
 	// Initialise all of the custom engines  in the script pool
-	void ScriptingEngineCPP::InitCustomEngines(unowned_ptr<Game> game)
+	void ScriptingEngineCPP::InitCustomEngines(Game * game)
 	{
 		for(auto & engine : script_pool_.GetCustomEngines())
 			engine->Init(game);
 	}
 
 	// Initialise all of the persistent controls in the script pool
-	void ScriptingEngineCPP::InitPersistentControls(unowned_ptr<Game> game)
+	void ScriptingEngineCPP::InitPersistentControls(Game * game)
 	{
 		for(auto & control : script_pool_.GetPersistentControls())
 			control->Init(game);
@@ -30,7 +30,7 @@ namespace ose::scripting
 	}
 
 	// Initialise all of the non-persistent (scene) controls in the script pool
-	void ScriptingEngineCPP::InitSceneControls(unowned_ptr<Game> game)
+	void ScriptingEngineCPP::InitSceneControls(Game * game)
 	{
 		for(auto & control : script_pool_.GetControls())
 			control->Init(game);

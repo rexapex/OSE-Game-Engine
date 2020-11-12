@@ -49,7 +49,7 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<rapidxml::xml_document<>> ProjectLoaderXML::LoadXmlFile(const std::string & path, std::string & contents)
+	uptr<rapidxml::xml_document<>> ProjectLoaderXML::LoadXmlFile(const std::string & path, std::string & contents)
 	{
 		//load the xml string
 		try
@@ -64,7 +64,7 @@ namespace ose::project
 		}
 
 		//load the xml dom tree
-		std::unique_ptr<xml_document<>> doc = std::make_unique<xml_document<>>();
+		uptr<xml_document<>> doc = ose::make_unique<xml_document<>>();
 		char * c_str = const_cast<char *>(contents.c_str());
 		doc->parse<0>(c_str);
 
@@ -72,21 +72,21 @@ namespace ose::project
 	}
 	
 
-	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
+	uptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
 	{
 		LOG("Loading Project Directory:", project_path, "\n");
 
 		//first, load the manifest
-		std::unique_ptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
+		uptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
 
 		// Then, load the project settings
 		ProjectSettings project_settings = LoadProjectSettings(project_path);
 
 		//then, load the scene declerations
-		std::unique_ptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
+		uptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
 
 		//then, load the tag definitions
-		std::unique_ptr<Tag> root_tag = LoadTagDefinitions(project_path);
+		uptr<Tag> root_tag = LoadTagDefinitions(project_path);
 
 		// Then, load the default input manager
 		InputSettings input_settings = LoadInputSettings(project_path);
@@ -95,15 +95,15 @@ namespace ose::project
 		ControlSettings control_settings = LoadPersistentControls(project_path);
 
 		//finally, construct a new project instance
-		std::unique_ptr<Project> proj = std::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings);
+		uptr<Project> proj = ose::make_unique<Project>(project_path, *manifest, project_settings, *scene_declerations, input_settings, control_settings);
 
 		return proj;
 	}
 
 
-	std::unique_ptr<ProjectInfo> ProjectLoaderXML::LoadProjectManifest(const std::string & project_path)
+	uptr<ProjectInfo> ProjectLoaderXML::LoadProjectManifest(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
@@ -113,7 +113,7 @@ namespace ose::project
 		catch(const std::exception & e)
 		{
 			LOG_ERROR(e.what());
-			return std::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
+			return ose::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
 		}
 
 		DEBUG_LOG("**********  Project Manifest  **********");
@@ -143,15 +143,15 @@ namespace ose::project
 		DEBUG_LOG("");
 
 		//construct and return a new ProjectInfo instance
-		return std::make_unique<ProjectInfo>(std::move(ProjectInfo {name, engine_version, game_version, date_created, date_modified}));
+		return ose::make_unique<ProjectInfo>(std::move(ProjectInfo {name, engine_version, game_version, date_created, date_modified}));
 	}
 
 
 
-	std::unique_ptr<std::map<std::string, std::string>> ProjectLoaderXML::LoadSceneDeclerations(const std::string & project_path)
+	uptr<std::map<std::string, std::string>> ProjectLoaderXML::LoadSceneDeclerations(const std::string & project_path)
 	{
-		std::unique_ptr<std::map<std::string, std::string>> name_to_path_map = std::make_unique<std::map<std::string, std::string>>();
-		std::unique_ptr<xml_document<>> doc;
+		uptr<std::map<std::string, std::string>> name_to_path_map = ose::make_unique<std::map<std::string, std::string>>();
+		uptr<xml_document<>> doc;
 		std::string contents;
 		
 		try
@@ -186,9 +186,9 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Tag> ProjectLoaderXML::LoadTagDefinitions(const std::string & project_path)
+	uptr<Tag> ProjectLoaderXML::LoadTagDefinitions(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
@@ -207,7 +207,7 @@ namespace ose::project
 		auto root_tag_name_attrib = (root_tag_node ? root_tag_node->first_attribute("name") : nullptr);
 
 		//every tag hierarchy should be contained in a root_tag with name ""
-		std::unique_ptr<Tag> root_tag = std::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
+		uptr<Tag> root_tag = ose::make_unique<Tag>(root_tag_name_attrib ? root_tag_name_attrib->value() : "");
 
 		for(auto tag_node = doc->first_node("tag"); tag_node; tag_node = tag_node->next_sibling("tag"))
 		{
@@ -242,7 +242,7 @@ namespace ose::project
 
 	ProjectSettings ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string settings_path { project_path + "/settings.xml" };
 		ProjectSettings settings;
@@ -315,7 +315,7 @@ namespace ose::project
 
 	InputSettings ProjectLoaderXML::LoadInputSettings(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string input_path { project_path + "/input.xml" };
 		InputSettings settings;
@@ -414,7 +414,7 @@ namespace ose::project
 	// Loads the control scripts which persist through all scenes
 	ControlSettings ProjectLoaderXML::LoadPersistentControls(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string controls_path { project_path + "/controls.xml" };
 		InputSettings settings;
@@ -434,9 +434,9 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Scene> ProjectLoaderXML::LoadScene(const Project & project, const std::string & scene_name)
+	uptr<Scene> ProjectLoaderXML::LoadScene(const Project & project, const std::string & scene_name)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string scene_path;
 
@@ -469,7 +469,7 @@ namespace ose::project
 		ControlSettings control_settings = ParseControls(controls_node);
 
 		// Create the new scene object
-		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
+		uptr<Scene> scene = ose::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
 
 		// Map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
@@ -540,7 +540,7 @@ namespace ose::project
 
 	void ProjectLoaderXML::LoadChunk(Chunk & chunk, Project const & project)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string path = project.GetProjectPath() + "/Chunks/" + chunk.GetName() + ".xml";
 
@@ -579,9 +579,9 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Entity> ProjectLoaderXML::LoadEntityPrefab(const std::string & prefab_path, const Project & project)
+	uptr<Entity> ProjectLoaderXML::LoadEntityPrefab(const std::string & prefab_path, const Project & project)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
@@ -617,7 +617,7 @@ namespace ose::project
 	// Parse the XML of an entity
 	// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
 	// If parent == nullptr, the new entity is returned
-	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
+	uptr<Entity> ProjectLoaderXML::ParseEntity(EntityList * parent, rapidxml::xml_node<> * entity_node,
 			std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
 		auto name_attrib = entity_node->first_attribute("name");
@@ -634,8 +634,8 @@ namespace ose::project
 		const std::string & prefab = prefab_text_alias_pos == aliases.end() ? prefab_text : prefab_text_alias_pos->second;
 
 		// Pointer to the newly created entity (not yet created)
-		unowned_ptr<Entity> new_entity = nullptr;
-		std::unique_ptr<Entity> new_entity_ret = nullptr;
+		Entity * new_entity = nullptr;
+		uptr<Entity> new_entity_ret = nullptr;
 
 		if(prefab == "")
 		{
@@ -643,7 +643,7 @@ namespace ose::project
 			if(parent)
 				new_entity = parent->AddEntity(name, tag, prefab);
 			else
-				new_entity_ret = std::make_unique<Entity>(nullptr, name, tag, prefab), new_entity = new_entity_ret.get();
+				new_entity_ret = ose::make_unique<Entity>(nullptr, name, tag, prefab), new_entity = new_entity_ret.get();
 		}
 		else
 		{
@@ -656,7 +656,7 @@ namespace ose::project
 				if(parent)
 					new_entity = parent->AddEntity(prefab_object);
 				else
-					new_entity_ret = std::make_unique<Entity>(nullptr, prefab_object), new_entity = new_entity_ret.get();
+					new_entity_ret = ose::make_unique<Entity>(nullptr, prefab_object), new_entity = new_entity_ret.get();
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {
@@ -1078,9 +1078,9 @@ namespace ose::project
 	
 
 	// Load a custom data file into a custom object
-	std::unique_ptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(const std::string & path)
+	uptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(const std::string & path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
@@ -1109,12 +1109,12 @@ namespace ose::project
 	}
 	
 	// Parse a custom object node
-	std::unique_ptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	uptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
 	{
 		if(obj_node == nullptr)
 			return nullptr;
 
-		auto obj = std::make_unique<CustomObject>();
+		auto obj = ose::make_unique<CustomObject>();
 
 		// Get the key and value pair from an xml node
 		auto get_keyval_pair = [](CustomObject & parent, rapidxml::xml_node<> * node, std::string const & default_value) -> std::pair<std::string, std::string> {
@@ -1267,7 +1267,7 @@ namespace ose::project
 		for(auto objects_node { obj_node->first_node("objects") }; objects_node; objects_node = objects_node->next_sibling("objects"))
 		{
 			auto pair { get_keyval_pair(*obj, objects_node, "") };
-			std::vector<std::unique_ptr<CustomObject>> value;
+			std::vector<uptr<CustomObject>> value;
 			for(auto child_object_node { objects_node->first_node("object") }; child_object_node; child_object_node = child_object_node->next_sibling("object"))
 			{
 				auto obj = ParseCustomObject(child_object_node);
@@ -1282,7 +1282,7 @@ namespace ose::project
 
 	void ProjectLoaderXML::SaveCustomDataFile(const std::string & path, CustomObject const & object)
 	{
-		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
+		uptr<xml_document<>> doc { ose::make_unique<xml_document<>>() };
 		SaveCustomDataObject(*doc, object);
 		std::stringstream ss;
 		ss << *doc;
@@ -1328,7 +1328,7 @@ namespace ose::project
 				{
 					return std::make_pair("string", arg);
 				}
-				else if constexpr(std::is_same_v<T, std::unique_ptr<CustomObject>>)
+				else if constexpr(std::is_same_v<T, uptr<CustomObject>>)
 				{
 					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
 				}
@@ -1379,7 +1379,7 @@ namespace ose::project
 					}
 					obj_node->append_node(node);
 				}
-				else if constexpr(std::is_same_v<T, std::vector<std::unique_ptr<CustomObject>>>)
+				else if constexpr(std::is_same_v<T, std::vector<uptr<CustomObject>>>)
 				{
 					char * node_name = doc.allocate_string(pair.first.c_str());
 					auto node = doc.allocate_node(node_element, "objects");

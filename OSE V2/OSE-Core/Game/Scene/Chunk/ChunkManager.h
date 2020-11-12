@@ -21,11 +21,11 @@ namespace ose
 		// Method takes chunk constructor arguments
 		// Returns a reference to the newly created chunk
 		template<typename... Args>
-		unowned_ptr<Chunk> AddChunk(Args &&... params)
+		Chunk * AddChunk(Args &&... params)
 		{
 			// Construct a new chunk object
 			try {
-				return unloaded_chunks_.emplace_back( std::make_unique<Chunk>(std::forward<Args>(params)...) ).get();
+				return unloaded_chunks_.emplace_back( ose::make_unique<Chunk>(std::forward<Args>(params)...) ).get();
 			} catch(...) {
 				return nullptr;
 			}
@@ -52,8 +52,8 @@ namespace ose
 
 	private:
 		// Chunks split into 2 lists, loaded and unloaded
-		std::vector<std::unique_ptr<Chunk>> loaded_chunks_;
-		std::vector<std::unique_ptr<Chunk>> unloaded_chunks_;
+		std::vector<uptr<Chunk>> loaded_chunks_;
+		std::vector<uptr<Chunk>> unloaded_chunks_;
 
 		// Settings determine when chunks are loaded/unloaded
 		ChunkManagerSettings settings_;

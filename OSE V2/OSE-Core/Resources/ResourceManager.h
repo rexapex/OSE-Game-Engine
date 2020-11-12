@@ -42,7 +42,7 @@ namespace ose
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		unowned_ptr<Texture const> GetTexture(const std::string name);
+		Texture const * GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
@@ -53,7 +53,7 @@ namespace ose
 		// create the GPU memory for an already loaded (added) texture
 		// returns an iterator to the next texture in the textures_without_GPU_memory map
 		// IMPORANT - can only be called from the thread which contains the render context
-		std::map<std::string, std::unique_ptr<Texture>>::const_iterator CreateTexture(const std::string & tex_name);
+		std::map<std::string, uptr<Texture>>::const_iterator CreateTexture(const std::string & tex_name);
 
 		// remove the texture from the textures list and free the texture's resources
 		// IMPORANT - can be called from any thread (TODO)
@@ -72,7 +72,7 @@ namespace ose
 
 		// Get the tilemap from the resources manager
 		// Given the name of the tilemap, return the tilemap object
-		unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
+		Tilemap const * GetTilemap(const std::string & name);
 
 		// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -86,7 +86,7 @@ namespace ose
 
 		// Get the mesh from the resource manager
 		// Given the name of the mesh, return the mesh object
-		unowned_ptr<Mesh const> GetMesh(const std::string & name);
+		Mesh const * GetMesh(const std::string & name);
 
 		// Adds the mesh at path to the list of active meshes, the mesh must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -100,7 +100,7 @@ namespace ose
 
 		// Get the material from the resource manager
 		// Given the name of the material, return the material object
-		unowned_ptr<Material const> GetMaterial(const std::string & name);
+		Material const * GetMaterial(const std::string & name);
 
 		// Adds the material at path to the list of active materials, the material must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -114,7 +114,7 @@ namespace ose
 
 		// Get the shader program from the resource manager
 		// Given the name of the shader program, return the shader program object
-		unowned_ptr<ShaderProg const> GetShaderProg(const std::string & name);
+		ShaderProg const * GetShaderProg(const std::string & name);
 
 		// Adds the shader program at path to the list of active shader programs, the shader program must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -126,7 +126,7 @@ namespace ose
 		// Create the GPU memory for an already loaded (added) shader program
 		// Returns an iterator to the next shader program in the shader_progs_without_gpu_memory map
 		// IMPORANT - can only be called from the thread which contains the render context
-		std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator CreateShaderProg(const std::string & prog_name);
+		std::map<std::string, uptr<ShaderProg>>::const_iterator CreateShaderProg(const std::string & prog_name);
 
 		// Remove the shader program from the shader programs list and free the shader program's resources
 		// IMPORTANT - Can be called from any thread (TODO)
@@ -147,36 +147,36 @@ namespace ose
 		// maps texture name to texture object
 		// any texture with a representation in GPU memory
 		// these textures can be destroyed but not removed
-		std::map<std::string, std::unique_ptr<Texture>> textures_with_Gpu_memory_;
+		std::map<std::string, uptr<Texture>> textures_with_Gpu_memory_;
 
 		// maps texture name to texture object
 		// any texture with no representation in GPU memory
 		// only these textures can be created and removed
-		std::map<std::string, std::unique_ptr<Texture>> textures_without_Gpu_memory_;
+		std::map<std::string, uptr<Texture>> textures_without_Gpu_memory_;
 
 		// the TextureLoader object used for loading textures from image files
-		std::unique_ptr<TextureLoader> texture_loader_;
+		uptr<TextureLoader> texture_loader_;
 
 		// Maps tilemap name to tilemap object
-		std::map<std::string, std::unique_ptr<Tilemap>> tilemaps_;
+		std::map<std::string, uptr<Tilemap>> tilemaps_;
 
 		// The TilemapLoader object used for loading tilemap from files
-		std::unique_ptr<TilemapLoader> tilemap_loader_;
+		uptr<TilemapLoader> tilemap_loader_;
 
 		// Maps mesh name to mesh object
-		std::map<std::string, std::unique_ptr<Mesh>> meshes_;
+		std::map<std::string, uptr<Mesh>> meshes_;
 
 		// The MeshLoader object used for loading meshes from files
-		std::unique_ptr<MeshLoader> mesh_loader_;
+		uptr<MeshLoader> mesh_loader_;
 
 		// Maps material name to material object
-		std::map<std::string, std::unique_ptr<Material>> materials_;
+		std::map<std::string, uptr<Material>> materials_;
 
 		// Maps shader program name to shader program object
-		std::map<std::string, std::unique_ptr<ShaderProg>> shader_progs_with_gpu_memory_;
+		std::map<std::string, uptr<ShaderProg>> shader_progs_with_gpu_memory_;
 		
 		// Maps shader program name to shader program object
-		std::map<std::string, std::unique_ptr<ShaderProg>> shader_progs_without_gpu_memory_;
+		std::map<std::string, uptr<ShaderProg>> shader_progs_without_gpu_memory_;
 
 		// Load a property file (similar to an ini file)
 		// Returns properties as a map from key to value

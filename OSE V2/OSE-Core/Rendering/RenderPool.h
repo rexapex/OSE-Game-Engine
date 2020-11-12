@@ -20,34 +20,34 @@ namespace ose
 		virtual void SetFramebufferSize(int width, int height) = 0;
 
 		// Add a sprite renderer component to the render pool
-		virtual void AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr) = 0;
+		virtual void AddSpriteRenderer(ITransform const & t, SpriteRenderer * sr) = 0;
 
 		// Add a tile renderer component to the render pool
-		virtual void AddTileRenderer(ITransform const & t, unowned_ptr<TileRenderer> tr) = 0;
+		virtual void AddTileRenderer(ITransform const & t, TileRenderer * tr) = 0;
 
 		// Add a mesh renderer component to the render pool
-		virtual void AddMeshRenderer(ITransform const & t, unowned_ptr<MeshRenderer> mr) = 0;
+		virtual void AddMeshRenderer(ITransform const & t, MeshRenderer * mr) = 0;
 
 		// Add a point light component to the render pool
-		virtual void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) = 0;
+		virtual void AddPointLight(ITransform const & t, PointLight * pl) = 0;
 
 		// Add a direction light component to the render pool
-		virtual void AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl) = 0;
+		virtual void AddDirLight(ITransform const & t, DirLight * dl) = 0;
 
 		// Remove a sprite renderer component from the render pool
-		virtual void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) = 0;
+		virtual void RemoveSpriteRenderer(SpriteRenderer * sr) = 0;
 
 		// Remove a tile renderer component from the render pool
-		virtual void RemoveTileRenderer(unowned_ptr<TileRenderer> tr) = 0;
+		virtual void RemoveTileRenderer(TileRenderer * tr) = 0;
 
 		// Remove a mesh renderer component from the render pool
-		virtual void RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr) = 0;
+		virtual void RemoveMeshRenderer(MeshRenderer * mr) = 0;
 
 		// Remove a point light component from the render pool
-		virtual void RemovePointLight(unowned_ptr<PointLight> pl) = 0;
+		virtual void RemovePointLight(PointLight * pl) = 0;
 
 		// Remove a direction light component from the render pool
-		virtual void RemoveDirLight(unowned_ptr<DirLight> dl) = 0;
+		virtual void RemoveDirLight(DirLight * dl) = 0;
 	};
 }
 

@@ -31,7 +31,7 @@ namespace ose
 		void Disable();
 
 		// Should NEVER be called directly by a script
-		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
+		void SetGameReference(Game * game) { game_ = game; }
 
 	private:
 		std::string name_;		// name_ need not be unique
@@ -42,7 +42,7 @@ namespace ose
 
 		bool enabled_ { true };	// True iff the entity is enabled (i.e. it appears in the scene)
 
-		unowned_ptr<Game> game_ { nullptr }; // Pointer to the game object this entity belongs to
+		Game * game_ { nullptr }; // Pointer to the game object this entity belongs to
 
 		// Get the next available entity ID
 		static EntityID NextEntityId()

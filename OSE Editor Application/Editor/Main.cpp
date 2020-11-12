@@ -12,7 +12,7 @@ int main(int argc, char * argv[])
 	// TODO - might need to destroy resources before returning error
 
 	// Create a game object
-	auto game = std::make_unique<Game>();
+	auto game = ose::make_unique<Game>();
 
 	std::string home_dir;
 	fs::GetHomeDirectory(home_dir);
@@ -58,7 +58,7 @@ int main(int argc, char * argv[])
 	}
 
 	// set the active camera
-	std::unique_ptr<EditorCamera> camera { std::make_unique<EditorCamera>() };
+	uptr<EditorCamera> camera { ose::make_unique<EditorCamera>() };
 	game->SetActiveCamera(camera.get());
 
 	// set inputs for the editor camera to use
