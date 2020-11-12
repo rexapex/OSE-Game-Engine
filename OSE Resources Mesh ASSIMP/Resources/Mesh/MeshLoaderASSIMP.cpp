@@ -7,7 +7,7 @@ using namespace Assimp;
 
 namespace ose::resources
 {
-	MeshLoaderASSIMP::MeshLoaderASSIMP(const std::string & project_path) : MeshLoader(project_path)
+	MeshLoaderASSIMP::MeshLoaderASSIMP(std::string const & project_path) : MeshLoader(project_path)
 	{
 	
 	}

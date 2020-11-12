@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	Texture::Texture(const std::string & name, const std::string & path) : name_(name), path_(path) {}
+	Texture::Texture(std::string const & name, std::string const & path) : name_(name), path_(path) {}
 
 	Texture::~Texture()
 	{

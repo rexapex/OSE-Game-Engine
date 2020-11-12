@@ -7,12 +7,12 @@ namespace ose
 	ComponentList::ComponentList() {}
 	ComponentList::~ComponentList() {}
 
-	ComponentList::ComponentList(const ComponentList & other) noexcept
+	ComponentList::ComponentList(ComponentList const & other) noexcept
 	{
 		// TODO - remove any existing components
 		this->DeleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
 											// copy each component from other
-		for(const auto & comp : other.components_)
+		for(auto const & comp : other.components_)
 		{
 			// Component base class won't compile if abstract so check for it here instead (and elsewhere)
 			if(comp->IsClassType(Component::GetClassType())) {
@@ -33,7 +33,7 @@ namespace ose
 	// does NOT delete the component
 	// returns true if the component is removed
 	// returns false if the component does not belong to this entity
-	bool ComponentList::RemoveComponent(const Component * comp)
+	bool ComponentList::RemoveComponent(Component const * comp)
 	{
 		// No component can be removed if there are no components therefore return false
 		// Nullptr cannot be in list of components_ therefore exit if comp == nullptr

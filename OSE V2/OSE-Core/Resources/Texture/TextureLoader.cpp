@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	TextureLoader::TextureLoader(const std::string & project_path) : project_path_(project_path)
+	TextureLoader::TextureLoader(std::string const & project_path) : project_path_(project_path)
 	{
 
 	}

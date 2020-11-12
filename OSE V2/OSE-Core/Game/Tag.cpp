@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	Tag::Tag(const std::string & name) : name_(name)
+	Tag::Tag(std::string const & name) : name_(name)
 	{
 
 	}

@@ -5,12 +5,12 @@
 
 namespace ose
 {
-	Scene::Scene(const std::string & name, const ControlSettings & control_settings)
+	Scene::Scene(std::string const & name, ControlSettings const & control_settings)
 		: EntityList(nullptr), ChunkManager(), name_(name), control_settings_(control_settings) {}
 
 	Scene::~Scene() noexcept {}
 
-	Scene::Scene(const Scene & other) noexcept : EntityList(nullptr, other), ChunkManager(other)
+	Scene::Scene(Scene const & other) noexcept : EntityList(nullptr, other), ChunkManager(other)
 	{
 		this->name_ = other.name_;
 		this->control_settings_ = other.control_settings_;
@@ -41,7 +41,7 @@ namespace ose
 	}
 
 
-	void Scene::PrintEntity(const Entity & e, int32_t level)
+	void Scene::PrintEntity(Entity const & e, int32_t level)
 	{
 		std::string indent = "";
 		for(int32_t i = 0; i < level; i++)
@@ -56,7 +56,7 @@ namespace ose
 			std::cerr << indent << "    comp -> " << comp->name << std::endl;
 		}*/
 
-		for(const auto & subE : e.GetEntities())
+		for(auto const & subE : e.GetEntities())
 		{
 			PrintEntity(*subE, level + 1);
 		}

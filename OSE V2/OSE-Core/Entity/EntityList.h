@@ -12,7 +12,7 @@ namespace ose
 	public:
 		EntityList(EntityList * parent);
 		virtual ~EntityList() noexcept;
-		EntityList(EntityList * parent, const EntityList & other) noexcept;
+		EntityList(EntityList * parent, EntityList const & other) noexcept;
 		EntityList(EntityList &&) noexcept = default;
 		EntityList & operator=(EntityList &) noexcept = delete;
 		EntityList & operator=(EntityList &&) noexcept = delete;
@@ -38,18 +38,18 @@ namespace ose
 		// New entity is a deep copy of the entity passed
 		// Method constructs a new object
 		// Returns a reference to the newly created entity
-		Entity * AddEntity(const Entity & other);
+		Entity * AddEntity(Entity const & other);
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
 		// Remove an entity from the entity list
 		// Return true if entity is removed
 		// Return false if the entity does not belong to this entity list
-		bool RemoveEntity(const Entity & entity);
+		bool RemoveEntity(Entity const & entity);
 
 		// Remove entity by EntityID
 		// Return true if entity with given EntityID is removed
 		// Return false if no entity with given EntityID exists in this entity list
-		bool RemoveEntity(const EntityID uid);
+		bool RemoveEntity(EntityID const uid);
 
 		// Move an entity from an this entity list to a new entity list
 		// Returns true if the entity is moved successfully
@@ -57,7 +57,7 @@ namespace ose
 		bool MoveEntity(Entity const & entity, EntityList & to);
 
 		// Get the list of entities
-		const std::vector<uptr<Entity>> & GetEntities() const { return this->entities_; }
+		std::vector<uptr<Entity>> const & GetEntities() const { return this->entities_; }
 
 		// Find all the entities in this entity list and sub lists with the given name
 		// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
@@ -69,7 +69,7 @@ namespace ose
 	protected:
 		// Get a list of transformable elements
 		// Returns a list of child entities
-		virtual const std::vector<uptr<Entity>> & GetChildTransformables() const override { return entities_; }
+		virtual std::vector<uptr<Entity>> const & GetChildTransformables() const override { return entities_; }
 
 		// Get a pointer to the parent transformable element
 		virtual Transformable * GetParentTransformable() const override { return parent_; }

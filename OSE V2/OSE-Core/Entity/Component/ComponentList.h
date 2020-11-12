@@ -10,13 +10,13 @@ namespace ose
 	public:
 		ComponentList();
 		virtual ~ComponentList() noexcept;
-		ComponentList(const ComponentList & other) noexcept;
+		ComponentList(ComponentList const & other) noexcept;
 		ComponentList(ComponentList &&) noexcept = default;
 		ComponentList & operator=(ComponentList &) noexcept = delete;
 		ComponentList & operator=(ComponentList &&) noexcept = delete;
 
 		// get a list of all components
-		const std::vector<uptr<Component>> & GetComponents() const { return this->components_; }
+		std::vector<uptr<Component>> const & GetComponents() const { return this->components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -123,7 +123,7 @@ namespace ose
 		// does NOT delete the component
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
-		bool RemoveComponent(const Component * comp);
+		bool RemoveComponent(Component const * comp);
 
 	protected:
 		// utility method for deleting all components

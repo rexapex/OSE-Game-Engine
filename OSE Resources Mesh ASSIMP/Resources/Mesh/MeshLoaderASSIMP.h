@@ -6,7 +6,7 @@ namespace ose::resources
 	class MeshLoaderASSIMP final : public MeshLoader
 	{
 	public:
-		MeshLoaderASSIMP(const std::string & project_path);
+		MeshLoaderASSIMP(std::string const & project_path);
 		~MeshLoaderASSIMP();
 		// MeshLoaderASSIMP is NOT copyable
 		MeshLoaderASSIMP(MeshLoaderASSIMP &) = delete;

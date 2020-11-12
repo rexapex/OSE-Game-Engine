@@ -4,13 +4,13 @@
 
 namespace ose::resources
 {
-	TextureLoaderSOIL::TextureLoaderSOIL(const std::string & project_path) : TextureLoader(project_path) {}
+	TextureLoaderSOIL::TextureLoaderSOIL(std::string const & project_path) : TextureLoader(project_path) {}
 
 	TextureLoaderSOIL::~TextureLoaderSOIL() {}
 
 	// loads the texture and sets the values of img_data, width and height
 	// path is absolute and is guaranteed to exist
-	void TextureLoaderSOIL::LoadTexture(const std::string & path, IMGDATA * img_data, int32_t * width, int32_t * height, int32_t * channels)
+	void TextureLoaderSOIL::LoadTexture(std::string const & path, IMGDATA * img_data, int32_t * width, int32_t * height, int32_t * channels)
 	{
 		*img_data = SOIL_load_image(path.c_str(), width, height, channels, SOIL_LOAD_AUTO);
 		if(*img_data == NULL)

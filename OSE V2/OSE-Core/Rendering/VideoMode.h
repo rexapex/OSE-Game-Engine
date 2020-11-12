@@ -4,10 +4,10 @@ namespace ose
 {
 	struct VideoMode
 	{
-		const int width;
-		const int height;
-		const int refresh_rate;
+		int const width;
+		int const height;
+		int const refresh_rate;
 
-		VideoMode(const int width, const int height, const int refresh_rate) : width(width), height(height), refresh_rate(refresh_rate) {}
+		VideoMode(int width, int height, int refresh_rate) : width(width), height(height), refresh_rate(refresh_rate) {}
 	};
 }

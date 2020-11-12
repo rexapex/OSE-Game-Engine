@@ -12,7 +12,7 @@ namespace ose
 	{
 	}
 
-	std::string ProjectLoader::GetProjectFileFormat(const std::string & project_path)
+	std::string ProjectLoader::GetProjectFileFormat(std::string const & project_path)
 	{
 		std::string text;
 		fs::LoadTextFile(project_path + "/PROJECT_FORMAT", text);

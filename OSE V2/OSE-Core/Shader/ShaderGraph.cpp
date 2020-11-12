@@ -4,7 +4,7 @@
 
 namespace ose
 {
-	ShaderGraph::ShaderGraph(const std::string & name) : name_(name)
+	ShaderGraph::ShaderGraph(std::string const & name) : name_(name)
 	{
 		// Every shader graph contains a single color output node, the first node in the graph
 		AddNode<OutputNode>();

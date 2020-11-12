@@ -7,7 +7,7 @@
 namespace ose
 {
 
-	Chunk::Chunk(const std::string & name, const std::string & path, Project const & project, ProjectLoader & project_loader) : EntityList(nullptr), name_(name), path_(path), project_(project), project_loader_(project_loader)
+	Chunk::Chunk(std::string const & name, std::string const & path, Project const & project, ProjectLoader & project_loader) : EntityList(nullptr), name_(name), path_(path), project_(project), project_loader_(project_loader)
 	{
 	
 	}
@@ -17,7 +17,7 @@ namespace ose
 	
 	}
 
-	Chunk::Chunk(const Chunk & other) : EntityList(nullptr),
+	Chunk::Chunk(Chunk const & other) : EntityList(nullptr),
 		name_(other.name_), path_(other.path_), project_(other.project_), project_loader_(other.project_loader_)
 	{
 

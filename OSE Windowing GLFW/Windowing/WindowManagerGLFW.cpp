@@ -18,7 +18,7 @@ namespace ose::windowing
 	}
 
 
-	static void errorCallback(int error, const char * description)	//Prints error message description to stderr
+	static void errorCallback(int error, char const * description)	//Prints error message description to stderr
 	{
 		fprintf(stderr, "Error: %s\n", description);
 	}
@@ -36,7 +36,7 @@ namespace ose::windowing
 	std::vector<VideoMode> WindowManagerGLFW::GetAvailableVideoModes()
 	{
 		int count;
-		const GLFWvidmode * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
 		std::vector<VideoMode> video_modes;
 
 		for(int i = 0; i < count; i++)
@@ -51,10 +51,10 @@ namespace ose::windowing
 	{
 		GLFWwindow * window;
 
-		const GLFWvidmode * mode;
+		GLFWvidmode const * mode;
 
 		int num_video_modes;
-		const GLFWvidmode * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_video_modes);
+		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_video_modes);
 
 		if(video_mode >= 0 && video_mode < num_video_modes)
 		{
@@ -160,7 +160,7 @@ namespace ose::windowing
 
 
 
-	void WindowManagerGLFW::SetTitle(const std::string & title)
+	void WindowManagerGLFW::SetTitle(std::string const & title)
 	{
 		glfwSetWindowTitle(window, title.c_str());
 	}

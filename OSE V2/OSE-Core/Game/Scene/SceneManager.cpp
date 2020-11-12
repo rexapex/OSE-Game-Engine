@@ -22,7 +22,7 @@ namespace ose
 	// loads the project specified (does not load any scenes)
 	// throws std::exception if the project could not be loaded
 	// throws std::invalid_argument if the project FILE_FORMAT decleration file does not exist
-	void SceneManager::LoadProject(const std::string & project_path)
+	void SceneManager::LoadProject(std::string const & project_path)
 	{
 		// before project can be loaded, the file format of the project files must de determined
 		std::string proj_file_format = ProjectLoader::GetProjectFileFormat(project_path);
@@ -46,7 +46,7 @@ namespace ose
 	// If the scene is already loaded, nothing happens
 	// Throws std::exception if no project has been loaded
 	// Throws std::exception if the scene could not be loaded
-	void SceneManager::LoadScene(const std::string & scene_name)
+	void SceneManager::LoadScene(std::string const & scene_name)
 	{
 		// first, check that the scene actually exists
 		auto map = project_->GetSceneNamesToPathMap();
@@ -76,7 +76,7 @@ namespace ose
 	}
 
 
-	void SceneManager::UnloadScene(const std::string & scene_name)
+	void SceneManager::UnloadScene(std::string const & scene_name)
 	{
 		auto iter = this->loaded_scenes_.find(scene_name);
 
@@ -97,7 +97,7 @@ namespace ose
 	}
 
 
-	void SceneManager::SetActiveScene(const std::string & scene_name)
+	void SceneManager::SetActiveScene(std::string const & scene_name)
 	{
 		auto iter = this->loaded_scenes_.find(scene_name);
 

@@ -25,11 +25,11 @@ int main(int argc, char * argv[])
 	// load the project, giving access to all of its settings and scenes
 	try {
 		game->LoadProject(project_path);
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
-	} catch(const std::exception & e) {
+	} catch(std::exception const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
@@ -38,11 +38,11 @@ int main(int argc, char * argv[])
 	// load a scene, giving access to all of its entities and resources
 	try {
 		game->LoadScene("scene1");
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
-	} catch(const std::exception & e) {
+	} catch(std::exception const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
 	// set the new scene as the active scene
 	try {
 		game->SetActiveScene("scene1");
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;

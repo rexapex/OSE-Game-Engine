@@ -25,7 +25,7 @@ namespace ose
 	}
 
 	//saves having to resize framebuffers twice
-	void RenderingEngine::SetProjectionModeAndFbSize(const EProjectionMode & projection_mode, const int width, const int height)
+	void RenderingEngine::SetProjectionModeAndFbSize(EProjectionMode const & projection_mode, int width, int height)
 	{
 		if(this->projection_mode_ != projection_mode)
 		{
@@ -36,7 +36,7 @@ namespace ose
 		this->UpdateProjectionMatrix();
 	}
 
-	void RenderingEngine::SetProjectionMode(const EProjectionMode & projection_mode)
+	void RenderingEngine::SetProjectionMode(EProjectionMode const & projection_mode)
 	{
 		if(this->projection_mode_ != projection_mode)
 		{
@@ -45,7 +45,7 @@ namespace ose
 		}
 	}
 
-	void RenderingEngine::SetFramebufferSize(const int width, const int height)
+	void RenderingEngine::SetFramebufferSize(int width, int height)
 	{
 		this->fbwidth_ = width;
 		this->fbheight_ = height;

@@ -17,17 +17,17 @@ namespace ose
 	class Project
 	{
 	public:
-		Project(const std::string & project_path, const ProjectInfo & project_info, ProjectSettings const & project_settings,
-			const std::map<std::string, std::string> & scene_names_to_path,
+		Project(std::string const & project_path, ProjectInfo const & project_info, ProjectSettings const & project_settings,
+			std::map<std::string, std::string> const & scene_names_to_path,
 			InputSettings const & input_settings, ControlSettings const & control_settings);
 		virtual ~Project() noexcept;
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
 
-		const ProjectInfo & GetProjectInfo() const { return this->project_info_; }
-		const std::string & GetProjectPath() const { return this->project_path_; }
-		const std::string & GetProjectFileFormat() const { return this->project_file_format_; }
-		const std::map<std::string, std::string> & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
+		ProjectInfo const & GetProjectInfo() const { return this->project_info_; }
+		std::string const & GetProjectPath() const { return this->project_path_; }
+		std::string const & GetProjectFileFormat() const { return this->project_file_format_; }
+		std::map<std::string, std::string> const & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
 		ResourceManager & GetResourceManager() const { return *resource_manager_; }
 		PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
 

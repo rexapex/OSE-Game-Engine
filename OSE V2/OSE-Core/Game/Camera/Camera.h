@@ -14,7 +14,7 @@ namespace ose
 
 		// Get a list of transformable elements
 		// Returns an empty dummy list
-		virtual const std::vector<uptr<Camera>> & GetChildTransformables() const override { return dummy_; }
+		virtual std::vector<uptr<Camera>> const & GetChildTransformables() const override { return dummy_; }
 
 		// Get a pointer to the parent transformable element
 		virtual Transformable * GetParentTransformable() const override { return nullptr; }

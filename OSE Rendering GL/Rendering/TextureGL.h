@@ -7,13 +7,13 @@ namespace ose::rendering
 	{
 	public:
 		// Texture is an abstract class, the full class will contain render library specific data
-		TextureGL(const std::string & name, const std::string & path) : Texture(name, path) {}
+		TextureGL(std::string const & name, std::string const & path) : Texture(name, path) {}
 	private:
 		// default to 0, i.e. no texture
 		uint32_t gl_tex_id_ { 0 };
 	public:
 		// get the OpenGL texture ID
-		const uint32_t GetGlTexId() const { return gl_tex_id_; }
+		uint32_t GetGlTexId() const { return gl_tex_id_; }
 
 		// create the texture in GPU memory
 		// IMPORTANT - cannot be called from constructor since the ResourceLoader is multithreaded but the rendering context is not
