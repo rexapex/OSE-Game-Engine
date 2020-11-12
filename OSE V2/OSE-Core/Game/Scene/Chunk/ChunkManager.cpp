@@ -55,8 +55,8 @@ namespace ose
 				std::unique_ptr<Chunk> & chunk = *iter;
 				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), settings_.agent_->GetGlobalTransform().GetTranslation()) >= std::pow(settings_.unload_distance_, 2))
 				{
-					chunk->Unload();
 					OnChunkDeactivated(*chunk);
+					chunk->Unload();
 					std::move(iter, iter+1, std::back_inserter(unloaded_chunks_));
 					iter = loaded_chunks_.erase(iter);
 				}
