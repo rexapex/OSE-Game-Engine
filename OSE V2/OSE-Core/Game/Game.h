@@ -63,10 +63,10 @@ namespace ose
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera
 		// If the user destroys the active camera, the active camera must be set to nullptr (or a valid camera) to prevent errors
-		void SetActiveCamera(unowned_ptr<Camera> c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
+		void SetActiveCamera(Camera * c) { active_camera_ = c ? c : &default_camera_; active_camera_->SetGameReference(this); }
 
 		// Get the active camera
-		unowned_ptr<Camera> GetActiveCamera() const { return active_camera_; }
+		Camera * GetActiveCamera() const { return active_camera_; }
 
 		// Get the time object
 		Time const & GetTime() { return time_; }
@@ -112,7 +112,7 @@ namespace ose
 		///std::unique_ptr<RenderPool> render_pool_;
 
 		// The active camera (rendering is done relative to the active camera transform)
-		unowned_ptr<Camera> active_camera_ { nullptr };
+		Camera * active_camera_ { nullptr };
 
 		// The default camera
 		Camera default_camera_;

@@ -617,7 +617,7 @@ namespace ose::project
 	// Parse the XML of an entity
 	// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
 	// If parent == nullptr, the new entity is returned
-	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
+	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(EntityList * parent, rapidxml::xml_node<> * entity_node,
 			std::unordered_map<std::string, std::string> & aliases, const Project & project)
 	{
 		auto name_attrib = entity_node->first_attribute("name");
@@ -634,7 +634,7 @@ namespace ose::project
 		const std::string & prefab = prefab_text_alias_pos == aliases.end() ? prefab_text : prefab_text_alias_pos->second;
 
 		// Pointer to the newly created entity (not yet created)
-		unowned_ptr<Entity> new_entity = nullptr;
+		Entity * new_entity = nullptr;
 		std::unique_ptr<Entity> new_entity_ret = nullptr;
 
 		if(prefab == "")

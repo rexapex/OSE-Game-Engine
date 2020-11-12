@@ -30,7 +30,7 @@ namespace ose::shader
 		// Split the nodes into layers
 		// Nodes in a layer can be computed simultaneously
 		std::vector<ShaderLayer> layers;
-		std::vector<unowned_ptr<ShaderNode>> expended_nodes;
+		std::vector<ShaderNode *> expended_nodes;
 		CreateLayers(layers, expended_nodes);
 
 		// Determine which shader type is required for each layer
@@ -51,7 +51,7 @@ namespace ose::shader
 
 	// Split the shader graph nodes into layers
 	// All nodes in a layer can be computed simultaneously
-	void ShaderProgGLSL::CreateLayers(std::vector<ShaderLayer> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes)
+	void ShaderProgGLSL::CreateLayers(std::vector<ShaderLayer> & layers, std::vector<ShaderNode *> & expended_nodes)
 	{
 		layers.emplace_back();
 		for(auto & node : shader_graph_->GetNodes())
@@ -59,7 +59,7 @@ namespace ose::shader
 			bool can_add { std::find(expended_nodes.begin(), expended_nodes.end(), node.get()) == expended_nodes.end() };
 			for(auto & incoming_connector : shader_graph_->GetIncomingConnectors(node.get()))
 			{
-				unowned_ptr<ShaderNode> out_node;
+				ShaderNode * out_node;
 				std::string out_name;
 				incoming_connector->GetOutput(&out_node, out_name);
 				if(std::find(expended_nodes.begin(), expended_nodes.end(), out_node) == expended_nodes.end())
@@ -97,8 +97,8 @@ namespace ose::shader
 			if(iter->nodes_.size() == 0)
 				continue;
 
-			std::vector<unowned_ptr<ShaderNode>> current_level_nodes;
-			std::vector<unowned_ptr<ShaderNode>> lower_level_nodes;
+			std::vector<ShaderNode *> current_level_nodes;
+			std::vector<ShaderNode *> lower_level_nodes;
 			for(auto node : iter->nodes_)
 			{
 				if(node->IsShaderType(shader_type_levels[level]))
@@ -151,7 +151,7 @@ namespace ose::shader
 		std::string frag_functions = "";
 		std::string frag_main_function = "";
 
-		auto process_node = [](unowned_ptr<ShaderNode> node, std::string & inputs, std::string & outputs,
+		auto process_node = [](ShaderNode * node, std::string & inputs, std::string & outputs,
 			std::string & uniforms, std::string & functions, std::string & main_function)
 		{
 			if(node->IsClassType(BRDFNode::GetClassType()))

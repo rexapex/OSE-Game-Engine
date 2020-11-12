@@ -18,10 +18,10 @@ namespace ose
 
 		// Loads the mesh and sets the data in mesh*
 		// Path is absolute and is guaranteed to exist
-		virtual void LoadMesh(std::string const & path, unowned_ptr<Mesh> mesh) = 0;
+		virtual void LoadMesh(std::string const & path, Mesh * mesh) = 0;
 
 		// Free the resources used by the mesh object
-		virtual void FreeMesh(unowned_ptr<Mesh> mesh) = 0;
+		virtual void FreeMesh(Mesh * mesh) = 0;
 
 	private:
 		std::string project_path_;

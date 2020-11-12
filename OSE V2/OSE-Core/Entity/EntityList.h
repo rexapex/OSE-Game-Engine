@@ -23,7 +23,7 @@ namespace ose
 		// Method takes entity constructor arguments
 		// Returns a reference to the newly created entity
 		template<typename... Args>
-		unowned_ptr<Entity> AddEntity(Args &&... params)
+		Entity * AddEntity(Args &&... params)
 		{
 			// construct a new entity object
 			try {
@@ -38,7 +38,7 @@ namespace ose
 		// New entity is a deep copy of the entity passed
 		// Method constructs a new object
 		// Returns a reference to the newly created entity
-		unowned_ptr<Entity> AddEntity(const Entity & other);
+		Entity * AddEntity(const Entity & other);
 
 		// TODO - NEEDS SERIOUS TESTING, NO IDEA WHETHER THIS WORKS
 		// Remove an entity from the entity list

@@ -26,7 +26,7 @@ namespace ose
 	// New entity is a deep copy of the entity passed
 	// Method constructs a new object
 	// Returns a reference to the newly created entity
-	unowned_ptr<Entity> EntityList::AddEntity(const Entity & other)
+	Entity * EntityList::AddEntity(const Entity & other)
 	{
 		// construct a new entity object
 		try {

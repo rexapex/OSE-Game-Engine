@@ -42,7 +42,7 @@ namespace ose
 
 		// get the texture from either map
 		// given the name of the texture, return the texture object
-		unowned_ptr<Texture const> GetTexture(const std::string name);
+		Texture const * GetTexture(const std::string name);
 
 		// adds the texture at path to the list of active textures, the texture must be in the project's resources directory
 		// path is relative to ProjectPath/Resources
@@ -72,7 +72,7 @@ namespace ose
 
 		// Get the tilemap from the resources manager
 		// Given the name of the tilemap, return the tilemap object
-		unowned_ptr<Tilemap const> GetTilemap(const std::string & name);
+		Tilemap const * GetTilemap(const std::string & name);
 
 		// Adds the tilemap at path to the list of active tilemaps, the tilemap must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -86,7 +86,7 @@ namespace ose
 
 		// Get the mesh from the resource manager
 		// Given the name of the mesh, return the mesh object
-		unowned_ptr<Mesh const> GetMesh(const std::string & name);
+		Mesh const * GetMesh(const std::string & name);
 
 		// Adds the mesh at path to the list of active meshes, the mesh must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -100,7 +100,7 @@ namespace ose
 
 		// Get the material from the resource manager
 		// Given the name of the material, return the material object
-		unowned_ptr<Material const> GetMaterial(const std::string & name);
+		Material const * GetMaterial(const std::string & name);
 
 		// Adds the material at path to the list of active materials, the material must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources
@@ -114,7 +114,7 @@ namespace ose
 
 		// Get the shader program from the resource manager
 		// Given the name of the shader program, return the shader program object
-		unowned_ptr<ShaderProg const> GetShaderProg(const std::string & name);
+		ShaderProg const * GetShaderProg(const std::string & name);
 
 		// Adds the shader program at path to the list of active shader programs, the shader program must be in the project's resources directory
 		// Path is relative to ProjectPath/Resources

@@ -51,7 +51,7 @@ namespace ose::project
 		// Parse the XML of an entity
 		// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
 		// If parent == nullptr, the new entity is returned
-		std::unique_ptr<Entity> ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
+		std::unique_ptr<Entity> ParseEntity(EntityList * parent, rapidxml::xml_node<> * entity_node,
 				std::unordered_map<std::string, std::string> & aliases, const Project & project);
 
 		// Parse the XML of a transformable (entity / chunk)

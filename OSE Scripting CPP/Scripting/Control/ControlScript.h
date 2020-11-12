@@ -20,7 +20,7 @@ namespace ose::scripting
 
 		virtual std::string GetControlTypeName() const = 0;
 		
-		virtual void Init(unowned_ptr<Game> game) {}
+		virtual void Init(Game * game) {}
 		virtual void Update() {}
 
 		// If name and factory are given, links the control name to the control factory

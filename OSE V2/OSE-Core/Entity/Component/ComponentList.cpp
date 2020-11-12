@@ -33,7 +33,7 @@ namespace ose
 	// does NOT delete the component
 	// returns true if the component is removed
 	// returns false if the component does not belong to this entity
-	bool ComponentList::RemoveComponent(const unowned_ptr<Component> comp)
+	bool ComponentList::RemoveComponent(const Component * comp)
 	{
 		// No component can be removed if there are no components therefore return false
 		// Nullptr cannot be in list of components_ therefore exit if comp == nullptr

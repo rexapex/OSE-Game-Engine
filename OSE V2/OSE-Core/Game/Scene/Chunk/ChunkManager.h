@@ -21,7 +21,7 @@ namespace ose
 		// Method takes chunk constructor arguments
 		// Returns a reference to the newly created chunk
 		template<typename... Args>
-		unowned_ptr<Chunk> AddChunk(Args &&... params)
+		Chunk * AddChunk(Args &&... params)
 		{
 			// Construct a new chunk object
 			try {

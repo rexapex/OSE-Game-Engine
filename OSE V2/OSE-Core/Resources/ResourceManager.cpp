@@ -51,7 +51,7 @@ namespace ose
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
+	Texture const * ResourceManager::GetTexture(const std::string name)
 	{
 		// search the textures_with_GPU_memory_ list
 		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };
@@ -256,7 +256,7 @@ namespace ose
 
 	// Get the tilemap from the resources manager
 	// Given the name of the tilemap, return the tilemap object
-	unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
+	Tilemap const * ResourceManager::GetTilemap(const std::string & name)
 	{
 		// search the tilemaps_ list
 		auto const & iter { tilemaps_.find(name) };
@@ -321,7 +321,7 @@ namespace ose
 
 	// Get the mesh from the resource manager
 	// Given the name of the mesh, return the mesh object
-	unowned_ptr<Mesh const> ResourceManager::GetMesh(const std::string & name)
+	Mesh const * ResourceManager::GetMesh(const std::string & name)
 	{
 		// Search the meshes_ list
 		auto const & iter { meshes_.find(name) };
@@ -386,7 +386,7 @@ namespace ose
 
 	// Get the material from the resource manager
 	// Given the name of the material, return the material object
-	unowned_ptr<Material const> ResourceManager::GetMaterial(const std::string & name)
+	Material const * ResourceManager::GetMaterial(const std::string & name)
 	{
 		// Search the materials_ list
 		auto const & iter { materials_.find(name) };
@@ -468,7 +468,7 @@ namespace ose
 
 	// Get the shader program from the resource manager
 	// Given the name of the shader program, return the shader program object
-	unowned_ptr<ShaderProg const> ResourceManager::GetShaderProg(const std::string & name)
+	ShaderProg const * ResourceManager::GetShaderProg(const std::string & name)
 	{
 		// Search the shader_progs_with_gpu_memory_ list
 		auto const & iter1 { shader_progs_with_gpu_memory_.find(name) };

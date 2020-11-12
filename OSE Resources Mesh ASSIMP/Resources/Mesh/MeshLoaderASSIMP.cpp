@@ -19,7 +19,7 @@ namespace ose::resources
 
 	// Loads the mesh and sets the data in mesh*
 	// Path is absolute and is guaranteed to exist
-	void MeshLoaderASSIMP::LoadMesh(std::string const & path, unowned_ptr<Mesh> mesh)
+	void MeshLoaderASSIMP::LoadMesh(std::string const & path, Mesh * mesh)
 	{
 		// Create an ASSIMP importer
 		Importer importer;
@@ -43,13 +43,13 @@ namespace ose::resources
 	}
 
 	// Free the resources used by the mesh object
-	void MeshLoaderASSIMP::FreeMesh(unowned_ptr<Mesh> mesh)
+	void MeshLoaderASSIMP::FreeMesh(Mesh * mesh)
 	{
 		// NOTE - None of the data stored in Mesh is owned by ASSIMP, so don't need to free anything here
 	}
 
 	// Process an ASSIMP scene
-	void MeshLoaderASSIMP::ProcessScene(aiScene const * scene, unowned_ptr<Mesh> mesh)
+	void MeshLoaderASSIMP::ProcessScene(aiScene const * scene, Mesh * mesh)
 	{
 		/////////////////////////////////////////////////////////////////////////////////////////////////////////////
 		// ASSIMP scene contains an array of meshes

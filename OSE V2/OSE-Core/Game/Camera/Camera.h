@@ -23,10 +23,10 @@ namespace ose
 		virtual void Update() {}
 
 		// Should NEVER be called directly by a script
-		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
+		void SetGameReference(Game * game) { game_ = game; }
 
 	protected:
-		unowned_ptr<Game> game_ { nullptr };
+		Game * game_ { nullptr };
 
 	private:
 		std::vector<std::unique_ptr<Camera>> dummy_;

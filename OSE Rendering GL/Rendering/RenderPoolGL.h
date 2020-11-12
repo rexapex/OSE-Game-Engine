@@ -29,34 +29,34 @@ namespace ose::rendering
 		void SetFramebufferSize(int width, int height) override;
 
 		// Add a sprite renderer component to the render pool
-		void AddSpriteRenderer(ose::ITransform const & t, unowned_ptr<SpriteRenderer> sr) override;
+		void AddSpriteRenderer(ose::ITransform const & t, SpriteRenderer * sr) override;
 
 		// Add a tile renderer component to the render pool
-		void AddTileRenderer(ose::ITransform const & t, unowned_ptr<TileRenderer> tr) override;
+		void AddTileRenderer(ose::ITransform const & t, TileRenderer * tr) override;
 
 		// Add a mesh renderer component to the render pool
-		void AddMeshRenderer(ose::ITransform const & t, unowned_ptr<MeshRenderer> mr) override;
+		void AddMeshRenderer(ose::ITransform const & t, MeshRenderer * mr) override;
 
 		// Add a point light component to the render pool
-		void AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl) override;
+		void AddPointLight(ITransform const & t, PointLight * pl) override;
 
 		// Add a direction light component to the render pool
-		void AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl) override;
+		void AddDirLight(ITransform const & t, DirLight * dl) override;
 
 		// Remove a sprite renderer component from the render pool
-		void RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr) override;
+		void RemoveSpriteRenderer(SpriteRenderer * sr) override;
 
 		// Remove a tile renderer component from the render pool
-		void RemoveTileRenderer(unowned_ptr<TileRenderer> tr) override;
+		void RemoveTileRenderer(TileRenderer * tr) override;
 
 		// Remove a mesh renderer component from the render pool
-		void RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr) override;
+		void RemoveMeshRenderer(MeshRenderer * mr) override;
 
 		// Remove a point light component from the render pool
-		void RemovePointLight(unowned_ptr<PointLight> pl) override;
+		void RemovePointLight(PointLight * pl) override;
 
 		// Remove a direction light component from the render pool
-		void RemoveDirLight(unowned_ptr<DirLight> dl) override;
+		void RemoveDirLight(DirLight * dl) override;
 
 		// Get the list of render passes s.t. they can be rendered by the rendering engine
 		std::vector<RenderPassGL> const & GetRenderPasses() const { return render_passes_; }

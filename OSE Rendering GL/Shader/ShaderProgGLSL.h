@@ -27,7 +27,7 @@ namespace ose::shader
 
 		// Split the shader graph nodes into layers
 		// All nodes in a layer can be computed simultaneously
-		void CreateLayers(std::vector<ShaderLayer> & layers, std::vector<unowned_ptr<ShaderNode>> & expended_nodes);
+		void CreateLayers(std::vector<ShaderLayer> & layers, std::vector<ShaderNode *> & expended_nodes);
 
 		// Determine which shader type is required for each layer
 		// If nodes within the same shader require different shader types, split the layer into multiple layers

@@ -21,10 +21,10 @@ namespace ose::scripting
 		void Init();
 
 		// Add a custom engine component to the script pool
-		void AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp) override;
+		void AddCustomComponent(Entity * entity, CustomComponent * comp) override;
 
 		// Remove a custom engine component from the script pool
-		void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) override;
+		void RemoveCustomComponent(CustomComponent * comp) override;
 
 		// Apply a control settings object to initialise an array of controls
 		void ApplyControlSettings(ControlSettings const & settings, bool persistent=false) override;

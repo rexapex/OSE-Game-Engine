@@ -147,7 +147,7 @@ namespace ose::rendering
 	}
 
 	// Add a sprite renderer component to the render pool
-	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, unowned_ptr<SpriteRenderer> sr)
+	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, SpriteRenderer * sr)
 	{
 		if(sr->GetTexture() == nullptr)
 			return;
@@ -161,7 +161,7 @@ namespace ose::rendering
 			{
 				// Add the sprite renderer to the existing render object
 				found_group = true;
-				r.textures_.push_back(static_cast<unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId());
+				r.textures_.push_back(static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId());
 				//r.transforms_.push_back(t.GetTransformMatrix());
 				r.transforms_.push_back(&t);
 				uint32_t object_id { NextComponentId() };
@@ -210,7 +210,7 @@ namespace ose::rendering
 				ERenderObjectType::SPRITE_RENDERER,
 				vbo, vao,
 				primitive, first, count,
-				std::initializer_list<GLuint>{ static_cast<unowned_ptr<TextureGL const>>(sr->GetTexture())->GetGlTexId() }
+				std::initializer_list<GLuint>{ static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId() }
 				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 				//std::initializer_list<ITransform const &>{ t }
 			);
@@ -222,7 +222,7 @@ namespace ose::rendering
 	}
 
 	// Add a tile renderer component to the render pool
-	void RenderPoolGL::AddTileRenderer(ITransform const & t, unowned_ptr<TileRenderer> tr)
+	void RenderPoolGL::AddTileRenderer(ITransform const & t, TileRenderer * tr)
 	{
 		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;
@@ -337,7 +337,7 @@ namespace ose::rendering
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
 			primitive, first, count,
-			std::initializer_list<GLuint>{ static_cast<unowned_ptr<TextureGL const>>(tr->GetTexture())->GetGlTexId() }
+			std::initializer_list<GLuint>{ static_cast<TextureGL const *>(tr->GetTexture())->GetGlTexId() }
 			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 			//std::initializer_list<ITransform const &>{ t }
 		);
@@ -348,7 +348,7 @@ namespace ose::rendering
 	}
 
 	// Add a mesh renderer component to the render pool
-	void RenderPoolGL::AddMeshRenderer(ose::ITransform const & t, unowned_ptr<MeshRenderer> mr)
+	void RenderPoolGL::AddMeshRenderer(ose::ITransform const & t, MeshRenderer * mr)
 	{
 		if(mr->GetMesh() == nullptr)
 			return;
@@ -359,7 +359,7 @@ namespace ose::rendering
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[1];
 
 		// Get the mesh object to be rendered
-		unowned_ptr<Mesh const> mesh { mr->GetMesh() };
+		Mesh const * mesh { mr->GetMesh() };
 		
 		// Create a VBO for the render object
 		GLuint vbo;
@@ -447,7 +447,7 @@ namespace ose::rendering
 			{
 				if(texture)
 				{
-					s.render_objects_.back().textures_.emplace_back(static_cast<unowned_ptr<TextureGL const>>(texture)->GetGlTexId());
+					s.render_objects_.back().textures_.emplace_back(static_cast<TextureGL const *>(texture)->GetGlTexId());
 					++texture_stride;
 				}
 			}
@@ -461,7 +461,7 @@ namespace ose::rendering
 	}
 
 	// Add a point light component to the render pool
-	void RenderPoolGL::AddPointLight(ITransform const & t, unowned_ptr<PointLight> pl)
+	void RenderPoolGL::AddPointLight(ITransform const & t, PointLight * pl)
 	{
 		// TODO - Update the position of the light data when the point light's entity moves
 
@@ -472,7 +472,7 @@ namespace ose::rendering
 	}
 
 	// Add a direction light component to the render pool
-	void RenderPoolGL::AddDirLight(ITransform const & t, unowned_ptr<DirLight> dl)
+	void RenderPoolGL::AddDirLight(ITransform const & t, DirLight * dl)
 	{
 		// TODO - Update the position of the light data when the point light's entity rotates
 
@@ -483,7 +483,7 @@ namespace ose::rendering
 	}
 
 	// Remove a sprite renderer component from the render pool
-	void RenderPoolGL::RemoveSpriteRenderer(unowned_ptr<SpriteRenderer> sr)
+	void RenderPoolGL::RemoveSpriteRenderer(SpriteRenderer * sr)
 	{
 		// Try to find the render object the sprite renderer belongs to
 		bool found { false };
@@ -525,7 +525,7 @@ namespace ose::rendering
 	}
 
 	// Remove a tile renderer component from the render pool
-	void RenderPoolGL::RemoveTileRenderer(unowned_ptr<TileRenderer> tr)
+	void RenderPoolGL::RemoveTileRenderer(TileRenderer * tr)
 	{
 		// Try to find the render object the tile renderer belongs to
 		for(auto & p : render_passes_) {
@@ -551,7 +551,7 @@ namespace ose::rendering
 	}
 
 	// Remove a mesh renderer component from the render pool
-	void RenderPoolGL::RemoveMeshRenderer(unowned_ptr<MeshRenderer> mr)
+	void RenderPoolGL::RemoveMeshRenderer(MeshRenderer * mr)
 	{
 		// Try to find the render object the mesh renderer belongs to
 		for(auto & p : render_passes_) {
@@ -579,13 +579,13 @@ namespace ose::rendering
 	}
 
 	// Remove a point light component from the render pool
-	void RenderPoolGL::RemovePointLight(unowned_ptr<PointLight> pl)
+	void RenderPoolGL::RemovePointLight(PointLight * pl)
 	{
 		// TODO
 	}
 
 	// Remove a direction light component from the render pool
-	void RenderPoolGL::RemoveDirLight(unowned_ptr<DirLight> dl)
+	void RenderPoolGL::RemoveDirLight(DirLight * dl)
 	{
 		// TODO
 	}
