@@ -58,7 +58,7 @@ namespace ose
 
 		// Find all the entities with the given name
 		// Includes persistent entities, scene entities, and loaded chunk entities
-		std::vector<Entity *> FindAllEntitiesWithName(std::string_view name);
+		std::vector<Entity *> FindAllEntitiesWithName(std::string_view name) const;
 
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera

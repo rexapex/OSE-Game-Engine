@@ -9,6 +9,6 @@ namespace ose
 	{
 		float load_distance_			{ 100.0f };
 		float unload_distance_			{ 250.0f };
-		unowned_ptr<Entity> agent_		{ nullptr };
+		std::string agent_name_;
 	};
 }

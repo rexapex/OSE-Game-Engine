@@ -61,7 +61,10 @@ namespace ose
 
 		// Find all the entities in this entity list and sub lists with the given name
 		// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
-		std::vector<Entity *> FindDescendentEntitiesWithName(std::string_view name);
+		std::vector<Entity *> FindDescendentEntitiesWithName(std::string_view name) const;
+
+		// Find all the entities in this entity list and sub lists with the given name and add them to the vector passed
+		void FindDescendentEntitiesWithName(std::string_view name, std::vector<Entity *> & out_vec) const;
 
 	protected:
 		// Get a list of transformable elements

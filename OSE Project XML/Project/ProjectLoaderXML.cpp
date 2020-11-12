@@ -504,9 +504,8 @@ namespace ose::project
 
 			auto agent_attrib = chunks_node->first_attribute("agent");
 			if(agent_attrib != nullptr)
-				agent_name = agent_attrib->value();
-			// TODO - Find entity with name
-			cm_settings.agent_ = scene->GetEntities()[0].get();
+				cm_settings.agent_name_ = agent_attrib->value();
+
 			scene->ApplyChunkManagerSettings(cm_settings);
 
 			for(auto chunk_node = chunks_node->first_node("chunk"); chunk_node; chunk_node = chunk_node->next_sibling("chunk"))

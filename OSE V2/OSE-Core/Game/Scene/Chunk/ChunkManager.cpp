@@ -4,6 +4,7 @@
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Project/ProjectLoader.h"
 #include "OSE-Core/Math/ITransform.h"
+#include "OSE-Core/Game/Game.h"
 
 namespace ose
 {
@@ -32,12 +33,12 @@ namespace ose
 	// Determine whether chunks should be loaded/unloaded
 	void ChunkManager::UpdateChunks()
 	{
-		if(settings_.agent_)
+		if(agent_)
 		{
 			for(auto & iter = unloaded_chunks_.begin(); iter != unloaded_chunks_.end();)
 			{
 				std::unique_ptr<Chunk> & chunk = *iter;
-				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), settings_.agent_->GetGlobalTransform().GetTranslation()) <= std::pow(settings_.load_distance_, 2))
+				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), agent_->GetGlobalTransform().GetTranslation()) <= std::pow(settings_.load_distance_, 2))
 				{
 					chunk->Load();
 					OnChunkActivated(*chunk);
@@ -53,7 +54,7 @@ namespace ose
 			for(auto & iter = loaded_chunks_.begin(); iter != loaded_chunks_.end();)
 			{
 				std::unique_ptr<Chunk> & chunk = *iter;
-				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), settings_.agent_->GetGlobalTransform().GetTranslation()) >= std::pow(settings_.unload_distance_, 2))
+				if(glm::distance2(chunk->GetGlobalTransform().GetTranslation(), agent_->GetGlobalTransform().GetTranslation()) >= std::pow(settings_.unload_distance_, 2))
 				{
 					OnChunkDeactivated(*chunk);
 					chunk->Unload();
@@ -67,15 +68,32 @@ namespace ose
 			}
 		}
 	}
-	
-	std::vector<Entity *> ChunkManager::FindLoadedChunkEntitiesWithName(std::string_view name)
+
+	// Reset the chunk manager agent, e.g. find the agent entity from the entities of the game
+	void ChunkManager::ResetChunkManagerAgent(Game * game)
+	{
+		if(!settings_.agent_name_.empty())
+		{
+			std::vector<Entity *> entities = game->FindAllEntitiesWithName(settings_.agent_name_);
+			if(!entities.empty())
+				agent_ = entities[0];
+		}
+	}
+
+	// Find all the entities within loaded chunks with the given name
+	std::vector<Entity *> ChunkManager::FindLoadedChunkEntitiesWithName(std::string_view name) const
 	{
 		std::vector<Entity *> vec;
+		FindLoadedChunkEntitiesWithName(name, vec);
+		return vec;
+	}
+
+	// Find all the entities within loaded chunks with the given name and add them to the vector passed
+	void ChunkManager::FindLoadedChunkEntitiesWithName(std::string_view name, std::vector<Entity *> out_vec) const
+	{
 		for(auto & chunk : loaded_chunks_)
 		{
-			std::vector<Entity *> v { chunk->FindDescendentEntitiesWithName(name) };
-			std::copy(v.begin(), v.end(), vec.end());
+			chunk->FindDescendentEntitiesWithName(name, out_vec);
 		}
-		return vec;
 	}
 }

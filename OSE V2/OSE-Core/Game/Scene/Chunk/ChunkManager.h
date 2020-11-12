@@ -6,6 +6,7 @@ namespace ose
 	class ProjectLoader;
 	class SceneManager;
 	class Chunk;
+	class Game;
 
 	class ChunkManager
 	{
@@ -36,8 +37,14 @@ namespace ose
 		// Apply the settings to the chunk manager
 		void ApplyChunkManagerSettings(ChunkManagerSettings settings) { settings_ = settings; }
 
+		// Reset the chunk manager agent, e.g. find the agent entity from the entities of the game
+		void ResetChunkManagerAgent(Game * game);
+
 		// Find all the entities within loaded chunks with the given name
-		std::vector<Entity *> FindLoadedChunkEntitiesWithName(std::string_view name);
+		std::vector<Entity *> FindLoadedChunkEntitiesWithName(std::string_view name) const;
+
+		// Find all the entities within loaded chunks with the given name and add them to the vector passed
+		void FindLoadedChunkEntitiesWithName(std::string_view name, std::vector<Entity *> out_vec) const;
 
 	protected:
 		virtual void OnChunkActivated(Chunk & chunk) = 0;
@@ -50,5 +57,8 @@ namespace ose
 
 		// Settings determine when chunks are loaded/unloaded
 		ChunkManagerSettings settings_;
+
+		// The entity which causes chunks to load/unload
+		Entity * agent_ { nullptr };
 	};
 }

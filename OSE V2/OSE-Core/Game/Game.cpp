@@ -76,6 +76,9 @@ namespace ose
 	// Only one scene can be active at a time
 	void Game::OnSceneActivated(Scene & scene)
 	{
+		// Reset the chunk manager agent, e.g. find the agent using the Game::FindAllEntitiesWithName method
+		scene.ResetChunkManagerAgent(this);
+
 		// IMPORTANT - the following code can only be run on the same thread as the render context
 
 		// create GPU memory for the new resources
@@ -299,15 +302,14 @@ namespace ose
 
 	// Find all the entities with the given name
 	// Includes persistent entities, scene entities, and loaded chunk entities
-	std::vector<Entity *> Game::FindAllEntitiesWithName(std::string_view name)
+	std::vector<Entity *> Game::FindAllEntitiesWithName(std::string_view name) const
 	{
-		std::vector<Entity *> vec { FindDescendentEntitiesWithName(name) };
+		std::vector<Entity *> vec;
+		FindDescendentEntitiesWithName(name, vec);
 		if(active_scene_)
 		{
-			std::vector<Entity *> scene_entities { active_scene_->FindDescendentEntitiesWithName(name) };
-			std::copy(scene_entities.begin(), scene_entities.end(), vec.end());
-			std::vector<Entity *> chunk_entities { active_scene_->FindLoadedChunkEntitiesWithName(name) };
-			std::copy(chunk_entities.begin(), chunk_entities.end(), vec.end());
+			active_scene_->FindDescendentEntitiesWithName(name, vec);
+			active_scene_->FindLoadedChunkEntitiesWithName(name, vec);
 		}
 		return vec;
 	}
