@@ -1,18 +1,29 @@
 #include "stdafx.h"
 #include "Scene.h"
 #include "OSE-Core/Entity/Entity.h"
+#include "SceneManager.h"
 
 namespace ose
 {
 	Scene::Scene(const std::string & name, const ControlSettings & control_settings)
-		: EntityList(nullptr), name_(name), control_settings_(control_settings) {}
+		: EntityList(nullptr), ChunkManager(), name_(name), control_settings_(control_settings) {}
 
 	Scene::~Scene() noexcept {}
 
-	Scene::Scene(const Scene & other) noexcept : EntityList(nullptr, other)
+	Scene::Scene(const Scene & other) noexcept : EntityList(nullptr, other), ChunkManager(other)
 	{
 		this->name_ = other.name_;
 		this->control_settings_ = other.control_settings_;
+	}
+
+	void Scene::OnChunkActivated(Chunk & chunk)
+	{
+		scene_manager_->OnChunkActivated(chunk);
+	}
+
+	void Scene::OnChunkDeactivated(Chunk & chunk)
+	{
+		scene_manager_->OnChunkDeactivated(chunk);
 	}
 
 

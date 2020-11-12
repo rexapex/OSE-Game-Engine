@@ -6,6 +6,7 @@ namespace ose
 	class Scene;
 	class Project;
 	class ProjectLoader;
+	class Chunk;
 
 	class SceneManager
 	{
@@ -28,6 +29,10 @@ namespace ose
 		// Set the way the game removes scenes on a scene switch
 		void SetSceneSwitchMode(const ESceneSwitchMode & mode) {scene_switch_mode_ = mode;}
 
+		// Called by a scene (chunk manager) upon activating/deactivating a chunk
+		virtual void OnChunkActivated(Chunk & chunk) = 0;
+		virtual void OnChunkDeactivated(Chunk & chunk) = 0;
+
 	protected:
 		std::unique_ptr<Project> project_;
 		std::unique_ptr<ProjectLoader> project_loader_;
@@ -37,12 +42,12 @@ namespace ose
 		virtual void OnProjectActivated(Project & project) = 0;
 		virtual void OnProjectDeactivated(Project & project) = 0;
 
+		// The current scene being played (updated, rendered, etc...)
+		std::unique_ptr<Scene> active_scene_;
+
 	private:
 		// Specifies which scenes should be unloaded on scene switch
 		ESceneSwitchMode scene_switch_mode_;
-
-		// The current scene being played (updated, rendered, etc...)
-		std::unique_ptr<Scene> active_scene_;
 
 		// Contains every scene which has been loaded but NOT the active scene
 		std::map<std::string, std::unique_ptr<Scene>> loaded_scenes_;

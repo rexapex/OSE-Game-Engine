@@ -11,12 +11,10 @@ namespace ose
 
 	}
 
-
 	Entity::~Entity() noexcept
 	{
 
 	}
-
 
 	Entity::Entity(EntityList * parent, const Entity & other) noexcept : EntityList(parent, other), ComponentList(other)
 	{

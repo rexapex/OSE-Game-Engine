@@ -7,6 +7,7 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Scripting/ScriptingEngine.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
@@ -75,6 +76,9 @@ namespace ose
 	// Only one scene can be active at a time
 	void Game::OnSceneActivated(Scene & scene)
 	{
+		// Reset the chunk manager agent, e.g. find the agent using the Game::FindAllEntitiesWithName method
+		scene.ResetChunkManagerAgent(this);
+
 		// IMPORTANT - the following code can only be run on the same thread as the render context
 
 		// create GPU memory for the new resources
@@ -134,6 +138,9 @@ namespace ose
 
 			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
+
+			// Update the chunks of the active scene (TODO - Do this at a fixed rate to reduce computation)
+			active_scene_->UpdateChunks();
 
 			// Execute developer created scripts
 			scripting_engine_->Update();
@@ -259,6 +266,52 @@ namespace ose
 			if(sub_entity->IsEnabled())
 				OnEntityDeactivated(*sub_entity);
 		}
+	}
+
+	// Activate a chunk along with activated sub-entities
+	void Game::OnChunkActivated(Chunk & chunk)
+	{
+		DEBUG_LOG("Activating Chunk", chunk.GetName());
+
+		// Activate the sub entities iff they are set to active
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Ensure the entity has a reference to the game to allow activation/deactivation/updating
+			sub_entity->SetGameReference(this);
+			// Activate the entity if it is marked as enabled
+			if(sub_entity->IsEnabled())
+				OnEntityActivated(*sub_entity);
+		}
+	}
+
+	// Deactivate a chunk along with all its sub-entities
+	void Game::OnChunkDeactivated(Chunk & chunk)
+	{
+		DEBUG_LOG("De-activating Chunk", chunk.GetName());
+
+		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Remove the game reference from the entity since it no longer has control over its own activation
+			sub_entity->SetGameReference(nullptr);
+			// Deactivate the entity if it is currently enabled
+			if(sub_entity->IsEnabled())
+				OnEntityDeactivated(*sub_entity);
+		}
+	}
+
+	// Find all the entities with the given name
+	// Includes persistent entities, scene entities, and loaded chunk entities
+	std::vector<Entity *> Game::FindAllEntitiesWithName(std::string_view name) const
+	{
+		std::vector<Entity *> vec;
+		FindDescendentEntitiesWithName(name, vec);
+		if(active_scene_)
+		{
+			active_scene_->FindDescendentEntitiesWithName(name, vec);
+			active_scene_->FindLoadedChunkEntitiesWithName(name, vec);
+		}
+		return vec;
 	}
 	
 	// Load a custom data file

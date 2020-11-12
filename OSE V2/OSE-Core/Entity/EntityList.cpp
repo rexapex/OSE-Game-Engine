@@ -4,17 +4,22 @@
 
 namespace ose
 {
-	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent) {}
+	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent)
+	{
+		ResetGlobalTransform();
+	}
+
 	EntityList::~EntityList() {}
 
 	EntityList::EntityList(EntityList * parent, const EntityList & other) noexcept : Transformable(other), parent_(parent)
 	{
-		// perform a deep copy of all entities
-		this->entities_.clear();	// vector should be empty
+		// Perform a deep copy of all entities
+		this->entities_.clear();
 		for(const auto & e : other.entities_)
 		{
 			this->entities_.push_back(std::make_unique<Entity>(this, *e));
 		}
+		ResetGlobalTransform();
 	}
 
 	// Add an entity to the entity list
@@ -110,5 +115,25 @@ namespace ose
 		// Add the entity to the new entity list
 		to.entities_.push_back(std::move(up));		
 		return true;
+	}
+
+	// Find all the entities in this entity list and sub lists with the given name
+	// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
+	std::vector<Entity *> EntityList::FindDescendentEntitiesWithName(std::string_view name) const
+	{
+		std::vector<Entity *> vec;
+		FindDescendentEntitiesWithName(name, vec);
+		return vec;
+	}
+
+	// Find all the entities in this entity list and sub lists with the given name and add them to the vector passed
+	void EntityList::FindDescendentEntitiesWithName(std::string_view name, std::vector<Entity *> & out_vec) const
+	{
+		for(auto const & e : entities_)
+		{
+			if(e->GetName() == name)
+				out_vec.emplace_back(e.get());
+			e->FindDescendentEntitiesWithName(name, out_vec);
+		}
 	}
 }

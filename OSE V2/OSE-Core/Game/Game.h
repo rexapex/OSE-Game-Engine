@@ -16,6 +16,7 @@ namespace ose
 	class ProjectLoader;
 	class WindowManager;
 	class RenderingEngine;
+	class Chunk;
 	class Entity;
 	class Component;
 	class SpriteRenderer;
@@ -46,6 +47,18 @@ namespace ose
 		// Deactivate an entity along with all its sub-entities
 		// Should NEVER be called directly by a script, disable entity instead
 		void OnEntityDeactivated(Entity & entity);
+
+		// Activate a chunk along with activated sub-entities
+		// Should NEVER be called directly by a script, enable chunk instead
+		virtual void OnChunkActivated(Chunk & chunk) override;
+
+		// Deactivate a chunk along with all its sub-entities
+		// Should NEVER be called directly by a script, disable chunk instead
+		virtual void OnChunkDeactivated(Chunk & chunk) override;
+
+		// Find all the entities with the given name
+		// Includes persistent entities, scene entities, and loaded chunk entities
+		std::vector<Entity *> FindAllEntitiesWithName(std::string_view name) const;
 
 		// Set the active camera
 		// If c is nullptr, the active camera is set to the default camera

@@ -6,6 +6,7 @@
 #include "OSE-Core/Project/ProjectSettings.h"
 #include "OSE-Core/Game/Tag.h"
 #include "OSE-Core/Game/Scene/Scene.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 
 #include "OSE-Core/Input/InputSettings.h"
@@ -461,6 +462,7 @@ namespace ose::project
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
 		auto controls_node = scene_node->first_node("controls");
+		auto chunks_node = scene_node->first_node("chunks");
 		///auto cached_prefabs_node = scene_node->first_node("cached_prefabs");
 
 		// Load the scene's controls
@@ -474,7 +476,8 @@ namespace ose::project
 		ParseResources(resources_node, aliases, project);
 
 		// Load the scene's entities
-		if(entities_node != nullptr) {
+		if(entities_node != nullptr)
+		{
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 			{
 				// Parse the xml of the entity and add it to the scene
@@ -485,10 +488,94 @@ namespace ose::project
 			}
 		}
 
+		// Load the scene's chunk declerations
+		if(chunks_node != nullptr)
+		{
+			ChunkManagerSettings cm_settings;
+			std::string agent_name;
+
+			auto load_distance_attrib = chunks_node->first_attribute("load_distance");
+			if(load_distance_attrib != nullptr)
+				cm_settings.load_distance_ = std::stof(load_distance_attrib->value());
+
+			auto unload_distance_attrib = chunks_node->first_attribute("unload_distance");
+			if(unload_distance_attrib != nullptr)
+				cm_settings.unload_distance_ = std::stof(unload_distance_attrib->value());
+
+			auto agent_attrib = chunks_node->first_attribute("agent");
+			if(agent_attrib != nullptr)
+				cm_settings.agent_name_ = agent_attrib->value();
+
+			scene->ApplyChunkManagerSettings(cm_settings);
+
+			for(auto chunk_node = chunks_node->first_node("chunk"); chunk_node; chunk_node = chunk_node->next_sibling("chunk"))
+			{
+				// Parse the xml of the chunk and add it to the scene
+				auto name_attrib = chunk_node->first_attribute("name");
+				const std::string & name = (name_attrib ? name_attrib->value() : "");
+				const std::string path = scene_path + "/Chunks/" + name + ".xml";
+				Chunk * chunk = scene->AddChunk(name, path, project, *this);
+
+				for(auto transform_node = chunk_node->first_node("transform"); transform_node; transform_node = transform_node->next_sibling("transform"))
+				{
+					glm::vec3 translation;
+					glm::vec3 scale;
+					glm::vec3 rotation;
+
+					ParseTransform(translation, scale, rotation, transform_node);
+
+					chunk->SetTranslation(translation);
+					chunk->SetScale(scale);
+					chunk->SetOrientationDeg(rotation);
+				}
+			}
+		}
+
 		// Remove the temporary prefabs since they were only needed for scene loading
 		project.GetPrefabManager().ClearTempPrefabs();
 
 		return scene;
+	}
+
+
+	void ProjectLoaderXML::LoadChunk(Chunk & chunk, Project const & project)
+	{
+		std::unique_ptr<xml_document<>> doc;
+		std::string contents;
+		std::string path = project.GetProjectPath() + "/Chunks/" + chunk.GetName() + ".xml";
+
+		try
+		{
+			doc = LoadXmlFile(path, contents);
+		}
+		catch(const std::exception & e)
+		{
+			LOG_ERROR(e.what());
+			return;
+		}
+
+		auto chunk_node = doc->first_node("chunk");
+		if(!chunk_node)
+			return;
+
+		auto entities_node = chunk_node->first_node("entities");
+		auto resources_node = chunk_node->first_node("resources");
+
+		std::unordered_map<std::string, std::string> aliases;
+		ParseResources(resources_node, aliases, project);
+
+		// Load the chunks's entities
+		if(entities_node != nullptr)
+		{
+			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
+			{
+				// Parse the xml of the entity and add it to the scene
+#				pragma warning(push)
+#				pragma warning(disable:26444)
+				ParseEntity(&chunk, entity_node, aliases, project);
+#				pragma warning(pop)
+			}
+		}
 	}
 
 
@@ -585,64 +672,15 @@ namespace ose::project
 		// parse the transform component of the new entity
 		for(auto component_node = entity_node->first_node("transform"); component_node; component_node = component_node->next_sibling("transform"))
 		{
-			try
-			{
-				// TODO - Include controls for setting the orientation
-				// NOTE - Should include ability to set 2d rotation (r), 3d euler rotation (rx, ry, rz), 3d orientation (ox, oy, oz, ow)
-				float x  { 0.0f };
-				float y  { 0.0f };
-				float z  { 0.0f };
-				float sx { 1.0f };
-				float sy { 1.0f };
-				float sz { 1.0f };
-				float rx { 0.0f };
-				float ry { 0.0f };
-				float rz { 0.0f };
+			glm::vec3 translation;
+			glm::vec3 scale;
+			glm::vec3 rotation;
 
-				auto x_attrib = component_node->first_attribute("x");
-				if(x_attrib != nullptr)
-					x = std::stof(x_attrib->value());
+			ParseTransform(translation, scale, rotation, component_node);
 
-				auto y_attrib = component_node->first_attribute("y");
-				if(y_attrib != nullptr)
-					y = std::stof(y_attrib->value());
-
-				auto z_attrib = component_node->first_attribute("z");
-				if(z_attrib != nullptr)
-					z = std::stof(z_attrib->value());
-
-				auto sx_attrib = component_node->first_attribute("sx");
-				if(sx_attrib != nullptr)
-					sx = std::stof(sx_attrib->value());
-
-				auto sy_attrib = component_node->first_attribute("sy");
-				if(sy_attrib != nullptr)
-					sy = std::stof(sy_attrib->value());
-
-				auto sz_attrib = component_node->first_attribute("sz");
-				if(sz_attrib != nullptr)
-					sz = std::stof(sz_attrib->value());
-
-				auto rx_attrib = component_node->first_attribute("rx");
-				if(rx_attrib != nullptr)
-					rx = std::stof(rx_attrib->value());
-
-				auto ry_attrib = component_node->first_attribute("ry");
-				if(ry_attrib != nullptr)
-					ry = std::stof(ry_attrib->value());
-
-				auto rz_attrib = component_node->first_attribute("rz");
-				if(rz_attrib != nullptr)
-					rz = std::stof(rz_attrib->value());
-
-				new_entity->SetTranslation(x, y, z);
-				new_entity->SetScale(sx, sy, sz);
-				new_entity->SetOrientationDeg(rx, ry, rz);
-			}
-			catch(...)
-			{
-				LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
-			}
+			new_entity->Translate(translation);
+			new_entity->Scale(scale);
+			new_entity->RotateDeg(rotation);
 		}
 
 		// parse the sprite renderer components of the new entity
@@ -840,6 +878,69 @@ namespace ose::project
 		}
 
 		return new_entity_ret;
+	}
+
+	// Parse the XML of a transformable (entity / chunk)
+	void ProjectLoaderXML::ParseTransform(glm::vec3 & out_translation, glm::vec3 & out_scale, glm::vec3 & out_rotation, rapidxml::xml_node<> * transform_node)
+	{
+		try
+		{
+			// TODO - Include controls for settings the orientation
+			// NOTE - Should include ability to set 2d rotation (r), 3d euler rotation (rx, ry, rz), 3d orientation (ox, oy, oz, ow)
+			float x  { 0.0f };
+			float y  { 0.0f };
+			float z  { 0.0f };
+			float sx { 1.0f };
+			float sy { 1.0f };
+			float sz { 1.0f };
+			float rx { 0.0f };
+			float ry { 0.0f };
+			float rz { 0.0f };
+
+			auto x_attrib = transform_node->first_attribute("x");
+			if(x_attrib != nullptr)
+				x = std::stof(x_attrib->value());
+
+			auto y_attrib = transform_node->first_attribute("y");
+			if(y_attrib != nullptr)
+				y = std::stof(y_attrib->value());
+
+			auto z_attrib = transform_node->first_attribute("z");
+			if(z_attrib != nullptr)
+				z = std::stof(z_attrib->value());
+
+			auto sx_attrib = transform_node->first_attribute("sx");
+			if(sx_attrib != nullptr)
+				sx = std::stof(sx_attrib->value());
+
+			auto sy_attrib = transform_node->first_attribute("sy");
+			if(sy_attrib != nullptr)
+				sy = std::stof(sy_attrib->value());
+
+			auto sz_attrib = transform_node->first_attribute("sz");
+			if(sz_attrib != nullptr)
+				sz = std::stof(sz_attrib->value());
+
+			auto rx_attrib = transform_node->first_attribute("rx");
+			if(rx_attrib != nullptr)
+				rx = std::stof(rx_attrib->value());
+
+			auto ry_attrib = transform_node->first_attribute("ry");
+			if(ry_attrib != nullptr)
+				ry = std::stof(ry_attrib->value());
+
+			auto rz_attrib = transform_node->first_attribute("rz");
+			if(rz_attrib != nullptr)
+				rz = std::stof(rz_attrib->value());
+
+			out_translation = { x, y, z };
+			out_scale = { sx, sy, sz };
+			out_rotation = { rx, ry, rz };
+		}
+		catch(...)
+		{
+			LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
+		}
 	}
 
 	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
