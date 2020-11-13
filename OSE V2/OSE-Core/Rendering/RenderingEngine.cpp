@@ -27,30 +27,30 @@ namespace ose
 	//saves having to resize framebuffers twice
 	void RenderingEngine::SetProjectionModeAndFbSize(EProjectionMode const & projection_mode, int width, int height)
 	{
-		if(this->projection_mode_ != projection_mode)
+		if(projection_mode_ != projection_mode)
 		{
-			this->projection_mode_ = projection_mode;
+			projection_mode_ = projection_mode;
 		}
-		this->fbwidth_ = width;
-		this->fbheight_ = height;
-		this->UpdateProjectionMatrix();
+		fbwidth_ = width;
+		fbheight_ = height;
+		UpdateProjectionMatrix();
 	}
 
 	void RenderingEngine::SetProjectionMode(EProjectionMode const & projection_mode)
 	{
-		if(this->projection_mode_ != projection_mode)
+		if(projection_mode_ != projection_mode)
 		{
-			this->projection_mode_ = projection_mode;
-			this->UpdateProjectionMatrix();
+			projection_mode_ = projection_mode;
+			UpdateProjectionMatrix();
 		}
 	}
 
 	void RenderingEngine::SetFramebufferSize(int width, int height)
 	{
-		this->fbwidth_ = width;
-		this->fbheight_ = height;
-		this->GetRenderPool().SetFramebufferSize(width, height);
-		this->UpdateProjectionMatrix();
+		fbwidth_ = width;
+		fbheight_ = height;
+		GetRenderPool().SetFramebufferSize(width, height);
+		UpdateProjectionMatrix();
 	}
 
 	void RenderingEngine::UpdateProjectionMatrix()
@@ -61,12 +61,12 @@ namespace ose
 			{
 			case EProjectionMode::ORTHOGRAPHIC:
 			{
-				this->UpdateOrthographicProjectionMatrix(fbwidth_, fbheight_);
+				UpdateOrthographicProjectionMatrix(fbwidth_, fbheight_);
 				break;
 			}
 			case EProjectionMode::PERSPECTIVE:
 			{
-				this->UpdatePerspectiveProjectionMatrix(hfov_deg_, fbwidth_, fbheight_, znear_, zfar_);
+				UpdatePerspectiveProjectionMatrix(hfov_deg_, fbwidth_, fbheight_, znear_, zfar_);
 				break;
 			}
 			}

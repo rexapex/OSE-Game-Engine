@@ -11,9 +11,9 @@ namespace ose::windowing
 
 	WindowManagerGLFW::~WindowManagerGLFW()
 	{
-		if(window)
+		if(window_)
 		{
-			glfwDestroyWindow(window);
+			glfwDestroyWindow(window_);
 		}
 	}
 
@@ -96,10 +96,10 @@ namespace ose::windowing
 		}
 
 		//if there is a window already, destroy it
-		if(this->window)
+		if(window_)
 		{
-			glfwDestroyWindow(this->window);
-			this->window = nullptr;
+			glfwDestroyWindow(window_);
+			window_ = nullptr;
 		}
 
 		if(!window)
@@ -131,7 +131,7 @@ namespace ose::windowing
 				std::cerr << "Set window to be default render context" << std::endl;
 			}
 
-			this->window = window;
+			window_ = window;
 		}
 	}
 
@@ -140,20 +140,20 @@ namespace ose::windowing
 	void WindowManagerGLFW::Update()
 	{
 		//swap buffers to update the screen and then poll for new events
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window_);
 		glfwPollEvents();
 
 		//check if game should be closed
-		if(glfwWindowShouldClose(window))
+		if(glfwWindowShouldClose(window_))
 		{
-			glfwDestroyWindow(window);
-			window = nullptr;
+			glfwDestroyWindow(window_);
+			window_ = nullptr;
 			exit(0);
 		}
 
-		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window_));
 		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);		//Callback function not called frequently enough to update camera
+		glfwGetCursorPos(window_, &xpos, &ypos);		//Callback function not called frequently enough to update camera
 		window_manager->CursorPosCallbackImpl(xpos, ypos);
 	}
 
@@ -162,7 +162,7 @@ namespace ose::windowing
 
 	void WindowManagerGLFW::SetTitle(std::string const & title)
 	{
-		glfwSetWindowTitle(window, title.c_str());
+		glfwSetWindowTitle(window_, title.c_str());
 	}
 
 
@@ -171,11 +171,11 @@ namespace ose::windowing
 	int WindowManagerGLFW::SetMouseVisibility(int value)
 	{
 		if(value == 0)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		else if(value == 1)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		else if(value == 2)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		return 0;
 	}
@@ -184,12 +184,12 @@ namespace ose::windowing
 
 	void WindowManagerGLFW::SetWindowSize(int width, int height)
 	{
-		glfwSetWindowSize(window, width, height);
+		glfwSetWindowSize(window_, width, height);
 	}
 
 	void WindowManagerGLFW::SetWindowPos(int x, int y)
 	{
-		glfwSetWindowPos(window, x, y);
+		glfwSetWindowPos(window_, x, y);
 	}
 
 

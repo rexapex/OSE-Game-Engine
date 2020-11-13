@@ -7,12 +7,12 @@ namespace ose
 							std::condition_variable & work_to_do, std::function<void(uint32_t thread_id)> on_task_completed)
 		: thread_id_(thread_id), get_new_task_(get_new_task), mu_(mu), work_to_do_(work_to_do), on_task_completed_(on_task_completed)
 	{
-		this->t_ = std::thread(&GameThread::Run, this);
+		t_ = std::thread(&GameThread::Run, this);
 	}
 
 	GameThread::~GameThread()
 	{
-		this->t_.join();
+		t_.join();
 	}
 
 	//move constructors
@@ -23,10 +23,10 @@ namespace ose
 
 	GameThread & GameThread::operator=(GameThread && other) noexcept
 	{
-		this->thread_id_ = std::move(other.thread_id_);
-		this->get_new_task_ = std::move(other.get_new_task_);
-		this->on_task_completed_ = std::move(other.on_task_completed_);
-		this->t_ = std::move(other.t_);
+		thread_id_ = std::move(other.thread_id_);
+		get_new_task_ = std::move(other.get_new_task_);
+		on_task_completed_ = std::move(other.on_task_completed_);
+		t_ = std::move(other.t_);
 		return *this;
 	}
 

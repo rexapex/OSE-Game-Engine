@@ -24,10 +24,10 @@ namespace ose
 		// Clear the list of entities and return chunk to unloaded state
 		void Unload();
 
-		void SetName(std::string const & name) { this->name_ = name; }
-		std::string const & GetName() const { return this->name_; }
+		void SetName(std::string const & name) { name_ = name; }
+		std::string const & GetName() const { return name_; }
 
-		std::string const & GetPath() const { return this->path_; }
+		std::string const & GetPath() const { return path_; }
 
 	private:
 		// Name of the chunk file (excluding the file extension)

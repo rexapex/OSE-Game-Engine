@@ -12,8 +12,8 @@ namespace ose
 
 	Scene::Scene(Scene const & other) noexcept : EntityList(nullptr, other), ChunkManager(other)
 	{
-		this->name_ = other.name_;
-		this->control_settings_ = other.control_settings_;
+		name_ = other.name_;
+		control_settings_ = other.control_settings_;
 	}
 
 	void Scene::OnChunkActivated(Chunk & chunk)
@@ -33,7 +33,7 @@ namespace ose
 	void Scene::Print()
 	{
 		std::cerr << "**********  Scene Definition  **********" << std::endl;
-		std::cerr << "scene -> name: " << this->name_ << std::endl;
+		std::cerr << "scene -> name: " << name_ << std::endl;
 		for(auto & e : entities_)
 		{
 			PrintEntity(*e, 1);

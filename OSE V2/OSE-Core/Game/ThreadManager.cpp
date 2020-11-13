@@ -17,9 +17,9 @@ namespace ose
 
 	/*ThreadManager & ThreadManager::operator=(ThreadManager && other) noexcept
 	{
-		this->threads_ = std::move(other.threads_);
-		this->tasks_in_progress_ = std::move(other.tasks_in_progress_);
-		this->render_pool_ = other.render_pool_;
+		threads_ = std::move(other.threads_);
+		tasks_in_progress_ = std::move(other.tasks_in_progress_);
+		render_pool_ = other.render_pool_;
 		return *this;
 	}*/
 
@@ -35,11 +35,11 @@ namespace ose
 		threads_.reserve(num_threads);
 
 		auto get_new_task = [this] (std::string & task) {
-			this->GetNewTask(task);
+			GetNewTask(task);
 		};
 
 		auto on_task_completed = [this] (uint32_t thread_id) {
-			this->OnTaskCompleted(thread_id);
+			OnTaskCompleted(thread_id);
 		};
 
 		tasks_in_progress_ = 0;

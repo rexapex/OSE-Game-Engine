@@ -19,11 +19,11 @@ namespace ose
 		Entity & operator=(Entity &) noexcept = delete;
 		Entity & operator=(Entity &&) noexcept = delete;
 
-		std::string const & GetName() const { return this->name_; }
-		EntityID const GetUniqueId() const { return this->unique_id_; }
+		std::string const & GetName() const { return name_; }
+		EntityID const GetUniqueId() const { return unique_id_; }
 
-		void SetName(std::string const & name) { this->name_ = name; }
-		void SetTag(std::string const & tag) { this->tag_ = tag; }
+		void SetName(std::string const & name) { name_ = name; }
+		void SetTag(std::string const & tag) { tag_ = tag; }
 
 		bool IsEnabled() const { return enabled_; }
 		void SetEnabled(bool a);
