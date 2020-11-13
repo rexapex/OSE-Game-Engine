@@ -34,7 +34,7 @@ namespace ose::windowing
 
 		void SetNumSamples(int numSamples);
 
-		GLFWwindow const & GetWindow() const { return *window; }
+		GLFWwindow const & GetWindow() const { return *window_; }
 		void NewWindow(int windowMode, int video_mode);
 
 		void Update();
@@ -43,7 +43,7 @@ namespace ose::windowing
 	private:
 		int InitWindowingToolkit() const;
 
-		GLFWwindow * window;
+		GLFWwindow * window_;
 
 		int fbwidth_, fbheight_;	// framebuffer width & height
 		int wwidth_, wheight_;		// window width & height

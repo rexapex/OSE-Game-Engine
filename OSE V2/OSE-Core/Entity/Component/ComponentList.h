@@ -16,7 +16,7 @@ namespace ose
 		ComponentList & operator=(ComponentList &&) noexcept = delete;
 
 		// get a list of all components
-		std::vector<uptr<Component>> const & GetComponents() const { return this->components_; }
+		std::vector<uptr<Component>> const & GetComponents() const { return components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -111,7 +111,7 @@ namespace ose
 			// use removeComponent method in a loop until no more components can be removed
 			bool removed;
 			do {
-				removed = this->RemoveComponent<ComponentType>();
+				removed = RemoveComponent<ComponentType>();
 				if(removed) num_removals ++;
 			} while(removed);
 

@@ -24,10 +24,10 @@ namespace ose
 		Project(Project && other) noexcept;
 		Project & operator=(Project && other) noexcept;
 
-		ProjectInfo const & GetProjectInfo() const { return this->project_info_; }
-		std::string const & GetProjectPath() const { return this->project_path_; }
-		std::string const & GetProjectFileFormat() const { return this->project_file_format_; }
-		std::map<std::string, std::string> const & GetSceneNamesToPathMap() const { return this->scene_names_to_path_; }
+		ProjectInfo const & GetProjectInfo() const { return project_info_; }
+		std::string const & GetProjectPath() const { return project_path_; }
+		std::string const & GetProjectFileFormat() const { return project_file_format_; }
+		std::map<std::string, std::string> const & GetSceneNamesToPathMap() const { return scene_names_to_path_; }
 		ResourceManager & GetResourceManager() const { return *resource_manager_; }
 		PrefabManager & GetPrefabManager() const { return *prefab_manager_; }
 

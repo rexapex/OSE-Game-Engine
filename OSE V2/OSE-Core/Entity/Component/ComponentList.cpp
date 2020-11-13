@@ -10,14 +10,14 @@ namespace ose
 	ComponentList::ComponentList(ComponentList const & other) noexcept
 	{
 		// TODO - remove any existing components
-		this->DeleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
+		DeleteAllComponents();		// NOTE - before this can be done, the components must be removed from engines
 											// copy each component from other
 		for(auto const & comp : other.components_)
 		{
 			// Component base class won't compile if abstract so check for it here instead (and elsewhere)
 			if(comp->IsClassType(Component::GetClassType())) {
 				// using a clone method prevents slicing
-				this->components_.emplace_back(comp->Clone());
+				components_.emplace_back(comp->Clone());
 			}
 		}
 	}
@@ -26,7 +26,7 @@ namespace ose
 	void ComponentList::DeleteAllComponents() noexcept
 	{
 		// TODO - delete components from their respective engines
-		this->components_.clear();
+		components_.clear();
 	}
 
 	// remove the component passed from the entity

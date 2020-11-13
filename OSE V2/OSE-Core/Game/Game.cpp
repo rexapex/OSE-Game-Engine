@@ -26,24 +26,24 @@ namespace ose
 {
 	Game::Game() : SceneManager(), EntityList(nullptr), InputManager()
 	{
-		this->running_ = false;
+		running_ = false;
 
-		///this->render_pool_ = std::move(RenderPoolFactories[0]());
-		///this->thread_manager_ = ose::make_unique<ThreadManager>(*render_pool_);
+		///render_pool_ = std::move(RenderPoolFactories[0]());
+		///thread_manager_ = ose::make_unique<ThreadManager>(*render_pool_);
 		
-		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
-		this->window_manager_->NewWindow(1);
-		int fbwidth { this->window_manager_->GetFramebufferWidth() };
-		int fbheight { this->window_manager_->GetFramebufferHeight() };
+		window_manager_ = WindowingFactories[0]->NewWindowManager();
+		window_manager_->NewWindow(1);
+		int fbwidth { window_manager_->GetFramebufferWidth() };
+		int fbheight { window_manager_->GetFramebufferHeight() };
 
-		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
-		this->window_manager_->SetEngineReferences(rendering_engine_.get(), this);
+		rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
+		window_manager_->SetEngineReferences(rendering_engine_.get(), this);
 
-		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
+		scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
-		this->time_.Init(this->window_manager_->GetTimeSeconds());
+		time_.Init(window_manager_->GetTimeSeconds());
 
-		this->active_camera_ = &default_camera_;
+		active_camera_ = &default_camera_;
 	}
 
 	Game::~Game() noexcept {}

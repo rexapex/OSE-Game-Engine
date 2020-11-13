@@ -14,10 +14,10 @@ namespace ose
 	EntityList::EntityList(EntityList * parent, EntityList const & other) noexcept : Transformable(other), parent_(parent)
 	{
 		// Perform a deep copy of all entities
-		this->entities_.clear();
+		entities_.clear();
 		for(auto const & e : other.entities_)
 		{
-			this->entities_.push_back(ose::make_unique<Entity>(this, *e));
+			entities_.push_back(ose::make_unique<Entity>(this, *e));
 		}
 		ResetGlobalTransform();
 	}

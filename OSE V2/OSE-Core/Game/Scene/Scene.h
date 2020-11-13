@@ -20,7 +20,7 @@ namespace ose
 		Scene & operator=(Scene &&) = delete;
 		
 		// Get the name of the scene
-		std::string const & GetName() const { return this->name_; }
+		std::string const & GetName() const { return name_; }
 
 		// Get the control script settings of the scene
 		ControlSettings const & GetControlSettings() const { return control_settings_; }

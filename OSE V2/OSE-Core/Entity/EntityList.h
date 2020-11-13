@@ -57,7 +57,7 @@ namespace ose
 		bool MoveEntity(Entity const & entity, EntityList & to);
 
 		// Get the list of entities
-		std::vector<uptr<Entity>> const & GetEntities() const { return this->entities_; }
+		std::vector<uptr<Entity>> const & GetEntities() const { return entities_; }
 
 		// Find all the entities in this entity list and sub lists with the given name
 		// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
