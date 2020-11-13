@@ -12,11 +12,11 @@
 #define COMPONENT( ClassName, ParentClass )													\
 public:                                                                                     \
 	static size_t GetClassType() {															\
-		static const std::size_t type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
+		static std::size_t const type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
 		return type;																		\
 	}																						\
 																							\
-	virtual bool IsClassType(const std::size_t classType) const {							\
+	virtual bool IsClassType(std::size_t const classType) const {							\
 		if(classType == GetClassType())														\
 			return true;																	\
 		return ParentClass::IsClassType(classType);											\
@@ -46,21 +46,21 @@ namespace ose
 	class Component
 	{
 	public:
-		Component(const std::string & name);
+		Component(std::string const & name);
 		virtual ~Component();
-		Component(const Component & other) noexcept;
+		Component(Component const & other) noexcept;
 		Component(Component && other) noexcept = default;
 		Component & operator=(Component &) noexcept = delete;
 		Component & operator=(Component &&) noexcept = delete;
 
 		// Get the class type of Component
 		static size_t GetClassType() {
-			static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };
+			static std::size_t const type { std::hash<std::string>()( TO_STRING(Component) ) };
 			return type;
 		}
 
 		// Test whether this class has the same class type as the one passed
-		virtual bool IsClassType(const std::size_t classType) const {
+		virtual bool IsClassType(std::size_t const classType) const {
 			return classType == GetClassType();
 		}
 

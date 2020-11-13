@@ -12,18 +12,18 @@ namespace ose
 	class Scene : public EntityList, public ChunkManager
 	{
 	public:
-		Scene(const std::string & name, const ControlSettings & control_settings);
+		Scene(std::string const & name, ControlSettings const & control_settings);
 		virtual ~Scene() noexcept;
-		Scene(const Scene & other) noexcept;
+		Scene(Scene const & other) noexcept;
 		Scene(Scene &&) noexcept = default;
 		Scene & operator=(Scene &) = delete;
 		Scene & operator=(Scene &&) = delete;
 		
 		// Get the name of the scene
-		const std::string & GetName() const { return this->name_; }
+		std::string const & GetName() const { return this->name_; }
 
 		// Get the control script settings of the scene
-		const ControlSettings & GetControlSettings() const { return control_settings_; }
+		ControlSettings const & GetControlSettings() const { return control_settings_; }
 
 		// Set the scene manager managing this scene
 		void SetSceneManager(SceneManager * s) { scene_manager_ = s; }
@@ -31,7 +31,7 @@ namespace ose
 		// DEBUG METHODS
 		// TODO - REMOVE WHEN READY
 		void Print();
-		void PrintEntity(const Entity & e, int32_t level);
+		void PrintEntity(Entity const & e, int32_t level);
 
 	protected:
 		virtual void OnChunkActivated(Chunk & chunk) override;

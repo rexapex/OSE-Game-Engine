@@ -8,7 +8,7 @@ namespace ose
 	class ShaderGraph
 	{
 	public:
-		ShaderGraph(const std::string & name);
+		ShaderGraph(std::string const & name);
 		virtual ~ShaderGraph();
 
 		// ShaderNodeType is the type of ShaderNode to add
@@ -38,7 +38,7 @@ namespace ose
 		std::vector<NodeConnector> const & GetConnectors() const { return connectors_; }
 
 		// Returns a pointer to the output color node
-		ShaderNode * const GetOutputColorNode() const { return nodes_[0].get(); }
+		ShaderNode * GetOutputColorNode() const { return nodes_[0].get(); }
 
 		// Get a list of all nodes which connect to into node n
 		std::vector<NodeConnector *> const GetIncomingConnectors(ShaderNode * n);

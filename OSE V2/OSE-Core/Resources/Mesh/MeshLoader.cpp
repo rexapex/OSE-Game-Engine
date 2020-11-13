@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	MeshLoader::MeshLoader(const std::string & project_path) : project_path_(project_path)
+	MeshLoader::MeshLoader(std::string const & project_path) : project_path_(project_path)
 	{
 
 	}

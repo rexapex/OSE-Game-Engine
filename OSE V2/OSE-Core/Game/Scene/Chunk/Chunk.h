@@ -11,9 +11,9 @@ namespace ose
 	class Chunk final : public EntityList
 	{
 	public:
-		Chunk(const std::string & name, const std::string & path, Project const & project, ProjectLoader & project_loader);
+		Chunk(std::string const & name, std::string const & path, Project const & project, ProjectLoader & project_loader);
 		virtual ~Chunk() noexcept;
-		Chunk(const Chunk & other);
+		Chunk(Chunk const & other);
 		Chunk(Chunk &&) noexcept = default;
 		Chunk & operator=(Chunk &) = delete;
 		Chunk & operator=(Chunk &&) = delete;
@@ -24,10 +24,10 @@ namespace ose
 		// Clear the list of entities and return chunk to unloaded state
 		void Unload();
 
-		void SetName(const std::string & name) { this->name_ = name; }
-		const std::string & GetName() const { return this->name_; }
+		void SetName(std::string const & name) { this->name_ = name; }
+		std::string const & GetName() const { return this->name_; }
 
-		const std::string & GetPath() const { return this->path_; }
+		std::string const & GetPath() const { return this->path_; }
 
 	private:
 		// Name of the chunk file (excluding the file extension)

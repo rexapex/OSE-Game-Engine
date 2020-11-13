@@ -15,8 +15,8 @@ namespace ose
 		virtual ~Transformable() {}
 
 		// Copy/move constructors
-		Transformable(const Transformable & other) noexcept = default;
-		Transformable & operator=(const Transformable & other) noexcept = default;
+		Transformable(Transformable const & other) noexcept = default;
+		Transformable & operator=(Transformable const & other) noexcept = default;
 		Transformable(Transformable && other) noexcept = default;
 		Transformable & operator=(Transformable && other) noexcept = default;
 
@@ -25,224 +25,224 @@ namespace ose
 		ITransform const & GetGlobalTransform() const { return global_transform_; }
 
 		// Modify the local and global transform of the transformable
-		void Translate(const glm::vec3 & translation)
+		void Translate(glm::vec3 const & translation)
 		{
 			local_transform_.Translate(translation);
 			GlobalTranslate(translation);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Translate(const float x, const float y, const float z)
+		void Translate(float x, float y, float z)
 		{
 			local_transform_.Translate(x, y, z);
 			GlobalTranslate(x, y, z);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Translate2d(const glm::vec2 & translation)
+		void Translate2d(glm::vec2 const & translation)
 		{
 			local_transform_.Translate2d(translation);
 			GlobalTranslate2d(translation);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Translate2d(const float x, const float y)
+		void Translate2d(float x, float y)
 		{
 			local_transform_.Translate2d(x, y);
 			GlobalTranslate2d(x, y);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Rotate(const glm::quat & change)
+		void Rotate(glm::quat const & change)
 		{
 			local_transform_.Rotate(change);
 			GlobalRotate(change);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Rotate(const glm::vec3 & change)
+		void Rotate(glm::vec3 const & change)
 		{
 			local_transform_.Rotate(change);
 			GlobalRotate(change);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Rotate(const float pitch, const float yaw, const float roll)
+		void Rotate(float pitch, float yaw, float roll)
 		{
 			local_transform_.Rotate(pitch, yaw, roll);
 			GlobalRotate(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
-		void RotateDeg(const glm::vec3 & change)
+		void RotateDeg(glm::vec3 const & change)
 		{
 			local_transform_.RotateDeg(change);
 			GlobalRotateDeg(change);
 		}
 
 		// Modify the local and global transform of the transformable
-		void RotateDeg(const float pitch, const float yaw, const float roll)
+		void RotateDeg(float pitch, float yaw, float roll)
 		{
 			local_transform_.RotateDeg(pitch, yaw, roll);
 			GlobalRotateDeg(pitch, yaw, roll);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Rotate2d(const float rotation)
+		void Rotate2d(float rotation)
 		{
 			local_transform_.Rotate2d(rotation);
 			GlobalRotate2d(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Rotate2dDeg(const float rotation)
+		void Rotate2dDeg(float rotation)
 		{
 			local_transform_.Rotate2dDeg(rotation);
 			GlobalRotate2dDeg(rotation);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Scale(const float scalar)
+		void Scale(float scalar)
 		{
 			local_transform_.Scale(scalar);
 			GlobalScale(scalar);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Scale(const glm::vec3 & multiplier)
+		void Scale(glm::vec3 const & multiplier)
 		{
 			local_transform_.Scale(multiplier);
 			GlobalScale(multiplier);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Scale(const float x, const float y, const float z)
+		void Scale(float x, float y, float z)
 		{
 			local_transform_.Scale(x, y, z);
 			GlobalScale(x, y, z);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Scale2d(const glm::vec2 & multiplier)
+		void Scale2d(glm::vec2 const & multiplier)
 		{
 			local_transform_.Scale2d(multiplier);
 			GlobalScale2d(multiplier);
 		}
 
 		// Modify the local and global transform of the transformable
-		void Scale2d(const float x, const float y)
+		void Scale2d(float x, float y)
 		{
 			local_transform_.Scale2d(x, y);
 			GlobalScale2d(x, y);
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetTranslation(const glm::vec3 & translation)
+		void SetTranslation(glm::vec3 const & translation)
 		{
 			local_transform_.SetTranslation(translation);
 			SetGlobalTranslation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetTranslation(const float x, const float y, const float z)
+		void SetTranslation(float x, float y, float z)
 		{
 			local_transform_.SetTranslation(x, y, z);
 			SetGlobalTranslation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetTranslation2d(const glm::vec2 & translation)
+		void SetTranslation2d(glm::vec2 const & translation)
 		{
 			local_transform_.SetTranslation2d(translation);
 			SetGlobalTranslation();
 		}
 		
 		// Modify the local and global transform of the transformable
-		void SetTranslation2d(const float x, const float y)
+		void SetTranslation2d(float x, float y)
 		{
 			local_transform_.SetTranslation2d(x, y);
 			SetGlobalTranslation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientation(const glm::quat & orientation)
+		void SetOrientation(glm::quat const & orientation)
 		{
 			local_transform_.SetOrientation(orientation);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientation(const glm::vec3 & rotation)
+		void SetOrientation(glm::vec3 const & rotation)
 		{
 			local_transform_.SetOrientation(rotation);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientation(const float pitch, const float yaw, const float roll)
+		void SetOrientation(float pitch, float yaw, float roll)
 		{
 			local_transform_.SetOrientation(pitch, yaw, roll);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientationDeg(const glm::vec3 & rotation)
+		void SetOrientationDeg(glm::vec3 const & rotation)
 		{
 			local_transform_.SetOrientationDeg(rotation);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientationDeg(const float pitch, const float yaw, const float roll)
+		void SetOrientationDeg(float pitch, float yaw, float roll)
 		{
 			local_transform_.SetOrientationDeg(pitch, yaw, roll);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientation2d(const float rotation)
+		void SetOrientation2d(float rotation)
 		{
 			local_transform_.SetOrientation2d(rotation);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetOrientation2dDeg(const float rotation)
+		void SetOrientation2dDeg(float rotation)
 		{
 			local_transform_.SetOrientation2dDeg(rotation);
 			SetGlobalOrientation();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale(const float scalar)
+		void SetScale(float scalar)
 		{
 			local_transform_.SetScale(scalar);
 			SetGlobalScale();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale(const glm::vec3 & scale)
+		void SetScale(glm::vec3 const & scale)
 		{
 			local_transform_.SetScale(scale);
 			SetGlobalScale();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale(const float x, const float y, const float z)
+		void SetScale(float x, float y, float z)
 		{
 			local_transform_.SetScale(x, y, z);
 			SetGlobalScale();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale2d(const glm::vec2 & scale2d)
+		void SetScale2d(glm::vec2 const & scale2d)
 		{
 			local_transform_.SetScale2d(scale2d);
 			SetGlobalScale();
 		}
 
 		// Modify the local and global transform of the transformable
-		void SetScale2d(const float x, const float y)
+		void SetScale2d(float x, float y)
 		{
 			local_transform_.SetScale2d(x, y);
 			SetGlobalScale();
@@ -259,119 +259,119 @@ namespace ose
 		}
 
 		// Get a list of child transformable elements
-		virtual const std::vector<T> & GetChildTransformables() const = 0;
+		virtual std::vector<T> const & GetChildTransformables() const = 0;
 
 		// Get a pointer to the parent transformable element
 		virtual Transformable * GetParentTransformable() const = 0;
 
 	private:
 
-		void GlobalTranslate(const glm::vec3 & translation)
+		void GlobalTranslate(glm::vec3 const & translation)
 		{
 			global_transform_.Translate(translation);
 			for(auto & child : GetChildTransformables())
 				child->GlobalTranslate(translation);
 		}
 
-		void GlobalTranslate(const float x, const float y, const float z)
+		void GlobalTranslate(float x, float y, float z)
 		{
 			global_transform_.Translate(x, y, z);
 			for(auto & child : GetChildTransformables())
 				child->GlobalTranslate(x, y, z);
 		}
 
-		void GlobalTranslate2d(const glm::vec2 & translation)
+		void GlobalTranslate2d(glm::vec2 const & translation)
 		{
 			global_transform_.Translate2d(translation);
 			for(auto & child : GetChildTransformables())
 				child->GlobalTranslate2d(translation);
 		}
 
-		void GlobalTranslate2d(const float x, const float y)
+		void GlobalTranslate2d(float x, float y)
 		{
 			global_transform_.Translate2d(x, y);
 			for(auto & child : GetChildTransformables())
 				child->GlobalTranslate2d(x, y);
 		}
 
-		void GlobalRotate(const glm::quat & change)
+		void GlobalRotate(glm::quat const & change)
 		{
 			global_transform_.Rotate(change);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotate(change);
 		}
 
-		void GlobalRotate(const glm::vec3 & change)
+		void GlobalRotate(glm::vec3 const & change)
 		{
 			global_transform_.Rotate(change);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotate(change);
 		}
 
-		void GlobalRotate(const float pitch, const float yaw, const float roll)
+		void GlobalRotate(float pitch, float yaw, float roll)
 		{
 			global_transform_.Rotate(pitch, yaw, roll);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotate(pitch, yaw, roll);
 		}
 
-		void GlobalRotateDeg(const glm::vec3 & change)
+		void GlobalRotateDeg(glm::vec3 const & change)
 		{
 			global_transform_.RotateDeg(change);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotateDeg(change);
 		}
 
-		void GlobalRotateDeg(const float pitch, const float yaw, const float roll)
+		void GlobalRotateDeg(float pitch, float yaw, float roll)
 		{
 			global_transform_.RotateDeg(pitch, yaw, roll);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotateDeg(pitch, yaw, roll);
 		}
 
-		void GlobalRotate2d(const float rotation)
+		void GlobalRotate2d(float rotation)
 		{
 			global_transform_.Rotate2d(rotation);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotate2d(rotation);
 		}
 
-		void GlobalRotate2dDeg(const float rotation)
+		void GlobalRotate2dDeg(float rotation)
 		{
 			global_transform_.Rotate2dDeg(rotation);
 			for(auto & child : GetChildTransformables())
 				child->GlobalRotate2dDeg(rotation);
 		}
 
-		void GlobalScale(const float scalar)
+		void GlobalScale(float scalar)
 		{
 			global_transform_.Scale(scalar);
 			for(auto & child : GetChildTransformables())
 				child->GlobalScale(scalar);
 		}
 
-		void GlobalScale(const glm::vec3 & multiplier)
+		void GlobalScale(glm::vec3 const & multiplier)
 		{
 			global_transform_.Scale(multiplier);
 			for(auto & child : GetChildTransformables())
 				child->GlobalScale(multiplier);
 		}
 
-		void GlobalScale(const float x, const float y, const float z)
+		void GlobalScale(float x, float y, float z)
 		{
 			global_transform_.Scale(x, y, z);
 			for(auto & child : GetChildTransformables())
 				child->GlobalScale(x, y, z);
 		}
 
-		void GlobalScale2d(const glm::vec2 & multiplier)
+		void GlobalScale2d(glm::vec2 const & multiplier)
 		{
 			global_transform_.Scale2d(multiplier);
 			for(auto & child : GetChildTransformables())
 				child->GlobalScale2d(multiplier);
 		}
 
-		void GlobalScale2d(const float x, const float y)
+		void GlobalScale2d(float x, float y)
 		{
 			global_transform_.Scale2d(x, y);
 			for(auto & child : GetChildTransformables())

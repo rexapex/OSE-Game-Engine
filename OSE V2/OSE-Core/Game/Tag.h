@@ -5,7 +5,7 @@ namespace ose
 	class Tag
 	{
 	public:
-		Tag(const std::string & name);
+		Tag(std::string const & name);
 		~Tag();
 		Tag(Tag && other);
 		Tag & operator=(Tag && other);

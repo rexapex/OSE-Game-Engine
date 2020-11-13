@@ -7,7 +7,7 @@ namespace ose
 	class MeshLoader
 	{
 	public:
-		MeshLoader(const std::string & project_path);
+		MeshLoader(std::string const & project_path);
 		virtual ~MeshLoader();
 		//ModelLoader is NOT copyable
 		MeshLoader(MeshLoader &) = delete;

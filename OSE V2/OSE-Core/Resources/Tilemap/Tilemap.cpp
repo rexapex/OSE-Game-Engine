@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	Tilemap::Tilemap(const std::string & name, const std::string & path) : name_(name), path_(path),
+	Tilemap::Tilemap(std::string const & name, std::string const & path) : name_(name), path_(path),
 		width_(0), height_(0), tile_grid_(nullptr)
 	{
 

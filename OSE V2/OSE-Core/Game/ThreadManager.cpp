@@ -72,7 +72,7 @@ namespace ose
 	}
 
 
-	void ThreadManager::AddNewTask(const std::string & t)
+	void ThreadManager::AddNewTask(std::string const & t)
 	{
 		{
 			std::unique_lock<std::mutex> lock(mu_);

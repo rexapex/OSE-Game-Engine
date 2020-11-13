@@ -17,17 +17,17 @@ namespace ose
 		SceneManager & operator=(SceneManager &) = delete;
 
 		// Loads the project specified (does not load any scenes)
-		void LoadProject(const std::string & project_path);
+		void LoadProject(std::string const & project_path);
 
-		void LoadScene(const std::string & scene_name);
-		void UnloadScene(const std::string & scene_name);
+		void LoadScene(std::string const & scene_name);
+		void UnloadScene(std::string const & scene_name);
 		void UnloadAllLoadedScenes();
 
 		// Switches game to the scene specified iff it is loaded
-		void SetActiveScene(const std::string & scene_name);
+		void SetActiveScene(std::string const & scene_name);
 
 		// Set the way the game removes scenes on a scene switch
-		void SetSceneSwitchMode(const ESceneSwitchMode & mode) {scene_switch_mode_ = mode;}
+		void SetSceneSwitchMode(ESceneSwitchMode const & mode) {scene_switch_mode_ = mode;}
 
 		// Called by a scene (chunk manager) upon activating/deactivating a chunk
 		virtual void OnChunkActivated(Chunk & chunk) = 0;

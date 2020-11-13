@@ -17,7 +17,7 @@ namespace ose
 		ThreadManager(ThreadManager && other) noexcept;
 		ThreadManager & operator=(ThreadManager && other) noexcept = delete;
 
-		void AddNewTask(const std::string &);
+		void AddNewTask(std::string const &);
 
 		// process all rendering tasks
 		void ProcessRenderTasks();

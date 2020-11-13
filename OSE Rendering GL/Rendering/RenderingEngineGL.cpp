@@ -26,7 +26,7 @@ namespace ose::rendering
 
 	RenderingEngineGL::~RenderingEngineGL() {}
 
-	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight)
+	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(int fbwidth, int fbheight)
 	{
 		DEBUG_LOG("updating othographic projection matrix");
 		float aspect_ratio = (float)fbwidth/(float)fbheight;
@@ -36,7 +36,7 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
-	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar)
+	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(float hfov_deg, int fbwidth, int fbheight, float znear, float zfar)
 	{
 		DEBUG_LOG("updating perspective projection matrix");
 		// hfov = 2 * atan(tan(vfov * 0.5) * aspect_ratio)

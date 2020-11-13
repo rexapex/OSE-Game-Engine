@@ -11,11 +11,11 @@ namespace ose
 
 	EntityList::~EntityList() {}
 
-	EntityList::EntityList(EntityList * parent, const EntityList & other) noexcept : Transformable(other), parent_(parent)
+	EntityList::EntityList(EntityList * parent, EntityList const & other) noexcept : Transformable(other), parent_(parent)
 	{
 		// Perform a deep copy of all entities
 		this->entities_.clear();
-		for(const auto & e : other.entities_)
+		for(auto const & e : other.entities_)
 		{
 			this->entities_.push_back(ose::make_unique<Entity>(this, *e));
 		}
@@ -26,7 +26,7 @@ namespace ose
 	// New entity is a deep copy of the entity passed
 	// Method constructs a new object
 	// Returns a reference to the newly created entity
-	Entity * EntityList::AddEntity(const Entity & other)
+	Entity * EntityList::AddEntity(Entity const & other)
 	{
 		// construct a new entity object
 		try {
@@ -41,7 +41,7 @@ namespace ose
 	// Remove an entity from the entity list
 	// Return true if entity is removed
 	// Return false if the entity does not belong to this entity list
-	bool EntityList::RemoveEntity(const Entity & entity)
+	bool EntityList::RemoveEntity(Entity const & entity)
 	{
 		// no sub entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {
@@ -61,7 +61,7 @@ namespace ose
 	// Remove entity by EntityID
 	// Return true if entity with given EntityID is removed
 	// Return false if no entity with given EntityID exists in this entity list
-	bool EntityList::RemoveEntity(const EntityID uid)
+	bool EntityList::RemoveEntity(EntityID const uid)
 	{
 		// no entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {

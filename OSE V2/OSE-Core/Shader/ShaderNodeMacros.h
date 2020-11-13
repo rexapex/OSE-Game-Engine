@@ -9,11 +9,11 @@
 #define SHADER_NODE( ClassName, ShaderTypes )												\
 public:                                                                                     \
 	static size_t GetClassType() {															\
-		static const std::size_t type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
+		static std::size_t const type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
 		return type;																		\
 	}																						\
 																							\
-	virtual bool IsClassType(const std::size_t classType) const {							\
+	virtual bool IsClassType(std::size_t const classType) const {							\
 		return GetClassType() == classType;													\
 	}																						\
 																							\

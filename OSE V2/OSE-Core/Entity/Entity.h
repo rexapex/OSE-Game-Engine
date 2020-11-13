@@ -12,18 +12,18 @@ namespace ose
 	class Entity : public EntityList, public ComponentList
 	{
 	public:
-		Entity(EntityList * parent, const std::string & name, const std::string & tag = "", const std::string & prefab = "");
+		Entity(EntityList * parent, std::string const & name, std::string const & tag = "", std::string const & prefab = "");
 		virtual ~Entity() noexcept;
-		Entity(EntityList * parent, const Entity & other) noexcept;
+		Entity(EntityList * parent, Entity const & other) noexcept;
 		Entity(Entity && other) noexcept = default;
 		Entity & operator=(Entity &) noexcept = delete;
 		Entity & operator=(Entity &&) noexcept = delete;
 
-		const std::string & GetName() const { return this->name_; }
-		const EntityID GetUniqueId() const { return this->unique_id_; }
+		std::string const & GetName() const { return this->name_; }
+		EntityID const GetUniqueId() const { return this->unique_id_; }
 
-		void SetName(const std::string & name) { this->name_ = name; }
-		void SetTag(const std::string & tag) { this->tag_ = tag; }
+		void SetName(std::string const & name) { this->name_ = name; }
+		void SetTag(std::string const & tag) { this->tag_ = tag; }
 
 		bool IsEnabled() const { return enabled_; }
 		void SetEnabled(bool a);

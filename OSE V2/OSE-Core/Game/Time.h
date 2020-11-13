@@ -16,16 +16,16 @@ namespace ose
 
 		//publically available accessor methods
 		//get the current time (in seconds)
-		const double GetCurrentTime() const { return current_time_seconds_; }
+		double const GetCurrentTime() const { return current_time_seconds_; }
 
 		//get the delta time (in seconds), i.e. number of seconds since last frame
-		const double GetDeltaTime() const { return delta_time_seconds_; }
+		double const GetDeltaTime() const { return delta_time_seconds_; }
 
 		//get the frames per second (fps)
-		const int GetFps() const { return frames_per_second_; }
+		int const GetFps() const { return frames_per_second_; }
 
 		//get the number of milliseconds it took to render the current frame (millis per frame)
-		const double GetMpf() const { return millis_per_frame_; }
+		double const GetMpf() const { return millis_per_frame_; }
 
 	private:
 		//all things timing
@@ -37,8 +37,8 @@ namespace ose
 		int frames_per_second_;							//The number of frames rendered in the last second
 		double delta_time_seconds_;
 
-		void Init(const double current_time_seconds);	//Set the initial values of the timing variables
-		void Update(const double current_time_seconds);
+		void Init(double current_time_seconds);	//Set the initial values of the timing variables
+		void Update(double current_time_seconds);
 		void CalcDeltaTime();							//Calculates and returns the delta time in seconds
 		void CalcFPS();									//Calculates the fps and the mpf
 	};
