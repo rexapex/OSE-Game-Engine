@@ -26,11 +26,11 @@ namespace ose
 		void ApplyRenderingSettings(RenderingSettings const & rendering_settings);
 
 		// saves having to resize framebuffers twice
-		void SetProjectionModeAndFbSize(const EProjectionMode & projection_mode, const int width, const int height);
+		void SetProjectionModeAndFbSize(EProjectionMode const & projection_mode, int width, int height);
 
-		void SetProjectionMode(const EProjectionMode & projection_mode);
+		void SetProjectionMode(EProjectionMode const & projection_mode);
 
-		void SetFramebufferSize(const int width, const int height);
+		void SetFramebufferSize(int width, int height);
 
 		// Get a reference to the render pool, s.t. new render objects can be added
 		// NOTE - No render pool object exists in generic RenderEngine, required pool must be member of sub-class
@@ -54,7 +54,7 @@ namespace ose
 		float hfov_deg_ { 60.0f };
 
 		// child functions to update the projection matrix to either orthographic or perspective
-		virtual void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) = 0;
-		virtual void UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar) = 0;
+		virtual void UpdateOrthographicProjectionMatrix(int fbwidth, int fbheight) = 0;
+		virtual void UpdatePerspectiveProjectionMatrix(float hfov_deg, int fbwidth, int fbheight, float znear, float zfar) = 0;
 	};
 }

@@ -26,7 +26,7 @@ namespace ose::rendering
 
 	RenderingEngineGL::~RenderingEngineGL() {}
 
-	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight)
+	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(int fbwidth, int fbheight)
 	{
 		DEBUG_LOG("updating othographic projection matrix");
 		float aspect_ratio = (float)fbwidth/(float)fbheight;
@@ -36,7 +36,7 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
-	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar)
+	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(float hfov_deg, int fbwidth, int fbheight, float znear, float zfar)
 	{
 		DEBUG_LOG("updating perspective projection matrix");
 		// hfov = 2 * atan(tan(vfov * 0.5) * aspect_ratio)
@@ -84,8 +84,8 @@ namespace ose::rendering
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Pass the camera position to the shader program
-				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetPosition().x,
-					active_camera.GetGlobalTransform().GetPosition().y, active_camera.GetGlobalTransform().GetPosition().z);
+				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetTranslation().x,
+					active_camera.GetGlobalTransform().GetTranslation().y, active_camera.GetGlobalTransform().GetTranslation().z);
 
 				// Render the render objects one by one
 				for(auto const & render_object : shader_group.render_objects_)

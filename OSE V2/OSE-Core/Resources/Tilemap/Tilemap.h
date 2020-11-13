@@ -6,7 +6,7 @@ namespace ose
 	class Tilemap
 	{
 	public:
-		Tilemap(const std::string & name, const std::string & path);
+		Tilemap(std::string const & name, std::string const & path);
 		~Tilemap();
 		// Copying is not allowed (same as ResourceManager)
 		Tilemap(Tilemap &) = delete;

@@ -18,10 +18,10 @@ namespace ose::windowing
 		WindowManagerGLFW & operator=(WindowManagerGLFW &) = delete;
 		WindowManagerGLFW & operator=(WindowManagerGLFW &&) = delete;
 
-		const int GetFramebufferWidth() const { return fbwidth_; }
-		const int GetFramebufferHeight() const { return fbheight_; }
-		const int GetWindowWidth() const { return wwidth_; }
-		const int GetWindowHeight() const { return wheight_; }
+		int GetFramebufferWidth() const { return fbwidth_; }
+		int GetFramebufferHeight() const { return fbheight_; }
+		int GetWindowWidth() const { return wwidth_; }
+		int GetWindowHeight() const { return wheight_; }
 
 		std::vector<VideoMode> GetAvailableVideoModes();
 
@@ -34,11 +34,11 @@ namespace ose::windowing
 		void SetWindowSize(int width, int height);
 		void SetWindowPos(int x, int y);
 
-		void SetTitle(const std::string & title);
+		void SetTitle(std::string const & title);
 
 		void SetNumSamples(int numSamples);
 
-		const GLFWwindow & GetWindow() const { return *window; }
+		GLFWwindow const & GetWindow() const { return *window_; }
 		void NewWindow(int windowMode, int video_mode);
 
 		// Returns true iff the window is closed
@@ -48,7 +48,7 @@ namespace ose::windowing
 	private:
 		int InitWindowingToolkit() const;
 
-		GLFWwindow * window;
+		GLFWwindow * window_;
 
 		int fbwidth_, fbheight_;	// framebuffer width & height
 		int wwidth_, wheight_;		// window width & height

@@ -36,8 +36,8 @@ namespace ose::rendering
 		RenderPoolGL render_pool_;
 
 		// Child functions to update the projection matrix to either orthographic or perspective
-		void UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight) override;
-		void UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar) override;
+		void UpdateOrthographicProjectionMatrix(int fbwidth, int fbheight) override;
+		void UpdatePerspectiveProjectionMatrix(float hfov_deg, int fbwidth, int fbheight, float znear, float zfar) override;
 	};
 }
 

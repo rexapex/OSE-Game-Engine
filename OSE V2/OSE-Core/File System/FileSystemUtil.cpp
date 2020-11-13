@@ -21,7 +21,7 @@ namespace ose::fs
 	// Loads the text file at 'path' and stores text in 'text'
 	// @param {std::string &} path The relative? path of the file to load
 	// @param {std::string &} text The string to be filled with the file's text
-	void LoadTextFile(const std::string & path, std::string & text)
+	void LoadTextFile(std::string const & path, std::string & text)
 	{
 		std::ifstream in(path.c_str(), std::ios::in | std::ios::binary);
 
@@ -41,7 +41,7 @@ namespace ose::fs
 
 	// Writes text file at 'path' with the contents 'text'
 	// The file will be created if it does not already exist
-	void WriteTextFile(const std::string & path, const std::string & text)
+	void WriteTextFile(std::string const & path, std::string const & text)
 	{
 		// https://stackoverflow.com/questions/478075/creating-files-in-c
 		std::ofstream out(path);
@@ -57,7 +57,7 @@ namespace ose::fs
 	{
 	#if defined(__APPLE__) || defined(__linux__)
 		//get linux/mac HOME environment variable
-		const char * home_dir = getenv("HOME");
+		char const * home_dir = getenv("HOME");
 		if(home_dir == NULL)
 		{
 			std::cerr << "LINUX fs::GetHomeDirectory -> home_dir is NULL" << std::endl;
@@ -111,7 +111,7 @@ namespace ose::fs
 	}
 
 	// Copy the file at the from path to the to path
-	void CopyFile_(const std::string & from, const std::string & to)
+	void CopyFile_(std::string const & from, std::string const & to)
 	{
 		try
 		{
@@ -138,7 +138,7 @@ namespace ose::fs
 
 	// Creates the file at the path specified if it does not already exist
 	// Returns true if the file is created, false if creation fails, false if file already exists
-	bool CreateFile_(const std::string & path)
+	bool CreateFile_(std::string const & path)
 	{
 		if(!DoesFileExist(path))
 		{
@@ -152,7 +152,7 @@ namespace ose::fs
 
 	// Creates directories given in path if they do not already exist
 	// Returns true if the directories are created, false if some or all failed to create, false if all exist
-	bool CreateDirs(const std::string & path)
+	bool CreateDirs(std::string const & path)
 	{
 		auto & p = std::filesystem::path(path);
 		if(p.has_filename())
@@ -166,7 +166,7 @@ namespace ose::fs
 	}
 
 	// Returns true iff the path exists and is a file
-	bool DoesFileExist(const std::string & path)
+	bool DoesFileExist(std::string const & path)
 	{
 		return std::filesystem::exists(path) && std::filesystem::is_regular_file(path);
 	}
@@ -178,13 +178,13 @@ namespace ose::fs
 	}
 
 	// Get the filename of a path
-	std::string GetFilenameFromPath(const std::string & path)
+	std::string GetFilenameFromPath(std::string const & path)
 	{
 		return std::filesystem::path(path).filename().string();
 	}
 
 	// Get the parent path of a path
-	std::string GetParentPath(const std::string & path)
+	std::string GetParentPath(std::string const & path)
 	{
 		// TODO - Replace with rtrim function when implemented
 		std::string s { path };
@@ -195,7 +195,7 @@ namespace ose::fs
 	}
 
 	// Get the relative path from a parent path and an absolute path
-	std::string GetRelativePath(const std::string & abs_path, const std::string & parent_path)
+	std::string GetRelativePath(std::string const & abs_path, std::string const & parent_path)
 	{
 		return std::filesystem::relative(abs_path, parent_path).string();
 	}

@@ -4,28 +4,34 @@
 
 namespace ose
 {
-	EntityList::EntityList() {}
+	EntityList::EntityList(EntityList * parent) : Transformable(), parent_(parent)
+	{
+		ResetGlobalTransform();
+	}
+
 	EntityList::~EntityList() {}
 
-	EntityList::EntityList(const EntityList & other) noexcept
+	EntityList::EntityList(EntityList * parent, EntityList const & other) noexcept : Transformable(other), parent_(parent)
 	{
-		// perform a deep copy of all entities
-		this->entities_.clear();	// vector should be empty
-		for(const auto & e : other.entities_)
+		// Perform a deep copy of all entities
+		entities_.clear();
+		for(auto const & e : other.entities_)
 		{
-			this->entities_.push_back(std::make_unique<Entity>(*e));
+			entities_.push_back(ose::make_unique<Entity>(this, *e));
 		}
+		ResetGlobalTransform();
 	}
 
 	// Add an entity to the entity list
 	// New entity is a deep copy of the entity passed
 	// Method constructs a new object
 	// Returns a reference to the newly created entity
-	unowned_ptr<Entity> EntityList::AddEntity(const Entity & other)
+	Entity * EntityList::AddEntity(Entity const & other)
 	{
 		// construct a new entity object
 		try {
-			return entities_.emplace_back( std::make_unique<Entity>(other) ).get();
+			entities_.push_back(ose::make_unique<Entity>(this, other));
+			return entities_.back().get();
 		} catch(...) {
 			return nullptr;
 		}
@@ -35,7 +41,7 @@ namespace ose
 	// Remove an entity from the entity list
 	// Return true if entity is removed
 	// Return false if the entity does not belong to this entity list
-	bool EntityList::RemoveEntity(const Entity & entity)
+	bool EntityList::RemoveEntity(Entity const & entity)
 	{
 		// no sub entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {
@@ -55,7 +61,7 @@ namespace ose
 	// Remove entity by EntityID
 	// Return true if entity with given EntityID is removed
 	// Return false if no entity with given EntityID exists in this entity list
-	bool EntityList::RemoveEntity(const EntityID uid)
+	bool EntityList::RemoveEntity(EntityID const uid)
 	{
 		// no entity can be removed if there are no sub entities, therefore return false
 		if(entities_.empty()) {
@@ -102,12 +108,32 @@ namespace ose
 			return false;
 
 		// Swap the entity pointer into a local variable then erase the entity from this entity list
-		std::unique_ptr<Entity> up;
+		uptr<Entity> up;
 		std::swap(*iter, up);
 		entities_.erase(iter);
 
 		// Add the entity to the new entity list
 		to.entities_.push_back(std::move(up));		
 		return true;
+	}
+
+	// Find all the entities in this entity list and sub lists with the given name
+	// NOTE - If searching through all entities, use Game::FindAllEntitiesWithName instead
+	std::vector<Entity *> EntityList::FindDescendentEntitiesWithName(std::string_view name) const
+	{
+		std::vector<Entity *> vec;
+		FindDescendentEntitiesWithName(name, vec);
+		return vec;
+	}
+
+	// Find all the entities in this entity list and sub lists with the given name and add them to the vector passed
+	void EntityList::FindDescendentEntitiesWithName(std::string_view name, std::vector<Entity *> & out_vec) const
+	{
+		for(auto const & e : entities_)
+		{
+			if(e->GetName() == name)
+				out_vec.emplace_back(e.get());
+			e->FindDescendentEntitiesWithName(name, out_vec);
+		}
 	}
 }

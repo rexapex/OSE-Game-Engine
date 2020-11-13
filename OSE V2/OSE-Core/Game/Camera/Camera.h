@@ -6,26 +6,29 @@ namespace ose
 {
 	class Game;
 
-	class Camera : public Transformable<std::unique_ptr<Camera>>
+	class Camera : public Transformable<uptr<Camera>>
 	{
 	public:
-		Camera() {}
+		Camera() : Transformable() {}
 		virtual ~Camera() {}
 
 		// Get a list of transformable elements
 		// Returns an empty dummy list
-		const std::vector<std::unique_ptr<Camera>> & GetChildTransformables() override { return dummy_; }
+		virtual std::vector<uptr<Camera>> const & GetChildTransformables() const override { return dummy_; }
+
+		// Get a pointer to the parent transformable element
+		virtual Transformable * GetParentTransformable() const override { return nullptr; }
 
 		// Update the camera
 		virtual void Update() {}
 
 		// Should NEVER be called directly by a script
-		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
+		void SetGameReference(Game * game) { game_ = game; }
 
 	protected:
-		unowned_ptr<Game> game_;
+		Game * game_ { nullptr };
 
 	private:
-		std::vector<std::unique_ptr<Camera>> dummy_;
+		std::vector<uptr<Camera>> dummy_;
 	};
 }

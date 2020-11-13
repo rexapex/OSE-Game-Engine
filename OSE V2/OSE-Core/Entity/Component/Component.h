@@ -12,19 +12,19 @@
 #define COMPONENT( ClassName, ParentClass )													\
 public:                                                                                     \
 	static size_t GetClassType() {															\
-		static const std::size_t type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
+		static std::size_t const type { std::hash<std::string>()( TO_STRING(ClassName) ) };	\
 		return type;																		\
 	}																						\
 																							\
-	virtual bool IsClassType(const std::size_t classType) const {							\
+	virtual bool IsClassType(std::size_t const classType) const {							\
 		if(classType == GetClassType())														\
 			return true;																	\
 		return ParentClass::IsClassType(classType);											\
 	}																						\
 																							\
-	virtual std::unique_ptr<Component> Clone() const override								\
+	virtual uptr<Component> Clone() const override											\
 	{																						\
-		return std::make_unique<ClassName>(*this);											\
+		return ose::make_unique<ClassName>(*this);											\
 	}																						\
 private:/*																					\
 	/* Private delete means cannot be deleted other than by friend classes /				\
@@ -46,26 +46,26 @@ namespace ose
 	class Component
 	{
 	public:
-		Component(const std::string & name);
+		Component(std::string const & name);
 		virtual ~Component();
-		Component(const Component & other) noexcept;
+		Component(Component const & other) noexcept;
 		Component(Component && other) noexcept = default;
 		Component & operator=(Component &) noexcept = delete;
 		Component & operator=(Component &&) noexcept = delete;
 
 		// Get the class type of Component
 		static size_t GetClassType() {
-			static const std::size_t type { std::hash<std::string>()( TO_STRING(Component) ) };
+			static std::size_t const type { std::hash<std::string>()( TO_STRING(Component) ) };
 			return type;
 		}
 
 		// Test whether this class has the same class type as the one passed
-		virtual bool IsClassType(const std::size_t classType) const {
+		virtual bool IsClassType(std::size_t const classType) const {
 			return classType == GetClassType();
 		}
 
 		// clone method which can be overwritten by base classes
-		virtual std::unique_ptr<Component> Clone() const;
+		virtual uptr<Component> Clone() const;
 
 		// initialise the component, should only be called from the main thread
 		virtual void Init() {}

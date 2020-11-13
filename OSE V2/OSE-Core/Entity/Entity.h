@@ -3,28 +3,27 @@
 #include "Component/Component.h"
 #include "EntityList.h"
 #include "Component/ComponentList.h"
-#include "OSE-Core/Math/Transformable.h"
 
 namespace ose
 {
 	typedef uint32_t EntityID;	// NOTE - Might change this to uint64_t later
 	class Game;
 
-	class Entity : public EntityList, public ComponentList, public Transformable<std::unique_ptr<Entity>>
+	class Entity : public EntityList, public ComponentList
 	{
 	public:
-		Entity(const std::string & name, const std::string & tag = "", const std::string & prefab = "");
+		Entity(EntityList * parent, std::string const & name, std::string const & tag = "", std::string const & prefab = "");
 		virtual ~Entity() noexcept;
-		Entity(const Entity & other) noexcept;
+		Entity(EntityList * parent, Entity const & other) noexcept;
 		Entity(Entity && other) noexcept = default;
 		Entity & operator=(Entity &) noexcept = delete;
 		Entity & operator=(Entity &&) noexcept = delete;
 
-		const std::string & GetName() const { return this->name_; }
-		const EntityID GetUniqueId() const { return this->unique_id_; }
+		std::string const & GetName() const { return name_; }
+		EntityID const GetUniqueId() const { return unique_id_; }
 
-		void SetName(const std::string & name) { this->name_ = name; }
-		void SetTag(const std::string & tag) { this->tag_ = tag; }
+		void SetName(std::string const & name) { name_ = name; }
+		void SetTag(std::string const & tag) { tag_ = tag; }
 
 		bool IsEnabled() const { return enabled_; }
 		void SetEnabled(bool a);
@@ -32,14 +31,9 @@ namespace ose
 		void Disable();
 
 		// Should NEVER be called directly by a script
-		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
-
-		// Get a list of transformable elements
-		// Returns a list of child entities
-		virtual const std::vector<std::unique_ptr<Entity>> & GetChildTransformables() override { return entities_; }
+		void SetGameReference(Game * game) { game_ = game; }
 
 	private:
-
 		std::string name_;		// name_ need not be unique
 		EntityID unique_id_;	// unique_ID_ should be unique to a game engine execution
 
@@ -48,7 +42,7 @@ namespace ose
 
 		bool enabled_ { true };	// True iff the entity is enabled (i.e. it appears in the scene)
 
-		unowned_ptr<Game> game_ { nullptr }; // Pointer to the game object this entity belongs to
+		Game * game_ { nullptr }; // Pointer to the game object this entity belongs to
 
 		// Get the next available entity ID
 		static EntityID NextEntityId()

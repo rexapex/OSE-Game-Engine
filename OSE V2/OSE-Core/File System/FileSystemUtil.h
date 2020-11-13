@@ -7,11 +7,11 @@ namespace ose
 		// Loads the text file at 'path' and stores text in 'text'
 		// @param {std::string &} path The relative? path of the file to load
 		// @param {std::string &} text The string to be filled with the file's text
-		void LoadTextFile(const std::string & path, std::string & text);
+		void LoadTextFile(std::string const & path, std::string & text);
 
 		// Writes text file at 'path' with the contents 'text'
 		// The file will be created if it does not already exist
-		void WriteTextFile(const std::string & path, const std::string & text);
+		void WriteTextFile(std::string const & path, std::string const & text);
 
 		// Get the users home directory
 		// Supports compile on Windows, Linux, (TODO MacOS) using ifdef
@@ -24,29 +24,29 @@ namespace ose
 
 		// Copy the file at the from path to the to path
 		// Will create the necessary destination directories
-		void CopyFile_(const std::string & from, const std::string & to);
+		void CopyFile_(std::string const & from, std::string const & to);
 
 		// Creates the file at the path specified if it does not already exist
 		// Returns true if the file is created, false if creation fails, false if file already exists
-		bool CreateFile_(const std::string & path);
+		bool CreateFile_(std::string const & path);
 
 		// Creates directories given in path if they do not already exist
 		// Returns true if the directories are created, false if some or all failed to create, false if all exist
-		bool CreateDirs(const std::string & path);
+		bool CreateDirs(std::string const & path);
 
 		// Returns true iff the path exists and is a file
-		bool DoesFileExist(const std::string & path);
+		bool DoesFileExist(std::string const & path);
 
 		// Returns the current working directory
 		std::string GetCWD();
 
 		// Get the filename of a path
-		std::string GetFilenameFromPath(const std::string & path);
+		std::string GetFilenameFromPath(std::string const & path);
 
 		// Get the parent path of a path
-		std::string GetParentPath(const std::string & path);
+		std::string GetParentPath(std::string const & path);
 
 		// Get the relative path from a parent path and an absolute path
-		std::string GetRelativePath(const std::string & abs_path, const std::string & parent_path);
+		std::string GetRelativePath(std::string const & abs_path, std::string const & parent_path);
 	}
 }

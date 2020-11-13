@@ -12,7 +12,7 @@ namespace ose
 		//void SetName(std::string const & name) { name_ = name; }
 		//std::string const & GetName() const { return name_; }
 
-		virtual bool IsClassType(const std::size_t classType) const = 0;
+		virtual bool IsClassType(std::size_t const classType) const = 0;
 		virtual bool IsShaderType(int type) const = 0;
 
 	protected:

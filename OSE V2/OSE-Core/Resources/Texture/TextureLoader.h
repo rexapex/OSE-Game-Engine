@@ -7,7 +7,7 @@ namespace ose
 	class TextureLoader
 	{
 	public:
-		TextureLoader(const std::string & project_path);
+		TextureLoader(std::string const & project_path);
 		virtual ~TextureLoader();
 		//TextureLoader is NOT copyable
 		TextureLoader(TextureLoader &) = delete;
@@ -18,7 +18,7 @@ namespace ose
 
 		//loads the texture and sets the values of img_data, width and height
 		//path is absolute and is guaranteed to exist
-		virtual void LoadTexture(const std::string & path, IMGDATA * img_data, int32_t * width, int32_t * height, int32_t * channels) = 0;
+		virtual void LoadTexture(std::string const & path, IMGDATA * img_data, int32_t * width, int32_t * height, int32_t * channels) = 0;
 
 		//free resources used by the texture (img_data)
 		virtual void FreeTexture(IMGDATA img_data) = 0;

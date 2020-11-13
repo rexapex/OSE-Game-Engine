@@ -4,10 +4,14 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Game/Scene/Scene.h"
 
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
 #include "OSE-Core/Entity/Component/TileRenderer.h"
+#include "OSE-Core/Entity/Component/MeshRenderer.h"
+#include "OSE-Core/Entity/Component/PointLight.h"
+#include "OSE-Core/Entity/Component/DirLight.h"
 
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Windowing/WindowManager.h"
@@ -21,7 +25,7 @@
 
 namespace ose::editor
 {
-	Controller::Controller(std::unique_ptr<CefAdaptor> cef_adaptor) : cef_adaptor_(std::move(cef_adaptor))
+	Controller::Controller(std::unique_ptr<CefAdaptor> cef_adaptor) : SceneManager(), WindowCallbackAdaptor(), cef_adaptor_(std::move(cef_adaptor))
 	{
 		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
 		this->window_manager_->NewWindow(1);
@@ -52,6 +56,9 @@ namespace ose::editor
 	// Only one project can be active at a time
 	void Controller::OnProjectActivated(Project & project)
 	{
+		// Set the rendering settings
+		rendering_engine_->ApplyRenderingSettings(project.GetProjectSettings().rendering_settings_);
+
 		// Clear the input manager of inputs from previous projects then apply the default project inputs
 		input_manager_->ClearInputs();
 		input_manager_->ApplyInputSettings(project.GetInputSettings());
@@ -76,7 +83,9 @@ namespace ose::editor
 		// create GPU memory for the new render objects
 		for(auto const & entity : scene.GetEntities())
 		{
-			InitEntity(*entity);
+			// Activate the entity if it is marked as enabled
+			if(entity->IsEnabled())
+				OnEntityActivated(*entity);
 		}
 	}
 
@@ -84,7 +93,137 @@ namespace ose::editor
 	// Depending on switch manager, could be multiple active scenes
 	void Controller::OnSceneDeactivated(Scene & scene)
 	{
-		// TODO
+		for(auto const & entity : scene.GetEntities())
+		{
+			// NOTE - Do not need to set game reference to nullptr since entity still has control over activation
+			// Deactivate the entity if it is currently enabled
+			if(entity->IsEnabled())
+				OnEntityDeactivated(*entity);
+		}
+	}
+
+	// Activate an entity along with activated sub-entities
+	void Controller::OnEntityActivated(Entity & entity)
+	{
+		DEBUG_LOG("Activating Entity", entity.GetName());
+
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised SpriteRenderer");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
+		}
+
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised TileRenderer");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
+		}
+
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised MeshRenderer");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddMeshRenderer(entity.GetGlobalTransform(), comp);
+		}
+
+		for(PointLight * comp : entity.GetComponents<PointLight>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialised PointLight");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddPointLight(entity.GetGlobalTransform(), comp);
+		}
+
+		for(DirLight * comp : entity.GetComponents<DirLight>())
+		{
+			// initialise the component
+			comp->Init();
+			DEBUG_LOG("Initialise DirLight");
+
+			// then add the component to the render pool
+			rendering_engine_->GetRenderPool().AddDirLight(entity.GetGlobalTransform(), comp);
+		}
+
+		// Activate the sub entities iff they are set to active
+		for(auto const & sub_entity : entity.GetEntities())
+		{
+			// Activate the entity if it is marked as enabled
+			if(sub_entity->IsEnabled())
+				OnEntityActivated(*sub_entity);
+		}
+	}
+
+	// Deactivate an entity along with all its sub-entities
+	void Controller::OnEntityDeactivated(Entity & entity)
+	{
+		DEBUG_LOG("De-activating Entity", entity.GetName());
+
+		// Remove sprite renderer components from the render pool
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
+			rendering_engine_->GetRenderPool().RemoveSpriteRenderer(comp);
+
+		// Remove tile renderer components from the render pool
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
+			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
+
+		// Remove mesh renderer components from the render pool
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
+			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
+
+		// Remove point light components from the render pool
+		for(PointLight * comp : entity.GetComponents<PointLight>())
+			rendering_engine_->GetRenderPool().RemovePointLight(comp);
+
+		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
+		for(auto const & sub_entity : entity.GetEntities())
+		{
+			// Remove the game reference from the entity since it no longer has control over its own activation
+			sub_entity->SetGameReference(nullptr);
+			// Deactivate the entity if it is currently enabled
+			if(sub_entity->IsEnabled())
+				OnEntityDeactivated(*sub_entity);
+		}
+	}
+
+	// Activate a chunk along with activated sub-entities
+	void Controller::OnChunkActivated(Chunk & chunk)
+	{
+		DEBUG_LOG("Activating Chunk", chunk.GetName());
+
+		// Activate the sub entities iff they are set to active
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Activate the entity if it is marked as enabled
+			if(sub_entity->IsEnabled())
+				OnEntityActivated(*sub_entity);
+		}
+	}
+
+	// Deactivate a chunk along with all its sub-entities
+	void Controller::OnChunkDeactivated(Chunk & chunk)
+	{
+		DEBUG_LOG("De-activating Chunk", chunk.GetName());
+
+		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Deactivate the entity if it is currently enabled
+			if(sub_entity->IsEnabled())
+				OnEntityDeactivated(*sub_entity);
+		}
 	}
 
 	// Update the editor gui texture data
@@ -128,36 +267,6 @@ namespace ose::editor
 
 			// Render to the back buffer
 			rendering_engine_->Render(*active_camera_);
-		}
-	}
-
-	// initialise components of an entity along with its sub-entities
-	void Controller::InitEntity(Entity & entity)
-	{
-		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
-		{
-			// initialise the component
-			comp->Init();
-			DEBUG_LOG("Initialised SpriteRenderer");
-
-			// then add the component to the render pool
-			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
-		}
-
-		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
-		{
-			// initialise the component
-			comp->Init();
-			DEBUG_LOG("Initialised TileRenderer");
-
-			// then add the component to the render pool
-			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
-		}
-
-		// initialise all sub entities
-		for(auto const & sub_entity : entity.GetEntities())
-		{
-			InitEntity(*sub_entity);
 		}
 	}
 

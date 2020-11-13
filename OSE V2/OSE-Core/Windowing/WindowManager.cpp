@@ -11,13 +11,13 @@ namespace ose
 	void WindowManager::SetEngineReferences(WindowCallbackAdaptor * adaptor)
 	{
 		if(adaptor)
-			this->callback_adaptor_ = adaptor;
+			callback_adaptor_ = adaptor;
 	}
 
 	void WindowManager::FramebufferSizeCallbackImpl(int width, int height)
 	{
 		DEBUG_LOG("Framebuffer resized to", width, "x", height);
-		this->callback_adaptor_->OnFramebufferResize(width, height);
+		callback_adaptor_->OnFramebufferResize(width, height);
 	}
 	
 	void WindowManager::InputCallbackImpl(EInputType type, bool triggered)

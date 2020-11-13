@@ -14,6 +14,6 @@ namespace ose
 		MeshLoaderFactory(MeshLoaderFactory &&) = default;
 		MeshLoaderFactory & operator=(MeshLoaderFactory &&) = default;
 
-		virtual std::unique_ptr<MeshLoader> NewMeshLoader(std::string const & project_path) = 0;
+		virtual uptr<MeshLoader> NewMeshLoader(std::string const & project_path) = 0;
 	};
 }

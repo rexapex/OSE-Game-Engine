@@ -4,8 +4,8 @@
 
 namespace ose::windowing
 {
-	std::unique_ptr<WindowManager> WindowingFactoryGLFW::NewWindowManager()
+	uptr<WindowManager> WindowingFactoryGLFW::NewWindowManager()
 	{
-		return std::make_unique<WindowManagerGLFW>();
+		return ose::make_unique<WindowManagerGLFW>();
 	}
 }

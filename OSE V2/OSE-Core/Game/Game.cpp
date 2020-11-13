@@ -7,6 +7,7 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/RenderingEngine.h"
 #include "OSE-Core/Scripting/ScriptingEngine.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 #include "OSE-Core/Entity/Component/Component.h"
 #include "OSE-Core/Entity/Component/SpriteRenderer.h"
@@ -23,26 +24,26 @@
 
 namespace ose
 {
-	Game::Game() : SceneManager(), EntityList(), InputManager()
+	Game::Game() : SceneManager(), EntityList(nullptr), InputManager(), WindowCallbackAdaptor()
 	{
-		this->running_ = false;
+		running_ = false;
 
-		///this->render_pool_ = std::move(RenderPoolFactories[0]());
-		///this->thread_manager_ = std::make_unique<ThreadManager>(*render_pool_);
+		///render_pool_ = std::move(RenderPoolFactories[0]());
+		///thread_manager_ = ose::make_unique<ThreadManager>(*render_pool_);
 		
-		this->window_manager_ = WindowingFactories[0]->NewWindowManager();
-		this->window_manager_->NewWindow(1);
-		int fbwidth { this->window_manager_->GetFramebufferWidth() };
-		int fbheight { this->window_manager_->GetFramebufferHeight() };
+		window_manager_ = WindowingFactories[0]->NewWindowManager();
+		window_manager_->NewWindow(1);
+		int fbwidth { window_manager_->GetFramebufferWidth() };
+		int fbheight { window_manager_->GetFramebufferHeight() };
 
-		this->rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
-		this->window_manager_->SetEngineReferences(this);
+		rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight));
+		window_manager_->SetEngineReferences(this);
 
-		this->scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
+		scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
 
-		this->time_.Init(this->window_manager_->GetTimeSeconds());
+		time_.Init(window_manager_->GetTimeSeconds());
 
-		this->active_camera_ = &default_camera_;
+		active_camera_ = &default_camera_;
 	}
 
 	Game::~Game() noexcept {}
@@ -75,6 +76,9 @@ namespace ose
 	// Only one scene can be active at a time
 	void Game::OnSceneActivated(Scene & scene)
 	{
+		// Reset the chunk manager agent, e.g. find the agent using the Game::FindAllEntitiesWithName method
+		scene.ResetChunkManagerAgent(this);
+
 		// IMPORTANT - the following code can only be run on the same thread as the render context
 
 		// create GPU memory for the new resources
@@ -99,7 +103,6 @@ namespace ose
 	// Depending on switch manager, could be multiple active scenes
 	void Game::OnSceneDeactivated(Scene & scene)
 	{
-		// create GPU memory for the new render objects
 		for(auto const & entity : scene.GetEntities())
 		{
 			// NOTE - Do not need to set game reference to nullptr since entity still has control over activation
@@ -139,6 +142,9 @@ namespace ose
 			// Update all timing variables
 			time_.Update(window_manager_->GetTimeSeconds());
 
+			// Update the chunks of the active scene (TODO - Do this at a fixed rate to reduce computation)
+			active_scene_->UpdateChunks();
+
 			// Execute developer created scripts
 			scripting_engine_->Update();
 
@@ -158,7 +164,7 @@ namespace ose
 	{
 		DEBUG_LOG("Activating Entity", entity.GetName());
 
-		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -168,7 +174,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddSpriteRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -178,7 +184,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddTileRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
 		{
 			// initialise the component
 			comp->Init();
@@ -188,7 +194,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddMeshRenderer(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+		for(PointLight * comp : entity.GetComponents<PointLight>())
 		{
 			// initialise the component
 			comp->Init();
@@ -198,7 +204,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddPointLight(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<DirLight> comp : entity.GetComponents<DirLight>())
+		for(DirLight * comp : entity.GetComponents<DirLight>())
 		{
 			// initialise the component
 			comp->Init();
@@ -208,7 +214,7 @@ namespace ose
 			rendering_engine_->GetRenderPool().AddDirLight(entity.GetGlobalTransform(), comp);
 		}
 
-		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(CustomComponent * comp : entity.GetComponents<CustomComponent>())
 		{
 			// initialise the component
 			comp->Init();
@@ -235,23 +241,23 @@ namespace ose
 		DEBUG_LOG("De-activating Entity", entity.GetName());
 
 		// Remove sprite renderer components from the render pool
-		for(unowned_ptr<SpriteRenderer> comp : entity.GetComponents<SpriteRenderer>())
+		for(SpriteRenderer * comp : entity.GetComponents<SpriteRenderer>())
 			rendering_engine_->GetRenderPool().RemoveSpriteRenderer(comp);
 
 		// Remove tile renderer components from the render pool
-		for(unowned_ptr<TileRenderer> comp : entity.GetComponents<TileRenderer>())
+		for(TileRenderer * comp : entity.GetComponents<TileRenderer>())
 			rendering_engine_->GetRenderPool().RemoveTileRenderer(comp);
 
 		// Remove mesh renderer components from the render pool
-		for(unowned_ptr<MeshRenderer> comp : entity.GetComponents<MeshRenderer>())
+		for(MeshRenderer * comp : entity.GetComponents<MeshRenderer>())
 			rendering_engine_->GetRenderPool().RemoveMeshRenderer(comp);
 
 		// Remove point light components from the render pool
-		for(unowned_ptr<PointLight> comp : entity.GetComponents<PointLight>())
+		for(PointLight * comp : entity.GetComponents<PointLight>())
 			rendering_engine_->GetRenderPool().RemovePointLight(comp);
 
 		// Remove custom components from the script pool
-		for(unowned_ptr<CustomComponent> comp : entity.GetComponents<CustomComponent>())
+		for(CustomComponent * comp : entity.GetComponents<CustomComponent>())
 			scripting_engine_->GetScriptPool().RemoveCustomComponent(comp);
 
 		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
@@ -263,6 +269,52 @@ namespace ose
 			if(sub_entity->IsEnabled())
 				OnEntityDeactivated(*sub_entity);
 		}
+	}
+
+	// Activate a chunk along with activated sub-entities
+	void Game::OnChunkActivated(Chunk & chunk)
+	{
+		DEBUG_LOG("Activating Chunk", chunk.GetName());
+
+		// Activate the sub entities iff they are set to active
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Ensure the entity has a reference to the game to allow activation/deactivation/updating
+			sub_entity->SetGameReference(this);
+			// Activate the entity if it is marked as enabled
+			if(sub_entity->IsEnabled())
+				OnEntityActivated(*sub_entity);
+		}
+	}
+
+	// Deactivate a chunk along with all its sub-entities
+	void Game::OnChunkDeactivated(Chunk & chunk)
+	{
+		DEBUG_LOG("De-activating Chunk", chunk.GetName());
+
+		// Deactivate the sub entities iff they are enabled (if disabled, they are also inactive)
+		for(auto const & sub_entity : chunk.GetEntities())
+		{
+			// Remove the game reference from the entity since it no longer has control over its own activation
+			sub_entity->SetGameReference(nullptr);
+			// Deactivate the entity if it is currently enabled
+			if(sub_entity->IsEnabled())
+				OnEntityDeactivated(*sub_entity);
+		}
+	}
+
+	// Find all the entities with the given name
+	// Includes persistent entities, scene entities, and loaded chunk entities
+	std::vector<Entity *> Game::FindAllEntitiesWithName(std::string_view name) const
+	{
+		std::vector<Entity *> vec;
+		FindDescendentEntitiesWithName(name, vec);
+		if(active_scene_)
+		{
+			active_scene_->FindDescendentEntitiesWithName(name, vec);
+			active_scene_->FindLoadedChunkEntitiesWithName(name, vec);
+		}
+		return vec;
 	}
 
 	// Called on framebuffer resize
@@ -284,7 +336,7 @@ namespace ose
 	}
 	
 	// Load a custom data file
-	std::unique_ptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
+	uptr<CustomObject> Game::LoadCustomDataFile(std::string const & path)
 	{
 		return project_loader_->LoadCustomDataFile(path);
 	}

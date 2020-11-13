@@ -17,8 +17,8 @@ namespace ose
 		virtual ~GameThread() noexcept;
 
 		//copy constructors
-		GameThread(const GameThread &) = delete;
-		GameThread & operator=(const GameThread &) = delete;
+		GameThread(GameThread const &) = delete;
+		GameThread & operator=(GameThread const &) = delete;
 
 		//move constructors
 		GameThread(GameThread && other) noexcept;
