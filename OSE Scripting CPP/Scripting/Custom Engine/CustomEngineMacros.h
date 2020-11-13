@@ -51,7 +51,7 @@ namespace ose
 			data_array_.emplace_back(comp); \
 			InitComponent(entity, data_array_.back()); \
 		} \
-		void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) { \
+		void RemoveCustomComponent(CustomComponent * comp) { \
 			data_array_.erase(std::remove_if(data_array_.begin(), data_array_.end(), [comp](auto & data) { \
 				return data.READONLY_CUSTOM_COMPONENT == comp; \
 			})); \
