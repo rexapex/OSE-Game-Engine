@@ -270,6 +270,7 @@ namespace ose::rendering
 			return;
 		}
 
+		// Try to find a shader group to add the sprite renderer to
 		ShaderGroupGL * shader_group = GetShaderGroup(render_passes_[0], tr->GetMaterial());
 
 		// Get a reference to the tilemap
@@ -640,6 +641,15 @@ namespace ose::rendering
 	// If no suitable shader group exists, a new shader group is created
 	ShaderGroupGL * RenderPoolGL::GetShaderGroup(RenderPassGL & render_pass, Material const * material)
 	{
+		// Returns true if a shader group's blending setup matches an EBlendMode object
+		auto is_blending_correct = [](EBlendMode mode, ShaderGroupGL const & group) -> bool {
+			if(mode == EBlendMode::OPAQUE && group.enable_blend_ == false)
+				return true;
+			if(mode == EBlendMode::ONE_MINUS_SRC_ALPHA && group.enable_blend_ == true && group.blend_func_ == GL_ONE_MINUS_SRC_ALPHA)
+				return true;
+			return false;
+		};
+
 		// Try to find a shader group to add the tile renderer to
 		ShaderGroupGL * shader_group { nullptr };
 		shader::ShaderProgGLSL const * shader_prog = dynamic_cast<shader::ShaderProgGLSL const *>(material->GetShaderProg());
@@ -647,7 +657,7 @@ namespace ose::rendering
 		{
 			for(auto & s : render_pass.shader_groups_)
 			{
-				if(shader_prog->GetShaderProgId() == s.shader_prog_)
+				if(shader_prog->GetShaderProgId() == s.shader_prog_ && is_blending_correct(material->GetBlendMode(), s))
 					shader_group = &s;
 			}
 		}
@@ -665,8 +675,18 @@ namespace ose::rendering
 			sg.blend_fac_ = GL_SRC_ALPHA;
 			sg.blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
 			sg.shader_prog_ = shader_prog->GetShaderProgId();
-			render_pass.shader_groups_.push_back(sg);
-			shader_group = &render_pass.shader_groups_.back();
+
+			// Rendering of opaque objects should be done before rendering of alpha enabled objects
+			// Therefore, if attempting to add an opaque shader group, ensure it is inserted before any alpha shader groups
+			if(material->GetBlendMode() == EBlendMode::OPAQUE)
+			{
+				shader_group = &*render_pass.shader_groups_.insert(render_pass.shader_groups_.begin(), sg);
+			}
+			else
+			{
+				render_pass.shader_groups_.push_back(sg);
+				shader_group = &render_pass.shader_groups_.back();
+			}
 		}
 
 		return shader_group;
