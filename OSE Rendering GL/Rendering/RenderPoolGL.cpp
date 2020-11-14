@@ -9,6 +9,8 @@
 #include "OSE-Core/Entity/Component/PointLight.h"
 #include "OSE-Core/Entity/Component/DirLight.h"
 
+#include "OSE-Core/Resources/Tilemap/Tilemap.h"
+
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
 #include "Shader/ShaderProgGLSL.h"
@@ -188,33 +190,7 @@ namespace ose::rendering
 		}
 
 		// Try to find a shader group to add the sprite renderer to
-		ShaderGroupGL * shader_group { nullptr };
-		shader::ShaderProgGLSL const * shader_prog = dynamic_cast<shader::ShaderProgGLSL const *>(sr->GetMaterial()->GetShaderProg());
-		if(shader_prog)
-		{
-			for(auto & s : render_passes_[0].shader_groups_)
-			{
-				if(shader_prog->GetShaderProgId() == s.shader_prog_)
-					shader_group = &s;
-			}
-		}
-		else
-		{
-			LOG_ERROR("Failed to add sprite renderer to RenderPoolGL, material shader is not of type ShaderProgGLSL");
-			return;
-		}
-
-		// If no usable shader group exists, create a new one
-		if(!shader_group)
-		{
-			ShaderGroupGL sg;
-			sg.enable_blend_ = sr->GetMaterial()->GetBlendMode() == EBlendMode::OPAQUE ? false : true;
-			sg.blend_fac_ = GL_SRC_ALPHA;
-			sg.blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
-			sg.shader_prog_ = shader_prog->GetShaderProgId();
-			render_passes_[0].shader_groups_.push_back(sg);
-			shader_group = &render_passes_[0].shader_groups_.back();
-		}
+		ShaderGroupGL * shader_group { GetShaderGroup(render_passes_[0], sr->GetMaterial()) };
 
 		// Try to find a render object group to add the sprite renderer to
 		bool found_render_group { false };
@@ -288,14 +264,13 @@ namespace ose::rendering
 	// Add a tile renderer component to the render pool
 	void RenderPoolGL::AddTileRenderer(ITransform const & t, TileRenderer * tr)
 	{
-		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
+		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr || tr->GetMaterial() == nullptr)
+		{
+			LOG_ERROR("Failed to add tile renderer, texture, tilemap or material are nullptr");
 			return;
+		}
 
-		LOG_ERROR("AddTileRenderer - FUNCTION NOT SUPPORTED WITH SHADER/MATERIAL REWORK");
-		return;
-		
-		// Unlike SpriteRenderer, TileRenderer cannot share a group since the tile grid is encoded into the buffer data
-		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
+		ShaderGroupGL * shader_group = GetShaderGroup(render_passes_[0], tr->GetMaterial());
 
 		// Get a reference to the tilemap
 		auto & tilemap = *tr->GetTilemap();
@@ -394,12 +369,13 @@ namespace ose::rendering
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
+		// Unlike SpriteRenderer, TileRenderer cannot share a render group since the tile grid is encoded into the buffer data
 		// Add a new render object
 		GLenum primitive { GL_TRIANGLES };
 		GLint first { 0 };
 		GLint count { 6 * tilemap_width * tilemap_height };
 		uint32_t object_id { NextComponentId() };
-		s.render_objects_.emplace_back(
+		shader_group->render_objects_.emplace_back(
 			std::initializer_list<uint32_t>{ object_id },
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
@@ -409,8 +385,8 @@ namespace ose::rendering
 			//std::initializer_list<ITransform const &>{ t }
 		);
 		// TODO - Remove
-		s.render_objects_.back().transforms_.emplace_back(&t);
-		s.render_objects_.back().texture_stride_ = 1;
+		shader_group->render_objects_.back().transforms_.emplace_back(&t);
+		shader_group->render_objects_.back().texture_stride_ = 1;
 		tr->SetEngineData(object_id);
 	}
 
@@ -658,5 +634,41 @@ namespace ose::rendering
 	void RenderPoolGL::RemoveDirLight(DirLight * dl)
 	{
 		// TODO
+	}
+
+	// Get a shader group to render the given material in
+	// If no suitable shader group exists, a new shader group is created
+	ShaderGroupGL * RenderPoolGL::GetShaderGroup(RenderPassGL & render_pass, Material const * material)
+	{
+		// Try to find a shader group to add the tile renderer to
+		ShaderGroupGL * shader_group { nullptr };
+		shader::ShaderProgGLSL const * shader_prog = dynamic_cast<shader::ShaderProgGLSL const *>(material->GetShaderProg());
+		if(shader_prog)
+		{
+			for(auto & s : render_pass.shader_groups_)
+			{
+				if(shader_prog->GetShaderProgId() == s.shader_prog_)
+					shader_group = &s;
+			}
+		}
+		else
+		{
+			LOG_ERROR("Failed to find a suitable shader group, material shader is not of type ShaderProgGLSL");
+			return nullptr;
+		}
+
+		// If no usable shader group exists, create a new one
+		if(!shader_group)
+		{
+			ShaderGroupGL sg;
+			sg.enable_blend_ = material->GetBlendMode() == EBlendMode::OPAQUE ? false : true;
+			sg.blend_fac_ = GL_SRC_ALPHA;
+			sg.blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
+			sg.shader_prog_ = shader_prog->GetShaderProgId();
+			render_pass.shader_groups_.push_back(sg);
+			shader_group = &render_pass.shader_groups_.back();
+		}
+
+		return shader_group;
 	}
 }
