@@ -11,6 +11,7 @@
 
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
+#include "Shader/ShaderProgGLSL.h"
 #include "Shader/Shaders/BRDFShaderProgGLSL.h"
 #include "Shader/Shaders/Default2DShaderProgGLSL.h"
 #include "Shader/Shaders/Default3DShaderProgGLSL.h"
@@ -104,27 +105,58 @@ namespace ose::rendering
 			render_passes_.back().shader_groups_.push_back(s);
 		}*/
 
-		// Insert a render pass before the deferred render pass to render objects to
+		// Insert a render pass before the deferred render pass to render opaque objects to
 		//render_passes_.insert(render_passes_.begin(), RenderPassGL{});
 		//render_passes_[0].fbo_ = fb.GetFbo();
 		render_passes_.emplace_back();
+		render_passes_[0].clear_ = true;
+		render_passes_[0].clear_mode_ = GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT;
+		render_passes_[0].enable_depth_test_ = true;
+		render_passes_[0].depth_func_ = GL_LEQUAL;
 
 		// TODO - Remove
-		{
-			// Create the default 2d shader prog
-			default_2d_shader_prog_ = ose::make_unique<shader::Default2DShaderProgGLSL>();
-			ShaderGroupGL sg;
-			sg.shader_prog_ = default_2d_shader_prog_->GetShaderProgId();
-			render_passes_[0].shader_groups_.push_back(sg);
-		}
+		//{
+		//	// Create the default 2d shader prog
+		//	default_2d_shader_prog_ = ose::make_unique<shader::Default2DShaderProgGLSL>();
+		//	default_2d_shader_prog_->CreateShaderProg();
+		//	ShaderGroupGL sg;
+		//	sg.enable_blend_ = false;
+		//	sg.shader_prog_ = default_2d_shader_prog_->GetShaderProgId();
+		//	render_passes_[0].shader_groups_.push_back(sg);
 
-		{
-			// Create the default brdf 3d shader prog
-			brdf_shader_prog_ = ose::make_unique<shader::BRDFShaderProgGLSL>();
-			ShaderGroupGL sg;
-			sg.shader_prog_ = brdf_shader_prog_->GetShaderProgId();
-			render_passes_[0].shader_groups_.push_back(sg);
-		}
+		//	// Create the default transparency 2d shader prog
+		//	sg.enable_blend_ = true;
+		//	sg.blend_fac_ = GL_SRC_ALPHA;
+		//	sg.blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
+		//	render_passes_[0].shader_groups_.push_back(sg);
+		//}
+
+		//{
+		//	// Create the default brdf 3d shader prog
+		//	brdf_shader_prog_ = ose::make_unique<shader::BRDFShaderProgGLSL>();
+		//	brdf_shader_prog_->CreateShaderProg();
+		//	ShaderGroupGL sg;
+		//	sg.shader_prog_ = brdf_shader_prog_->GetShaderProgId();
+		//	render_passes_[0].shader_groups_.push_back(sg);
+		//}
+
+		// Insert a render pass before the deferred render pass to render (semi)transparent objects to
+		//render_passes_.emplace_back();
+		//render_passes_[1].enable_blend_ = true;
+		//render_passes_[1].blend_fac_ = GL_SRC_ALPHA;
+		//render_passes_[1].blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
+		//render_passes_[1].enable_depth_test_ = true;
+		//render_passes_[1].depth_func_ = GL_LEQUAL;
+
+		//// TODO - Remove
+		//{
+		//	// TODO - Reuse one from above
+		//	// Create the default 2d shader prog
+		//	default_2d_shader_prog_ = ose::make_unique<shader::Default2DShaderProgGLSL>();
+		//	ShaderGroupGL sg;
+		//	sg.shader_prog_ = default_2d_shader_prog_->GetShaderProgId();
+		//	render_passes_[1].shader_groups_.push_back(sg);
+		//}
 
 		// TODO - Remove
 		/*{
@@ -149,18 +181,49 @@ namespace ose::rendering
 	// Add a sprite renderer component to the render pool
 	void RenderPoolGL::AddSpriteRenderer(ITransform const & t, SpriteRenderer * sr)
 	{
-		if(sr->GetTexture() == nullptr)
+		if(sr->GetTexture() == nullptr || sr->GetMaterial() == nullptr)
+		{
+			LOG_ERROR("Failed to add sprite renderer, texture or material are nullptr");
 			return;
+		}
 
-		// Try to find a render object of the same type
-		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
-		bool found_group { false };
-		for(auto & r : s.render_objects_)
+		// Try to find a shader group to add the sprite renderer to
+		ShaderGroupGL * shader_group { nullptr };
+		shader::ShaderProgGLSL const * shader_prog = dynamic_cast<shader::ShaderProgGLSL const *>(sr->GetMaterial()->GetShaderProg());
+		if(shader_prog)
+		{
+			for(auto & s : render_passes_[0].shader_groups_)
+			{
+				if(shader_prog->GetShaderProgId() == s.shader_prog_)
+					shader_group = &s;
+			}
+		}
+		else
+		{
+			LOG_ERROR("Failed to add sprite renderer to RenderPoolGL, material shader is not of type ShaderProgGLSL");
+			return;
+		}
+
+		// If no usable shader group exists, create a new one
+		if(!shader_group)
+		{
+			ShaderGroupGL sg;
+			sg.enable_blend_ = sr->GetMaterial()->GetBlendMode() == EBlendMode::OPAQUE ? false : true;
+			sg.blend_fac_ = GL_SRC_ALPHA;
+			sg.blend_func_ = GL_ONE_MINUS_SRC_ALPHA;
+			sg.shader_prog_ = shader_prog->GetShaderProgId();
+			render_passes_[0].shader_groups_.push_back(sg);
+			shader_group = &render_passes_[0].shader_groups_.back();
+		}
+
+		// Try to find a render object group to add the sprite renderer to
+		bool found_render_group { false };
+		for(auto & r : shader_group->render_objects_)
 		{
 			if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
 			{
 				// Add the sprite renderer to the existing render object
-				found_group = true;
+				found_render_group = true;
 				r.textures_.push_back(static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId());
 				//r.transforms_.push_back(t.GetTransformMatrix());
 				r.transforms_.push_back(&t);
@@ -170,8 +233,9 @@ namespace ose::rendering
 				break;
 			}
 		}
+
 		// If the sprite renderer group could not be found, make one
-		if(!found_group)
+		if(!found_render_group)
 		{
 			// Create a VBO for the render object
 			GLuint vbo;
@@ -205,7 +269,7 @@ namespace ose::rendering
 			GLint first { 0 };
 			GLint count { 4 };
 			uint32_t object_id { NextComponentId() };
-			s.render_objects_.emplace_back(
+			shader_group->render_objects_.emplace_back(
 				std::initializer_list<uint32_t>{ object_id },
 				ERenderObjectType::SPRITE_RENDERER,
 				vbo, vao,
@@ -215,8 +279,8 @@ namespace ose::rendering
 				//std::initializer_list<ITransform const &>{ t }
 			);
 			// TODO - Remove
-			s.render_objects_.back().transforms_.emplace_back(&t);
-			s.render_objects_.back().texture_stride_ = 1;
+			shader_group->render_objects_.back().transforms_.emplace_back(&t);
+			shader_group->render_objects_.back().texture_stride_ = 1;
 			sr->SetEngineData(object_id);
 		}
 	}
@@ -227,6 +291,9 @@ namespace ose::rendering
 		if(tr->GetTexture() == nullptr || tr->GetTilemap() == nullptr)
 			return;
 
+		LOG_ERROR("AddTileRenderer - FUNCTION NOT SUPPORTED WITH SHADER/MATERIAL REWORK");
+		return;
+		
 		// Unlike SpriteRenderer, TileRenderer cannot share a group since the tile grid is encoded into the buffer data
 		ShaderGroupGL & s = render_passes_[0].shader_groups_[0];
 
@@ -352,6 +419,9 @@ namespace ose::rendering
 	{
 		if(mr->GetMesh() == nullptr)
 			return;
+
+		LOG_ERROR("AddMeshRenderer - FUNCTION NOT SUPPORTED WITH SHADER/MATERIAL REWORK");
+		return;
 
 		// Each mesh has its own render object
 		// TODO - Mesh renderers sharing a mesh will use the same render object

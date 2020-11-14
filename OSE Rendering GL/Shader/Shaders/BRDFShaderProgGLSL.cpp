@@ -3,14 +3,14 @@
 
 namespace ose::shader
 {
-	BRDFShaderProgGLSL::BRDFShaderProgGLSL() : ShaderProg(nullptr), shader_prog_(0)
+	BRDFShaderProgGLSL::BRDFShaderProgGLSL() : ShaderProgGLSL(nullptr)
 	{
-		CreateShaderProg();
+
 	}
 
 	BRDFShaderProgGLSL::~BRDFShaderProgGLSL()
 	{
-		DestroyShaderProg();
+
 	}
 
 	// Build an OpenGL shader object from a shader graph

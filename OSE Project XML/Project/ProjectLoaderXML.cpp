@@ -689,6 +689,7 @@ namespace ose::project
 			// has name & texture attributes
 			auto name_attrib	= component_node->first_attribute("name");
 			auto texture_attrib = component_node->first_attribute("texture");
+			auto material_attrib = component_node->first_attribute("material");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
 			// if texture is an alias, find it's replacement text, else use the file text
@@ -696,9 +697,19 @@ namespace ose::project
 			auto const texture_text_alias_pos { aliases.find(texture_text) };
 			std::string const & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
 
+			// If material is an alias, find its replacement text, else us the file text
+			std::string material_text { (material_attrib ? material_attrib->value() : "") };
+			auto const material_text_alias_pos { aliases.find(material_text) };
+			std::string const & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
+
 			Texture const * tex = project.GetResourceManager().GetTexture(texture);
+			Material const * material = project.GetResourceManager().GetMaterial(material_path);
+
+			if(material == nullptr)
+				material = project.GetResourceManager().GetMaterial("OSE-DefaultOpaqueSpriteMaterial");
+
 			if(tex != nullptr) {
-				new_entity->AddComponent<SpriteRenderer>(name, tex);
+				new_entity->AddComponent<SpriteRenderer>(name, tex, material);
 			} else {
 				LOG_ERROR("Texture", texture, "has not been loaded");
 			}

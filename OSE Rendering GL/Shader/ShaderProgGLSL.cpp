@@ -11,14 +11,14 @@
 
 namespace ose::shader
 {
-	ShaderProgGLSL::ShaderProgGLSL(uptr<ShaderGraph> shader_graph) : ShaderProg(std::move(shader_graph))
+	ShaderProgGLSL::ShaderProgGLSL(uptr<ShaderGraph> shader_graph) : ShaderProg(std::move(shader_graph)), shader_prog_(0)
 	{
 
 	}
 
 	ShaderProgGLSL::~ShaderProgGLSL()
 	{
-		DestroyShaderProg();
+
 	}
 
 	// Build a shader object from a shader graph

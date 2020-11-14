@@ -56,10 +56,33 @@ namespace ose::rendering
 		{
 			// Bind the fbo and clear the required buffers
 			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
-			glClear(render_pass.clear_);
+			if(render_pass.clear_)
+				glClear(render_pass.clear_mode_);
+
+			// Set the depth settings
+			if(render_pass.enable_depth_test_)
+			{
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(render_pass.depth_func_);
+			}
+			else
+			{
+				glDisable(GL_DEPTH_TEST);
+			}
 
 			for(auto const & shader_group : render_pass.shader_groups_)
 			{
+				// Set the blend settings
+				if(shader_group.enable_blend_)
+				{
+					glEnable(GL_BLEND);
+					glBlendFunc(shader_group.blend_fac_, shader_group.blend_func_);
+				}
+				else
+				{
+					glDisable(GL_BLEND);
+				}
+
 				// Bind the shader used by the shader group
 				glUseProgram(shader_group.shader_prog_);
 
