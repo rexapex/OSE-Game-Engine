@@ -18,4 +18,12 @@ namespace ose
 		mat->shader_prog_ = nullptr;
 		return std::move(mat);
 	}
+
+	uptr<Material> Material::NewDefaultOpaqueMeshMaterial()
+	{
+		uptr<Material> mat = ose::make_unique<Material>("", "OSE-DefaultOpaqueMeshMaterial");
+		mat->blend_mode_ = EBlendMode::OPAQUE;
+		mat->shader_prog_ = nullptr;
+		return std::move(mat);
+	}
 }

@@ -191,6 +191,8 @@ namespace ose::rendering
 
 		// Get the material group to add the sprite renderer to
 		MaterialGroupGL * material_group { GetMaterialGroup(render_passes_[0], sr->GetMaterial()) };
+		if(!material_group)
+			return;
 
 		// Try to find a render object group to add the sprite renderer to
 		bool found_render_group { false };
@@ -272,6 +274,8 @@ namespace ose::rendering
 
 		// Get the material group to add the sprite renderer to
 		MaterialGroupGL * material_group = GetMaterialGroup(render_passes_[0], tr->GetMaterial());
+		if(!material_group)
+			return;
 
 		// Get a reference to the tilemap
 		auto & tilemap = *tr->GetTilemap();
@@ -394,16 +398,13 @@ namespace ose::rendering
 	// Add a mesh renderer component to the render pool
 	void RenderPoolGL::AddMeshRenderer(ose::ITransform const & t, MeshRenderer * mr)
 	{
-		if(mr->GetMesh() == nullptr)
+		if(mr->GetMesh() == nullptr || mr->GetMaterial() == nullptr)
 			return;
 
-		LOG_ERROR("AddMeshRenderer - FUNCTION NOT SUPPORTED WITH SHADER/MATERIAL REWORK");
-		return;
-
-		// Each mesh has its own render group
-		// TODO - Mesh renderers sharing a mesh will use the same render group
-		// TODO - Should use glDrawElementsInstanced for rendering the shared meshes
-		MaterialGroupGL & s = render_passes_[0].material_groups_[1];
+		//MaterialGroupGL & s = render_passes_[0].material_groups_[1];
+		MaterialGroupGL * material_group = GetMaterialGroup(render_passes_[0], mr->GetMaterial());
+		if(!material_group)
+			return;
 
 		// Get the mesh object to be rendered
 		Mesh const * mesh { mr->GetMesh() };
@@ -475,7 +476,7 @@ namespace ose::rendering
 		GLint first { 0 };
 		GLint count { static_cast<GLint>(ibo_data.size()) };
 		uint32_t object_id { NextComponentId() };
-		s.render_groups_.emplace_back(
+		material_group->render_groups_.emplace_back(
 			std::initializer_list<uint32_t>{ object_id },
 			ERenderObjectType::MESH_RENDERER,
 			vbo, vao,
@@ -494,16 +495,19 @@ namespace ose::rendering
 			{
 				if(texture)
 				{
-					s.render_groups_.back().textures_.emplace_back(static_cast<TextureGL const *>(texture)->GetGlTexId());
+					material_group->render_groups_.back().textures_.emplace_back(static_cast<TextureGL const *>(texture)->GetGlTexId());
 					++texture_stride;
 				}
 			}
 		}
 
-		// TODO - Remove
-		s.render_groups_.back().ibo_ = ibo;
-		s.render_groups_.back().transforms_.emplace_back(&t);
-		s.render_groups_.back().texture_stride_ = texture_stride;
+
+		// Each mesh has its own render group
+		// TODO - Mesh renderers sharing a mesh will use the same render group
+		// TODO - Should use glDrawElementsInstanced for rendering the shared meshes
+		material_group->render_groups_.back().ibo_ = ibo;
+		material_group->render_groups_.back().transforms_.emplace_back(&t);
+		material_group->render_groups_.back().texture_stride_ = texture_stride;
 		mr->SetEngineData(object_id);
 	}
 

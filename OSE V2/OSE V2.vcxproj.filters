@@ -39,6 +39,7 @@
     <ClCompile Include="OSE-Core\Game\Scene\Chunk\ChunkManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Material\Material.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph2D.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph3D.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="OSE-Core\Entity\Component\TileRenderer.h" />
@@ -556,6 +557,7 @@
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManagerSettings.h" />
     <ClInclude Include="OSE-Core\Rendering\EBlendMode.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph2D.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph3D.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

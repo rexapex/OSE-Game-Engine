@@ -813,6 +813,10 @@ namespace ose::project
 
 			Mesh const * mesh = project.GetResourceManager().GetMesh(mesh_path);
 			Material const * material = project.GetResourceManager().GetMaterial(material_path);
+
+			if(!material)
+				material = project.GetResourceManager().GetMaterial("OSE-DefaultOpaqueMeshMaterial");
+
 			if(mesh != nullptr) {
 				new_entity->AddComponent<MeshRenderer>(name, mesh, material);
 			} else {

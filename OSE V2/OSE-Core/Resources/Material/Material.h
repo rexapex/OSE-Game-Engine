@@ -47,5 +47,6 @@ namespace ose
 	public:
 		static uptr<Material> NewDefaultOpaqueSpriteMaterial();
 		static uptr<Material> NewDefaultAlphaSpriteMaterial();
+		static uptr<Material> NewDefaultOpaqueMeshMaterial();
 	};
 }
