@@ -1,5 +1,5 @@
 #pragma once
-#include "RenderObjectGL.h"
+#include "RenderGroupGL.h"
 
 namespace ose::rendering
 {

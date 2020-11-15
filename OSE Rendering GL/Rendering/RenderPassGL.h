@@ -1,5 +1,5 @@
 #pragma once
-#include "ShaderGroupGL.h"
+#include "MaterialGroupGL.h"
 
 namespace ose::rendering
 {
