@@ -73,9 +73,9 @@ namespace ose::rendering
 		std::vector<DirLightData> const & GetDirLights() const { return dir_lights_; }
 
 	private:
-		// Get a shader group to render the given material in
-		// If no suitable shader group exists, a new shader group is created
-		ShaderGroupGL * GetShaderGroup(RenderPassGL & render_pass, Material const * material);
+		// Get a material group to render the given material in
+		// If no suitable material group exists, a new group is created
+		MaterialGroupGL * GetMaterialGroup(RenderPassGL & render_pass, Material const * material);
 
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update

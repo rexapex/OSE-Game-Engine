@@ -3,7 +3,7 @@
 
 namespace ose::rendering
 {
-	struct ShaderGroupGL
+	struct MaterialGroupGL
 	{
 		GLuint shader_prog_		{ 0 };
 
@@ -11,6 +11,6 @@ namespace ose::rendering
 		GLenum blend_fac_  { GL_SRC_ALPHA };
 		GLenum blend_func_ { GL_ONE_MINUS_SRC_ALPHA };
 
-		std::vector<RenderObjectGL> render_objects_;
+		std::vector<RenderGroupGL> render_groups_;
 	};
 }

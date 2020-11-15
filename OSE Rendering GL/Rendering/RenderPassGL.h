@@ -12,6 +12,6 @@ namespace ose::rendering
 		bool enable_depth_test_ { false };
 		GLenum depth_func_		{ GL_LEQUAL };
 
-		std::vector<ShaderGroupGL> shader_groups_;
+		std::vector<MaterialGroupGL> material_groups_;
 	};
 }
