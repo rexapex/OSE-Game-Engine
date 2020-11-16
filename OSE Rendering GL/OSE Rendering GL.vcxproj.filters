@@ -21,16 +21,10 @@
     <ClInclude Include="Rendering\RenderingEngineGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Rendering\RenderObjectGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Rendering\RenderPassGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\RenderPoolGL.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\ShaderGroupGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\TextureGL.h">
@@ -64,6 +58,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Rendering\Lights\DirLightData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\RenderGroupGL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Rendering\MaterialGroupGL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

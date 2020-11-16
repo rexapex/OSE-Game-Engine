@@ -1,4 +1,5 @@
 #pragma once
+#include "OSE-Core/Rendering/EBlendMode.h"
 
 namespace ose
 {
@@ -25,6 +26,9 @@ namespace ose
 		std::string const & GetPath() const { return path_; }
 		std::string const & GetName() const { return name_; }
 
+		void SetBlendMode(EBlendMode mode) { blend_mode_ = mode; }
+		EBlendMode GetBlendMode() const { return blend_mode_; }
+
 		std::vector<Texture const *> const & GetTextures() const { return textures_; }
 
 		ShaderProg const * GetShaderProg() const { return shader_prog_; }
@@ -34,8 +38,15 @@ namespace ose
 		std::string path_;
 		std::string name_;
 
+		EBlendMode blend_mode_ { EBlendMode::OPAQUE };
+
 		std::vector<Texture const *> textures_;
 
-		ShaderProg const * shader_prog_;
+		ShaderProg const * shader_prog_ { nullptr };
+
+	public:
+		static uptr<Material> NewDefaultOpaqueSpriteMaterial();
+		static uptr<Material> NewDefaultAlphaSpriteMaterial();
+		static uptr<Material> NewDefaultOpaqueMeshMaterial();
 	};
 }

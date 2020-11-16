@@ -1,9 +1,9 @@
 #pragma once
-#include "OSE-Core/Shader/ShaderProg.h"
+#include "../ShaderProgGLSL.h"
 
 namespace ose::shader
 {
-	class BRDFShaderProgGLSL final : public ShaderProg
+	class BRDFShaderProgGLSL final : public ShaderProgGLSL
 	{
 	public:
 		BRDFShaderProgGLSL();
@@ -14,12 +14,5 @@ namespace ose::shader
 
 		// Destroy the OpenGL shader object
 		void DestroyShaderProg() override;
-
-		// Get the shader program id
-		uint32_t GetShaderProgId() const { return shader_prog_; }
-
-	private:
-		// OpenGL shader program id
-		uint32_t shader_prog_ { 0 };
 	};
 }

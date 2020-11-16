@@ -13,16 +13,35 @@
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
 #include "Material/Material.h"
-#include "OSE-Core/Shader/ShaderProg.h"
-#include "OSE-Core/Shader/Shaders/ShaderGraphPBR3D.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
+
+#include "OSE-Core/Shader/ShaderProg.h"
+#include "OSE-Core/Shader/Shaders/ShaderGraph2D.h"
+#include "OSE-Core/Shader/Shaders/ShaderGraph3D.h"
 
 namespace ose
 {
 	ResourceManager::ResourceManager(std::string const & project_path) : project_path_(project_path),
 		texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)),
 		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)),
-		mesh_loader_(MeshLoaderFactories[0]->NewMeshLoader(project_path)) {}
+		mesh_loader_(MeshLoaderFactories[0]->NewMeshLoader(project_path))
+	{
+		// Create the default 2d engine materials and shader programs
+		uptr<Material> default_opaque_2d { Material::NewDefaultOpaqueSpriteMaterial() };
+		uptr<Material> default_alpha_2d  { Material::NewDefaultAlphaSpriteMaterial() };
+		AddShaderProg("OSE-Default2dShaderProg");
+		default_opaque_2d->SetShaderProg(GetShaderProg("OSE-Default2dShaderProg"));
+		default_alpha_2d->SetShaderProg(GetShaderProg("OSE-Default2dShaderProg"));
+		materials_.emplace(default_opaque_2d->GetName(), std::move(default_opaque_2d));
+		materials_.emplace(default_alpha_2d->GetName(), std::move(default_alpha_2d));
+
+		// Create the default 3d engine materials and shader programs
+		uptr<Material> default_opaque_3d { Material::NewDefaultOpaqueMeshMaterial() };
+		AddShaderProg("OSE-Default3dShaderProg");
+		default_opaque_3d->SetShaderProg(GetShaderProg("OSE-Default3dShaderProg"));
+		materials_.emplace(default_opaque_3d->GetName(), std::move(default_opaque_3d));
+	}
+
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
@@ -501,14 +520,12 @@ namespace ose
 			if(!path.compare(0, builtin_prefix.size(), builtin_prefix))
 			{
 				// Load a built-in shader
-				if(path == "OSE PBR 3D Shader")
-				{
-					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraphPBR3D>()));
-				}
+				if(path == "OSE-Default3dShaderProg")
+					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraph3D>()));
+				else if(path == "OSE-Default2dShaderProg")
+					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraph2D>()));
 				else
-				{
 					LOG_ERROR("Built-in shader", path, "does not exist\nCustom shader paths cannot start with OSE");
-				}
 			}
 			else
 			{
@@ -617,7 +634,7 @@ namespace ose
 			throw e;
 		}
 
-		contents.erase(std::remove(contents.begin(), contents.end(), '\r'));
+		contents.erase(std::remove(contents.begin(), contents.end(), '\r'), contents.end());
 		std::stringstream iss { contents };
 		std::string line;
 		while(std::getline(iss, line, '\n'))

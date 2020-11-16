@@ -1,12 +1,17 @@
 #pragma once
-#include "ShaderGroupGL.h"
+#include "MaterialGroupGL.h"
 
 namespace ose::rendering
 {
 	struct RenderPassGL
 	{
 		GLuint fbo_				{ 0 };
-		GLbitfield clear_		{ GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT };
-		std::vector<ShaderGroupGL> shader_groups_;
+		bool clear_				{ false };
+		GLbitfield clear_mode_  { 0 };
+
+		bool enable_depth_test_ { false };
+		GLenum depth_func_		{ GL_LEQUAL };
+
+		std::vector<MaterialGroupGL> material_groups_;
 	};
 }

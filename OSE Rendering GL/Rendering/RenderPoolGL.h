@@ -7,6 +7,11 @@
 #include "Lights/PointLightData.h"
 #include "Lights/DirLightData.h"
 
+namespace ose
+{
+	class Material;
+}
+
 namespace ose::shader
 {
 	class BRDFShaderProgGLSL;
@@ -66,6 +71,11 @@ namespace ose::rendering
 
 		// Get the list of direction lights s.t. they can be rendered by the rendering engine
 		std::vector<DirLightData> const & GetDirLights() const { return dir_lights_; }
+
+	private:
+		// Get a material group to render the given material in
+		// If no suitable material group exists, a new group is created
+		MaterialGroupGL * GetMaterialGroup(RenderPassGL & render_pass, Material const * material);
 
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update

@@ -3,14 +3,14 @@
 
 namespace ose::shader
 {
-	BRDFShaderProgGLSL::BRDFShaderProgGLSL() : ShaderProg(nullptr), shader_prog_(0)
+	BRDFShaderProgGLSL::BRDFShaderProgGLSL() : ShaderProgGLSL(nullptr)
 	{
-		CreateShaderProg();
+
 	}
 
 	BRDFShaderProgGLSL::~BRDFShaderProgGLSL()
 	{
-		DestroyShaderProg();
+
 	}
 
 	// Build an OpenGL shader object from a shader graph
@@ -222,6 +222,7 @@ namespace ose::shader
 			"	color = pow(color, vec3(1.0 / 2.2));\n"
 				// Set the output color
 			"	fragColor = vec4(color, 1.0);\n"
+		//	"   fragColor = vec4(1, 1, 1, 1);\n"
 		//	"	fragColor = vec4(N, 1);\n"
 			"}\n"
 			;

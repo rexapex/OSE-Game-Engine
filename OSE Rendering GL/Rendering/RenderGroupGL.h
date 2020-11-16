@@ -10,7 +10,7 @@ namespace ose
 
 namespace ose::rendering
 {
-	struct RenderObjectGL
+	struct RenderGroupGL
 	{
 		ERenderObjectType type_;
 
@@ -35,7 +35,7 @@ namespace ose::rendering
 		//std::vector<glm::mat4> transforms_;
 		std::vector<ITransform const *> transforms_;
 
-		RenderObjectGL(std::initializer_list<uint32_t> component_ids, ERenderObjectType type, GLuint vbo,
+		RenderGroupGL(std::initializer_list<uint32_t> component_ids, ERenderObjectType type, GLuint vbo,
 				GLuint vao, GLenum render_primitive, GLint first,
 				GLint count, std::initializer_list<GLuint> textures//, std::initializer_list<ose::math::ITransform const &> transforms
 		)

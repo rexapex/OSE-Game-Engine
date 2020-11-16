@@ -201,6 +201,7 @@
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\Chunk.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManagerSettings.h" />
+    <ClInclude Include="OSE-Core\Rendering\EBlendMode.h" />
     <ClInclude Include="OSE-Core\Resources\Material\Material.h" />
     <ClInclude Include="OSE-Core\File System\File.h" />
     <ClInclude Include="OSE-Core\Resources\Mesh\Mesh.h" />
@@ -238,6 +239,8 @@
     <ClInclude Include="OSE-Core\Shader\ShaderNode.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderNodeMacros.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderProg.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph2D.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph3D.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.h" />
     <ClInclude Include="OSE-Core\Shader\ShaderVarType.h" />
     <ClInclude Include="OSE-Core\STL Ext Lib\ContainerExt.h" />
@@ -726,6 +729,7 @@
     <ClCompile Include="OSE-Core\Project\Project.cpp" />
     <ClCompile Include="OSE-Core\Project\ProjectLoader.cpp" />
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Material\Material.cpp" />
     <ClCompile Include="OSE-Core\Resources\Mesh\MeshLoader.cpp" />
     <ClCompile Include="OSE-Core\Resources\ResourceManager.cpp" />
     <ClCompile Include="OSE-Core\Resources\Texture\Texture.cpp" />
@@ -736,6 +740,8 @@
     <ClCompile Include="OSE-Core\Resources\Tilemap\TilemapLoader.cpp" />
     <ClCompile Include="OSE-Core\Shader\NodeConnector.cpp" />
     <ClCompile Include="OSE-Core\Shader\ShaderGraph.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph2D.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph3D.cpp" />
     <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraphPBR3D.cpp" />
     <ClCompile Include="OSE-Core\Game\Scene\SceneManager.cpp" />
     <ClCompile Include="OSE-Core\Scripting\ScriptingEngine.cpp" />

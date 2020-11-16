@@ -16,8 +16,8 @@ namespace ose
 
 		// A mesh renderer is composed of a 3D mesh and a material
 		// NOTE - these pointers is owned and managed by the resource manager
-		Mesh const * mesh_;
-		Material const * material_;
+		Mesh const * mesh_			{ nullptr };
+		Material const * material_	{ nullptr };
 
 	public:
 

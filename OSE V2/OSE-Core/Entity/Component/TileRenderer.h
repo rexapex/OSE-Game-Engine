@@ -1,11 +1,12 @@
 #pragma once
-#include "OSE-Core/Types.h"
 #include "Component.h"
-#include "OSE-Core/Resources/Texture/Texture.h"
-#include "OSE-Core/Resources/Tilemap/Tilemap.h"
 
 namespace ose
 {
+	class Texture;
+	class Tilemap;
+	class Material;
+
 	// Renders a 2D grid of tile textures at the entities transform
 	class TileRenderer : public Component
 	{
@@ -20,6 +21,10 @@ namespace ose
 		// The tilemap to render to the screen
 		// NOTE - This pointer is owned and managed by the resource manager
 		Tilemap const * tilemap_;
+
+		// The material used to shade the tile renderer
+		// NOTE - This pointer is owned and managed by the resource manager
+		Material const * material_;
 
 		// The number of columns of tiles in the texture
 		int32_t num_cols_ { 1 };
@@ -38,6 +43,7 @@ namespace ose
 
 		Texture const * GetTexture() const { return texture_; }
 		Tilemap const * GetTilemap() const { return tilemap_; }
+		Material const * GetMaterial() const { return material_; }
 
 		int32_t GetNumCols() const { return num_cols_; }
 		int32_t GetNumRows() const { return num_rows_; }
@@ -48,6 +54,7 @@ namespace ose
 
 		void SetTexture(Texture const * texture) { texture_ = texture; }
 		void SetTilemap(Tilemap const * tilemap) { tilemap_ = tilemap; }
+		void SetMaterial(Material const * material) { material_ = material; }
 
 		void SetNumCols(int32_t n) { if(n > 0) num_cols_ = n; }
 		void SetNumRows(int32_t n) { if(n > 0) num_rows_ = n; }
@@ -57,9 +64,9 @@ namespace ose
 		void SetSpacingY(float val) { if(val > 0) spacing_y_ = val; }
 
 		// Initialise the tile renderer
-		TileRenderer(std::string const & name, Texture const * t, Tilemap const * tm,
+		TileRenderer(std::string const & name, Texture const * t, Tilemap const * tm, Material const * m,
 			int32_t num_cols, int32_t num_rows, int32_t num_tiles, float spacing_x, float spacing_y)
-			: Component(name), texture_(t), tilemap_(tm)
+			: Component(name), texture_(t), tilemap_(tm), material_(m)
 		{
 			SetNumCols(num_cols);
 			SetNumRows(num_rows);

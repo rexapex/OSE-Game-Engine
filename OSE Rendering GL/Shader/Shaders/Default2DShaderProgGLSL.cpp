@@ -3,14 +3,14 @@
 
 namespace ose::shader
 {
-	Default2DShaderProgGLSL::Default2DShaderProgGLSL() : ShaderProg(nullptr), shader_prog_(0)
+	Default2DShaderProgGLSL::Default2DShaderProgGLSL() : ShaderProgGLSL(nullptr)
 	{
-		CreateShaderProg();
+
 	}
 
 	Default2DShaderProgGLSL::~Default2DShaderProgGLSL()
 	{
-		DestroyShaderProg();
+
 	}
 
 	// Build an OpenGL shader object from a shader graph
