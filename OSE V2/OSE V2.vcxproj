@@ -198,6 +198,7 @@
     <ClInclude Include="OSE-Core\Entity\Component\ComponentList.h" />
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\FollowCamera.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\Chunk.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManager.h" />
     <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManagerSettings.h" />

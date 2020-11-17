@@ -558,6 +558,7 @@
     <ClInclude Include="OSE-Core\Rendering\EBlendMode.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph2D.h" />
     <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph3D.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\FollowCamera.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="EngineDependencies\glm\detail\func_common.inl" />

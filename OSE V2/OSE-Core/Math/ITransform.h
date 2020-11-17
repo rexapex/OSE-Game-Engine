@@ -25,6 +25,7 @@ namespace ose
 		virtual glm::mat4 GetScaleMatrix() const = 0;
 
 		virtual glm::mat4 GetTransformMatrix() const = 0;
+		virtual glm::mat4 GetInverseTransformMatrix() const = 0;
 
 		virtual glm::vec3 GetUp() const = 0;
 		virtual glm::vec3 GetForward() const = 0;

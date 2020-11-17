@@ -103,7 +103,7 @@ namespace ose::rendering
 				}
 
 				// Pass the view projection matrix to the shader program
-				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetTransformMatrix();
+				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetInverseTransformMatrix();
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Pass the camera position to the shader program
