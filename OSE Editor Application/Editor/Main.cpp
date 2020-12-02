@@ -2,7 +2,7 @@
 #include "Main.h"
 #include "OSE-Core/Game/Game.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
-#include "OSE-Core/Game/Camera/EditorCamera.h"
+#include "OSE-Core/Game/Camera/EditorCamera2D.h"
 #include "OSE-Core/Input/InputSettings.h"
 
 int main(int argc, char * argv[])
@@ -57,19 +57,18 @@ int main(int argc, char * argv[])
 		return 1;
 	}
 
-	// set the active camera
-	uptr<EditorCamera> camera { ose::make_unique<EditorCamera>() };
-	game->SetActiveCamera(camera.get());
-
-	// set inputs for the editor camera to use
+	// Set inputs for the editor camera to use
 	InputSettings settings;
-	settings.axis_inputs_.emplace("move_x", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
-	settings.axis_inputs_.emplace("move_y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
-	settings.boolean_inputs_.emplace("LSHIFT", BooleanInput{ EInputType::LEFT_SHIFT });
-	settings.boolean_inputs_.emplace("MIDDLE_MOUSE", BooleanInput{ EInputType::MOUSE_BUTTON_MIDDLE });
+	settings.axis_inputs_.emplace("OSE-Camera-Move-X", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
+	settings.axis_inputs_.emplace("OSE-Camera-Move-Y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
+	settings.boolean_inputs_.emplace("OSE-Camera-Move-Fast", BooleanInput{ EInputType::LEFT_SHIFT });
 	game->ApplyInputSettings(settings);
 
-	// all resources have been loaded and entities initialised, therefore, start the game
+	// Add a stub entity to follow using the camera
+	EditorCamera2D camera;
+	game->SetActiveCamera(&camera);
+
+	// All resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();
 	
 	return 0;
