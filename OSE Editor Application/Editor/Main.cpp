@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Main.h"
 #include "OSE-Core/Game/Game.h"
+#include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
-#include "OSE-Core/Game/Camera/EditorCamera.h"
+#include "OSE-Core/Game/Camera/EditorCamera2D.h"
 #include "OSE-Core/Input/InputSettings.h"
+#include "OSE-Core/Game/Scene/Chunk/ChunkManagerSettings.h"
 
 int main(int argc, char * argv[])
 {
@@ -12,7 +14,7 @@ int main(int argc, char * argv[])
 	// TODO - might need to destroy resources before returning error
 
 	// Create a game object
-	auto game = std::make_unique<Game>();
+	auto game = ose::make_unique<Game>();
 
 	std::string home_dir;
 	fs::GetHomeDirectory(home_dir);
@@ -25,11 +27,11 @@ int main(int argc, char * argv[])
 	// load the project, giving access to all of its settings and scenes
 	try {
 		game->LoadProject(project_path);
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
-	} catch(const std::exception & e) {
+	} catch(std::exception const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
@@ -38,11 +40,11 @@ int main(int argc, char * argv[])
 	// load a scene, giving access to all of its entities and resources
 	try {
 		game->LoadScene("scene1");
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
-	} catch(const std::exception & e) {
+	} catch(std::exception const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
@@ -51,25 +53,32 @@ int main(int argc, char * argv[])
 	// set the new scene as the active scene
 	try {
 		game->SetActiveScene("scene1");
-	} catch(const std::invalid_argument & e) {
+	} catch(std::invalid_argument const & e) {
 		LOG_ERROR(e.what());
 		getchar();
 		return 1;
 	}
 
-	// set the active camera
-	std::unique_ptr<EditorCamera> camera { std::make_unique<EditorCamera>() };
-	game->SetActiveCamera(camera.get());
-
-	// set inputs for the editor camera to use
+	// Set inputs for the editor camera to use
 	InputSettings settings;
-	settings.axis_inputs_.emplace("move_x", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
-	settings.axis_inputs_.emplace("move_y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
-	settings.boolean_inputs_.emplace("LSHIFT", BooleanInput{ EInputType::LEFT_SHIFT });
-	settings.boolean_inputs_.emplace("MIDDLE_MOUSE", BooleanInput{ EInputType::MOUSE_BUTTON_MIDDLE });
+	settings.axis_inputs_.emplace("OSE-Camera-Move-X", AxisInput{ EInputType::A, EInputType::LEFT, EInputType::D, EInputType::RIGHT });
+	settings.axis_inputs_.emplace("OSE-Camera-Move-Y", AxisInput{ EInputType::W, EInputType::UP, EInputType::S, EInputType::DOWN });
+	settings.boolean_inputs_.emplace("OSE-Camera-Move-Fast", BooleanInput{ EInputType::LEFT_SHIFT });
 	game->ApplyInputSettings(settings);
 
-	// all resources have been loaded and entities initialised, therefore, start the game
+	// Add a stub entity to follow using the camera
+	EditorCamera2D camera;
+	game->SetActiveCamera(&camera);
+
+	// Override the chunk manager settings, have to reset after each scene switch
+	ChunkManagerSettings chunk_settings;
+	chunk_settings.agent_name_ = "";
+	chunk_settings.load_distance_ = 2500;
+	chunk_settings.unload_distance_ = 2000;
+	game->GetActiveScene()->ApplyChunkManagerSettings(chunk_settings);
+	game->GetActiveScene()->ResetChunkManagerAgent(game.get(), camera.GetStubEntity());
+
+	// All resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();
 	
 	return 0;

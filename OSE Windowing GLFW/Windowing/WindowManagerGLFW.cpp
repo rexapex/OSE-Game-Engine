@@ -11,14 +11,14 @@ namespace ose::windowing
 
 	WindowManagerGLFW::~WindowManagerGLFW()
 	{
-		if(window)
+		if(window_)
 		{
-			glfwDestroyWindow(window);
+			glfwDestroyWindow(window_);
 		}
 	}
 
 
-	static void errorCallback(int error, const char * description)	//Prints error message description to stderr
+	static void errorCallback(int error, char const * description)	//Prints error message description to stderr
 	{
 		fprintf(stderr, "Error: %s\n", description);
 	}
@@ -36,7 +36,7 @@ namespace ose::windowing
 	std::vector<VideoMode> WindowManagerGLFW::GetAvailableVideoModes()
 	{
 		int count;
-		const GLFWvidmode * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
+		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
 		std::vector<VideoMode> video_modes;
 
 		for(int i = 0; i < count; i++)
@@ -51,10 +51,10 @@ namespace ose::windowing
 	{
 		GLFWwindow * window;
 
-		const GLFWvidmode * mode;
+		GLFWvidmode const * mode;
 
 		int num_video_modes;
-		const GLFWvidmode * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_video_modes);
+		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_video_modes);
 
 		if(video_mode >= 0 && video_mode < num_video_modes)
 		{
@@ -96,10 +96,10 @@ namespace ose::windowing
 		}
 
 		//if there is a window already, destroy it
-		if(this->window)
+		if(window_)
 		{
-			glfwDestroyWindow(this->window);
-			this->window = nullptr;
+			glfwDestroyWindow(window_);
+			window_ = nullptr;
 		}
 
 		if(!window)
@@ -131,7 +131,7 @@ namespace ose::windowing
 				std::cerr << "Set window to be default render context" << std::endl;
 			}
 
-			this->window = window;
+			window_ = window;
 		}
 	}
 
@@ -140,29 +140,29 @@ namespace ose::windowing
 	void WindowManagerGLFW::Update()
 	{
 		//swap buffers to update the screen and then poll for new events
-		glfwSwapBuffers(window);
+		glfwSwapBuffers(window_);
 		glfwPollEvents();
 
 		//check if game should be closed
-		if(glfwWindowShouldClose(window))
+		if(glfwWindowShouldClose(window_))
 		{
-			glfwDestroyWindow(window);
-			window = nullptr;
+			glfwDestroyWindow(window_);
+			window_ = nullptr;
 			exit(0);
 		}
 
-		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window_));
 		double xpos, ypos;
-		glfwGetCursorPos(window, &xpos, &ypos);		//Callback function not called frequently enough to update camera
+		glfwGetCursorPos(window_, &xpos, &ypos);		//Callback function not called frequently enough to update camera
 		window_manager->CursorPosCallbackImpl(xpos, ypos);
 	}
 
 
 
 
-	void WindowManagerGLFW::SetTitle(const std::string & title)
+	void WindowManagerGLFW::SetTitle(std::string const & title)
 	{
-		glfwSetWindowTitle(window, title.c_str());
+		glfwSetWindowTitle(window_, title.c_str());
 	}
 
 
@@ -171,11 +171,11 @@ namespace ose::windowing
 	int WindowManagerGLFW::SetMouseVisibility(int value)
 	{
 		if(value == 0)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		else if(value == 1)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 		else if(value == 2)
-			glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
 		return 0;
 	}
@@ -184,12 +184,12 @@ namespace ose::windowing
 
 	void WindowManagerGLFW::SetWindowSize(int width, int height)
 	{
-		glfwSetWindowSize(window, width, height);
+		glfwSetWindowSize(window_, width, height);
 	}
 
 	void WindowManagerGLFW::SetWindowPos(int x, int y)
 	{
-		glfwSetWindowPos(window, x, y);
+		glfwSetWindowPos(window_, x, y);
 	}
 
 

@@ -17,9 +17,9 @@ namespace ose
 
 	/*ThreadManager & ThreadManager::operator=(ThreadManager && other) noexcept
 	{
-		this->threads_ = std::move(other.threads_);
-		this->tasks_in_progress_ = std::move(other.tasks_in_progress_);
-		this->render_pool_ = other.render_pool_;
+		threads_ = std::move(other.threads_);
+		tasks_in_progress_ = std::move(other.tasks_in_progress_);
+		render_pool_ = other.render_pool_;
 		return *this;
 	}*/
 
@@ -35,11 +35,11 @@ namespace ose
 		threads_.reserve(num_threads);
 
 		auto get_new_task = [this] (std::string & task) {
-			this->GetNewTask(task);
+			GetNewTask(task);
 		};
 
 		auto on_task_completed = [this] (uint32_t thread_id) {
-			this->OnTaskCompleted(thread_id);
+			OnTaskCompleted(thread_id);
 		};
 
 		tasks_in_progress_ = 0;
@@ -47,7 +47,7 @@ namespace ose
 		//create the threads
 		for(uint32_t t = 1; t <= num_threads; t++)
 		{
-			threads_.emplace_back(std::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
+			threads_.emplace_back(ose::make_unique<GameThread>(t, get_new_task, mu_, work_to_do_, on_task_completed));
 		}
 
 		DEBUG_LOG("created", num_threads, "threads");
@@ -72,7 +72,7 @@ namespace ose
 	}
 
 
-	void ThreadManager::AddNewTask(const std::string & t)
+	void ThreadManager::AddNewTask(std::string const & t)
 	{
 		{
 			std::unique_lock<std::mutex> lock(mu_);

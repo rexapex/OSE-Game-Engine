@@ -29,7 +29,7 @@ namespace ose::scripting
 	}
 
 	// Add a custom engine component to the script pool
-	void ScriptPoolCPP::AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp)
+	void ScriptPoolCPP::AddCustomComponent(Entity * entity, CustomComponent * comp)
 	{
 		// Attempt to find the custom engine for the component
 		std::string const & type_name = comp->GetComponentTypeName();
@@ -52,7 +52,7 @@ namespace ose::scripting
 	{
 		auto factories = ControlScript::GetSetControlScriptFactory();
 
-		auto add_control = [this, &factories](CustomControl const & control, std::vector<std::unique_ptr<ControlScript>> & array) {
+		auto add_control = [this, &factories](CustomControl const & control, std::vector<uptr<ControlScript>> & array) {
 			// Attempt to find the control script
 			std::string const & type_name = control.GetControlTypeName();
 			auto iter = std::find_if(controls_.begin(), controls_.end(), [type_name](auto & control) {
@@ -118,7 +118,7 @@ namespace ose::scripting
 	}
 
 	// Remove a custom engine component from the script pool
-	void ScriptPoolCPP::RemoveCustomComponent(unowned_ptr<CustomComponent> comp)
+	void ScriptPoolCPP::RemoveCustomComponent(CustomComponent * comp)
 	{
 		// Attempt to find the custom engine for the component
 		std::string const & type_name = comp->GetComponentTypeName();

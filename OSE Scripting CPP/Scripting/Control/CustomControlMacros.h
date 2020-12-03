@@ -29,8 +29,8 @@
 		std::string GetControlTypeName() const override { return STR(NAME); } \
 		code \
 	};\
-	std::unique_ptr<ose::scripting::ControlScript> XCAT(New, XCAT(NAME, Control))() { \
-		return std::make_unique<XCAT(NAME, Control)>(); \
+	uptr<ose::scripting::ControlScript> XCAT(New, XCAT(NAME, Control))() { \
+		return ose::make_unique<XCAT(NAME, Control)>(); \
 	} \
 	auto XCAT(NAME, AddControlFactoryToMap) = [] { \
 		ControlScript::GetSetControlScriptFactory(STR(New) STR(NAME) STR(Control), XCAT(New, XCAT(NAME, Control))); \

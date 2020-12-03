@@ -33,12 +33,12 @@ namespace ose
 
 #define DATA(code) \
 	struct XCAT(NAME, Data) { \
-		XCAT(NAME, Data) (unowned_ptr<CustomComponent> comp) : READONLY_CUSTOM_COMPONENT(comp) {} \
+		XCAT(NAME, Data) (CustomComponent * comp) : READONLY_CUSTOM_COMPONENT(comp) {} \
 		XCAT(NAME, Data) (XCAT(NAME, Data) const &) = default; \
 		XCAT(NAME, Data) (XCAT(NAME, Data) &&) = default; \
 		XCAT(NAME, Data) & operator=(XCAT(NAME, Data) const &) = default; \
 		XCAT(NAME, Data) & operator=(XCAT(NAME, Data) &&) = default; \
-		unowned_ptr<CustomComponent> READONLY_CUSTOM_COMPONENT; \
+		CustomComponent * READONLY_CUSTOM_COMPONENT; \
 		code \
 	};
 
@@ -47,11 +47,11 @@ namespace ose
 	public: \
 		XCAT(NAME, Engine)() : ose::scripting::CustomEngine() {} \
 		std::string GetComponentTypeName() const override { return STR(NAME); } \
-		void AddCustomComponent(unowned_ptr<Entity> entity, unowned_ptr<CustomComponent> comp) { \
+		void AddCustomComponent(Entity * entity, CustomComponent * comp) { \
 			data_array_.emplace_back(comp); \
 			InitComponent(entity, data_array_.back()); \
 		} \
-		void RemoveCustomComponent(unowned_ptr<CustomComponent> comp) { \
+		void RemoveCustomComponent(CustomComponent * comp) { \
 			data_array_.erase(std::remove_if(data_array_.begin(), data_array_.end(), [comp](auto & data) { \
 				return data.READONLY_CUSTOM_COMPONENT == comp; \
 			})); \
@@ -61,8 +61,8 @@ namespace ose
 	public: \
 		code \
 	};\
-	std::unique_ptr<ose::scripting::CustomEngine> XCAT(New, XCAT(NAME, Engine))() { \
-		return std::make_unique<XCAT(NAME, Engine)>(); \
+	uptr<ose::scripting::CustomEngine> XCAT(New, XCAT(NAME, Engine))() { \
+		return ose::make_unique<XCAT(NAME, Engine)>(); \
 	} \
 	auto XCAT(NAME, AddFactoryToMap) = [] { \
 		CustomEngine::GetSetCustomEngineFactory(STR(New) STR(NAME) STR(Engine), XCAT(New, XCAT(NAME, Engine))); \

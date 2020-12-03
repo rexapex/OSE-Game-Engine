@@ -26,7 +26,7 @@ namespace ose::rendering
 
 	RenderingEngineGL::~RenderingEngineGL() {}
 
-	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(const int fbwidth, const int fbheight)
+	void RenderingEngineGL::UpdateOrthographicProjectionMatrix(int fbwidth, int fbheight)
 	{
 		DEBUG_LOG("updating othographic projection matrix");
 		float aspect_ratio = (float)fbwidth/(float)fbheight;
@@ -36,7 +36,7 @@ namespace ose::rendering
 		glViewport(0, 0, fbwidth, fbheight);
 	}
 
-	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(const float hfov_deg, const int fbwidth, const int fbheight, const float znear, const float zfar)
+	void RenderingEngineGL::UpdatePerspectiveProjectionMatrix(float hfov_deg, int fbwidth, int fbheight, float znear, float zfar)
 	{
 		DEBUG_LOG("updating perspective projection matrix");
 		// hfov = 2 * atan(tan(vfov * 0.5) * aspect_ratio)
@@ -56,10 +56,33 @@ namespace ose::rendering
 		{
 			// Bind the fbo and clear the required buffers
 			glBindFramebuffer(GL_FRAMEBUFFER, render_pass.fbo_);
-			glClear(render_pass.clear_);
+			if(render_pass.clear_)
+				glClear(render_pass.clear_mode_);
 
-			for(auto const & shader_group : render_pass.shader_groups_)
+			// Set the depth settings
+			if(render_pass.enable_depth_test_)
 			{
+				glEnable(GL_DEPTH_TEST);
+				glDepthFunc(render_pass.depth_func_);
+			}
+			else
+			{
+				glDisable(GL_DEPTH_TEST);
+			}
+
+			for(auto const & shader_group : render_pass.material_groups_)
+			{
+				// Set the blend settings
+				if(shader_group.enable_blend_)
+				{
+					glEnable(GL_BLEND);
+					glBlendFunc(shader_group.blend_fac_, shader_group.blend_func_);
+				}
+				else
+				{
+					glDisable(GL_BLEND);
+				}
+
 				// Bind the shader used by the shader group
 				glUseProgram(shader_group.shader_prog_);
 
@@ -80,35 +103,35 @@ namespace ose::rendering
 				}
 
 				// Pass the view projection matrix to the shader program
-				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetTransformMatrix();
+				glm::mat4 view_proj = projection_matrix_ * active_camera.GetGlobalTransform().GetInverseTransformMatrix();
 				glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "viewProjMatrix"), 1, GL_FALSE, glm::value_ptr(view_proj));
 
 				// Pass the camera position to the shader program
-				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetPosition().x,
-					active_camera.GetGlobalTransform().GetPosition().y, active_camera.GetGlobalTransform().GetPosition().z);
+				glUniform3f(glGetUniformLocation(shader_group.shader_prog_, "cameraPos"), active_camera.GetGlobalTransform().GetTranslation().x,
+					active_camera.GetGlobalTransform().GetTranslation().y, active_camera.GetGlobalTransform().GetTranslation().z);
 
 				// Render the render objects one by one
-				for(auto const & render_object : shader_group.render_objects_)
+				for(auto const & render_group : shader_group.render_groups_)
 				{
-					for(size_t i = 0; i < render_object.transforms_.size(); ++i)
+					for(size_t i = 0; i < render_group.transforms_.size(); ++i)
 					{
 						// Pass the world transform of the object to the shader program
-						glm::mat4 tMat { render_object.transforms_[i]->GetTransformMatrix() };
+						glm::mat4 tMat { render_group.transforms_[i]->GetTransformMatrix() };
 						glUniformMatrix4fv(glGetUniformLocation(shader_group.shader_prog_, "worldTransform"), 1, GL_FALSE, glm::value_ptr(tMat));
 
 						// Bind the textures
-						for(size_t t = 0; t < render_object.texture_stride_; ++t)
+						for(size_t t = 0; t < render_group.texture_stride_; ++t)
 						{
 							glActiveTexture(GL_TEXTURE0 + t);
-							glBindTexture(GL_TEXTURE_2D, render_object.textures_[i * render_object.texture_stride_ + t]);
+							glBindTexture(GL_TEXTURE_2D, render_group.textures_[i * render_group.texture_stride_ + t]);
 						}
 
 						// Render the object
-						glBindVertexArray(render_object.vao_);
-						if(render_object.ibo_ == 0)
-							glDrawArrays(render_object.render_primitive_, render_object.first_, render_object.count_);
+						glBindVertexArray(render_group.vao_);
+						if(render_group.ibo_ == 0)
+							glDrawArrays(render_group.render_primitive_, render_group.first_, render_group.count_);
 						else
-							glDrawElements(render_object.render_primitive_, render_object.count_, GL_UNSIGNED_INT, 0);
+							glDrawElements(render_group.render_primitive_, render_group.count_, GL_UNSIGNED_INT, 0);
 					}
 				}
 			}

@@ -1,31 +1,26 @@
 #pragma once
-
-#include "OSE-Core/Math/Transformable.h"
+#include "OSE-Core/Math/Transform.h"
 
 namespace ose
 {
 	class Game;
 
-	class Camera : public Transformable<std::unique_ptr<Camera>>
+	class Camera
 	{
 	public:
 		Camera() {}
 		virtual ~Camera() {}
 
-		// Get a list of transformable elements
-		// Returns an empty dummy list
-		const std::vector<std::unique_ptr<Camera>> & GetChildTransformables() override { return dummy_; }
-
 		// Update the camera
 		virtual void Update() {}
 
 		// Should NEVER be called directly by a script
-		void SetGameReference(unowned_ptr<Game> game) { game_ = game; }
+		void SetGameReference(Game * game) { game_ = game; }
+
+		// Get the global camera transform (i.e. the transform to transform world transforms by to transform into camera space)
+		virtual ITransform const & GetGlobalTransform() const { return Transform::IDENTITY; }
 
 	protected:
-		unowned_ptr<Game> game_;
-
-	private:
-		std::vector<std::unique_ptr<Camera>> dummy_;
+		Game * game_ { nullptr };
 	};
 }

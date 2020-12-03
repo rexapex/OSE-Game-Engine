@@ -18,6 +18,6 @@ namespace ose::scripting
 		ScriptingFactoryCPP(ScriptingFactoryCPP &&) = default;
 		ScriptingFactoryCPP & operator=(ScriptingFactoryCPP &&) = default;
 
-		std::unique_ptr<ScriptingEngine> NewScriptingEngine() override;
+		uptr<ScriptingEngine> NewScriptingEngine() override;
 	};
 }

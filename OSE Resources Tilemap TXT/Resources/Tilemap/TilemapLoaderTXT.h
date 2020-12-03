@@ -6,7 +6,7 @@ namespace ose::resources
 	class TilemapLoaderTXT : public TilemapLoader
 	{
 	public:
-		TilemapLoaderTXT(const std::string & project_path);
+		TilemapLoaderTXT(std::string const & project_path);
 		~TilemapLoaderTXT();
 		//TilemapLoaderTXT is NOT copyable
 		TilemapLoaderTXT(TilemapLoaderTXT &) = delete;
@@ -17,7 +17,7 @@ namespace ose::resources
 
 		// Loads the tilemap and sets the internal data of the tilemap object
 		// Path is absolute and is guaranteed to exist
-		virtual void LoadTilemap(const std::string & path, Tilemap & tilemap);
+		virtual void LoadTilemap(std::string const & path, Tilemap & tilemap);
 	};
 }
 

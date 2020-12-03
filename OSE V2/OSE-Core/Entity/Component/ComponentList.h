@@ -10,13 +10,13 @@ namespace ose
 	public:
 		ComponentList();
 		virtual ~ComponentList() noexcept;
-		ComponentList(const ComponentList & other) noexcept;
+		ComponentList(ComponentList const & other) noexcept;
 		ComponentList(ComponentList &&) noexcept = default;
 		ComponentList & operator=(ComponentList &) noexcept = delete;
 		ComponentList & operator=(ComponentList &&) noexcept = delete;
 
 		// get a list of all components
-		const std::vector<std::unique_ptr<Component>> & GetComponents() const { return this->components_; }
+		std::vector<uptr<Component>> const & GetComponents() const { return components_; }
 
 		// add a component to the entity by component type
 		// method constructs a new object of the given component type
@@ -25,7 +25,7 @@ namespace ose
 		template<class ComponentType, typename... Args>
 		void AddComponent(Args &&... params)
 		{
-			components_.emplace_back( std::make_unique<ComponentType>(std::forward<Args>(params)...) );
+			components_.emplace_back( ose::make_unique<ComponentType>(std::forward<Args>(params)...) );
 		}
 
 		// get the first component of specified type
@@ -34,7 +34,7 @@ namespace ose
 		// entity class manages object, returned object should not be deleted (de-allocated)
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		unowned_ptr<ComponentType> GetComponent() const
+		ComponentType * GetComponent() const
 		{
 			// check whether the type matches of each component
 			for(auto && component : components_)
@@ -53,7 +53,7 @@ namespace ose
 		// list will be empty if no component of given type exists
 		// IMPORTANT - template method so defined in header
 		template<class ComponentType>
-		std::vector<unowned_ptr<ComponentType>> GetComponents() const
+		std::vector<ComponentType *> GetComponents() const
 		{
 			std::vector<ComponentType *> matching_comps;
 
@@ -111,7 +111,7 @@ namespace ose
 			// use removeComponent method in a loop until no more components can be removed
 			bool removed;
 			do {
-				removed = this->RemoveComponent<ComponentType>();
+				removed = RemoveComponent<ComponentType>();
 				if(removed) num_removals ++;
 			} while(removed);
 
@@ -123,13 +123,13 @@ namespace ose
 		// does NOT delete the component
 		// returns true if the component is removed
 		// returns false if the component does not belong to this entity
-		bool RemoveComponent(const unowned_ptr<Component> comp);
+		bool RemoveComponent(Component const * comp);
 
 	protected:
 		// utility method for deleting all components
 		void DeleteAllComponents() noexcept;
 
 		// list of all components attached to this entity, components need not be active
-		std::vector<std::unique_ptr<Component>> components_;
+		std::vector<uptr<Component>> components_;
 	};
 }

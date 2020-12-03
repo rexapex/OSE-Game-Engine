@@ -5,6 +5,7 @@
 #include "OSE-Core/Project/Project.h"
 #include "OSE-Core/Project/ProjectSettings.h"
 #include "OSE-Core/Game/Scene/Scene.h"
+#include "OSE-Core/Game/Scene/Chunk/Chunk.h"
 #include "OSE-Core/Entity/Entity.h"
 
 #include "OSE-Core/Input/InputSettings.h"
@@ -47,14 +48,14 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<rapidxml::xml_document<>> ProjectLoaderXML::LoadXmlFile(const std::string & path, std::string & contents)
+	uptr<rapidxml::xml_document<>> ProjectLoaderXML::LoadXmlFile(std::string const & path, std::string & contents)
 	{
 		//load the xml string
 		try
 		{
 			fs::LoadTextFile(path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			//error occurred, therefore, return an empty project info stub
 			LOG("fs::LoadTextFile ->", e.what());
@@ -62,7 +63,7 @@ namespace ose::project
 		}
 
 		//load the xml dom tree
-		std::unique_ptr<xml_document<>> doc = std::make_unique<xml_document<>>();
+		uptr<xml_document<>> doc = ose::make_unique<xml_document<>>();
 		char * c_str = const_cast<char *>(contents.c_str());
 		doc->parse<0>(c_str);
 
@@ -70,18 +71,18 @@ namespace ose::project
 	}
 	
 
-	std::unique_ptr<Project> ProjectLoaderXML::LoadProject(const std::string & project_path)
+	uptr<Project> ProjectLoaderXML::LoadProject(std::string const & project_path)
 	{
 		LOG("Loading Project Directory:", project_path, "\n");
 
 		//first, load the manifest
-		std::unique_ptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
+		uptr<ProjectInfo> manifest = LoadProjectManifest(project_path);
 
 		// Then, load the project settings
 		ProjectSettings project_settings = LoadProjectSettings(project_path);
 
 		//then, load the scene declerations
-		std::unique_ptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
+		uptr<std::map<std::string, std::string>> scene_declerations = LoadSceneDeclerations(project_path);
 
 		// Then, load the tag settings
 		TagSettings tag_settings = LoadTagSettings(project_path);
@@ -99,19 +100,19 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<ProjectInfo> ProjectLoaderXML::LoadProjectManifest(const std::string & project_path)
+	uptr<ProjectInfo> ProjectLoaderXML::LoadProjectManifest(std::string const & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
 		{
 			doc = LoadXmlFile(project_path + "/info.xml", contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
-			return std::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
+			return ose::make_unique<ProjectInfo>(std::move(ProjectInfo {"UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN", "UNKNOWN"}));
 		}
 
 		DEBUG_LOG("**********  Project Manifest  **********");
@@ -141,22 +142,22 @@ namespace ose::project
 		DEBUG_LOG("");
 
 		//construct and return a new ProjectInfo instance
-		return std::make_unique<ProjectInfo>(std::move(ProjectInfo {name, engine_version, game_version, date_created, date_modified}));
+		return ose::make_unique<ProjectInfo>(std::move(ProjectInfo {name, engine_version, game_version, date_created, date_modified}));
 	}
 
 
 
-	std::unique_ptr<std::map<std::string, std::string>> ProjectLoaderXML::LoadSceneDeclerations(const std::string & project_path)
+	uptr<std::map<std::string, std::string>> ProjectLoaderXML::LoadSceneDeclerations(std::string const & project_path)
 	{
-		std::unique_ptr<std::map<std::string, std::string>> name_to_path_map = std::make_unique<std::map<std::string, std::string>>();
-		std::unique_ptr<xml_document<>> doc;
+		uptr<std::map<std::string, std::string>> name_to_path_map = ose::make_unique<std::map<std::string, std::string>>();
+		uptr<xml_document<>> doc;
 		std::string contents;
 		
 		try
 		{
 			doc = LoadXmlFile(project_path + "/scene_declerations.xml", contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return name_to_path_map;
@@ -186,7 +187,7 @@ namespace ose::project
 
 	TagSettings ProjectLoaderXML::LoadTagSettings(const std::string & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		TagSettings settings;
 
@@ -194,7 +195,7 @@ namespace ose::project
 		{
 			doc = LoadXmlFile(project_path + "/tags.xml", contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return settings;
@@ -216,7 +217,7 @@ namespace ose::project
 	void ProjectLoaderXML::ParseTag(std::vector<TagSettings::TagNode> & tags, rapidxml::xml_node<> * tag_node)
 	{
 		auto name_attrib = tag_node->first_attribute("name");
-		const std::string & name = (name_attrib ? name_attrib->value() : "");
+		std::string name = (name_attrib ? name_attrib->value() : "");
 
 		DEBUG_LOG("tag -> name:", name);
 
@@ -233,9 +234,9 @@ namespace ose::project
 	}
 
 
-	ProjectSettings ProjectLoaderXML::LoadProjectSettings(const std::string & project_path)
+	ProjectSettings ProjectLoaderXML::LoadProjectSettings(std::string const & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string settings_path { project_path + "/settings.xml" };
 		ProjectSettings settings;
@@ -244,7 +245,7 @@ namespace ose::project
 		{
 			doc = LoadXmlFile(settings_path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return settings;
@@ -306,9 +307,9 @@ namespace ose::project
 	}
 
 
-	InputSettings ProjectLoaderXML::LoadInputSettings(const std::string & project_path)
+	InputSettings ProjectLoaderXML::LoadInputSettings(std::string const & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string input_path { project_path + "/input.xml" };
 		InputSettings settings;
@@ -317,7 +318,7 @@ namespace ose::project
 		{
 			doc = LoadXmlFile(input_path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return settings;
@@ -344,14 +345,14 @@ namespace ose::project
 		for(auto bool_node = input_node->first_node("boolean"); bool_node; bool_node = bool_node->next_sibling("boolean"))
 		{
 			auto name_attrib = bool_node->first_attribute("name");
-			const std::string & name = (name_attrib ? name_attrib->value() : "");
+			std::string name = (name_attrib ? name_attrib->value() : "");
 			auto name_iter = settings.boolean_inputs_.find(name);
 
 			auto primary_attrib = bool_node->first_attribute("primary");
-			const std::string & primary = (primary_attrib ? primary_attrib->value() : "");
+			std::string primary = (primary_attrib ? primary_attrib->value() : "");
 
 			auto secondary_attrib = bool_node->first_attribute("secondary");
-			const std::string & secondary = (secondary_attrib ? secondary_attrib->value() : "");
+			std::string secondary = (secondary_attrib ? secondary_attrib->value() : "");
 
 			// All boolean inputs are required to have a unique name
 			if(name != "" && name_iter == settings.boolean_inputs_.end())
@@ -370,20 +371,20 @@ namespace ose::project
 		for(auto axis_node = input_node->first_node("axis"); axis_node; axis_node = axis_node->next_sibling("axis"))
 		{
 			auto name_attrib = axis_node->first_attribute("name");
-			const std::string & name = (name_attrib ? name_attrib->value() : "");
+			std::string name = (name_attrib ? name_attrib->value() : "");
 			auto name_iter = settings.axis_inputs_.find(name);
 
 			auto pos_primary_attrib = axis_node->first_attribute("pos_primary");
-			const std::string & pos_primary = (pos_primary_attrib ? pos_primary_attrib->value() : "");
+			std::string pos_primary = (pos_primary_attrib ? pos_primary_attrib->value() : "");
 
 			auto pos_secondary_attrib = axis_node->first_attribute("pos_secondary");
-			const std::string & pos_secondary = (pos_secondary_attrib ? pos_secondary_attrib->value() : "");
+			std::string pos_secondary = (pos_secondary_attrib ? pos_secondary_attrib->value() : "");
 
 			auto neg_primary_attrib = axis_node->first_attribute("neg_primary");
-			const std::string & neg_primary = (neg_primary_attrib ? neg_primary_attrib->value() : "");
+			std::string neg_primary = (neg_primary_attrib ? neg_primary_attrib->value() : "");
 
 			auto neg_secondary_attrib = axis_node->first_attribute("neg_secondary");
-			const std::string & neg_secondary = (neg_secondary_attrib ? neg_secondary_attrib->value() : "");
+			std::string neg_secondary = (neg_secondary_attrib ? neg_secondary_attrib->value() : "");
 
 			// All axis inputs are required to have a unique name
 			if(name != "" && name_iter == settings.axis_inputs_.end())
@@ -405,9 +406,9 @@ namespace ose::project
 
 	
 	// Loads the control scripts which persist through all scenes
-	ControlSettings ProjectLoaderXML::LoadPersistentControls(const std::string & project_path)
+	ControlSettings ProjectLoaderXML::LoadPersistentControls(std::string const & project_path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string controls_path { project_path + "/controls.xml" };
 		InputSettings settings;
@@ -416,7 +417,7 @@ namespace ose::project
 		{
 			doc = LoadXmlFile(controls_path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return {};
@@ -427,9 +428,9 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Scene> ProjectLoaderXML::LoadScene(const Project & project, const std::string & scene_name)
+	uptr<Scene> ProjectLoaderXML::LoadScene(Project const & project, std::string const & scene_name)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 		std::string scene_path;
 
@@ -442,7 +443,7 @@ namespace ose::project
 		{
 			doc = LoadXmlFile(scene_path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return nullptr;
@@ -455,20 +456,22 @@ namespace ose::project
 		auto entities_node = scene_node->first_node("entities");
 		auto resources_node = scene_node->first_node("resources");
 		auto controls_node = scene_node->first_node("controls");
+		auto chunks_node = scene_node->first_node("chunks");
 		///auto cached_prefabs_node = scene_node->first_node("cached_prefabs");
 
 		// Load the scene's controls
 		ControlSettings control_settings = ParseControls(controls_node);
 
 		// Create the new scene object
-		std::unique_ptr<Scene> scene = std::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
+		uptr<Scene> scene = ose::make_unique<Scene>(scene_name_attrib ? scene_name_attrib->value() : scene_name, control_settings);
 
 		// Map of aliases (lhs = alias, rhs = replacement), only applicable to current file
 		std::unordered_map<std::string, std::string> aliases;
 		ParseResources(resources_node, aliases, project);
 
 		// Load the scene's entities
-		if(entities_node != nullptr) {
+		if(entities_node != nullptr)
+		{
 			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
 			{
 				// Parse the xml of the entity and add it to the scene
@@ -479,6 +482,49 @@ namespace ose::project
 			}
 		}
 
+		// Load the scene's chunk declerations
+		if(chunks_node != nullptr)
+		{
+			ChunkManagerSettings cm_settings;
+			std::string agent_name;
+
+			auto load_distance_attrib = chunks_node->first_attribute("load_distance");
+			if(load_distance_attrib != nullptr)
+				cm_settings.load_distance_ = std::stof(load_distance_attrib->value());
+
+			auto unload_distance_attrib = chunks_node->first_attribute("unload_distance");
+			if(unload_distance_attrib != nullptr)
+				cm_settings.unload_distance_ = std::stof(unload_distance_attrib->value());
+
+			auto agent_attrib = chunks_node->first_attribute("agent");
+			if(agent_attrib != nullptr)
+				cm_settings.agent_name_ = agent_attrib->value();
+
+			scene->ApplyChunkManagerSettings(cm_settings);
+
+			for(auto chunk_node = chunks_node->first_node("chunk"); chunk_node; chunk_node = chunk_node->next_sibling("chunk"))
+			{
+				// Parse the xml of the chunk and add it to the scene
+				auto name_attrib = chunk_node->first_attribute("name");
+				std::string name = (name_attrib ? name_attrib->value() : "");
+				std::string path = scene_path + "/Chunks/" + name + ".xml";
+				Chunk * chunk = scene->AddChunk(name, path, project, *this);
+
+				for(auto transform_node = chunk_node->first_node("transform"); transform_node; transform_node = transform_node->next_sibling("transform"))
+				{
+					glm::vec3 translation;
+					glm::vec3 scale;
+					glm::vec3 rotation;
+
+					ParseTransform(translation, scale, rotation, transform_node);
+
+					chunk->SetTranslation(translation);
+					chunk->SetScale(scale);
+					chunk->SetOrientationDeg(rotation);
+				}
+			}
+		}
+
 		// Remove the temporary prefabs since they were only needed for scene loading
 		project.GetPrefabManager().ClearTempPrefabs();
 
@@ -486,9 +532,50 @@ namespace ose::project
 	}
 
 
-	std::unique_ptr<Entity> ProjectLoaderXML::LoadEntityPrefab(const std::string & prefab_path, const Project & project)
+	void ProjectLoaderXML::LoadChunk(Chunk & chunk, Project const & project)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
+		std::string contents;
+		std::string path = project.GetProjectPath() + "/Chunks/" + chunk.GetName() + ".xml";
+
+		try
+		{
+			doc = LoadXmlFile(path, contents);
+		}
+		catch(std::exception const & e)
+		{
+			LOG_ERROR(e.what());
+			return;
+		}
+
+		auto chunk_node = doc->first_node("chunk");
+		if(!chunk_node)
+			return;
+
+		auto entities_node = chunk_node->first_node("entities");
+		auto resources_node = chunk_node->first_node("resources");
+
+		std::unordered_map<std::string, std::string> aliases;
+		ParseResources(resources_node, aliases, project);
+
+		// Load the chunks's entities
+		if(entities_node != nullptr)
+		{
+			for(auto entity_node = entities_node->first_node("entity"); entity_node; entity_node = entity_node->next_sibling("entity"))
+			{
+				// Parse the xml of the entity and add it to the scene
+#				pragma warning(push)
+#				pragma warning(disable:26444)
+				ParseEntity(&chunk, entity_node, aliases, project);
+#				pragma warning(pop)
+			}
+		}
+	}
+
+
+	uptr<Entity> ProjectLoaderXML::LoadEntityPrefab(std::string const & prefab_path, Project const & project)
+	{
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
@@ -496,7 +583,7 @@ namespace ose::project
 			//load the prefab from its xml file
 			doc = LoadXmlFile(project.GetProjectPath() + "/Prefabs/" + prefab_path + file_extension, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return nullptr;
@@ -524,26 +611,26 @@ namespace ose::project
 	// Parse the XML of an entity
 	// If parent != nullptr, the new entity is added to the parent and the return value is nullptr
 	// If parent == nullptr, the new entity is returned
-	std::unique_ptr<Entity> ProjectLoaderXML::ParseEntity(unowned_ptr<EntityList> parent, rapidxml::xml_node<> * entity_node,
-			std::unordered_map<std::string, std::string> & aliases, const Project & project)
+	uptr<Entity> ProjectLoaderXML::ParseEntity(EntityList * parent, rapidxml::xml_node<> * entity_node,
+			std::unordered_map<std::string, std::string> & aliases, Project const & project)
 	{
 		auto name_attrib = entity_node->first_attribute("name");
-		const std::string & name = (name_attrib ? name_attrib->value() : "");
+		std::string name = (name_attrib ? name_attrib->value() : "");
 
 		auto tag_attrib = entity_node->first_attribute("tag");
 		const std::string & tag_name = (tag_attrib ? tag_attrib->value() : "");
 		Tag tag = project.GetTagManager().GetTag(tag_name);
 
 		auto prefab_attrib = entity_node->first_attribute("prefab");
-		const std::string & prefab_text = (prefab_attrib ? prefab_attrib->value(): "");
+		std::string prefab_text = (prefab_attrib ? prefab_attrib->value(): "");
 
 		// If the prefab is an alias, find it's replacement text, else use the file text
-		const auto prefab_text_alias_pos = aliases.find(prefab_text);
-		const std::string & prefab = prefab_text_alias_pos == aliases.end() ? prefab_text : prefab_text_alias_pos->second;
+		auto const prefab_text_alias_pos = aliases.find(prefab_text);
+		std::string const & prefab = prefab_text_alias_pos == aliases.end() ? prefab_text : prefab_text_alias_pos->second;
 
 		// Pointer to the newly created entity (not yet created)
-		unowned_ptr<Entity> new_entity = nullptr;
-		std::unique_ptr<Entity> new_entity_ret = nullptr;
+		Entity * new_entity = nullptr;
+		uptr<Entity> new_entity_ret = nullptr;
 
 		if(prefab == "")
 		{
@@ -551,20 +638,20 @@ namespace ose::project
 			if(parent)
 				new_entity = parent->AddEntity(name, tag, prefab);
 			else
-				new_entity_ret = std::make_unique<Entity>(name, tag, prefab), new_entity = new_entity_ret.get();
+				new_entity_ret = ose::make_unique<Entity>(nullptr, name, tag, prefab), new_entity = new_entity_ret.get();
 		}
 		else
 		{
 			// else, use the existing prefab object as a template
 			if(project.GetPrefabManager().DoesPrefabExist(prefab))
 			{
-				const auto & prefab_object = project.GetPrefabManager().GetPrefab(prefab);
+				auto const & prefab_object = project.GetPrefabManager().GetPrefab(prefab);
 				DEBUG_LOG("Entity", name, "extends", prefab_object.GetName(), "\n");
 				// Create object from copy of prefab
 				if(parent)
 					new_entity = parent->AddEntity(prefab_object);
 				else
-					new_entity_ret = std::make_unique<Entity>(prefab_object), new_entity = new_entity_ret.get();
+					new_entity_ret = ose::make_unique<Entity>(nullptr, prefab_object), new_entity = new_entity_ret.get();
 				new_entity->SetName(name);
 				new_entity->SetTag(tag);
 			} else {
@@ -580,64 +667,15 @@ namespace ose::project
 		// parse the transform component of the new entity
 		for(auto component_node = entity_node->first_node("transform"); component_node; component_node = component_node->next_sibling("transform"))
 		{
-			try
-			{
-				// TODO - Include controls for settings the orientation
-				// NOTE - Should include ability to set 2d rotation (r), 3d euler rotation (rx, ry, rz), 3d orientation (ox, oy, oz, ow)
-				float x  { 0.0f };
-				float y  { 0.0f };
-				float z  { 0.0f };
-				float sx { 1.0f };
-				float sy { 1.0f };
-				float sz { 1.0f };
-				float rx { 0.0f };
-				float ry { 0.0f };
-				float rz { 0.0f };
+			glm::vec3 translation;
+			glm::vec3 scale;
+			glm::vec3 rotation;
 
-				auto x_attrib = component_node->first_attribute("x");
-				if(x_attrib != nullptr)
-					x = std::stof(x_attrib->value());
+			ParseTransform(translation, scale, rotation, component_node);
 
-				auto y_attrib = component_node->first_attribute("y");
-				if(y_attrib != nullptr)
-					y = std::stof(y_attrib->value());
-
-				auto z_attrib = component_node->first_attribute("z");
-				if(z_attrib != nullptr)
-					z = std::stof(z_attrib->value());
-
-				auto sx_attrib = component_node->first_attribute("sx");
-				if(sx_attrib != nullptr)
-					sx = std::stof(sx_attrib->value());
-
-				auto sy_attrib = component_node->first_attribute("sy");
-				if(sy_attrib != nullptr)
-					sy = std::stof(sy_attrib->value());
-
-				auto sz_attrib = component_node->first_attribute("sz");
-				if(sz_attrib != nullptr)
-					sz = std::stof(sz_attrib->value());
-
-				auto rx_attrib = component_node->first_attribute("rx");
-				if(rx_attrib != nullptr)
-					rx = std::stof(rx_attrib->value());
-
-				auto ry_attrib = component_node->first_attribute("ry");
-				if(ry_attrib != nullptr)
-					ry = std::stof(ry_attrib->value());
-
-				auto rz_attrib = component_node->first_attribute("rz");
-				if(rz_attrib != nullptr)
-					rz = std::stof(rz_attrib->value());
-
-				new_entity->Translate(x, y, z);
-				new_entity->Scale(sx, sy, sz);
-				new_entity->RotateDeg(rx, ry, rz);
-			}
-			catch(...)
-			{
-				LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
-			}
+			new_entity->Translate(translation);
+			new_entity->Scale(scale);
+			new_entity->RotateDeg(rotation);
 		}
 
 		// parse the sprite renderer components of the new entity
@@ -646,16 +684,27 @@ namespace ose::project
 			// has name & texture attributes
 			auto name_attrib	= component_node->first_attribute("name");
 			auto texture_attrib = component_node->first_attribute("texture");
+			auto material_attrib = component_node->first_attribute("material");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
 			// if texture is an alias, find it's replacement text, else use the file text
 			std::string texture_text { (texture_attrib ? texture_attrib->value() : "") };
-			const auto texture_text_alias_pos { aliases.find(texture_text) };
-			const std::string & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
+			auto const texture_text_alias_pos { aliases.find(texture_text) };
+			std::string const & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
 
-			const Texture * tex = project.GetResourceManager().GetTexture(texture);
+			// If material is an alias, find its replacement text, else us the file text
+			std::string material_text { (material_attrib ? material_attrib->value() : "") };
+			auto const material_text_alias_pos { aliases.find(material_text) };
+			std::string const & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
+
+			Texture const * tex = project.GetResourceManager().GetTexture(texture);
+			Material const * material = project.GetResourceManager().GetMaterial(material_path);
+
+			if(material == nullptr)
+				material = project.GetResourceManager().GetMaterial("OSE-DefaultOpaqueSpriteMaterial");
+
 			if(tex != nullptr) {
-				new_entity->AddComponent<SpriteRenderer>(name, tex);
+				new_entity->AddComponent<SpriteRenderer>(name, tex, material);
 			} else {
 				LOG_ERROR("Texture", texture, "has not been loaded");
 			}
@@ -668,6 +717,7 @@ namespace ose::project
 			auto name_attrib	= component_node->first_attribute("name");
 			auto texture_attrib = component_node->first_attribute("texture");
 			auto tilemap_attrib = component_node->first_attribute("tilemap");
+			auto material_attrib = component_node->first_attribute("material");
 			std::string name { (name_attrib ? name_attrib->value() : "") };
 
 			// Optionally has num_cols, num_rows, num_tiles, spacing_x & spacing_y attributes
@@ -702,19 +752,29 @@ namespace ose::project
 
 			// If texture is an alias, find it's replacement text, else use the file text
 			std::string texture_text { (texture_attrib ? texture_attrib->value() : "") };
-			const auto texture_text_alias_pos { aliases.find(texture_text) };
-			const std::string & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
+			auto const texture_text_alias_pos { aliases.find(texture_text) };
+			std::string const & texture { texture_text_alias_pos == aliases.end() ? texture_text : texture_text_alias_pos->second };
 
 			// If tilemap is an alias, find it's replacement text, else use the file text
 			std::string tilemap_text { (tilemap_attrib ? tilemap_attrib->value() : "") };
-			const auto tilemap_text_alias_pos { aliases.find(tilemap_text) };
-			const std::string & tilemap { tilemap_text_alias_pos == aliases.end() ? tilemap_text : tilemap_text_alias_pos->second };
+			auto const tilemap_text_alias_pos { aliases.find(tilemap_text) };
+			std::string const & tilemap { tilemap_text_alias_pos == aliases.end() ? tilemap_text : tilemap_text_alias_pos->second };
+
+			// If material is an alias, find its replacement text, else us the file text
+			std::string material_text { (material_attrib ? material_attrib->value() : "") };
+			auto const material_text_alias_pos { aliases.find(material_text) };
+			std::string const & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
 
 			// Add the component to the entity
-			const Tilemap * tmap = project.GetResourceManager().GetTilemap(tilemap);
-			const Texture * tex = project.GetResourceManager().GetTexture(texture);
+			Tilemap const * tmap = project.GetResourceManager().GetTilemap(tilemap);
+			Texture const * tex = project.GetResourceManager().GetTexture(texture);
+			Material const * material = project.GetResourceManager().GetMaterial(material_path);
+
+			if(material == nullptr)
+				material = project.GetResourceManager().GetMaterial("OSE-DefaultOpaqueSpriteMaterial");
+
 			if(tex != nullptr && tmap != nullptr) {
-				new_entity->AddComponent<TileRenderer>(name, tex, tmap, num_cols, num_rows, num_tiles, spacing_x, spacing_y);
+				new_entity->AddComponent<TileRenderer>(name, tex, tmap, material, num_cols, num_rows, num_tiles, spacing_x, spacing_y);
 			} else {
 				if(tex == nullptr) {
 					LOG_ERROR("Texture", texture, "has not been loaded");
@@ -738,16 +798,20 @@ namespace ose::project
 
 			// If mesh is an alias, find its replacement text, else use the file text
 			std::string mesh_text { (mesh_attrib ? mesh_attrib->value() : "") };
-			const auto mesh_text_alias_pos { aliases.find(mesh_text) };
-			const std::string & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
+			auto const mesh_text_alias_pos { aliases.find(mesh_text) };
+			std::string const & mesh_path { mesh_text_alias_pos == aliases.end() ? mesh_text : mesh_text_alias_pos->second };
 			
 			// If material is an alias, find its replacement text, else us the file text
 			std::string material_text { (material_attrib ? material_attrib->value() : "") };
-			const auto material_text_alias_pos { aliases.find(material_text) };
-			const std::string & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
+			auto const material_text_alias_pos { aliases.find(material_text) };
+			std::string const & material_path { material_text_alias_pos == aliases.end() ? material_text : material_text_alias_pos->second };
 
-			const Mesh * mesh = project.GetResourceManager().GetMesh(mesh_path);
-			const Material * material = project.GetResourceManager().GetMaterial(material_path);
+			Mesh const * mesh = project.GetResourceManager().GetMesh(mesh_path);
+			Material const * material = project.GetResourceManager().GetMaterial(material_path);
+
+			if(!material)
+				material = project.GetResourceManager().GetMaterial("OSE-DefaultOpaqueMeshMaterial");
+
 			if(mesh != nullptr) {
 				new_entity->AddComponent<MeshRenderer>(name, mesh, material);
 			} else {
@@ -837,7 +901,70 @@ namespace ose::project
 		return new_entity_ret;
 	}
 
-	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, const Project & project)
+	// Parse the XML of a transformable (entity / chunk)
+	void ProjectLoaderXML::ParseTransform(glm::vec3 & out_translation, glm::vec3 & out_scale, glm::vec3 & out_rotation, rapidxml::xml_node<> * transform_node)
+	{
+		try
+		{
+			// TODO - Include controls for settings the orientation
+			// NOTE - Should include ability to set 2d rotation (r), 3d euler rotation (rx, ry, rz), 3d orientation (ox, oy, oz, ow)
+			float x  { 0.0f };
+			float y  { 0.0f };
+			float z  { 0.0f };
+			float sx { 1.0f };
+			float sy { 1.0f };
+			float sz { 1.0f };
+			float rx { 0.0f };
+			float ry { 0.0f };
+			float rz { 0.0f };
+
+			auto x_attrib = transform_node->first_attribute("x");
+			if(x_attrib != nullptr)
+				x = std::stof(x_attrib->value());
+
+			auto y_attrib = transform_node->first_attribute("y");
+			if(y_attrib != nullptr)
+				y = std::stof(y_attrib->value());
+
+			auto z_attrib = transform_node->first_attribute("z");
+			if(z_attrib != nullptr)
+				z = std::stof(z_attrib->value());
+
+			auto sx_attrib = transform_node->first_attribute("sx");
+			if(sx_attrib != nullptr)
+				sx = std::stof(sx_attrib->value());
+
+			auto sy_attrib = transform_node->first_attribute("sy");
+			if(sy_attrib != nullptr)
+				sy = std::stof(sy_attrib->value());
+
+			auto sz_attrib = transform_node->first_attribute("sz");
+			if(sz_attrib != nullptr)
+				sz = std::stof(sz_attrib->value());
+
+			auto rx_attrib = transform_node->first_attribute("rx");
+			if(rx_attrib != nullptr)
+				rx = std::stof(rx_attrib->value());
+
+			auto ry_attrib = transform_node->first_attribute("ry");
+			if(ry_attrib != nullptr)
+				ry = std::stof(ry_attrib->value());
+
+			auto rz_attrib = transform_node->first_attribute("rz");
+			if(rz_attrib != nullptr)
+				rz = std::stof(rz_attrib->value());
+
+			out_translation = { x, y, z };
+			out_scale = { sx, sy, sz };
+			out_rotation = { rx, ry, rz };
+		}
+		catch(...)
+		{
+			LOG_ERROR("Failed to parse transform attribute as float, transform component ignored");
+		}
+	}
+
+	void ProjectLoaderXML::ParseResources(rapidxml::xml_node<> * resources_node, std::unordered_map<std::string, std::string> & aliases, Project const & project)
 	{
 		if(!resources_node)
 			return;
@@ -972,16 +1099,16 @@ namespace ose::project
 	
 
 	// Load a custom data file into a custom object
-	std::unique_ptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(const std::string & path)
+	uptr<CustomObject> ProjectLoaderXML::LoadCustomDataFile(std::string const & path)
 	{
-		std::unique_ptr<xml_document<>> doc;
+		uptr<xml_document<>> doc;
 		std::string contents;
 
 		try
 		{
 			doc = LoadXmlFile(path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			LOG_ERROR(e.what());
 			return nullptr;
@@ -1003,12 +1130,12 @@ namespace ose::project
 	}
 	
 	// Parse a custom object node
-	std::unique_ptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
+	uptr<CustomObject> ProjectLoaderXML::ParseCustomObject(rapidxml::xml_node<> * obj_node)
 	{
 		if(obj_node == nullptr)
 			return nullptr;
 
-		auto obj = std::make_unique<CustomObject>();
+		auto obj = ose::make_unique<CustomObject>();
 
 		// Get the key and value pair from an xml node
 		auto get_keyval_pair = [](CustomObject & parent, rapidxml::xml_node<> * node, std::string const & default_value) -> std::pair<std::string, std::string> {
@@ -1161,7 +1288,7 @@ namespace ose::project
 		for(auto objects_node { obj_node->first_node("objects") }; objects_node; objects_node = objects_node->next_sibling("objects"))
 		{
 			auto pair { get_keyval_pair(*obj, objects_node, "") };
-			std::vector<std::unique_ptr<CustomObject>> value;
+			std::vector<uptr<CustomObject>> value;
 			for(auto child_object_node { objects_node->first_node("object") }; child_object_node; child_object_node = child_object_node->next_sibling("object"))
 			{
 				auto obj = ParseCustomObject(child_object_node);
@@ -1174,9 +1301,9 @@ namespace ose::project
 		return obj;
 	}
 
-	void ProjectLoaderXML::SaveCustomDataFile(const std::string & path, CustomObject const & object)
+	void ProjectLoaderXML::SaveCustomDataFile(std::string const & path, CustomObject const & object)
 	{
-		std::unique_ptr<xml_document<>> doc { std::make_unique<xml_document<>>() };
+		uptr<xml_document<>> doc { ose::make_unique<xml_document<>>() };
 		SaveCustomDataObject(*doc, object);
 		std::stringstream ss;
 		ss << *doc;
@@ -1222,7 +1349,7 @@ namespace ose::project
 				{
 					return std::make_pair("string", arg);
 				}
-				else if constexpr(std::is_same_v<T, std::unique_ptr<CustomObject>>)
+				else if constexpr(std::is_same_v<T, uptr<CustomObject>>)
 				{
 					SaveCustomDataObject(doc, *arg, obj_node, pair.first);
 				}
@@ -1273,7 +1400,7 @@ namespace ose::project
 					}
 					obj_node->append_node(node);
 				}
-				else if constexpr(std::is_same_v<T, std::vector<std::unique_ptr<CustomObject>>>)
+				else if constexpr(std::is_same_v<T, std::vector<uptr<CustomObject>>>)
 				{
 					char * node_name = doc.allocate_string(pair.first.c_str());
 					auto node = doc.allocate_node(node_element, "objects");

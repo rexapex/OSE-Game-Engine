@@ -4,6 +4,16 @@
 
 namespace ose
 {
+	EditorCamera::EditorCamera() : Camera(), Transformable()
+	{
+	
+	}
+
+	EditorCamera::~EditorCamera()
+	{
+	
+	}
+
 	void EditorCamera::Update()
 	{
 		float delta { static_cast<float>(game_->GetTime().GetDeltaTime()) };

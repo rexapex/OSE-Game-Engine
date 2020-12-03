@@ -14,6 +14,6 @@ namespace ose
 		TilemapLoaderFactory(TilemapLoaderFactory &&) = default;
 		TilemapLoaderFactory & operator=(TilemapLoaderFactory &&) = default;
 
-		virtual std::unique_ptr<TilemapLoader> NewTilemapLoader(std::string const & project_path) = 0;
+		virtual uptr<TilemapLoader> NewTilemapLoader(std::string const & project_path) = 0;
 	};
 }

@@ -4,8 +4,8 @@
 
 namespace ose::resources
 {
-	std::unique_ptr<TextureLoader> TextureLoaderFactorySOIL::NewTextureLoader(std::string const & project_path)
+	uptr<TextureLoader> TextureLoaderFactorySOIL::NewTextureLoader(std::string const & project_path)
 	{
-		return std::make_unique<TextureLoaderSOIL>(project_path);
+		return ose::make_unique<TextureLoaderSOIL>(project_path);
 	}
 }

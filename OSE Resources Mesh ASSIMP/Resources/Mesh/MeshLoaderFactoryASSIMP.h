@@ -18,6 +18,6 @@ namespace ose::resources
 		MeshLoaderFactoryASSIMP(MeshLoaderFactoryASSIMP &&) = default;
 		MeshLoaderFactoryASSIMP & operator=(MeshLoaderFactoryASSIMP &&) = default;
 
-		std::unique_ptr<MeshLoader> NewMeshLoader(std::string const & project_path);
+		uptr<MeshLoader> NewMeshLoader(std::string const & project_path);
 	};
 }

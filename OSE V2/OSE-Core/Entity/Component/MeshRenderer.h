@@ -16,25 +16,25 @@ namespace ose
 
 		// A mesh renderer is composed of a 3D mesh and a material
 		// NOTE - these pointers is owned and managed by the resource manager
-		unowned_ptr<Mesh const> mesh_;
-		unowned_ptr<Material const> material_;
+		Mesh const * mesh_			{ nullptr };
+		Material const * material_	{ nullptr };
 
 	public:
 
 		// Set the mesh displayed by the mesh renderer
-		void SetMesh(unowned_ptr<Mesh const> mesh) { mesh_ = mesh; }
+		void SetMesh(Mesh const * mesh) { mesh_ = mesh; }
 
 		// Get the mesh displayed by the mesh renderer
-		unowned_ptr<Mesh const> GetMesh() const { return mesh_; }
+		Mesh const * GetMesh() const { return mesh_; }
 
 		// Set the material used to shade the mesh
-		void SetMaterial(unowned_ptr<Material const> material) { material_ = material; }
+		void SetMaterial(Material const * material) { material_ = material; }
 
 		// Get the material used to shade the mesh
-		unowned_ptr<Material const> GetMaterial() const { return material_; }
+		Material const * GetMaterial() const { return material_; }
 
 		// Initialise the mesh renderer
-		MeshRenderer(std::string const & name, unowned_ptr<Mesh const> m, unowned_ptr<Material const> mat) : Component(name), mesh_(m), material_(mat) {}
+		MeshRenderer(std::string const & name, Mesh const * m, Material const * mat) : Component(name), mesh_(m), material_(mat) {}
 
 		// Does nothing
 		virtual ~MeshRenderer() noexcept {}

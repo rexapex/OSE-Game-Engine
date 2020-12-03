@@ -11,22 +11,20 @@ namespace ose
 
 	}
 
-
 	Entity::~Entity() noexcept
 	{
 
 	}
 
-
-	Entity::Entity(const Entity & other) noexcept : Transformable(other), EntityList(other), ComponentList(other)
+	Entity::Entity(EntityList * parent, Entity const & other) noexcept : EntityList(parent, other), ComponentList(other)
 	{
-		this->name_ = other.name_;
-		this->unique_id_ = Entity::NextEntityId();
-		this->tag_ = other.tag_;
-		this->prefab_ = other.prefab_;
+		name_ = other.name_;
+		unique_id_ = Entity::NextEntityId();
+		tag_ = other.tag_;
+		prefab_ = other.prefab_;
 
-		this->local_transform_ = other.local_transform_;
-		this->global_transform_ = other.global_transform_;
+		local_transform_ = other.local_transform_;
+		global_transform_ = other.global_transform_;
 	}
 
 	void Entity::SetEnabled(bool a)

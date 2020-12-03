@@ -8,7 +8,7 @@ namespace ose
 
 	}
 
-	// Note - std::unique_ptrs will be freed automatically
+	// Note - uptrs will be freed automatically
 	PrefabManager::~PrefabManager() noexcept {}
 
 	// move constructors
@@ -22,7 +22,7 @@ namespace ose
 	{
 		// construct a new entity object
 		try {
-			auto e = std::make_unique<Entity>(std::forward<Args>(params)...);
+			auto e = ose::make_unique<Entity>(std::forward<Args>(params)...);
 			auto p = temp_prefabs_.insert({ path, std::move(e) });
 			return *p->second;
 		} catch(std::exception & e) {
@@ -32,7 +32,7 @@ namespace ose
 
 	// add a temporary prefab entity to the prefab manager
 	// method moves the object passed
-	void PrefabManager::AddTempPrefab(std::unique_ptr<Entity> e, std::string const & path)
+	void PrefabManager::AddTempPrefab(uptr<Entity> e, std::string const & path)
 	{
 		if(e != nullptr) {
 			try {
@@ -52,7 +52,7 @@ namespace ose
 	{
 		// construct a new entity object
 		try {
-			auto e = std::make_unique<Entity>(std::forward<Args>(params)...);
+			auto e = ose::make_unique<Entity>(std::forward<Args>(params)...);
 			auto p = cached_prefabs_.insert({ path, std::move(e) });
 			return *p->second;
 		} catch(std::exception & e) {
@@ -62,7 +62,7 @@ namespace ose
 
 	// add a persistent (cached) prefab entity to the prefab manager
 	// method moves the object passed
-	void PrefabManager::AddCachedPrefab(std::unique_ptr<Entity> e, std::string const & path)
+	void PrefabManager::AddCachedPrefab(uptr<Entity> e, std::string const & path)
 	{
 		if(e != nullptr) {
 			try {

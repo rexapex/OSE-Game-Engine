@@ -34,6 +34,11 @@
     <ClCompile Include="OSE-Core\File System\FileSystemUtil.cpp" />
     <ClCompile Include="OSE-Core\File System\File.cpp" />
     <ClCompile Include="OSE-Core\Game\Camera\EditorCamera.cpp" />
+    <ClCompile Include="OSE-Core\Game\Scene\Chunk\Chunk.cpp" />
+    <ClCompile Include="OSE-Core\Game\Scene\Chunk\ChunkManager.cpp" />
+    <ClCompile Include="OSE-Core\Resources\Material\Material.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph2D.cpp" />
+    <ClCompile Include="OSE-Core\Shader\Shaders\ShaderGraph3D.cpp" />
     <ClCompile Include="OSE-Core\Game\Tagging\TagManager.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -546,6 +551,14 @@
     <ClInclude Include="OSE-Core\Game\Camera\Camera.h" />
     <ClInclude Include="OSE-Core\Game\Camera\EditorCamera.h" />
     <ClInclude Include="OSE-Core\Entity\Component\DirLight.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\Chunk.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManager.h" />
+    <ClInclude Include="OSE-Core\Game\Scene\Chunk\ChunkManagerSettings.h" />
+    <ClInclude Include="OSE-Core\Rendering\EBlendMode.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph2D.h" />
+    <ClInclude Include="OSE-Core\Shader\Shaders\ShaderGraph3D.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\FollowCamera.h" />
+    <ClInclude Include="OSE-Core\Game\Camera\EditorCamera2D.h" />
     <ClInclude Include="OSE-Core\Game\Tagging\TagManager.h" />
     <ClInclude Include="OSE-Core\Game\Tagging\Tag.h" />
     <ClInclude Include="OSE-Core\Game\Tagging\TagSettings.h" />

@@ -191,10 +191,10 @@
     <ClInclude Include="Rendering\Lights\PointLightData.h" />
     <ClInclude Include="Rendering\RenderingEngineGL.h" />
     <ClInclude Include="Rendering\RenderingFactoryGL.h" />
-    <ClInclude Include="Rendering\RenderObjectGL.h" />
+    <ClInclude Include="Rendering\RenderGroupGL.h" />
     <ClInclude Include="Rendering\RenderPassGL.h" />
     <ClInclude Include="Rendering\RenderPoolGL.h" />
-    <ClInclude Include="Rendering\ShaderGroupGL.h" />
+    <ClInclude Include="Rendering\MaterialGroupGL.h" />
     <ClInclude Include="Rendering\TextureGL.h" />
     <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h" />
     <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h" />

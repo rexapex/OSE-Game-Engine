@@ -7,14 +7,14 @@ namespace ose
 
 	Time::~Time() {}
 
-	void Time::Init(const double current_time_seconds)	//Set the initial values of the timing variables
+	void Time::Init(double current_time_seconds)	//Set the initial values of the timing variables
 	{
 		num_frames_ = frames_per_second_ = 0;
 		millis_per_frame_ = 0.0;
 		current_time_seconds_ = last_time_seconds_per_second_ = last_time_seconds_ = current_time_seconds;
 	}
 
-	void Time::Update(const double current_time_seconds)
+	void Time::Update(double current_time_seconds)
 	{
 		current_time_seconds_ = current_time_seconds;
 		CalcDeltaTime();

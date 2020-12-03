@@ -13,16 +13,35 @@
 #include "Mesh/MeshLoader.h"
 #include "Mesh/MeshLoaderFactory.h"
 #include "Material/Material.h"
-#include "OSE-Core/Shader/ShaderProg.h"
-#include "OSE-Core/Shader/Shaders/ShaderGraphPBR3D.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
+
+#include "OSE-Core/Shader/ShaderProg.h"
+#include "OSE-Core/Shader/Shaders/ShaderGraph2D.h"
+#include "OSE-Core/Shader/Shaders/ShaderGraph3D.h"
 
 namespace ose
 {
-	ResourceManager::ResourceManager(const std::string & project_path) : project_path_(project_path),
+	ResourceManager::ResourceManager(std::string const & project_path) : project_path_(project_path),
 		texture_loader_(TextureLoaderFactories[0]->NewTextureLoader(project_path)),
 		tilemap_loader_(TilemapLoaderFactories[0]->NewTilemapLoader(project_path)),
-		mesh_loader_(MeshLoaderFactories[0]->NewMeshLoader(project_path)) {}
+		mesh_loader_(MeshLoaderFactories[0]->NewMeshLoader(project_path))
+	{
+		// Create the default 2d engine materials and shader programs
+		uptr<Material> default_opaque_2d { Material::NewDefaultOpaqueSpriteMaterial() };
+		uptr<Material> default_alpha_2d  { Material::NewDefaultAlphaSpriteMaterial() };
+		AddShaderProg("OSE-Default2dShaderProg");
+		default_opaque_2d->SetShaderProg(GetShaderProg("OSE-Default2dShaderProg"));
+		default_alpha_2d->SetShaderProg(GetShaderProg("OSE-Default2dShaderProg"));
+		materials_.emplace(default_opaque_2d->GetName(), std::move(default_opaque_2d));
+		materials_.emplace(default_alpha_2d->GetName(), std::move(default_alpha_2d));
+
+		// Create the default 3d engine materials and shader programs
+		uptr<Material> default_opaque_3d { Material::NewDefaultOpaqueMeshMaterial() };
+		AddShaderProg("OSE-Default3dShaderProg");
+		default_opaque_3d->SetShaderProg(GetShaderProg("OSE-Default3dShaderProg"));
+		materials_.emplace(default_opaque_3d->GetName(), std::move(default_opaque_3d));
+	}
+
 	ResourceManager::~ResourceManager() noexcept {}
 
 	ResourceManager::ResourceManager(ResourceManager && other) noexcept : project_path_(std::move(other.project_path_)),
@@ -32,7 +51,7 @@ namespace ose
 	
 	//import a file into the project resources directory
 	//sub_dir is a sub directory within the resources directory
-	void ResourceManager::ImportFile(const std::string & file_path, const std::string & sub_dir)
+	void ResourceManager::ImportFile(std::string const & file_path, std::string const & sub_dir)
 	{
 		//TODO - don't accept .meta files
 		//TODO - auto generate a .meta file for the new resources if successfully imported (but I don't know it's type here!!!)
@@ -41,9 +60,9 @@ namespace ose
 
 	//imports multiple files into project resources directory
 	//sub_dir is a sub directory within the resources directory
-	void ResourceManager::ImportFiles(const std::vector<std::string> & file_paths, const std::string & sub_dir)
+	void ResourceManager::ImportFiles(std::vector<std::string> const & file_paths, std::string const & sub_dir)
 	{
-		for(auto & path : file_paths)
+		for(auto const & path : file_paths)
 		{
 			ImportFile(path, sub_dir);
 		}
@@ -51,7 +70,7 @@ namespace ose
 
 	// get the texture from either map
 	// given the name of the texture, return the texture object
-	unowned_ptr<Texture const> ResourceManager::GetTexture(const std::string name)
+	Texture const * ResourceManager::GetTexture(std::string const & name)
 	{
 		// search the textures_with_GPU_memory_ list
 		auto const & tex_iter { textures_with_Gpu_memory_.find(name) };
@@ -72,7 +91,7 @@ namespace ose
 	// path is relative to ProjectPath/Resources
 	// if no name is given, the filepath will be used
 	// TODO - either remove name altogether or come up with something clever
-	void ResourceManager::AddTexture(const std::string & path, const std::string & name)
+	void ResourceManager::AddTexture(std::string const & path, std::string const & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
@@ -108,7 +127,7 @@ namespace ose
 						LoadTextureMetaFile(meta_abs_path, meta_data);
 						success = true;
 					}
-					catch(const std::exception &) {}	// success will be false, therefore, meta file will be created
+					catch(std::exception const &) {}	// success will be false, therefore, meta file will be created
 				}
 				else if(!success)
 				{
@@ -144,7 +163,7 @@ namespace ose
 	// create the GPU memory for an already loaded (added) texture
 	// returns an iterator to the next texture in the textures_without_GPU_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	std::map<std::string, std::unique_ptr<Texture>>::const_iterator ResourceManager::CreateTexture(const std::string & tex_name)
+	std::map<std::string, uptr<Texture>>::const_iterator ResourceManager::CreateTexture(std::string const & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with no representation in GPU memory can be created
@@ -160,7 +179,7 @@ namespace ose
 				textures_with_Gpu_memory_.insert({ tex_name, std::move(tex_iter->second) });
 				// remove the texture from the original map
 				return textures_without_Gpu_memory_.erase(tex_iter);
-			} catch(const std::exception & e) {
+			} catch(std::exception const & e) {
 				LOG_ERROR(e.what());
 			}
 		}
@@ -170,7 +189,7 @@ namespace ose
 
 	// remove the texture from the textures list and free the texture's resources
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::RemoveTexture(const std::string & tex_name)
+	void ResourceManager::RemoveTexture(std::string const & tex_name)
 	{
 		// get the texture if it exists
 		// only texture without memory allocated on the GPU can be removed
@@ -188,7 +207,7 @@ namespace ose
 
 	// free the GPU memory of the texture
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::DestroyTexture(const std::string & tex_name)
+	void ResourceManager::DestroyTexture(std::string const & tex_name)
 	{
 		// get the texture if it exists
 		// only texture with memory allocated on the GPU can be destroyed
@@ -210,7 +229,7 @@ namespace ose
 	// IMPORTANT - can only be called from the thread which contains the render context
 	void ResourceManager::CreateTextures()
 	{
-		std::map<std::string, std::unique_ptr<Texture>>::const_iterator it;
+		std::map<std::string, uptr<Texture>>::const_iterator it;
 
 		// create a GPU texture for each texture without a GPU texture representation
 		for(it = textures_without_Gpu_memory_.begin(); it != textures_without_Gpu_memory_.end(); )
@@ -221,7 +240,7 @@ namespace ose
 	}
 
 	//loads a meta file for some texture, meta files map properties to values
-	void ResourceManager::LoadTextureMetaFile(const std::string & abs_path, TextureMetaData & meta_data)
+	void ResourceManager::LoadTextureMetaFile(std::string const & abs_path, TextureMetaData & meta_data)
 	{
 		// Load the file (OSE stores meta files as property files)
 		auto props { LoadPropertyFile(abs_path) };
@@ -256,7 +275,7 @@ namespace ose
 
 	// Get the tilemap from the resources manager
 	// Given the name of the tilemap, return the tilemap object
-	unowned_ptr<Tilemap const> ResourceManager::GetTilemap(const std::string & name)
+	Tilemap const * ResourceManager::GetTilemap(std::string const & name)
 	{
 		// search the tilemaps_ list
 		auto const & iter { tilemaps_.find(name) };
@@ -271,7 +290,7 @@ namespace ose
 	// Path is relative to ProjectPath/Resources
 	// If no name is given, the relative path will be used
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::AddTilemap(const std::string & path, const std::string & name)
+	void ResourceManager::AddTilemap(std::string const & path, std::string const & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
@@ -288,7 +307,7 @@ namespace ose
 			auto & iter = tilemaps_.find(name_to_use);
 			if(iter == tilemaps_.end())
 			{
-				tilemaps_.emplace(name_to_use, std::make_unique<Tilemap>(name_to_use, abs_path));
+				tilemaps_.emplace(name_to_use, ose::make_unique<Tilemap>(name_to_use, abs_path));
 				DEBUG_LOG("Added tilemap", name_to_use, "to ResourceManager");
 
 				// get a references to the newly created tilemap
@@ -306,7 +325,7 @@ namespace ose
 
 	// Remove the tilemap from the tilemaps list and free the tilemap's resources
 	// IMPORANT - can be called from any thread (TODO)
-	void ResourceManager::RemoveTilemap(const std::string & name)
+	void ResourceManager::RemoveTilemap(std::string const & name)
 	{
 		// Get the tilemap if it exists
 		auto const & iter { tilemaps_.find(name) };
@@ -321,7 +340,7 @@ namespace ose
 
 	// Get the mesh from the resource manager
 	// Given the name of the mesh, return the mesh object
-	unowned_ptr<Mesh const> ResourceManager::GetMesh(const std::string & name)
+	Mesh const * ResourceManager::GetMesh(std::string const & name)
 	{
 		// Search the meshes_ list
 		auto const & iter { meshes_.find(name) };
@@ -336,7 +355,7 @@ namespace ose
 	// Path is relative to ProjectPath/Resources
 	// If no name is given, the relative path will be used
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::AddMesh(const std::string & path, const std::string & name)
+	void ResourceManager::AddMesh(std::string const & path, std::string const & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
@@ -353,7 +372,7 @@ namespace ose
 			auto & iter = meshes_.find(name_to_use);
 			if(iter == meshes_.end())
 			{
-				meshes_.emplace(name_to_use, std::make_unique<Mesh>(name_to_use, abs_path));
+				meshes_.emplace(name_to_use, ose::make_unique<Mesh>(name_to_use, abs_path));
 				DEBUG_LOG("Added mesh", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created mesh
@@ -371,7 +390,7 @@ namespace ose
 
 	// Remove the mesh from the meshes list and free the meshes resources
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::RemoveMesh(const std::string & name)
+	void ResourceManager::RemoveMesh(std::string const & name)
 	{
 		// Get the mesh if it exists
 		auto const & iter { meshes_.find(name) };
@@ -386,7 +405,7 @@ namespace ose
 
 	// Get the material from the resource manager
 	// Given the name of the material, return the material object
-	unowned_ptr<Material const> ResourceManager::GetMaterial(const std::string & name)
+	Material const * ResourceManager::GetMaterial(std::string const & name)
 	{
 		// Search the materials_ list
 		auto const & iter { materials_.find(name) };
@@ -401,7 +420,7 @@ namespace ose
 	// Path is relative to ProjectPath/Resources
 	// If no name is given, the relative path will be used
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::AddMaterial(const std::string & path, const std::string & name)
+	void ResourceManager::AddMaterial(std::string const & path, std::string const & name)
 	{
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
@@ -418,7 +437,7 @@ namespace ose
 			auto & iter = materials_.find(name_to_use);
 			if(iter == materials_.end())
 			{
-				materials_.emplace(name_to_use, std::make_unique<Material>(name_to_use, abs_path));
+				materials_.emplace(name_to_use, ose::make_unique<Material>(name_to_use, abs_path));
 				DEBUG_LOG("Added material", name_to_use, "to ResourceManager");
 
 				// Get a references to the newly created material
@@ -453,7 +472,7 @@ namespace ose
 
 	// Remove the material from the materials list and free the material's resources
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::RemoveMaterial(const std::string & name)
+	void ResourceManager::RemoveMaterial(std::string const & name)
 	{
 		// Get the material if it exists
 		auto const & iter { materials_.find(name) };
@@ -468,7 +487,7 @@ namespace ose
 
 	// Get the shader program from the resource manager
 	// Given the name of the shader program, return the shader program object
-	unowned_ptr<ShaderProg const> ResourceManager::GetShaderProg(const std::string & name)
+	ShaderProg const * ResourceManager::GetShaderProg(std::string const & name)
 	{
 		// Search the shader_progs_with_gpu_memory_ list
 		auto const & iter1 { shader_progs_with_gpu_memory_.find(name) };
@@ -490,7 +509,7 @@ namespace ose
 	// If path starts with OSE then path will be interpreted as the name of a builtin shader graph
 	// If no name is given, the relative path will be used
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::AddShaderProg(const std::string & path)
+	void ResourceManager::AddShaderProg(std::string const & path)
 	{
 		// Only add the new shader program if the name is not taken
 		auto & iter1 = shader_progs_with_gpu_memory_.find(path);
@@ -501,14 +520,12 @@ namespace ose
 			if(!path.compare(0, builtin_prefix.size(), builtin_prefix))
 			{
 				// Load a built-in shader
-				if(path == "OSE PBR 3D Shader")
-				{
-					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(std::make_unique<ShaderGraphPBR3D>()));
-				}
+				if(path == "OSE-Default3dShaderProg")
+					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraph3D>()));
+				else if(path == "OSE-Default2dShaderProg")
+					shader_progs_without_gpu_memory_.emplace(path, RenderingFactories[0]->NewShaderProg(ose::make_unique<ShaderGraph2D>()));
 				else
-				{
 					LOG_ERROR("Built-in shader", path, "does not exist\nCustom shader paths cannot start with OSE");
-				}
 			}
 			else
 			{
@@ -525,7 +542,7 @@ namespace ose
 	// Create the GPU memory for an already loaded (added) shader program
 	// Returns an iterator to the next shader program in the shader_progs_without_gpu_memory map
 	// IMPORANT - can only be called from the thread which contains the render context
-	std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator ResourceManager::CreateShaderProg(const std::string & prog_name)
+	std::map<std::string, uptr<ShaderProg>>::const_iterator ResourceManager::CreateShaderProg(std::string const & prog_name)
 	{
 		// Get the shader program if it exists
 		// Only shader program with no representation in GPU memory can be created
@@ -541,7 +558,7 @@ namespace ose
 				shader_progs_with_gpu_memory_.insert({ prog_name, std::move(iter->second) });
 				// Remove the shader program from the original map
 				return shader_progs_without_gpu_memory_.erase(iter);
-			} catch(const std::exception & e) {
+			} catch(std::exception const & e) {
 				LOG_ERROR(e.what());
 			}
 		}
@@ -551,7 +568,7 @@ namespace ose
 
 	// Remove the shader program from the shader programs list and free the shader program's resources
 	// IMPORTANT - Can be called from any thread (TODO)
-	void ResourceManager::RemoveShaderProg(const std::string & name)
+	void ResourceManager::RemoveShaderProg(std::string const & name)
 	{
 		// Get the shader program if it exists
 		auto const & iter { shader_progs_without_gpu_memory_.find(name) };
@@ -566,7 +583,7 @@ namespace ose
 
 	// Free the GPU memory of the shader program
 	// IMPORANT - can only be called from the thread which contains the render context
-	void ResourceManager::DestroyShaderProg(const std::string & prog_name)
+	void ResourceManager::DestroyShaderProg(std::string const & prog_name)
 	{
 		// Get the shader program if it exists
 		// Only shader programs with memory allocated on the GPU can be destroyed
@@ -588,7 +605,7 @@ namespace ose
 	// IMPORTANT - can only be called from the thread which contains the render context
 	void ResourceManager::CreateShaderProgs()
 	{
-		std::map<std::string, std::unique_ptr<ShaderProg>>::const_iterator it;
+		std::map<std::string, uptr<ShaderProg>>::const_iterator it;
 
 		// Create a GPU shader program object for each shader program without a GPU texture representation
 		for(it = shader_progs_without_gpu_memory_.begin(); it != shader_progs_without_gpu_memory_.end(); )
@@ -600,7 +617,7 @@ namespace ose
 
 	// Load a property file (similar to an ini file)
 	// Returns properties as a map from key to value
-	std::unordered_multimap<std::string, std::string> ResourceManager::LoadPropertyFile(const std::string & abs_path)
+	std::unordered_multimap<std::string, std::string> ResourceManager::LoadPropertyFile(std::string const & abs_path)
 	{
 		std::unordered_multimap<std::string, std::string> props;
 
@@ -610,14 +627,14 @@ namespace ose
 		{
 			fs::LoadTextFile(abs_path, contents);
 		}
-		catch(const std::exception & e)
+		catch(std::exception const & e)
 		{
 			// Error occurred, therefore, return an empty project info stub
 			LOG("fs::LoadTextFile ->", e.what());
 			throw e;
 		}
 
-		contents.erase(std::remove(contents.begin(), contents.end(), '\r'));
+		contents.erase(std::remove(contents.begin(), contents.end(), '\r'), contents.end());
 		std::stringstream iss { contents };
 		std::string line;
 		while(std::getline(iss, line, '\n'))

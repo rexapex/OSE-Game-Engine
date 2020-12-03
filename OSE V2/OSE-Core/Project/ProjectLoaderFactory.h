@@ -14,6 +14,6 @@ namespace ose
 		ProjectLoaderFactory(ProjectLoaderFactory &&) = default;
 		ProjectLoaderFactory & operator=(ProjectLoaderFactory &&) = default;
 
-		virtual std::unique_ptr<ProjectLoader> NewProjectLoader() = 0;
+		virtual uptr<ProjectLoader> NewProjectLoader() = 0;
 	};
 }

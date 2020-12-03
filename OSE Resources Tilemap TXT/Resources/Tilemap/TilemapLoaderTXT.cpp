@@ -4,13 +4,13 @@
 
 namespace ose::resources
 {
-	TilemapLoaderTXT::TilemapLoaderTXT(const std::string & project_path) : TilemapLoader(project_path) {}
+	TilemapLoaderTXT::TilemapLoaderTXT(std::string const & project_path) : TilemapLoader(project_path) {}
 
 	TilemapLoaderTXT::~TilemapLoaderTXT() {}
 
 	// Loads the tilemap and sets the internal data of the tilemap object
 	// Path is absolute and is guaranteed to exist
-	void TilemapLoaderTXT::LoadTilemap(const std::string & path, Tilemap & tilemap)
+	void TilemapLoaderTXT::LoadTilemap(std::string const & path, Tilemap & tilemap)
 	{
 		if(fs::DoesFileExist(path))
 		{

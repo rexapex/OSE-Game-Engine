@@ -3,7 +3,7 @@
 
 namespace ose
 {
-	Tilemap::Tilemap(const std::string & name, const std::string & path) : name_(name), path_(path),
+	Tilemap::Tilemap(std::string const & name, std::string const & path) : name_(name), path_(path),
 		width_(0), height_(0), tile_grid_(nullptr)
 	{
 
@@ -36,15 +36,17 @@ namespace ose
 	{
 		if(width > 0 && height > 0)
 		{
+			delete[] tile_grid_;
 			width_ = width;
 			height_ = height;
-			delete[] tile_grid_;
 			try
 			{
 				tile_grid_ = new int32_t[static_cast<size_t>(width) * height];
 			}
 			catch(std::bad_alloc &)
 			{
+				width_ = 0;
+				height_ = 0;
 				tile_grid_ = nullptr;
 			}
 		}
@@ -54,8 +56,7 @@ namespace ose
 	{
 		width_ = 0;
 		height_ = 0;
-		auto ptr = tile_grid_;
+		delete[] tile_grid_;
 		tile_grid_ = nullptr;
-		delete[] ptr;
 	}
 }

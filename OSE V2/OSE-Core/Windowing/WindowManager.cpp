@@ -12,17 +12,17 @@ namespace ose
 	void WindowManager::SetEngineReferences(RenderingEngine * rendering_engine, InputManager * input_manager)
 	{
 		if(rendering_engine) {
-			this->rendering_engine_ = rendering_engine;
+			rendering_engine_ = rendering_engine;
 		}
 		if(input_manager) {
-			this->input_manager_= input_manager;
+			input_manager_= input_manager;
 		}
 	}
 
 	void WindowManager::FramebufferSizeCallbackImpl(int width, int height)
 	{
 		DEBUG_LOG("Framebuffer resized to", width, "x", height);
-		this->rendering_engine_->SetFramebufferSize(width, height);
+		rendering_engine_->SetFramebufferSize(width, height);
 	}
 	
 	void WindowManager::InputCallbackImpl(EInputType type, bool triggered)

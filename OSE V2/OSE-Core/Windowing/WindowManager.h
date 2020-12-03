@@ -31,17 +31,17 @@ namespace ose
 		//void KeyCallbackImpl(int key, int scancode, int action, int mods);
 		//void CharCallbackImpl(unsigned int codePoint);
 
-		virtual const int GetFramebufferWidth() const = 0;
-		virtual const int GetFramebufferHeight() const = 0;
-		virtual const int GetWindowWidth() const = 0;
-		virtual const int GetWindowHeight() const = 0;
+		virtual int GetFramebufferWidth() const = 0;
+		virtual int GetFramebufferHeight() const = 0;
+		virtual int GetWindowWidth() const = 0;
+		virtual int GetWindowHeight() const = 0;
 
 		virtual int	SetMouseVisibility(int value) = 0;
 
 		virtual void SetWindowSize(int width, int height) = 0;
 		virtual void SetWindowPos(int x, int y) = 0;
 
-		virtual void SetTitle(const std::string & title) = 0;
+		virtual void SetTitle(std::string const & title) = 0;
 
 		virtual void SetNumSamples(int numSamples) = 0;
 
