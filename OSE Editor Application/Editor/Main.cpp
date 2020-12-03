@@ -73,8 +73,8 @@ int main(int argc, char * argv[])
 	// Override the chunk manager settings, have to reset after each scene switch
 	ChunkManagerSettings chunk_settings;
 	chunk_settings.agent_name_ = "";
-	chunk_settings.load_distance_ = 500;
-	chunk_settings.unload_distance_ = 600;
+	chunk_settings.load_distance_ = 2500;
+	chunk_settings.unload_distance_ = 2000;
 	game->GetActiveScene()->ApplyChunkManagerSettings(chunk_settings);
 	game->GetActiveScene()->ResetChunkManagerAgent(game.get(), camera.GetStubEntity());
 
