@@ -1,9 +1,11 @@
 #include "stdafx.h"
 #include "Main.h"
 #include "OSE-Core/Game/Game.h"
+#include "OSE-Core/Game/Scene/Scene.h"
 #include "OSE-Core/File System/FileSystemUtil.h"
 #include "OSE-Core/Game/Camera/EditorCamera2D.h"
 #include "OSE-Core/Input/InputSettings.h"
+#include "OSE-Core/Game/Scene/Chunk/ChunkManagerSettings.h"
 
 int main(int argc, char * argv[])
 {
@@ -67,6 +69,14 @@ int main(int argc, char * argv[])
 	// Add a stub entity to follow using the camera
 	EditorCamera2D camera;
 	game->SetActiveCamera(&camera);
+
+	// Override the chunk manager settings, have to reset after each scene switch
+	ChunkManagerSettings chunk_settings;
+	chunk_settings.agent_name_ = "";
+	chunk_settings.load_distance_ = 500;
+	chunk_settings.unload_distance_ = 600;
+	game->GetActiveScene()->ApplyChunkManagerSettings(chunk_settings);
+	game->GetActiveScene()->ResetChunkManagerAgent(game.get(), camera.GetStubEntity());
 
 	// All resources have been loaded and entities initialised, therefore, start the game
 	game->StartGame();

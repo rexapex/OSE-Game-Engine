@@ -27,6 +27,9 @@ namespace ose
 		// Get the global camera transform (i.e. the transform to transform world transforms by to transform into camera space)
 		virtual ITransform const & GetGlobalTransform() const { return entity_ ? entity_->GetGlobalTransform() : Transform::IDENTITY; }
 
+		// Get the stub entity used which the camera follows
+		Entity * GetStubEntity() const { return entity_.get(); }
+
 	private:
 		std::unique_ptr<Entity> entity_;
 	};
