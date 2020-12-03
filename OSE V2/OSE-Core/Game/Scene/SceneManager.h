@@ -26,6 +26,9 @@ namespace ose
 		// Switches game to the scene specified iff it is loaded
 		void SetActiveScene(std::string const & scene_name);
 
+		// Get a pointer to the active scene
+		Scene * GetActiveScene() const { return active_scene_.get(); }
+
 		// Set the way the game removes scenes on a scene switch
 		void SetSceneSwitchMode(ESceneSwitchMode const & mode) {scene_switch_mode_ = mode;}
 

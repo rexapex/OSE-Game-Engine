@@ -38,7 +38,7 @@ namespace ose
 		void ApplyChunkManagerSettings(ChunkManagerSettings settings) { settings_ = settings; }
 
 		// Reset the chunk manager agent, e.g. find the agent entity from the entities of the game
-		void ResetChunkManagerAgent(Game * game);
+		void ResetChunkManagerAgent(Game * game, Entity * override_entity = nullptr);
 
 		// Find all the entities within loaded chunks with the given name
 		std::vector<Entity *> FindLoadedChunkEntitiesWithName(std::string_view name) const;

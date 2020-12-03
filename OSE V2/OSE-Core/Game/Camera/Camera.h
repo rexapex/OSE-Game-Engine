@@ -1,23 +1,15 @@
 #pragma once
-
-#include "OSE-Core/Math/Transformable.h"
+#include "OSE-Core/Math/Transform.h"
 
 namespace ose
 {
 	class Game;
 
-	class Camera : public Transformable<uptr<Camera>>
+	class Camera
 	{
 	public:
-		Camera() : Transformable() {}
+		Camera() {}
 		virtual ~Camera() {}
-
-		// Get a list of transformable elements
-		// Returns an empty dummy list
-		virtual std::vector<uptr<Camera>> const & GetChildTransformables() const override { return dummy_; }
-
-		// Get a pointer to the parent transformable element
-		virtual Transformable * GetParentTransformable() const override { return nullptr; }
 
 		// Update the camera
 		virtual void Update() {}
@@ -25,10 +17,10 @@ namespace ose
 		// Should NEVER be called directly by a script
 		void SetGameReference(Game * game) { game_ = game; }
 
+		// Get the global camera transform (i.e. the transform to transform world transforms by to transform into camera space)
+		virtual ITransform const & GetGlobalTransform() const { return Transform::IDENTITY; }
+
 	protected:
 		Game * game_ { nullptr };
-
-	private:
-		std::vector<uptr<Camera>> dummy_;
 	};
 }

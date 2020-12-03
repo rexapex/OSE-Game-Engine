@@ -34,6 +34,7 @@ namespace ose
 		glm::mat4 GetScaleMatrix() const override;
 
 		glm::mat4 GetTransformMatrix() const override;
+		glm::mat4 GetInverseTransformMatrix() const override;
 
 		glm::vec3 GetUp() const override;
 		glm::vec3 GetForward() const override;
@@ -95,6 +96,9 @@ namespace ose
 		glm::vec3 translation_;
 		glm::quat orientation_;
 		glm::vec3 scale_;
+
+	public:
+		static Transform const IDENTITY;
 	};
 }
 

@@ -3,6 +3,8 @@
 
 namespace ose
 {
+	Transform const Transform::IDENTITY { Transform() };
+
 	Transform::Transform() : ITransform(), translation_(), orientation_(), scale_(1, 1, 1) {}
 
 	Transform::Transform(glm::vec3 const & translation)
@@ -272,6 +274,11 @@ namespace ose
 	glm::mat4 Transform::GetTransformMatrix() const
 	{
 		return glm::translate(glm::mat4(), translation_) * glm::toMat4(orientation_) * glm::scale(glm::mat4(), scale_);
+	}
+
+	glm::mat4 Transform::GetInverseTransformMatrix() const
+	{
+		return glm::inverse(GetTransformMatrix());
 	}
 	
 	glm::vec3 Transform::GetUp() const

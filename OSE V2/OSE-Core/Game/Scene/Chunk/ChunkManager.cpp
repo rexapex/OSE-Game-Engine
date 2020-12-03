@@ -70,9 +70,14 @@ namespace ose
 	}
 
 	// Reset the chunk manager agent, e.g. find the agent entity from the entities of the game
-	void ChunkManager::ResetChunkManagerAgent(Game * game)
+	void ChunkManager::ResetChunkManagerAgent(Game * game, Entity * override_entity/*=nullptr*/)
 	{
-		if(!settings_.agent_name_.empty())
+		agent_ = nullptr;
+		if(override_entity)
+		{
+			agent_ = override_entity;
+		}
+		else if(!settings_.agent_name_.empty())
 		{
 			std::vector<Entity *> entities = game->FindAllEntitiesWithName(settings_.agent_name_);
 			if(!entities.empty())
