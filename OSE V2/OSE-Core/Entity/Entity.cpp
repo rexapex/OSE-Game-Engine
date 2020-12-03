@@ -4,8 +4,8 @@
 
 namespace ose
 {
-	Entity::Entity(std::string const & name, Tag const tag, std::string const & prefab)
-				 : Transformable(), EntityList(), ComponentList(),
+	Entity::Entity(EntityList * parent, std::string const & name, Tag const tag, std::string const & prefab)
+				 : EntityList(parent), ComponentList(),
 					name_(name), tag_(tag), prefab_(prefab), unique_id_(Entity::NextEntityId())
 	{
 

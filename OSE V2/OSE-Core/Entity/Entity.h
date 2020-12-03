@@ -13,7 +13,7 @@ namespace ose
 	class Entity : public EntityList, public ComponentList
 	{
 	public:
-		Entity(std::string const & name, Tag const tag, std::string const & prefab = "");
+		Entity(EntityList * parent, std::string const & name, Tag const tag = 0, std::string const & prefab = "");
 		virtual ~Entity() noexcept;
 		Entity(EntityList * parent, Entity const & other) noexcept;
 		Entity(Entity && other) noexcept = default;
