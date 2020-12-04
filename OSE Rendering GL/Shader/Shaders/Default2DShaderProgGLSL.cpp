@@ -34,13 +34,13 @@ namespace ose::shader
 			"void main() {\n"
 			"	vertexUV = uv;\n"
 			//"	vertexCamSpacePos = vec3(position, 0);\n"
-			"	vec4 samplerSize = vec4(textureSize(texSampler, 0), 1, 1);"
+			/*"	vec4 samplerSize = vec4(textureSize(texSampler, 0), 1, 1);"
 			"	mat4 samplerScale;"
 			"	samplerScale[0][0] = samplerSize[0];"
 			"	samplerScale[1][1] = samplerSize[1];"
 			"	samplerScale[2][2] = samplerSize[2];"
-			"	samplerScale[3][3] = 1.0;"
-			"	gl_Position = (viewProjMatrix * (worldTransform * samplerScale)) * vec4(position, 0.0, 1.0);\n"
+			"	samplerScale[3][3] = 1.0;"*/
+			"	gl_Position = (viewProjMatrix * (worldTransform)) * vec4(position, 0.0, 1.0);\n"
 			//	"	gl_Position = ((viewProjMatrix * worldTransform)) * vec4(position, 0.0, 1.0);\n"
 			"}\n"
 			;

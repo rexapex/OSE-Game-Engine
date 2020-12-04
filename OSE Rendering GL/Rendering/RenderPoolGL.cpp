@@ -195,35 +195,38 @@ namespace ose::rendering
 			return;
 
 		// Try to find a render object group to add the sprite renderer to
-		bool found_render_group { false };
-		for(auto & r : material_group->render_groups_)
-		{
-			if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
-			{
-				// Add the sprite renderer to the existing render object
-				found_render_group = true;
-				r.textures_.push_back(static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId());
-				//r.transforms_.push_back(t.GetTransformMatrix());
-				r.transforms_.push_back(&t);
-				uint32_t object_id { NextComponentId() };
-				r.component_ids_.push_back(object_id);
-				sr->SetEngineData(object_id);
-				break;
-			}
-		}
+		//bool found_render_group { false };
+		//for(auto & r : material_group->render_groups_)
+		//{
+		//	if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
+		//	{
+		//		// Add the sprite renderer to the existing render object
+		//		found_render_group = true;
+		//		r.textures_.push_back(static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId());
+		//		//r.transforms_.push_back(t.GetTransformMatrix());
+		//		r.transforms_.push_back(&t);
+		//		uint32_t object_id { NextComponentId() };
+		//		r.component_ids_.push_back(object_id);
+		//		sr->SetEngineData(object_id);
+		//		break;
+		//	}
+		//}
 
 		// If the sprite renderer group could not be found, make one
-		if(!found_render_group)
-		{
+		//if(!found_render_group)
+		//{
+			int32_t w = sr->GetTexture()->GetWidth();
+			int32_t h = sr->GetTexture()->GetHeight();
+
 			// Create a VBO for the render object
 			GLuint vbo;
 			glGenBuffers(1, &vbo);
 			// Data consists of 2-float position and 2-float tex coords interleaved
 			float data[] = {
 				0, 0, 0, 1,
-				1, 0, 1, 1,
-				1, 1, 1, 0,
-				0, 1, 0, 0
+				w, 0, 1, 1,
+				w, h, 1, 0,
+				0, h, 0, 0
 			};
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -260,7 +263,7 @@ namespace ose::rendering
 			material_group->render_groups_.back().transforms_.emplace_back(&t);
 			material_group->render_groups_.back().texture_stride_ = 1;
 			sr->SetEngineData(object_id);
-		}
+		//}
 	}
 
 	// Add a tile renderer component to the render pool
@@ -281,8 +284,8 @@ namespace ose::rendering
 		auto & tilemap = *tr->GetTilemap();
 
 		// Calculate tile dimensions s.t. when multiplied by the texture dimensions in the shader, the tiles will be the correct size
-		float tile_width  { 1.0f / tr->GetNumCols() };
-		float tile_height { 1.0f / tr->GetNumRows() };
+		float tile_width  { static_cast<float>(tr->GetTexture()->GetWidth()) / tr->GetNumCols() };
+		float tile_height { static_cast<float>(tr->GetTexture()->GetHeight()) / tr->GetNumRows() };
 
 		// Get the width and height of the tilemap
 		int32_t tilemap_width  { tilemap.GetWidth() };
