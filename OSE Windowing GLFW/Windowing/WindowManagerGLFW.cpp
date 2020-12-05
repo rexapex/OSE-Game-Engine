@@ -56,6 +56,11 @@ namespace ose::windowing
 		int num_video_modes;
 		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &num_video_modes);
 
+		// NOTE - 3.2 is required for renderdoc to function
+		// TODO - Test hardware specs instead of forcing a version
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+		glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 2);
+
 		if(video_mode >= 0 && video_mode < num_video_modes)
 		{
 			mode = &modes[video_mode];
