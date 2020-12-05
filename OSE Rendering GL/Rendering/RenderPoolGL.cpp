@@ -215,18 +215,21 @@ namespace ose::rendering
 		// If the sprite renderer group could not be found, make one
 		//if(!found_render_group)
 		//{
-			int32_t w = sr->GetTexture()->GetWidth();
-			int32_t h = sr->GetTexture()->GetHeight();
+			float w = static_cast<float>(sr->GetTexture()->GetWidth());
+			float h = static_cast<float>(sr->GetTexture()->GetHeight());
 
 			// Create a VBO for the render object
 			GLuint vbo;
 			glGenBuffers(1, &vbo);
 			// Data consists of 2-float position and 2-float tex coords interleaved
 			float data[] = {
-				0, 0, 0, 1,
+				0, h, 0, 0,
 				w, 0, 1, 1,
 				w, h, 1, 0,
-				0, h, 0, 0
+
+				w, 0, 1, 1,
+				0, h, 0, 0,
+				0, 0, 0, 1
 			};
 			glBindBuffer(GL_ARRAY_BUFFER, vbo);
 			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
@@ -246,9 +249,9 @@ namespace ose::rendering
 			glBindBuffer(GL_ARRAY_BUFFER, 0);
 
 			// Add a new render object
-			GLenum primitive { GL_QUADS };
+			GLenum primitive { GL_TRIANGLES };
 			GLint first { 0 };
-			GLint count { 4 };
+			GLint count { 6 };
 			uint32_t object_id { NextComponentId() };
 			material_group->render_groups_.emplace_back(
 				std::initializer_list<uint32_t>{ object_id },
@@ -657,7 +660,7 @@ namespace ose::rendering
 			return false;
 		};
 
-		// Try to find a material group to add the tile renderer to
+		// Try to find a material group to add the material to
 		MaterialGroupGL * material_group { nullptr };
 		shader::ShaderProgGLSL const * shader_prog = dynamic_cast<shader::ShaderProgGLSL const *>(material->GetShaderProg());
 		if(shader_prog)
