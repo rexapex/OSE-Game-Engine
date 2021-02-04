@@ -11,6 +11,10 @@
 
 #include "OSE-Core/Resources/Tilemap/Tilemap.h"
 
+#include "OSE-Core/Resources/Texture/Texture.h"
+#include "Atlas/TextureAtlas.h"
+#include "Texture/Texture2DGL.h"
+
 // TODO - Remove
 #include "OSE-Core/Math/ITransform.h"
 #include "Shader/ShaderProgGLSL.h"
@@ -194,79 +198,31 @@ namespace ose::rendering
 		if(!material_group)
 			return;
 
-		// Try to find a render object group to add the sprite renderer to
-		//bool found_render_group { false };
-		//for(auto & r : material_group->render_groups_)
-		//{
-		//	if(r.type_ == ERenderObjectType::SPRITE_RENDERER)
-		//	{
-		//		// Add the sprite renderer to the existing render object
-		//		found_render_group = true;
-		//		r.textures_.push_back(static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId());
-		//		//r.transforms_.push_back(t.GetTransformMatrix());
-		//		r.transforms_.push_back(&t);
-		//		uint32_t object_id { NextComponentId() };
-		//		r.component_ids_.push_back(object_id);
-		//		sr->SetEngineData(object_id);
-		//		break;
-		//	}
-		//}
+		// Get the render group to add the sprite renderer to
+		std::vector<Texture const &> textures { *sr->GetTexture() };
+		RenderGroupGL * render_group { GetRenderGroup(*material_group, textures, true) };
 
-		// If the sprite renderer group could not be found, make one
-		//if(!found_render_group)
-		//{
-			float w = static_cast<float>(sr->GetTexture()->GetWidth());
-			float h = static_cast<float>(sr->GetTexture()->GetHeight());
+		float w = static_cast<float>(sr->GetTexture()->GetWidth());
+		float h = static_cast<float>(sr->GetTexture()->GetHeight());
 
-			// Create a VBO for the render object
-			GLuint vbo;
-			glGenBuffers(1, &vbo);
-			// Data consists of 2-float position and 2-float tex coords interleaved
-			float data[] = {
-				0, h, 0, 0,
-				w, 0, 1, 1,
-				w, h, 1, 0,
+		// Append the data for this sprite to the vbo
+		// Data consists of 2-float position and 2-float tex coords interleaved
+		float data[] = {
+			0, h, 0, 0,
+			w, 0, 1, 1,
+			w, h, 1, 0,
 
-				w, 0, 1, 1,
-				0, h, 0, 0,
-				0, 0, 0, 1
-			};
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
+			w, 0, 1, 1,
+			0, h, 0, 0,
+			0, 0, 0, 1
+		};
+		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 
-			// Create a VAO for the render object
-			GLuint vao;
-			glGenVertexArrays(1, &vao);
-			glBindVertexArray(vao);
-			glBindBuffer(GL_ARRAY_BUFFER, vbo);
-			// TODO - Vertex attrib locations are to be controlled by the built shader program
-			glEnableVertexAttribArray(0);
-			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
-			glEnableVertexAttribArray(1);
-			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
-			// Unbind the vao
-			glBindVertexArray(0);
-			glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-			// Add a new render object
-			GLenum primitive { GL_TRIANGLES };
-			GLint first { 0 };
-			GLint count { 6 };
-			uint32_t object_id { NextComponentId() };
-			material_group->render_groups_.emplace_back(
-				std::initializer_list<uint32_t>{ object_id },
-				ERenderObjectType::SPRITE_RENDERER,
-				vbo, vao,
-				primitive, first, count,
-				std::initializer_list<GLuint>{ static_cast<TextureGL const *>(sr->GetTexture())->GetGlTexId() }
-				//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
-				//std::initializer_list<ITransform const &>{ t }
-			);
-			// TODO - Remove
-			material_group->render_groups_.back().transforms_.emplace_back(&t);
-			material_group->render_groups_.back().texture_stride_ = 1;
-			sr->SetEngineData(object_id);
-		//}
+		// TODO - Remove
+		material_group->render_groups_.back().transforms_.emplace_back(&t);
+		material_group->render_groups_.back().texture_stride_ = 1;
+		sr->SetEngineData(object_id);
 	}
 
 	// Add a tile renderer component to the render pool
@@ -390,8 +346,8 @@ namespace ose::rendering
 			std::initializer_list<uint32_t>{ object_id },
 			ERenderObjectType::TILE_RENDERER,
 			vbo, vao,
-			primitive, first, count,
-			std::initializer_list<GLuint>{ static_cast<TextureGL const *>(tr->GetTexture())->GetGlTexId() }
+			primitive, first, count
+			//std::initializer_list<GLuint>{ static_cast<TextureGL const *>(tr->GetTexture())->GetGlTexId() }
 			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 			//std::initializer_list<ITransform const &>{ t }
 		);
@@ -486,8 +442,8 @@ namespace ose::rendering
 			std::initializer_list<uint32_t>{ object_id },
 			ERenderObjectType::MESH_RENDERER,
 			vbo, vao,
-			primitive, first, count,
-			std::initializer_list<GLuint>{  }
+			primitive, first, count
+			//std::initializer_list<GLuint>{  }
 		//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
 		//std::initializer_list<ITransform const &>{ t }
 		);
@@ -677,7 +633,7 @@ namespace ose::rendering
 			return nullptr;
 		}
 
-		// If no usable shader group exists, create a new one
+		// If no usable material group exists, create a new one
 		if(!material_group)
 		{
 			MaterialGroupGL mg;
@@ -700,5 +656,63 @@ namespace ose::rendering
 		}
 
 		return material_group;
+	}
+
+	// Get a render group for rendering the given object
+	// If no suitable render group exists, a new group is created
+	// @param is_static refers to the entities static property (i.e. whether its transform will remain constant)
+	RenderGroupGL * RenderPoolGL::GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const &> const & textures, bool is_static)
+	{
+		// Try to find a render group to add the object to
+		RenderGroupGL * render_group { nullptr };
+		for(auto & g : material_group.render_groups_)
+		{
+			if(g.texture_atlas_->TryAddTextures(textures))
+			{
+				render_group = &g;
+				break;
+			}
+		}
+
+		// If no usable render group exists, create a new one
+		if(!render_group)
+		{
+			// Create a VBO for the render group
+			GLuint vbo;
+			glGenBuffers(1, &vbo);
+
+			// Create a VAO for the render group
+			GLuint vao;
+			glGenVertexArrays(1, &vao);
+			glBindVertexArray(vao);
+			glBindBuffer(GL_ARRAY_BUFFER, vbo);
+			// TODO - Vertex attrib locations are to be controlled by the built shader program
+			glEnableVertexAttribArray(0);
+			glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), 0);
+			glEnableVertexAttribArray(1);
+			glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (GLvoid*)(2 * sizeof(float)));
+			// Unbind the vao
+			glBindVertexArray(0);
+			glBindBuffer(GL_ARRAY_BUFFER, 0);
+
+			// Create the new render group
+			GLenum primitive { GL_TRIANGLES };
+			GLint first { 0 };
+			GLint count { 6 };
+			uint32_t object_id { NextComponentId() };
+			material_group.render_groups_.emplace_back(
+				std::initializer_list<uint32_t>{ object_id },
+				ERenderObjectType::SPRITE_RENDERER,
+				vbo, vao,
+				GL_TRIANGLES, first, count
+			);
+			render_group = &material_group.render_groups_.back();
+
+			// Create a texture atlas for the render group
+			texture_atlases_.push_back(std::make_unique<TextureAtlas>(2048 * 1024, 2048 * 1024, 3));
+			render_group->texture_atlas_ = texture_atlases_.back().get();
+		}
+
+		return render_group;
 	}
 }

@@ -21,6 +21,8 @@ namespace ose::shader
 
 namespace ose::rendering
 {
+	class TextureAtlas;
+
 	class RenderPoolGL final : public RenderPool
 	{
 	public:
@@ -77,6 +79,11 @@ namespace ose::rendering
 		// If no suitable material group exists, a new group is created
 		MaterialGroupGL * GetMaterialGroup(RenderPassGL & render_pass, Material const * material);
 
+		// Get a render group for rendering the given object
+		// If no suitable render group exists, a new group is created
+		// @param is_static refers to the entities static property (i.e. whether its transform will remain constant)
+		RenderGroupGL * GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const &> const & textures, bool is_static);
+
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update
 		std::vector<RenderPassGL> render_passes_;
@@ -97,6 +104,9 @@ namespace ose::rendering
 
 		// List of all active framebuffer objects used for deferred rendering
 		std::vector<FramebufferGL> framebuffers_;
+
+		// List of all available texture atlases
+		std::vector<std::unique_ptr<TextureAtlas>> texture_atlases_;
 
 		// Returns the next available object id
 		static uint32_t NextComponentId()

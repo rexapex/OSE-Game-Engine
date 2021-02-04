@@ -185,6 +185,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Rendering\Atlas\OccupiedTextureAtlasSlot.h" />
+    <ClInclude Include="Rendering\Atlas\TextureAtlas.h" />
+    <ClInclude Include="Rendering\Atlas\TextureAtlasSettings.h" />
+    <ClInclude Include="Rendering\Atlas\TextureAtlasSlot.h" />
     <ClInclude Include="Rendering\ERenderObjectType.h" />
     <ClInclude Include="Rendering\FramebufferGL.h" />
     <ClInclude Include="Rendering\Lights\DirLightData.h" />
@@ -195,6 +199,7 @@
     <ClInclude Include="Rendering\RenderPassGL.h" />
     <ClInclude Include="Rendering\RenderPoolGL.h" />
     <ClInclude Include="Rendering\MaterialGroupGL.h" />
+    <ClInclude Include="Rendering\Texture\Texture2DGL.h" />
     <ClInclude Include="Rendering\TextureGL.h" />
     <ClInclude Include="Shader\Shaders\BRDFShaderProgGLSL.h" />
     <ClInclude Include="Shader\Shaders\Default2DShaderProgGLSL.h" />
@@ -203,6 +208,7 @@
     <ClInclude Include="Shader\ShaderProgGLSL.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Rendering\Atlas\TextureAtlas.cpp" />
     <ClCompile Include="Rendering\RenderingEngineGL.cpp" />
     <ClCompile Include="Rendering\RenderingFactoryGL.cpp" />
     <ClCompile Include="Rendering\RenderPoolGL.cpp" />
@@ -215,6 +221,7 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="Rendering\Texture\Texture2DGL.cpp" />
     <ClCompile Include="Shader\Shaders\BRDFShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\Shaders\Default2DShaderProgGLSL.cpp" />
     <ClCompile Include="Shader\Shaders\Default3DShaderProgGLSL.cpp" />

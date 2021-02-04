@@ -10,6 +10,8 @@ namespace ose
 
 namespace ose::rendering
 {
+	class TextureAtlas;
+
 	struct RenderGroupGL
 	{
 		ERenderObjectType type_;
@@ -26,8 +28,10 @@ namespace ose::rendering
 		std::vector<uint32_t> component_ids_;
 
 		// TODO - Implement stride (or something similar) to determine which textures belong to same instance within render object
-		std::vector<GLuint> textures_;
-		GLuint texture_stride_ { 0 };
+		//std::vector<GLuint> textures_;
+		//GLuint texture_stride_ { 0 };
+		// All textures required for all the objects in this render group must be contained in the atlas
+		TextureAtlas * texture_atlas_;
 
 		// TODO - Experiment with handling transforms differently
 		// TODO - Replace with pointer to glm::mat4 s.t. changes made to entity transform immediately have effect on render object
@@ -37,11 +41,11 @@ namespace ose::rendering
 
 		RenderGroupGL(std::initializer_list<uint32_t> component_ids, ERenderObjectType type, GLuint vbo,
 				GLuint vao, GLenum render_primitive, GLint first,
-				GLint count, std::initializer_list<GLuint> textures//, std::initializer_list<ose::math::ITransform const &> transforms
+				GLint count//, std::initializer_list<GLuint> textures//, std::initializer_list<ose::math::ITransform const &> transforms
 		)
 			: component_ids_(component_ids),
 			type_(type), vbo_(vbo), vao_(vao), render_primitive_(render_primitive),
-			first_(first), count_(count), textures_(textures) //, transforms_(transforms)
+			first_(first), count_(count)//, textures_(textures) //, transforms_(transforms)
 		{}
 	};
 }
