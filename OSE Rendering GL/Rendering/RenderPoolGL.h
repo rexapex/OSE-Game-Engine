@@ -82,7 +82,7 @@ namespace ose::rendering
 		// Get a render group for rendering the given object
 		// If no suitable render group exists, a new group is created
 		// @param is_static refers to the entities static property (i.e. whether its transform will remain constant)
-		RenderGroupGL * GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const &> const & textures, bool is_static);
+		RenderGroupGL * GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const *> const & textures, bool is_static);
 
 	private:
 		// List of all render passes the render pool is to perform on each rendering engine update

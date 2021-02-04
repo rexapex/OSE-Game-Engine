@@ -16,25 +16,28 @@ namespace ose::rendering
 
 	// Try to add all the textures in the list
 	// If any of the textures cannot be added, then none are
-	bool TextureAtlas::TryAddTextures(std::vector<Texture const &> const & textures)
+	bool TextureAtlas::TryAddTextures(std::vector<Texture const *> const & textures)
 	{
-		for(auto const & texture : textures)
+		for(auto const texture : textures)
 		{
+			if(texture == nullptr)
+				continue;
+
 			// First, check if the texture already exists in this atlas
 			bool found { false };
 			for(auto const & slot : occupied_slots_)
 			{
-				if(&slot.texture_ == &texture)
+				if(&slot.texture_ == texture)
 					found = true;
 			}
 
 			// If the texture does not exist in the atlas, see if there is space for it
 			if(!found)
 			{
-				TextureAtlasSlot * slot { ComputeBestFitSlot(texture.GetWidth(), texture.GetHeight()) };
+				TextureAtlasSlot * slot { ComputeBestFitSlot(texture->GetWidth(), texture->GetHeight()) };
 
 				// IMPORTANT TODO - This only works if textures contains one texture !!!!!!!!
-				return AddTexture(texture, slot);
+				return AddTexture(*texture, slot);
 			}
 		}
 	}

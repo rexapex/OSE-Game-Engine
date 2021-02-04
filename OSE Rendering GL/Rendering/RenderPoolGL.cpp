@@ -199,7 +199,7 @@ namespace ose::rendering
 			return;
 
 		// Get the render group to add the sprite renderer to
-		std::vector<Texture const &> textures { *sr->GetTexture() };
+		std::vector<Texture const *> textures { sr->GetTexture() };
 		RenderGroupGL * render_group { GetRenderGroup(*material_group, textures, true) };
 
 		float w = static_cast<float>(sr->GetTexture()->GetWidth());
@@ -216,7 +216,7 @@ namespace ose::rendering
 			0, h, 0, 0,
 			0, 0, 0, 1
 		};
-		glBindBuffer(GL_ARRAY_BUFFER, vbo);
+		glBindBuffer(GL_ARRAY_BUFFER, render_group->vbo_);
 		glBufferData(GL_ARRAY_BUFFER, sizeof(data), data, GL_STATIC_DRAW);
 
 		// TODO - Remove
@@ -336,25 +336,25 @@ namespace ose::rendering
 		glBindVertexArray(0);
 		glBindBuffer(GL_ARRAY_BUFFER, 0);
 
-		// Unlike SpriteRenderer, TileRenderer cannot share a render group since the tile grid is encoded into the buffer data
-		// Add a new render object
-		GLenum primitive { GL_TRIANGLES };
-		GLint first { 0 };
-		GLint count { 6 * tilemap_width * tilemap_height };
-		uint32_t object_id { NextComponentId() };
-		material_group->render_groups_.emplace_back(
-			std::initializer_list<uint32_t>{ object_id },
-			ERenderObjectType::TILE_RENDERER,
-			vbo, vao,
-			primitive, first, count
-			//std::initializer_list<GLuint>{ static_cast<TextureGL const *>(tr->GetTexture())->GetGlTexId() }
-			//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
-			//std::initializer_list<ITransform const &>{ t }
-		);
-		// TODO - Remove
-		material_group->render_groups_.back().transforms_.emplace_back(&t);
-		material_group->render_groups_.back().texture_stride_ = 1;
-		tr->SetEngineData(object_id);
+		//// Unlike SpriteRenderer, TileRenderer cannot share a render group since the tile grid is encoded into the buffer data
+		//// Add a new render object
+		//GLenum primitive { GL_TRIANGLES };
+		//GLint first { 0 };
+		//GLint count { 6 * tilemap_width * tilemap_height };
+		//uint32_t object_id { NextComponentId() };
+		//material_group->render_groups_.emplace_back(
+		//	std::initializer_list<uint32_t>{ object_id },
+		//	ERenderObjectType::TILE_RENDERER,
+		//	vbo, vao,
+		//	primitive, first, count
+		//	//std::initializer_list<GLuint>{ static_cast<TextureGL const *>(tr->GetTexture())->GetGlTexId() }
+		//	//std::initializer_list<glm::mat4>{ t.GetTransformMatrix() }
+		//	//std::initializer_list<ITransform const &>{ t }
+		//);
+		//// TODO - Remove
+		//material_group->render_groups_.back().transforms_.emplace_back(&t);
+		//material_group->render_groups_.back().texture_stride_ = 1;
+		//tr->SetEngineData(object_id);
 	}
 
 	// Add a mesh renderer component to the render pool
@@ -448,29 +448,29 @@ namespace ose::rendering
 		//std::initializer_list<ITransform const &>{ t }
 		);
 
-		// If the mesh renderer contains a material, add the first texture
-		// TODO - Material determines shader group and can contain multiple textures
-		GLuint texture_stride { 0 };
-		if(mr->GetMaterial())
-		{
-			for(auto texture : mr->GetMaterial()->GetTextures())
-			{
-				if(texture)
-				{
-					material_group->render_groups_.back().textures_.emplace_back(static_cast<TextureGL const *>(texture)->GetGlTexId());
-					++texture_stride;
-				}
-			}
-		}
+		//// If the mesh renderer contains a material, add the first texture
+		//// TODO - Material determines shader group and can contain multiple textures
+		//GLuint texture_stride { 0 };
+		//if(mr->GetMaterial())
+		//{
+		//	for(auto texture : mr->GetMaterial()->GetTextures())
+		//	{
+		//		if(texture)
+		//		{
+		//			material_group->render_groups_.back().textures_.emplace_back(static_cast<TextureGL const *>(texture)->GetGlTexId());
+		//			++texture_stride;
+		//		}
+		//	}
+		//}
 
 
-		// Each mesh has its own render group
-		// TODO - Mesh renderers sharing a mesh will use the same render group
-		// TODO - Should use glDrawElementsInstanced for rendering the shared meshes
-		material_group->render_groups_.back().ibo_ = ibo;
-		material_group->render_groups_.back().transforms_.emplace_back(&t);
-		material_group->render_groups_.back().texture_stride_ = texture_stride;
-		mr->SetEngineData(object_id);
+		//// Each mesh has its own render group
+		//// TODO - Mesh renderers sharing a mesh will use the same render group
+		//// TODO - Should use glDrawElementsInstanced for rendering the shared meshes
+		//material_group->render_groups_.back().ibo_ = ibo;
+		//material_group->render_groups_.back().transforms_.emplace_back(&t);
+		//material_group->render_groups_.back().texture_stride_ = texture_stride;
+		//mr->SetEngineData(object_id);
 	}
 
 	// Add a point light component to the render pool
@@ -498,43 +498,43 @@ namespace ose::rendering
 	// Remove a sprite renderer component from the render pool
 	void RenderPoolGL::RemoveSpriteRenderer(SpriteRenderer * sr)
 	{
-		// Try to find the render object the sprite renderer belongs to
-		bool found { false };
-		for(auto & p : render_passes_) {
-			for(auto & s : p.material_groups_) {
-				for(auto it = s.render_groups_.begin(); it != s.render_groups_.end(); ++it) {
-					if(it->type_ == ERenderObjectType::SPRITE_RENDERER)
-					{
-						// Find the sprite renderer data within the render object
-						uint32_t object_id { std::any_cast<uint32_t>(sr->GetEngineData()) };
-						for(int i = 0; i < it->component_ids_.size(); i++)
-						{
-							if(it->component_ids_[i] == object_id)
-							{
-								// Remove the component
-								it->component_ids_.erase(it->component_ids_.begin() + i);
-								it->transforms_.erase(it->transforms_.begin() + i);
-								it->textures_.erase(it->textures_.begin() + i);
-								found = true;
-								break;
-							}
-						}
-						// If there are no sprite renderers left in the render object, erase the render object
-						if(it->component_ids_.size() == 0)
-						{
-							glDeleteBuffers(1, &it->vbo_);
-							glDeleteVertexArrays(1, &it->vao_);
-							s.render_groups_.erase(it);
-						}
-						// If the sprite renderer was found then exit the method early
-						if(found)
-						{
-							return;
-						}
-					}
-				}
-			}
-		}
+		//// Try to find the render object the sprite renderer belongs to
+		//bool found { false };
+		//for(auto & p : render_passes_) {
+		//	for(auto & s : p.material_groups_) {
+		//		for(auto it = s.render_groups_.begin(); it != s.render_groups_.end(); ++it) {
+		//			if(it->type_ == ERenderObjectType::SPRITE_RENDERER)
+		//			{
+		//				// Find the sprite renderer data within the render object
+		//				uint32_t object_id { std::any_cast<uint32_t>(sr->GetEngineData()) };
+		//				for(int i = 0; i < it->component_ids_.size(); i++)
+		//				{
+		//					if(it->component_ids_[i] == object_id)
+		//					{
+		//						// Remove the component
+		//						it->component_ids_.erase(it->component_ids_.begin() + i);
+		//						it->transforms_.erase(it->transforms_.begin() + i);
+		//						it->textures_.erase(it->textures_.begin() + i);
+		//						found = true;
+		//						break;
+		//					}
+		//				}
+		//				// If there are no sprite renderers left in the render object, erase the render object
+		//				if(it->component_ids_.size() == 0)
+		//				{
+		//					glDeleteBuffers(1, &it->vbo_);
+		//					glDeleteVertexArrays(1, &it->vao_);
+		//					s.render_groups_.erase(it);
+		//				}
+		//				// If the sprite renderer was found then exit the method early
+		//				if(found)
+		//				{
+		//					return;
+		//				}
+		//			}
+		//		}
+		//	}
+		//}
 	}
 
 	// Remove a tile renderer component from the render pool
@@ -661,7 +661,7 @@ namespace ose::rendering
 	// Get a render group for rendering the given object
 	// If no suitable render group exists, a new group is created
 	// @param is_static refers to the entities static property (i.e. whether its transform will remain constant)
-	RenderGroupGL * RenderPoolGL::GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const &> const & textures, bool is_static)
+	RenderGroupGL * RenderPoolGL::GetRenderGroup(MaterialGroupGL & material_group, std::vector<Texture const *> const & textures, bool is_static)
 	{
 		// Try to find a render group to add the object to
 		RenderGroupGL * render_group { nullptr };

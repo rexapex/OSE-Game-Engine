@@ -18,7 +18,7 @@ namespace ose::rendering
 
 		// Try to add all the textures in the list
 		// If any of the textures cannot be added, then none are
-		bool TryAddTextures(std::vector<Texture const &> const & textures);
+		bool TryAddTextures(std::vector<Texture const *> const & textures);
 
 		// Remove a texture from the atlas
 		// Returns true iff the texture is removed successfully
