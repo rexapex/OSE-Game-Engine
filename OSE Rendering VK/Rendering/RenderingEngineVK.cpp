@@ -22,6 +22,10 @@ namespace ose::rendering
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//glEnable(GL_DEPTH_TEST);			// TODO - Disable depth test when rendering a deferred texture (make apart of render pass state)
 		//glDepthFunc(GL_LEQUAL);
+		uint32_t extensionCount = 0;
+		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
+
+		std::cout << extensionCount << " extensions supported\n";
 	}
 
 	RenderingEngineVK::~RenderingEngineVK() {}

@@ -4,3 +4,4 @@
 #include "stdafx.h"
 
 // Include Vulkan
+#include <vulkan/vulkan.h>
