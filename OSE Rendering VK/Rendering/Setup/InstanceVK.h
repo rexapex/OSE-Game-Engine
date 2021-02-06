@@ -28,6 +28,9 @@ namespace ose::rendering
 			VkResult result = vkCreateInstance(&create_info, nullptr, &instance_);
 			if(result != VK_SUCCESS)
 				throw std::exception("Failed to create Vulkan instance: %d", result);
+
+			if(!InitPhysicalDevice())
+				throw std::exception("Failed to find a physical device capable of supporting Vulkan");
 		}
 
 		~InstanceVK()
@@ -72,7 +75,60 @@ namespace ose::rendering
 			return true;
 		}
 
+		bool InitPhysicalDevice()
+		{
+			VkPhysicalDevice physical_device = VK_NULL_HANDLE;
+			VkPhysicalDeviceProperties physical_device_props;
+			VkPhysicalDeviceFeatures physical_device_features;
+			uint32_t device_count { 0 };
+			vkEnumeratePhysicalDevices(instance_, &device_count, nullptr);
+
+			if(device_count == 0)
+				return false;
+
+			std::vector<VkPhysicalDevice> devices(device_count);
+			vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
+
+			auto set_best_device = [&physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
+				VkPhysicalDeviceProperties props;
+				vkGetPhysicalDeviceProperties(device, &props);
+
+				VkPhysicalDeviceFeatures features;
+				vkGetPhysicalDeviceFeatures(device, &features);
+
+				if(features.geometryShader)
+				{
+					if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
+					{
+						if(physical_device_props.deviceType != VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+							|| physical_device_props.limits.maxImageDimension2D < props.limits.maxImageDimension2D)
+						{
+							physical_device = device;
+							physical_device_props = props;
+							physical_device_features = features;
+						}
+					}
+					else if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
+						&& physical_device == VK_NULL_HANDLE)
+					{
+						physical_device = device;
+						physical_device_props = props;
+						physical_device_features = features;
+					}
+				}
+			};
+
+			for(auto const & device : devices)
+			{
+				set_best_device(device);
+			}
+
+			physical_device_ = physical_device;
+			return physical_device_ != VK_NULL_HANDLE;
+		}
+
 	private:
 		VkInstance instance_ {};
+		VkPhysicalDevice physical_device_ {};
 	};
 }

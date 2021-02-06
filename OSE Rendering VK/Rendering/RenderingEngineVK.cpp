@@ -12,7 +12,7 @@ namespace ose::rendering
 			throw std::exception("Failed to initialise Vulkan");
 
 		// Initialise the render pool only once Vulkan has been intialised
-		//render_pool_.Init(fbwidth, fbheight);
+		render_pool_.Init(fbwidth, fbheight);
 		UpdateProjectionMatrix();
 
 		//// Set the default OpenGL settings
