@@ -31,11 +31,15 @@ namespace ose::rendering
 
 			if(!InitPhysicalDevice())
 				throw std::exception("Failed to find a physical device capable of supporting required Vulkan features");
+
+			if(!InitLogicalDevice())
+				throw std::exception("Failed to create a logical device");
 		}
 
 		~InstanceVK()
 		{
 			vkDestroyInstance(instance_, nullptr);
+			vkDestroyDevice(logical_device_, nullptr);
 		}
 
 	private:
@@ -111,7 +115,7 @@ namespace ose::rendering
 				return graphics_family;
 			};
 
-			auto set_best_device = [&find_queue_families, &physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
+			auto set_best_device = [this, &find_queue_families, &physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
 				VkPhysicalDeviceProperties props;
 				vkGetPhysicalDeviceProperties(device, &props);
 
@@ -130,6 +134,7 @@ namespace ose::rendering
 							physical_device = device;
 							physical_device_props = props;
 							physical_device_features = features;
+							graphics_family_ = graphics_family.value();
 						}
 					}
 					else if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
@@ -138,6 +143,7 @@ namespace ose::rendering
 						physical_device = device;
 						physical_device_props = props;
 						physical_device_features = features;
+						graphics_family_ = graphics_family.value();
 					}
 				}
 			};
@@ -151,8 +157,41 @@ namespace ose::rendering
 			return physical_device_ != VK_NULL_HANDLE;
 		}
 
+		bool InitLogicalDevice()
+		{
+			VkDeviceQueueCreateInfo queue_create_info {};
+			queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+			queue_create_info.queueFamilyIndex = graphics_family_;
+			queue_create_info.queueCount = 1;
+
+			float priority = 1.0f;
+			queue_create_info.pQueuePriorities = &priority;
+
+			VkPhysicalDeviceFeatures physical_device_features {};
+
+			VkDeviceCreateInfo device_create_info {};
+			device_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+			device_create_info.pQueueCreateInfos = &queue_create_info;
+			device_create_info.queueCreateInfoCount = 1;
+			device_create_info.pEnabledFeatures = &physical_device_features;
+
+			// TODO - Set validation layers to support older Vulkan versions where the feature isn't deprecated
+
+			VkResult result = vkCreateDevice(physical_device_, &device_create_info, nullptr, &logical_device_);
+			if(result != VK_SUCCESS)
+				return false;
+
+			vkGetDeviceQueue(logical_device_, graphics_family_, 0, &graphics_queue_);
+
+			return true;
+		}
+
 	private:
 		VkInstance instance_ {};
 		VkPhysicalDevice physical_device_ {};
+		VkDevice logical_device_ {};
+
+		uint32_t graphics_family_;
+		VkQueue graphics_queue_;
 	};
 }
