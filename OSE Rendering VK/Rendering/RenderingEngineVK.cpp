@@ -1,17 +1,25 @@
 #include "pch.h"
 #include "RenderingEngineVK.h"
 #include "OSE-Core/Game/Camera/Camera.h"
+#include "Setup/InstanceVK.h"
 
 namespace ose::rendering
 {
+	struct RenderingEngineVKInternal
+	{
+		uptr<InstanceVK> instance_;
+	};
+
 	RenderingEngineVK::RenderingEngineVK(int fbwidth, int fbheight) : RenderingEngine(fbwidth, fbheight)
 	{
-		//// NOTE - If RenderingEngineGL is made multithreadable, may need to move this
-		//// TODO - Only load GLEW if used OpenGL functions are not available
-		//InitGlew();
+		// Create the internal data structure
+		internal_ = ose::make_unique<RenderingEngineVKInternal>();
 
-		// Initialise the render pool only once OpenGL has been intialised
-		//render_pool_.Init(fbwidth, fbheight);
+		// NOTE - If RenderingEngineVK is made multithreadable, may need to move this
+		InitVulkan();
+
+		// Initialise the render pool only once Vulkan has been intialised
+		render_pool_.Init(fbwidth, fbheight);
 		UpdateProjectionMatrix();
 
 		//// Set the default OpenGL settings
@@ -22,10 +30,6 @@ namespace ose::rendering
 		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		//glEnable(GL_DEPTH_TEST);			// TODO - Disable depth test when rendering a deferred texture (make apart of render pass state)
 		//glDepthFunc(GL_LEQUAL);
-		uint32_t extensionCount = 0;
-		vkEnumerateInstanceExtensionProperties(nullptr, &extensionCount, nullptr);
-
-		std::cout << extensionCount << " extensions supported\n";
 	}
 
 	RenderingEngineVK::~RenderingEngineVK() {}
@@ -61,38 +65,18 @@ namespace ose::rendering
 		
 	}
 
-	//// Load OpenGL functions using GLEW
-	//// Return of 0 = success, return of -1 = error
-	//int RenderingEngineVK::InitGlew()
-	//{
-	//	GLenum err = glewInit();
-	//	if(GLEW_OK != err)
-	//	{
-	//		// GLEW Initialisation failed
-	//		fprintf(stderr, "Error: %s\n", glewGetErrorString(err));
-	//		return -1;		// return with error
-	//	}
-	//	fprintf(stderr, "Status: Using GLEW %s\n", glewGetString(GLEW_VERSION));
-
-	//	std::cerr << "Initialised GLEW" << std::endl;
-	//	if(GLEW_VERSION_3_2)
-	//	{
-	//		std::cerr << "OpenGL 3.2 Supported" << std::endl;
-	//	}
-	//	else
-	//	{
-	//		std::cerr << "OpenGL 3.2 Not Supported" << std::endl;
-
-	//		if(GLEW_ARB_instanced_arrays)
-	//		{
-	//			std::cerr << "Instanced Arrays Available" << std::endl;
-	//		}
-	//		else
-	//		{
-	//			std::cerr << "Instanced Arrays Not Supported" << std::endl;
-	//		}
-	//	}
-
-	//	return 0;			// return with success
-	//}
+	// Load Vulkan functions
+	// Return of 0 = success, return of -1 = error
+	int RenderingEngineVK::InitVulkan()
+	{
+		try
+		{
+			internal_->instance_ = ose::make_unique<InstanceVK>();
+		}
+		catch(...)
+		{
+			return -1;
+		}
+		return 0;
+	}
 }

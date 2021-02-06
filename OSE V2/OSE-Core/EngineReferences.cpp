@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "EngineReferences.h"
 #include "OSE Rendering GL/Rendering/RenderingFactoryGL.h"
+#include "OSE Rendering VK/Rendering/RenderingFactoryVK.h"
 #include "OSE Project XML/Project/ProjectLoaderFactoryXML.h"
 #include "OSE Resources SOIL/Resources/Texture/TextureLoaderFactorySOIL.h"
 #include "OSE Resources Tilemap TXT/Resources/Tilemap/TilemapLoaderFactoryTXT.h"
@@ -27,7 +28,7 @@ namespace ose
 	extern uptr<MeshLoaderFactory> const MeshLoaderFactories[] { ose::make_unique<ose::resources::MeshLoaderFactoryASSIMP>() };
 
 	// Create array of rendering factories
-	extern uptr<RenderingFactory> const RenderingFactories[] { ose::make_unique<ose::rendering::RenderingFactoryGL>() };
+	extern uptr<RenderingFactory> const RenderingFactories[] { ose::make_unique<ose::rendering::RenderingFactoryVK>()/*ose::make_unique<ose::rendering::RenderingFactoryGL>()*/ };
 
 	// Create array of scripting factories
 	extern uptr<ScriptingFactory> const ScriptingFactories[] { ose::make_unique<ose::scripting::ScriptingFactoryCPP>() };

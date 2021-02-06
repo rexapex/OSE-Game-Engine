@@ -11,6 +11,8 @@ namespace ose
 
 namespace ose::rendering
 {
+	struct RenderingEngineVKInternal;
+
 	class RenderingEngineVK final : public RenderingEngine
 	{
 	public:
@@ -24,9 +26,12 @@ namespace ose::rendering
 		RenderPool & GetRenderPool() override { return render_pool_; }
 
 	private:
-		//// Load OpenGL functions using GLEW
-		//// Return of 0 = success, return of -1 = error
-		//static int InitGlew();
+		// Load Vulkan functions
+		// Return of 0 = success, return of -1 = error
+		int InitVulkan();
+
+		// Structure containing internal vulkan data not to be exposed by this header file
+		uptr<RenderingEngineVKInternal> internal_;
 
 		// The projection matrix, can be a perspective or an orthographic projection matrix
 		glm::mat4 projection_matrix_;

@@ -187,6 +187,7 @@
     <ClInclude Include="Rendering\RenderingEngineVK.h" />
     <ClInclude Include="Rendering\RenderingFactoryVK.h" />
     <ClInclude Include="Rendering\RenderPoolVK.h" />
+    <ClInclude Include="Rendering\Setup\InstanceVK.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">

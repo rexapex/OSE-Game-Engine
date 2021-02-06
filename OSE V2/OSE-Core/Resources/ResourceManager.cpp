@@ -93,6 +93,7 @@ namespace ose
 	// TODO - either remove name altogether or come up with something clever
 	void ResourceManager::AddTexture(std::string const & path, std::string const & name)
 	{
+		return; // TODO - Remove
 		std::string abs_path { project_path_ + "/Resources/" + path };
 
 		if(fs::DoesFileExist(abs_path))
@@ -552,10 +553,10 @@ namespace ose
 		if(iter != shader_progs_without_gpu_memory_.end())
 		{
 			try {
-				// Try to create the shader program on the GPU
-				iter->second->CreateShaderProg();
-				// Iff the creation succeeds, move the shader program from one map to the other
-				shader_progs_with_gpu_memory_.insert({ prog_name, std::move(iter->second) });
+				//// Try to create the shader program on the GPU
+				//iter->second->CreateShaderProg();
+				//// Iff the creation succeeds, move the shader program from one map to the other
+				//shader_progs_with_gpu_memory_.insert({ prog_name, std::move(iter->second) });
 				// Remove the shader program from the original map
 				return shader_progs_without_gpu_memory_.erase(iter);
 			} catch(std::exception const & e) {
