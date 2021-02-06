@@ -3,20 +3,39 @@
 #include "OSE-Core/Windowing/WindowManager.h"
 #include "OSE-Core/Rendering/VideoMode.h"
 
+#ifndef WINDOW_MANAGER_EXT_NAME
+#	error Error: WINDOW_MANAGER_EXT_NAME is not defined, do not include WindowManagerGLFW.h directly
+#endif
+
+#ifdef WindowManagerClassName
+#	undef WindowManagerClassName
+#endif
+
+#ifdef CONCAT
+#	undef CONCAT
+#endif
+#ifdef CONCAT_INNER
+#	undef CONCAT_INNER
+#endif
+#define CONCAT_INNER(A, B) A ## B
+#define CONCAT(A, B) CONCAT_INNER(A, B)
+
+#define WindowManagerClassName CONCAT(WindowManagerGLFW_, WINDOW_MANAGER_EXT_NAME)
+
 struct GLFWwindow;
 double glfwGetTime();
 
 namespace ose::windowing
 {
-	class WindowManagerGLFW : public WindowManager
+	class WindowManagerClassName : public WindowManager
 	{
 	public:
-		WindowManagerGLFW();
-		virtual ~WindowManagerGLFW() noexcept;
-		WindowManagerGLFW(WindowManagerGLFW &) = delete;
-		WindowManagerGLFW(WindowManagerGLFW &&) = delete;
-		WindowManagerGLFW & operator=(WindowManagerGLFW &) = delete;
-		WindowManagerGLFW & operator=(WindowManagerGLFW &&) = delete;
+		WindowManagerClassName();
+		virtual ~WindowManagerClassName() noexcept;
+		WindowManagerClassName(WindowManagerClassName &) = delete;
+		WindowManagerClassName(WindowManagerClassName &&) = delete;
+		WindowManagerClassName & operator=(WindowManagerClassName &) = delete;
+		WindowManagerClassName & operator=(WindowManagerClassName &&) = delete;
 
 		int GetFramebufferWidth() const { return fbwidth_; }
 		int GetFramebufferHeight() const { return fbheight_; }

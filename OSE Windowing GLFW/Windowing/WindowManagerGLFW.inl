@@ -1,15 +1,18 @@
-#include "pch.h"
-#include "WindowManagerGLFW.h"
+#pragma once
+
+#ifndef WindowManagerClassName
+#	error Error: Derived window manager class is undefined
+#endif
 
 namespace ose::windowing
 {
-	WindowManagerGLFW::WindowManagerGLFW()
+	WindowManagerClassName::WindowManagerClassName()
 	{
 		if(InitWindowingToolkit() == -1)
 			fprintf(stderr, "Error: %s\n", "Failed to initialise GLFW");
 	}
 
-	WindowManagerGLFW::~WindowManagerGLFW()
+	WindowManagerClassName::~WindowManagerClassName()
 	{
 		if(window_)
 		{
@@ -17,23 +20,12 @@ namespace ose::windowing
 		}
 	}
 
-
 	static void errorCallback(int error, char const * description)	//Prints error message description to stderr
 	{
 		fprintf(stderr, "Error: %s\n", description);
 	}
 
-	int WindowManagerGLFW::InitWindowingToolkit() const
-	{
-		glfwSetErrorCallback(errorCallback);
-
-		if(!glfwInit())		/**Initialise GLFW*/
-			return -1;		/**Return -1 if failed to initialise*/
-
-		return 0;
-	}
-
-	std::vector<VideoMode> WindowManagerGLFW::GetAvailableVideoModes()
+	std::vector<VideoMode> WindowManagerClassName::GetAvailableVideoModes()
 	{
 		int count;
 		GLFWvidmode const * modes = glfwGetVideoModes(glfwGetPrimaryMonitor(), &count);
@@ -47,7 +39,7 @@ namespace ose::windowing
 		return video_modes;
 	}
 
-	void WindowManagerGLFW::NewWindow(int window_mode, int video_mode)
+	void WindowManagerClassName::NewWindow(int window_mode, int video_mode)
 	{
 		GLFWwindow * window;
 
@@ -135,40 +127,12 @@ namespace ose::windowing
 		}
 	}
 
-
-
-	void WindowManagerGLFW::Update()
-	{
-		//swap buffers to update the screen and then poll for new events
-		glfwSwapBuffers(window_);
-		glfwPollEvents();
-
-		//check if game should be closed
-		if(glfwWindowShouldClose(window_))
-		{
-			glfwDestroyWindow(window_);
-			window_ = nullptr;
-			exit(0);
-		}
-
-		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window_));
-		double xpos, ypos;
-		glfwGetCursorPos(window_, &xpos, &ypos);		//Callback function not called frequently enough to update camera
-		window_manager->CursorPosCallbackImpl(xpos, ypos);
-	}
-
-
-
-
-	void WindowManagerGLFW::SetTitle(std::string const & title)
+	void WindowManagerClassName::SetTitle(std::string const & title)
 	{
 		glfwSetWindowTitle(window_, title.c_str());
 	}
 
-
-
-
-	int WindowManagerGLFW::SetMouseVisibility(int value)
+	int WindowManagerClassName::SetMouseVisibility(int value)
 	{
 		if(value == 0)
 			glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
@@ -180,50 +144,44 @@ namespace ose::windowing
 		return 0;
 	}
 
-
-
-	void WindowManagerGLFW::SetWindowSize(int width, int height)
+	void WindowManagerClassName::SetWindowSize(int width, int height)
 	{
 		glfwSetWindowSize(window_, width, height);
 	}
 
-	void WindowManagerGLFW::SetWindowPos(int x, int y)
+	void WindowManagerClassName::SetWindowPos(int x, int y)
 	{
 		glfwSetWindowPos(window_, x, y);
 	}
 
-
-
-	void WindowManagerGLFW::SetNumSamples(int numSamples)
+	void WindowManagerClassName::SetNumSamples(int numSamples)
 	{
 
 	}
 
-
-
-	void WindowManagerGLFW::FramebufferSizeCallback(GLFWwindow * window, int width, int height)
+	void WindowManagerClassName::FramebufferSizeCallback(GLFWwindow * window, int width, int height)
 	{
-		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		WindowManagerClassName * windowManager = reinterpret_cast<WindowManagerClassName *>(glfwGetWindowUserPointer(window));
 		windowManager->fbwidth_ = width;
 		windowManager->fbheight_ = height;
 		windowManager->FramebufferSizeCallbackImpl(width, height);
 	}
 
-	/*void WindowManagerGLFW::WindowPosCallback(GLFWwindow * window, int x, int y)
+	/*void WindowManagerClassName::WindowPosCallback(GLFWwindow * window, int x, int y)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->WindowPosCallbackImpl(x, y);
 	}
 
-	void WindowManagerGLFW::CursorPosCallback(GLFWwindow * window, double xPos, double yPos)
+	void WindowManagerClassName::CursorPosCallback(GLFWwindow * window, double xPos, double yPos)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->CursorPosCallbackImpl(xPos, yPos);		//Forward the callback to the member implementation method
 	}*/
 
-	void WindowManagerGLFW::MouseButtonCallback(GLFWwindow * window, int button, int action, int mods)
+	void WindowManagerClassName::MouseButtonCallback(GLFWwindow * window, int button, int action, int mods)
 	{
-		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		WindowManagerClassName * window_manager = reinterpret_cast<WindowManagerClassName *>(glfwGetWindowUserPointer(window));
 		EInputType type { static_cast<EInputType>(button + 1000) };
 		if(action == GLFW_PRESS)
 			window_manager->InputCallbackImpl(type, true);
@@ -232,15 +190,15 @@ namespace ose::windowing
 		// NOTE - Ignore GLFW_REPEAT action
 	}
 
-	/*void WindowManagerGLFW::MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset)
+	/*void WindowManagerClassName::MouseScrollCallback(GLFWwindow * window, double xOffset, double yOffset)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->MouseScrollCallbackImpl(xOffset, yOffset);		//Forward the callback to the member implementation method
 	}*/
 
-	void WindowManagerGLFW::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)	//Receives input from the window
+	void WindowManagerClassName::KeyCallback(GLFWwindow * window, int key, int scancode, int action, int mods)	//Receives input from the window
 	{
-		WindowManagerGLFW * window_manager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));
+		WindowManagerClassName * window_manager = reinterpret_cast<WindowManagerClassName *>(glfwGetWindowUserPointer(window));
 		EInputType type { static_cast<EInputType>(key) };
 		if(action == GLFW_PRESS)
 			window_manager->InputCallbackImpl(type, true);
@@ -249,7 +207,7 @@ namespace ose::windowing
 		// NOTE - Ignore GLFW_REPEAT action
 	}
 
-	/*void WindowManagerGLFW::CharCallback(GLFWwindow * window, unsigned int codePoint)
+	/*void WindowManagerClassName::CharCallback(GLFWwindow * window, unsigned int codePoint)
 	{
 		WindowManagerGLFW * windowManager = reinterpret_cast<WindowManagerGLFW *>(glfwGetWindowUserPointer(window));	//Get the window user pointer
 		windowManager->CharCallbackImpl(codePoint);								//Forward the callback to the member implementation method

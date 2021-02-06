@@ -24,16 +24,30 @@
     <ClInclude Include="Windowing\WindowingFactoryGLFW.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Windowing\WindowManagerGLFW_VK.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Windowing\WindowManagerGLFW_GL.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Windowing\WindowManagerGLFW.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Windowing\WindowingFactoryGLFW.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Windowing\WindowManagerGLFW_VK.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Windowing\WindowManagerGLFW_GL.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Windowing\WindowManagerGLFW.inl">
+      <Filter>Source Files</Filter>
+    </None>
   </ItemGroup>
 </Project>

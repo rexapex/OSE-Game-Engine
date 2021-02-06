@@ -5,4 +5,3 @@
 
 // Include the required headers
 #include <windows.h>
-#include <GLFW/glfw3.h>

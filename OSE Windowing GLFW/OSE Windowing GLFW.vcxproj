@@ -103,7 +103,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)/Dependencies/glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Include;$(ProjectDir)/Dependencies/glfw-3.3.2/x64/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -111,8 +111,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Dependencies\glfw\lib-vc2015</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Lib;$(ProjectDir)\Dependencies\glfw-3.3.2\x64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -124,13 +124,17 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)/Dependencies/glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Include;$(ProjectDir)/Dependencies/glfw-3.3.2/WIN32/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.2\WIN32\lib-vc2019;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Lib32</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -143,7 +147,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)/Dependencies/glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Include;$(ProjectDir)/Dependencies/glfw-3.3.2/WIN32/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -152,6 +156,10 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\glfw-3.3.2\WIN32\lib-vc2019;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Lib32</AdditionalLibraryDirectories>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -164,7 +172,7 @@
       <PreprocessorDefinitions>NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)/Dependencies/glfw/include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)/OSE V2;$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Include;$(ProjectDir)/Dependencies/glfw-3.3.2/x64/include</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -174,14 +182,16 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(ProjectDir)/Dependencies\glfw\lib-vc2015</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glfw3.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)\Dependencies\Vulkan 1.2.162.1\Lib;$(ProjectDir)\Dependencies\glfw-3.3.2\x64\lib-vc2019</AdditionalLibraryDirectories>
+      <AdditionalDependencies>vulkan-1.lib;glfw3.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Windowing\WindowingFactoryGLFW.h" />
     <ClInclude Include="Windowing\WindowManagerGLFW.h" />
+    <ClInclude Include="Windowing\WindowManagerGLFW_GL.h" />
+    <ClInclude Include="Windowing\WindowManagerGLFW_VK.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -191,7 +201,11 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Windowing\WindowingFactoryGLFW.cpp" />
-    <ClCompile Include="Windowing\WindowManagerGLFW.cpp" />
+    <ClCompile Include="Windowing\WindowManagerGLFW_GL.cpp" />
+    <ClCompile Include="Windowing\WindowManagerGLFW_VK.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Windowing\WindowManagerGLFW.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
