@@ -5,6 +5,7 @@
 #include <map>
 #include <array>
 #include <unordered_map>
+#include <optional>
 
 #include <numeric>
 #include <algorithm>

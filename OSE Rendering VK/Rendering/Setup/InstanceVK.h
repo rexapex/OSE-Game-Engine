@@ -30,7 +30,7 @@ namespace ose::rendering
 				throw std::exception("Failed to create Vulkan instance: %d", result);
 
 			if(!InitPhysicalDevice())
-				throw std::exception("Failed to find a physical device capable of supporting Vulkan");
+				throw std::exception("Failed to find a physical device capable of supporting required Vulkan features");
 		}
 
 		~InstanceVK()
@@ -89,14 +89,38 @@ namespace ose::rendering
 			std::vector<VkPhysicalDevice> devices(device_count);
 			vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
 
-			auto set_best_device = [&physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
+			auto find_queue_families = [](VkPhysicalDevice const & device) {
+				uint32_t queue_family_count = 0;
+				vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, nullptr);
+
+				std::vector<VkQueueFamilyProperties> queue_family_props(queue_family_count);
+				vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_family_props.data());
+
+				std::optional<uint32_t> graphics_family;
+
+				for(size_t i = 0; i < queue_family_props.size(); ++i)
+				{
+					auto const & props = queue_family_props[i];
+					if(props.queueFlags & VK_QUEUE_GRAPHICS_BIT)
+					{
+						graphics_family = i;
+						break;
+					}
+				}
+
+				return graphics_family;
+			};
+
+			auto set_best_device = [&find_queue_families, &physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
 				VkPhysicalDeviceProperties props;
 				vkGetPhysicalDeviceProperties(device, &props);
 
 				VkPhysicalDeviceFeatures features;
 				vkGetPhysicalDeviceFeatures(device, &features);
 
-				if(features.geometryShader)
+				std::optional<uint32_t> graphics_family = find_queue_families(device);
+
+				if(graphics_family.has_value() && features.geometryShader)
 				{
 					if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
 					{
