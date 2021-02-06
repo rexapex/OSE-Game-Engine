@@ -44,6 +44,8 @@ namespace ose::windowing
 
 		std::vector<VideoMode> GetAvailableVideoModes();
 
+		std::vector<char const *> GetExtensions();
+
 		int	SetMouseVisibility(int value);
 
 		void SetWindowSize(int width, int height);

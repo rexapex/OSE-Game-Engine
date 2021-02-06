@@ -21,6 +21,8 @@ namespace ose
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
+		virtual std::vector<char const *> GetExtensions() = 0;
+
 		//window callbacks
 		void FramebufferSizeCallbackImpl(int width, int height);
 		void InputCallbackImpl(EInputType type, bool triggered);

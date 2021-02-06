@@ -39,4 +39,15 @@ namespace ose::windowing
 		glfwGetCursorPos(window_, &xpos, &ypos);		//Callback function not called frequently enough to update camera
 		window_manager->CursorPosCallbackImpl(xpos, ypos);
 	}
+
+	std::vector<char const *> WindowManagerClassName::GetExtensions()
+	{
+		std::vector<char const *> extensions;
+		uint32_t ext_count = 0;
+		const char ** exts;
+		exts = glfwGetRequiredInstanceExtensions(&ext_count);
+		for(size_t i = 0; i < ext_count; ++i)
+			extensions.push_back(exts[i]);
+		return extensions;
+	}
 }

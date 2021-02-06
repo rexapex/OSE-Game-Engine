@@ -5,21 +5,14 @@
 
 namespace ose::rendering
 {
-	struct RenderingEngineVKInternal
+	RenderingEngineVK::RenderingEngineVK(int fbwidth, int fbheight, std::vector<char const *> const & extensions) : RenderingEngine(fbwidth, fbheight)
 	{
-		uptr<InstanceVK> instance_;
-	};
-
-	RenderingEngineVK::RenderingEngineVK(int fbwidth, int fbheight) : RenderingEngine(fbwidth, fbheight)
-	{
-		// Create the internal data structure
-		internal_ = ose::make_unique<RenderingEngineVKInternal>();
-
 		// NOTE - If RenderingEngineVK is made multithreadable, may need to move this
-		InitVulkan();
+		if(InitVulkan(extensions) == -1)
+			throw std::exception("Failed to initialise Vulkan");
 
 		// Initialise the render pool only once Vulkan has been intialised
-		render_pool_.Init(fbwidth, fbheight);
+		//render_pool_.Init(fbwidth, fbheight);
 		UpdateProjectionMatrix();
 
 		//// Set the default OpenGL settings
@@ -67,14 +60,15 @@ namespace ose::rendering
 
 	// Load Vulkan functions
 	// Return of 0 = success, return of -1 = error
-	int RenderingEngineVK::InitVulkan()
+	int RenderingEngineVK::InitVulkan(std::vector<char const *> const & extensions)
 	{
 		try
 		{
-			internal_->instance_ = ose::make_unique<InstanceVK>();
+			instance_ = ose::make_unique<InstanceVK>(std::move(extensions));
 		}
-		catch(...)
+		catch(std::exception & e)
 		{
+			LOG_ERROR(e.what());
 			return -1;
 		}
 		return 0;

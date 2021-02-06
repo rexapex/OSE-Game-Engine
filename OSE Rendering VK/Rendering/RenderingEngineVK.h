@@ -11,12 +11,12 @@ namespace ose
 
 namespace ose::rendering
 {
-	struct RenderingEngineVKInternal;
+	class InstanceVK;
 
 	class RenderingEngineVK final : public RenderingEngine
 	{
 	public:
-		RenderingEngineVK(int fbwidth, int fbheight);
+		RenderingEngineVK(int fbwidth, int fbheight, std::vector<char const *> const & extensions);
 		~RenderingEngineVK();
 
 		// Render one frame to the screen
@@ -28,10 +28,10 @@ namespace ose::rendering
 	private:
 		// Load Vulkan functions
 		// Return of 0 = success, return of -1 = error
-		int InitVulkan();
+		int InitVulkan(std::vector<char const *> const & extensions);
 
-		// Structure containing internal vulkan data not to be exposed by this header file
-		uptr<RenderingEngineVKInternal> internal_;
+		// Vulkan instance encapsulated in C++ RAII class
+		uptr<InstanceVK> instance_;
 
 		// The projection matrix, can be a perspective or an orthographic projection matrix
 		glm::mat4 projection_matrix_;

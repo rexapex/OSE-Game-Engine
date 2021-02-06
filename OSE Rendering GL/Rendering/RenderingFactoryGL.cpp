@@ -12,7 +12,7 @@
 
 namespace ose::rendering
 {
-	uptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine(int fbwidth, int fbheight)
+	uptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine(int fbwidth, int fbheight, std::vector<char const *> const & extensions)
 	{
 		return ose::make_unique<RenderingEngineGL>(fbwidth, fbheight);
 	}

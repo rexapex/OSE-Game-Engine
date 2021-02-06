@@ -5,7 +5,7 @@ namespace ose::rendering
 	class InstanceVK
 	{
 	public:
-		InstanceVK()
+		InstanceVK(std::vector<char const *> const & extensions)
 		{
 			VkApplicationInfo app_info {};
 			app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -19,18 +19,15 @@ namespace ose::rendering
 			create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			create_info.pApplicationInfo = &app_info;
 
-			/*uint32_t glfwExtensionCount = 0;
-			const char** glfwExtensions;
-			glfwExtensions = glfwGetRequiredInstanceExtensions(&glfwExtensionCount);
-			createInfo.enabledExtensionCount = glfwExtensionCount;
-			createInfo.ppEnabledExtensionNames = glfwExtensions;*/
+			InitExtensions(create_info, extensions);
 
-			if(!InitValidationLayers(create_info))
+			std::vector<char const *> const validation_layers { "VK_LAYER_KHRONOS_validation" };
+			if(!InitValidationLayers(create_info, validation_layers))
 				throw std::exception("Failed to initialise validation layers");
 
 			VkResult result = vkCreateInstance(&create_info, nullptr, &instance_);
 			if(result != VK_SUCCESS)
-				throw result;
+				throw std::exception("Failed to create Vulkan instance: %d", result);
 		}
 
 		~InstanceVK()
@@ -39,14 +36,20 @@ namespace ose::rendering
 		}
 
 	private:
-		bool InitValidationLayers(VkInstanceCreateInfo & create_info)
+		void InitExtensions(VkInstanceCreateInfo & create_info, std::vector<char const *> const & extensions)
 		{
+			create_info.enabledExtensionCount = static_cast<uint32_t>(extensions.size());
+			create_info.ppEnabledExtensionNames = extensions.data();
+		}
+
+		bool InitValidationLayers(VkInstanceCreateInfo & create_info, std::vector<char const *> const & validation_layers)
+		{
+			create_info.enabledLayerCount = 0;
+
 			// If in a non-debug build, return success without adding any validation layers
 #		ifdef NDEBUG
 			return true;
 #		endif
-
-			std::vector<char const *> const validation_layers { "VK_LAYER_KHRONOS_validation" };
 
 			uint32_t layer_count;
 			vkEnumerateInstanceLayerProperties(&layer_count, nullptr);

@@ -19,7 +19,7 @@ namespace ose::rendering
 		RenderingFactoryGL(RenderingFactoryGL &&) = default;
 		RenderingFactoryGL & operator=(RenderingFactoryGL &&) = default;
 
-		virtual uptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight);
+		virtual uptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight, std::vector<char const *> const & extensions);
 		virtual uptr<Texture> NewTexture(std::string const & name, std::string const & path);
 		virtual uptr<ShaderProg> NewShaderProg(uptr<ShaderGraph> shader_graph);
 	};
