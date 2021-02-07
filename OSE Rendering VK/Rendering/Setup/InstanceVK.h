@@ -1,11 +1,12 @@
 #pragma once
+#include "OSE-Core/Windowing/WindowManager.h"
 
 namespace ose::rendering
 {
 	class InstanceVK
 	{
 	public:
-		InstanceVK(std::vector<char const *> const & extensions)
+		InstanceVK(WindowManager const & window_manager)
 		{
 			VkApplicationInfo app_info {};
 			app_info.sType = VK_STRUCTURE_TYPE_APPLICATION_INFO;
@@ -19,6 +20,7 @@ namespace ose::rendering
 			create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
 			create_info.pApplicationInfo = &app_info;
 
+			std::vector<char const *> extensions { window_manager.GetExtensions() };
 			InitExtensions(create_info, extensions);
 
 			std::vector<char const *> const validation_layers { "VK_LAYER_KHRONOS_validation" };
@@ -29,6 +31,9 @@ namespace ose::rendering
 			if(result != VK_SUCCESS)
 				throw std::exception("Failed to create Vulkan instance: %d", result);
 
+			if(!InitSurface(window_manager))
+				throw std::exception("Failed to create a surface to render to");
+
 			if(!InitPhysicalDevice())
 				throw std::exception("Failed to find a physical device capable of supporting required Vulkan features");
 
@@ -38,6 +43,7 @@ namespace ose::rendering
 
 		~InstanceVK()
 		{
+			vkDestroySurfaceKHR(instance_, *surface_, nullptr);
 			vkDestroyInstance(instance_, nullptr);
 			vkDestroyDevice(logical_device_, nullptr);
 		}
@@ -76,6 +82,21 @@ namespace ose::rendering
 			create_info.enabledLayerCount = static_cast<uint32_t>(validation_layers.size());
 			create_info.ppEnabledLayerNames = validation_layers.data();
 
+			return true;
+		}
+
+		bool InitSurface(WindowManager const & window_manager)
+		{
+			try
+			{
+				VkSurfaceKHR * surface_ptr = static_cast<VkSurfaceKHR *>(window_manager.CreateSurface(&instance_));
+				surface_ = uptr<VkSurfaceKHR>(surface_ptr);
+			}
+			catch(std::exception & e)
+			{
+				LOG_ERROR("Failed to initialise surface: ", e.what());
+				return false;
+			}
 			return true;
 		}
 
@@ -190,6 +211,8 @@ namespace ose::rendering
 		VkInstance instance_ {};
 		VkPhysicalDevice physical_device_ {};
 		VkDevice logical_device_ {};
+
+		uptr<VkSurfaceKHR> surface_;
 
 		uint32_t graphics_family_;
 		VkQueue graphics_queue_;

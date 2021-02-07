@@ -40,7 +40,7 @@ namespace ose::windowing
 		window_manager->CursorPosCallbackImpl(xpos, ypos);
 	}
 
-	std::vector<char const *> WindowManagerClassName::GetExtensions()
+	std::vector<char const *> WindowManagerClassName::GetExtensions() const
 	{
 		std::vector<char const *> extensions;
 		uint32_t ext_count = 0;
@@ -49,5 +49,20 @@ namespace ose::windowing
 		for(size_t i = 0; i < ext_count; ++i)
 			extensions.push_back(exts[i]);
 		return extensions;
+	}
+
+	// Return value of void * should be immediately stored as a uptr<VkSurfaceKHR>
+	void * WindowManagerClassName::CreateSurface(void * data) const
+	{
+		VkInstance * instance = static_cast<VkInstance *>(data);
+		VkSurfaceKHR * surface = new VkSurfaceKHR {};
+
+		if(glfwCreateWindowSurface(*instance, window_, nullptr, surface))
+		{
+			delete surface;
+			throw std::exception("Failed to create Vulkan surface");
+		}
+
+		return surface;
 	}
 }

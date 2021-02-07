@@ -6,6 +6,7 @@ namespace ose
 	class RenderingEngine;
 	class ShaderProg;
 	class ShaderGraph;
+	class WindowManager;
 
 	class RenderingFactory
 	{
@@ -17,7 +18,7 @@ namespace ose
 		RenderingFactory(RenderingFactory &&) = default;
 		RenderingFactory & operator=(RenderingFactory &&) = default;
 
-		virtual uptr<RenderingEngine> NewRenderingEngine(int fbwidth, int fbheight, std::vector<char const *> const & extensions) = 0;
+		virtual uptr<RenderingEngine> NewRenderingEngine(WindowManager const & window_manager) = 0;
 		virtual uptr<Texture> NewTexture(std::string const & name, std::string const & path) = 0;
 		virtual uptr<ShaderProg> NewShaderProg(uptr<ShaderGraph> shader_graph) = 0;
 	};

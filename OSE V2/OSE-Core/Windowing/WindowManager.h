@@ -21,7 +21,10 @@ namespace ose
 
 		virtual std::vector<VideoMode> GetAvailableVideoModes() = 0;
 
-		virtual std::vector<char const *> GetExtensions() = 0;
+		virtual std::vector<char const *> GetExtensions() const = 0;
+
+		// NOTE - Can be used to create rendering surface for window manager's supported graphics api, if applicable
+		virtual void * CreateSurface(void * data) const = 0;
 
 		//window callbacks
 		void FramebufferSizeCallbackImpl(int width, int height);

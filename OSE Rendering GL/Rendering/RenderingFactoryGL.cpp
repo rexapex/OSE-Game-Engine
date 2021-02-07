@@ -3,6 +3,7 @@
 #include "RenderingEngineGL.h"
 #include "TextureGL.h"
 #include "Shader/ShaderProgGLSL.h"
+#include "OSE-Core/Windowing/WindowManager.h"
 
 // TODO - Remove
 #include "OSE-Core/Shader/Shaders/ShaderGraph2D.h"
@@ -12,9 +13,9 @@
 
 namespace ose::rendering
 {
-	uptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine(int fbwidth, int fbheight, std::vector<char const *> const & extensions)
+	uptr<RenderingEngine> RenderingFactoryGL::NewRenderingEngine(WindowManager const & window_manager)
 	{
-		return ose::make_unique<RenderingEngineGL>(fbwidth, fbheight);
+		return ose::make_unique<RenderingEngineGL>(window_manager.GetFramebufferWidth(), window_manager.GetFramebufferHeight());
 	}
 
 	uptr<Texture> RenderingFactoryGL::NewTexture(std::string const & name, std::string const & path)

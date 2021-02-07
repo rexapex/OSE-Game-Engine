@@ -2,17 +2,18 @@
 #include "RenderingEngineVK.h"
 #include "OSE-Core/Game/Camera/Camera.h"
 #include "Setup/InstanceVK.h"
+#include "OSE-Core/Windowing/WindowManager.h"
 
 namespace ose::rendering
 {
-	RenderingEngineVK::RenderingEngineVK(int fbwidth, int fbheight, std::vector<char const *> const & extensions) : RenderingEngine(fbwidth, fbheight)
+	RenderingEngineVK::RenderingEngineVK(WindowManager const & window_manager) : RenderingEngine(window_manager.GetFramebufferWidth(), window_manager.GetFramebufferHeight())
 	{
 		// NOTE - If RenderingEngineVK is made multithreadable, may need to move this
-		if(InitVulkan(extensions) == -1)
+		if(InitVulkan(window_manager) == -1)
 			throw std::exception("Failed to initialise Vulkan");
 
 		// Initialise the render pool only once Vulkan has been intialised
-		render_pool_.Init(fbwidth, fbheight);
+		render_pool_.Init(window_manager.GetFramebufferWidth(), window_manager.GetFramebufferHeight());
 		UpdateProjectionMatrix();
 
 		//// Set the default OpenGL settings
@@ -60,11 +61,11 @@ namespace ose::rendering
 
 	// Load Vulkan functions
 	// Return of 0 = success, return of -1 = error
-	int RenderingEngineVK::InitVulkan(std::vector<char const *> const & extensions)
+	int RenderingEngineVK::InitVulkan(WindowManager const & window_manager)
 	{
 		try
 		{
-			instance_ = ose::make_unique<InstanceVK>(std::move(extensions));
+			instance_ = ose::make_unique<InstanceVK>(window_manager);
 		}
 		catch(std::exception & e)
 		{

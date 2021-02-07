@@ -10,9 +10,9 @@
 
 namespace ose::rendering
 {
-	uptr<RenderingEngine> RenderingFactoryVK::NewRenderingEngine(int fbwidth, int fbheight, std::vector<char const *> const & extensions)
+	uptr<RenderingEngine> RenderingFactoryVK::NewRenderingEngine(WindowManager const & window_manager)
 	{
-		return ose::make_unique<RenderingEngineVK>(fbwidth, fbheight, extensions);
+		return ose::make_unique<RenderingEngineVK>(window_manager);
 	}
 
 	uptr<Texture> RenderingFactoryVK::NewTexture(std::string const & name, std::string const & path)

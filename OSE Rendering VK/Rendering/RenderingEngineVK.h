@@ -7,6 +7,7 @@
 namespace ose
 {
 	class Camera;
+	class WindowManager;
 }
 
 namespace ose::rendering
@@ -16,7 +17,7 @@ namespace ose::rendering
 	class RenderingEngineVK final : public RenderingEngine
 	{
 	public:
-		RenderingEngineVK(int fbwidth, int fbheight, std::vector<char const *> const & extensions);
+		RenderingEngineVK(WindowManager const & window_manager);
 		~RenderingEngineVK();
 
 		// Render one frame to the screen
@@ -28,7 +29,7 @@ namespace ose::rendering
 	private:
 		// Load Vulkan functions
 		// Return of 0 = success, return of -1 = error
-		int InitVulkan(std::vector<char const *> const & extensions);
+		int InitVulkan(WindowManager const & window_manager);
 
 		// Vulkan instance encapsulated in C++ RAII class
 		uptr<InstanceVK> instance_;

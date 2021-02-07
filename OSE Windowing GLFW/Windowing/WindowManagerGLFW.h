@@ -44,7 +44,10 @@ namespace ose::windowing
 
 		std::vector<VideoMode> GetAvailableVideoModes();
 
-		std::vector<char const *> GetExtensions();
+		std::vector<char const *> GetExtensions() const;
+
+		// NOTE - Used by Vulkan to create a rendering surface
+		void * CreateSurface(void * data) const;
 
 		int	SetMouseVisibility(int value);
 

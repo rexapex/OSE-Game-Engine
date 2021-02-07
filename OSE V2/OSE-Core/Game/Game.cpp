@@ -33,11 +33,8 @@ namespace ose
 		
 		window_manager_ = WindowingFactories[0]->NewWindowManager();
 		window_manager_->NewWindow(1);
-		int fbwidth { window_manager_->GetFramebufferWidth() };
-		int fbheight { window_manager_->GetFramebufferHeight() };
 
-		std::vector<char const *> extensions { window_manager_->GetExtensions() };
-		rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(fbwidth, fbheight, extensions));
+		rendering_engine_ = std::move(RenderingFactories[0]->NewRenderingEngine(*window_manager_));
 		window_manager_->SetEngineReferences(rendering_engine_.get(), this);
 
 		scripting_engine_ = ScriptingFactories[0]->NewScriptingEngine();
