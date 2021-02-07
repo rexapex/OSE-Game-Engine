@@ -114,7 +114,7 @@ namespace ose::rendering
 			std::vector<VkPhysicalDevice> devices(device_count);
 			vkEnumeratePhysicalDevices(instance_, &device_count, devices.data());
 
-			auto find_queue_families = [](VkPhysicalDevice const & device) {
+			auto find_queue_families = [this](VkPhysicalDevice const & device) {
 				uint32_t queue_family_count = 0;
 				vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, nullptr);
 
@@ -122,18 +122,31 @@ namespace ose::rendering
 				vkGetPhysicalDeviceQueueFamilyProperties(device, &queue_family_count, queue_family_props.data());
 
 				std::optional<uint32_t> graphics_family;
+				std::optional<uint32_t> present_family;
 
+				// Find a queue which can render graphics and a queue which can present to the surface
 				for(size_t i = 0; i < queue_family_props.size(); ++i)
 				{
 					auto const & props = queue_family_props[i];
 					if(props.queueFlags & VK_QUEUE_GRAPHICS_BIT)
 					{
 						graphics_family = i;
+					}
+
+					VkBool32 present_support = false;
+					vkGetPhysicalDeviceSurfaceSupportKHR(device, i, *surface_, &present_support);
+					if(present_support)
+					{
+						present_family = i;
+					}
+
+					if(graphics_family.has_value() && present_family.has_value())
+					{
 						break;
 					}
 				}
 
-				return graphics_family;
+				return std::make_pair(graphics_family, present_family);
 			};
 
 			auto set_best_device = [this, &find_queue_families, &physical_device, &physical_device_props, &physical_device_features](VkPhysicalDevice const & device) {
@@ -143,9 +156,10 @@ namespace ose::rendering
 				VkPhysicalDeviceFeatures features;
 				vkGetPhysicalDeviceFeatures(device, &features);
 
-				std::optional<uint32_t> graphics_family = find_queue_families(device);
+				auto const & [graphics_family, present_family] = find_queue_families(device);
 
-				if(graphics_family.has_value() && features.geometryShader)
+				// TODO - Refactor into a rating system to find the best device
+				if(graphics_family.has_value() && present_family.has_value() && features.geometryShader)
 				{
 					if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
 					{
@@ -156,6 +170,7 @@ namespace ose::rendering
 							physical_device_props = props;
 							physical_device_features = features;
 							graphics_family_ = graphics_family.value();
+							present_family_ = present_family.value();
 						}
 					}
 					else if(props.deviceType == VK_PHYSICAL_DEVICE_TYPE_INTEGRATED_GPU
@@ -165,6 +180,7 @@ namespace ose::rendering
 						physical_device_props = props;
 						physical_device_features = features;
 						graphics_family_ = graphics_family.value();
+						present_family_ = present_family.value();
 					}
 				}
 			};
@@ -180,20 +196,26 @@ namespace ose::rendering
 
 		bool InitLogicalDevice()
 		{
-			VkDeviceQueueCreateInfo queue_create_info {};
-			queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
-			queue_create_info.queueFamilyIndex = graphics_family_;
-			queue_create_info.queueCount = 1;
+			std::set<uint32_t> queue_families { graphics_family_, present_family_ };
+			std::vector<VkDeviceQueueCreateInfo> queue_create_info_vec;
 
 			float priority = 1.0f;
-			queue_create_info.pQueuePriorities = &priority;
+			for(uint32_t family : queue_families)
+			{
+				VkDeviceQueueCreateInfo queue_create_info {};
+				queue_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+				queue_create_info.queueFamilyIndex = graphics_family_;
+				queue_create_info.queueCount = 1;
+				queue_create_info.pQueuePriorities = &priority;
+				queue_create_info_vec.push_back(queue_create_info);
+			}
 
 			VkPhysicalDeviceFeatures physical_device_features {};
 
 			VkDeviceCreateInfo device_create_info {};
 			device_create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
-			device_create_info.pQueueCreateInfos = &queue_create_info;
-			device_create_info.queueCreateInfoCount = 1;
+			device_create_info.pQueueCreateInfos = queue_create_info_vec.data();
+			device_create_info.queueCreateInfoCount = static_cast<uint32_t>(queue_create_info_vec.size());
 			device_create_info.pEnabledFeatures = &physical_device_features;
 
 			// TODO - Set validation layers to support older Vulkan versions where the feature isn't deprecated
@@ -202,7 +224,9 @@ namespace ose::rendering
 			if(result != VK_SUCCESS)
 				return false;
 
+			// queueIndex is the index within the queue family so value 0 for both makes sense
 			vkGetDeviceQueue(logical_device_, graphics_family_, 0, &graphics_queue_);
+			vkGetDeviceQueue(logical_device_, present_family_, 0, &present_queue_);
 
 			return true;
 		}
@@ -215,6 +239,8 @@ namespace ose::rendering
 		uptr<VkSurfaceKHR> surface_;
 
 		uint32_t graphics_family_;
+		uint32_t present_family_;
 		VkQueue graphics_queue_;
+		VkQueue present_queue_;
 	};
 }
