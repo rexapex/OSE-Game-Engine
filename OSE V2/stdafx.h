@@ -21,6 +21,8 @@
 #include <variant>
 #include <initializer_list>
 
+#include <cstdint>
+
 #define GLM_FORCE_RADIANS
 #include "OSE-Core/EngineDependencies/glm/glm.hpp"
 #include "OSE-Core/EngineDependencies/glm/gtc/quaternion.hpp"

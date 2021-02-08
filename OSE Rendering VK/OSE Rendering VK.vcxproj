@@ -188,6 +188,9 @@
     <ClInclude Include="Rendering\RenderingFactoryVK.h" />
     <ClInclude Include="Rendering\RenderPoolVK.h" />
     <ClInclude Include="Rendering\Setup\InstanceVK.h" />
+    <ClInclude Include="Rendering\Setup\PhysicalDeviceVK.h" />
+    <ClInclude Include="Rendering\Setup\QueueFamilyIndices.h" />
+    <ClInclude Include="Rendering\Setup\SwapChainSupportDetails.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -199,6 +202,8 @@
     <ClCompile Include="Rendering\RenderingEngineVK.cpp" />
     <ClCompile Include="Rendering\RenderingFactoryVK.cpp" />
     <ClCompile Include="Rendering\RenderPoolVK.cpp" />
+    <ClCompile Include="Rendering\Setup\InstanceVK.cpp" />
+    <ClCompile Include="Rendering\Setup\PhysicalDeviceVK.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
